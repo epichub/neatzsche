@@ -93,7 +93,11 @@ class Plotter
     puts "genomefile: " + @curgenomefile
     @gsftp = GenerationSFTP.new
     @gsftp.init(@user,@dir)
-    @basebase = Socket.gethostname()+@neatrun.base()[8..@neatrun.base().size]
+    @hostname = Socket.gethostname()
+    if hostname["compute"]
+      @hostname = "clustis2"
+    end
+    @basebase = @neatrun.base()[8..@neatrun.base().size]
     @gsftp.mkdir(@basebase)
     @gsftp.putfile(@settingsfile, @basebase + "/" + @settingsfile[8..@settingsfile.size]) #upload plot
   end
