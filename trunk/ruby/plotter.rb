@@ -94,7 +94,7 @@ class Plotter
     @gsftp = GenerationSFTP.new
     @gsftp.init(@user,@dir)
     @hostname = Socket.gethostname()
-    if hostname["compute"]
+    if @hostname["compute"]
       @hostname = "clustis2"
     end
     @basebase = @neatrun.base()[8..@neatrun.base().size]
