@@ -324,16 +324,6 @@ void Genome::addNode(int &cnodeid)
     cerr << "gene: " << g;
   }
 
-  //  else //  (high-low)<0 can it happen?? .. i hope not.. well
-  // on the other side, i hope and truly belive that everything can,
-  // and will happen during the lifetime of the universe. thats my religion,
-  // that somehow we we'll prove the second law of thermo wrong, like
-  // asimovs novell, and we will conquer, or understand it to the point
-  // that we can turn our time's our truly great paradigms fear away, the 
-  // ever nearing and nerver ending entropy increasing dream that we have,
-  // why is it? where did it come from? is it anchored to the levels of decartes or
-  // even Aristotle. But why are we still that sure its there? why is it still killing
-  // us in our dreams. 
   test = false;
   innovationVector::iterator iit = innov->begin();
   NeuralNode * n = NULL;
