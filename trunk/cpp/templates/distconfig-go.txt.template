@@ -1,0 +1,8 @@
+verbosity:              0
+slave-verbosity:        0
+batch-mode:             EOF
+master-output-mode:     EOF
+master-program:         /home/bjornmm/Documents/svn/ntnu/master/code/main/cpp/neatmaster
+master-arguments:    	0 SETTINGFILE "spawn 29 5 0 0.5 GENOMES" "sigma 1" NODENUM "go GENS 0.2 10 0 1 500 500 o" "count GENS 1" 0
+slave-program:          /home/bjornmm/Documents/svn/ntnu/master/code/main/cpp/neatslave
+slave-arguments:	0 SETTINGFILE "go GENS 0.2 10 0 1 500 500 0"
