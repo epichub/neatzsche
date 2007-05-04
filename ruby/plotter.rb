@@ -23,6 +23,8 @@ gem "net-sftp"
 require 'net/ssh'
 require 'net/sftp'
 require "cgi"
+require "socket"
+
 
 class GenerationSFTP
   def init(user, dir)
@@ -91,7 +93,7 @@ class Plotter
     puts "genomefile: " + @curgenomefile
     @gsftp = GenerationSFTP.new
     @gsftp.init(@user,@dir)
-    @basebase = @neatrun.base()[8..@neatrun.base().size]
+    @basebase = Socket.gethostname()+@neatrun.base()[8..@neatrun.base().size]
     @gsftp.mkdir(@basebase)
     @gsftp.putfile(@settingsfile, @basebase + "/" + @settingsfile[8..@settingsfile.size]) #upload plot
   end
