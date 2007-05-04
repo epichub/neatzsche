@@ -12,11 +12,11 @@ ifeq ($(GG), )
   DEFINES=-DGGSTABLE
 endif
 
-SRCS=go-consistency.cpp playtwoplayergame.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp phenotype.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h phenotype.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE)
-TSRCS=tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp tinystr.cpp xmlconvert.cpp
+SRCS=go-consistency.cpp playtwoplayergame.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE)
+TSRCS=tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp tinystr.cpp
 TOBJS := $(addsuffix .o,$(basename ${TSRCS}))
-OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o phenotype.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o
-OBJS2=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o phenotype.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o
+OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o
+OBJS2=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o
 OBJS3=$(OBJS) test-xor.o
 OBJS4=$(OBJS) test-go.o
 OBJS5=$(OBJS) puregotest.o
@@ -111,46 +111,42 @@ neatslave.cpp: $(OBJS2) iface.h
 	$(CXX) $(BLIBS) -c neatslave.cpp
 
 
-neatmaster: $(OBJS) $(TOBJS) neatmaster.o runner.o statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h phenotype.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) dataset.h tinyxml.h tinystr.h  iface.h
+neatmaster: $(OBJS) $(TOBJS) neatmaster.o runner.o statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) dataset.h tinyxml.h tinystr.h  iface.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) $(TOBJS) runner.o neatmaster.o -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv neatmaster ../
 
-neatslave: $(OBJS2) neatslave.o statechanges.h coevolution.h neatslave.cpp neuralmath.h ann.h gene.h genome.h phenotype.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
+neatslave: $(OBJS2) neatslave.o statechanges.h coevolution.h neatslave.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS2) neatslave.o -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv neatslave ../
 #test.o:
 #	$(CXX) $(BINCLUDE) $(BLIBS) -c test-xor.cpp
 
-test-xor: $(OBJS3) statechanges.h coevolution.h test-xor.cpp neuralmath.h ann.h gene.h genome.h phenotype.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
+test-xor: $(OBJS3) statechanges.h coevolution.h test-xor.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS3) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv test-xor ../
 
-test-go: $(OBJS4) test-go.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h phenotype.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h tinyxml.h tinystr.h 
+test-go: $(OBJS4) test-go.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h tinyxml.h tinystr.h 
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS4) $(TOBJS) runner.o -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv test-go ../
 
-puregotest: $(OBJS5) puregotest.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h phenotype.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
+puregotest: $(OBJS5) puregotest.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS5) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv puregotest ../
 
-unit-statechange: $(OBJS6) unit-statechange.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h phenotype.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
+unit-statechange: $(OBJS6) unit-statechange.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS6) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 
-playgame: $(OBJS7) playgame.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h phenotype.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
+playgame: $(OBJS7) playgame.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS7) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv playgame ../show
 
-playtwoplayergame: $(OBJS) playtwoplayergame.o playtwoplayergame.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h phenotype.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
+playtwoplayergame: $(OBJS) playtwoplayergame.o playtwoplayergame.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ playtwoplayergame.o $(OBJS) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv playtwoplayergame ../
 
-go-consistency: $(OBJS8) go-consistency.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h phenotype.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
+go-consistency: $(OBJS8) go-consistency.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS8) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv go-consistency ../
-
-xmlconvert: $(TOBJS) xmlconvert.cpp tinyxml.h tinystr.h genome.h evolution.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(TOBJS) genome.o ann.o neuralmath.o gene.o settings.o evolution.o genetics.o
-	@ mv xmlconvert ../
 
 # where are functions/procedures?
 tags: 
