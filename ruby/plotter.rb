@@ -98,7 +98,7 @@ class Plotter
 
   def myloop(loop)
     begin
-      if File.exist? @graphfile && File.size @graphfile > 0
+      if File.exist? @graphfile && File.size(@graphfile) > 0
         system("./plot.sh " + @graphfile) #update plot
         @gsftp.putfile(@plotfile, @basebase + "/" + @plotfile[8..@plotfile.size]) #upload plot
         FileUtils.rm @plotfile #delete file 
