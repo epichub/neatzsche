@@ -98,15 +98,18 @@ class Plotter
 
   def myloop(loop)
     begin
-      
-      system("./plot.sh " + @graphfile) #update plot
-      @gsftp.putfile(@plotfile, @basebase + "/" + @plotfile[8..@plotfile.size]) #upload plot
-      FileUtils.rm @plotfile #delete file
+      if File.exist? @graphfile && File.size @graphfile > 0
+        system("./plot.sh " + @graphfile) #update plot
+        @gsftp.putfile(@plotfile, @basebase + "/" + @plotfile[8..@plotfile.size]) #upload plot
+        FileUtils.rm @plotfile #delete file 
+      end
+      if File.exist? @curgenomefile
+        system("./show 0 " + @curgenomefile + " 0 > tmpshow")
+        @gsftp.putfile(@curgenomefile, @basebase + "/" + @curgenomefile[8..@curgenomefile.size]) #upload curgenome      
+        @gsftp.putfile('tmpshow', @basebase + "/" + 'show') #upload show
+        FileUtils.rm 'tmpshow' #delete filen
+      end
 
-      system("./show 0 " + @curgenomefile + " 0 > tmpshow")
-      @gsftp.putfile(@curgenomefile, @basebase + "/" + @curgenomefile[8..@curgenomefile.size]) #upload curgenome      
-      @gsftp.putfile('tmpshow', @basebase + "/" + 'show') #upload show
-      FileUtils.rm 'tmpshow' #delete file
 
       sleep(30)
       @neatrun.getrf().update()
