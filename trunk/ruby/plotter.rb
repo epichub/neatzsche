@@ -97,7 +97,7 @@ class Plotter
     if @hostname["compute"]
       @hostname = "clustis2"
     end
-    @basebase = @neatrun.base()[8..@neatrun.base().size]
+    @basebase = @hostname + @neatrun.base()[8..@neatrun.base().size]
     @gsftp.mkdir(@basebase)
     @gsftp.putfile(@settingsfile, @basebase + "/" + @settingsfile[8..@settingsfile.size]) #upload plot
   end
