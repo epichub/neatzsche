@@ -106,12 +106,13 @@ private:
   Phenotype * champ;
   NEATsettings * set;
   Population * p;
+  int specialClones;
 public:
   Species(int iid, NEATsettings * iset, Population * ip)
   {
     p=ip;set=iset;avgf=maxf=globalmaxf=historicaltopf=0;id = iid;
     members = new Phenotypes();expectedoffspring=0;age=0;
-    lastimprov=0;champ=NULL;children = new Phenotypes();sumf=0;first=NULL;}
+    lastimprov=0;champ=NULL;children = new Phenotypes();sumf=0;first=NULL;specialClones=0;}
   ~Species();
   void incAge(){age++;}
   Phenotype * findCenter(Phenotype * ofirst);
@@ -130,6 +131,8 @@ public:
   void adjustFitness(NEATsettings *set);
   void updateavgf();
   double getAvgFitness(){return avgf;}
+  int getSpecialClones(){return specialClones;}
+  void setSpecialClones(int ispec){specialClones = ispec;}
   void updatemaxminf();
   double getSumFitness(){return sumf;}
   void updatesumf(bool dead);
