@@ -3,7 +3,7 @@ excess_coeff 1.5
 mutdiff_coeff 2.0
 weightmutation_rate 1.0
 severe_mutation_prob 0.1
-compat_threshold 35.0
+compat_threshold 65.0
 dropoff_age 200
 age_significance 1.0
 survival_thresh 0.2
