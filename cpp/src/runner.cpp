@@ -148,7 +148,7 @@ void NEATRunner::runLoop()
     //select the lucky ones for reprocicration..
 //     cerr << "selecting...";
 //     cerr.flush();
-    sel->select(pop,1);
+    sel->select(pop,0);
     //do the mating
 //     cerr << "reproducing...";
     rep->reproduce(pop);

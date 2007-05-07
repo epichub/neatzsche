@@ -122,7 +122,7 @@ int main(int argc,char *args[]){
       //      cerr << i << ": maxfitness: " << pop->getHighestFitness() << endl;
       if(((DatasetEvaluator*)de)->xorDone(best))
 	i = g;
-      sel->select(pop,1);
+      sel->select(pop,0);
       rp->reproduce(pop);
       //cout << "species after repro : " << pop->getSpecies()->size() << endl;
       //    if(pop->getHighestFitness()>15.8)

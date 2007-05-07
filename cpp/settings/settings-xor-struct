@@ -10,10 +10,10 @@ survival_thresh 0.2
 #species_target_size 3
 #species_target
 mutate_only_prob 0.25
-mutate_link_weights_prob 0.8
+mutate_link_weights_prob 0.9
 mutate_link_weights_power 0.7
 mutate_toggle_enable_prob 0.1
-mutate_gene_reenable_prob 0.05
+mutate_gene_reenable_prob 0.0
 mutate_add_node_prob 0.02
 mutate_add_link_prob 0.11
 interspecies_mate_rate 0.001
