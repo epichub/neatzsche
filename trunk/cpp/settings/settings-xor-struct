@@ -10,7 +10,7 @@ survival_thresh 0.2
 #species_target_size 3
 #species_target
 mutate_only_prob 0.25
-mutate_link_weights_prob 0.9
+mutate_link_weights_prob 0.83
 mutate_link_weights_power 0.7
 mutate_toggle_enable_prob 0.1
 mutate_gene_reenable_prob 0.0
@@ -25,7 +25,7 @@ newlink_tries 100
 spawn_recur_prob 0.0
 coldgaussian_weight_mutate 0
 recurrent_conn_prob 0.0
-number_of_innovations 0
+number_of_innovations 500000
 keeplink 0
 enable_gauss_tfunc 0
 enable_sinus_tfunc 0
