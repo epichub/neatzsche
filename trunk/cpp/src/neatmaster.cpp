@@ -44,7 +44,9 @@ void signalhandler(int sig) {
 }
 void runfilesignalhandler(int sig) {
   addToAllSignals(runfilesignalhandler);
+  cerr << "i runfilesignalhandler exiting.." << endl;
   writeRunfile(true,icb->run->basefile,icb->run->infoline,icb->run->pid);
+  exit(0);
 }
 int main(int argc,char *args[]){
   //neatmaster code!

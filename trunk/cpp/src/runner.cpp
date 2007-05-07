@@ -74,8 +74,10 @@ void NEATRunner::runLoop()
   writeRunfile(false,basefile,infoline,pid);
   while(!stop){
     startt = time(0);
-//     cerr << "starting new gen popgetgen: " << pop->getGeneration() 
-// 	<< " generations: " << generations << endl;
+//     cerr << "starting new gen popgetgen: " << (pop->getGeneration()+1)
+// 	 << " generations: " << generations << endl;
+//     cerr << "starting new gen runs: " << runs
+// 	 << " countruns: " << countruns << endl;
     if(localFE)
       ev->evaluate(pop->getMembers(),pop->getMembers()->size());
     else{
@@ -133,7 +135,7 @@ void NEATRunner::runLoop()
     tmpt = (time(0)-startt);
     totaltime += tmpt;
 //     cerr.flush();
-    cerr << pop->getGeneration() << ": bestfitness: "<< best->getFitness()
+    cerr << (pop->getGeneration()+1) << ": bestfitness: "<< best->getFitness()
 	 << " maxfitness: " << pop->getHighestFitness() 
 	 << " curmax: " << pop->getMembers()->at(0)->getFitness()
 	 << " curmin: " << pop->getMembers()->at(pop->getMembers()->size()-1)->getFitness()
@@ -150,12 +152,12 @@ void NEATRunner::runLoop()
     //do the mating
 //     cerr << "reproducing...";
     rep->reproduce(pop);
-    if(generations>0&&pop->getGeneration()==generations&&runs==(countruns+1)){ // stopconditions
+    if(generations>0&&(pop->getGeneration()+1)==generations&&runs==(countruns+1)){ // stopconditions
       setChamp(sbest,best);
       stop = true;
     }else{
-      if(generations>0&&pop->getGeneration()==generations){
-// 	cerr << "going run reset" << endl;
+      if(generations>0&&(pop->getGeneration()+1)==generations){
+//  	cerr << "going run reset" << endl;
 	//generation run is over lets go on to the next run..
 	countruns++;
 	//keep superchamp across runs..
@@ -176,16 +178,19 @@ void NEATRunner::runLoop()
   ofs << sbest->getGenome();
   ofs.close();
 //   cerr << "done writing finalgenome file " << endl;
-//   cerr << "writing smoothed final graph file " << endl;
+//   cerr << "writing smoothed final graph file generations: " << generations
+//        << "smoothdata size:" << sizeof(smoothdata)/sizeof(smoothdata[0]) << endl;
   ofstream finalgraphf(finalgraphfile.c_str());
   for(int i=0;i<generations;i++)
-    finalgraphf << smoothdata[generations][0] << " " 
-		<< smoothdata[generations][1] << " " 
-		<< smoothdata[generations][2] << endl;
+    finalgraphf << smoothdata[i][0] << " " 
+		<< smoothdata[i][1] << " " 
+		<< smoothdata[i][2] << endl;
 //   cerr << "done writing smoothed final graph file " << endl;
 //   cerr << "!!! total time divided by number of evals: " << (double)totaltime/((double)(generations*countruns*osize))<<endl ;
   //close graph files..
   finalgraphf.close();
   currentgraphf->close();
+//   cerr << "before writerunfile" << endl;
   writeRunfile(true,basefile,infoline,pid);  
+//   cerr << "after writerunfile" << endl;
 }
