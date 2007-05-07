@@ -319,11 +319,8 @@ double EasyGoEvaluator::f(Phenotype * f)
 string EasyGoEvaluator::show(Phenotype * p)
 {
   stringstream sRet;
-  int ost = st;
-  st = 0;
   double v = EasyGoEvaluator::f(p);
   string r = g->getLocalBoardAscii();
-  st = ost;
   sRet  << r; sRet << "\nfitness: " << v << endl;
   return sRet.str();
 }
