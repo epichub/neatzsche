@@ -318,13 +318,14 @@ double EasyGoEvaluator::f(Phenotype * f)
 }
 string EasyGoEvaluator::show(Phenotype * p)
 {
-  cerr << "in easygofinishedboard" << endl;
+  stringstream sRet;
   int ost = st;
   st = 0;
-  EasyGoEvaluator::f(p);
+  double v = EasyGoEvaluator::f(p);
   string r = g->getLocalBoardAscii();
   st = ost;
-  return r;
+  sRet  << r; sRet << "\nfitness: " << v << endl;
+  return sRet.str();
 }
 void GoEvaluator::interact(Phenotype * f)
 {
