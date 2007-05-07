@@ -135,7 +135,7 @@ void NEATRunner::runLoop()
     tmpt = (time(0)-startt);
     totaltime += tmpt;
 //     cerr.flush();
-    cerr << (pop->getGeneration()+1) << ": bestfitness: "<< best->getFitness()
+    cerr << (pop->getGeneration()+1) << ": bestid: "<<best->getID()<<" bestfitness: "<< best->getFitness()
 	 << " maxfitness: " << pop->getHighestFitness() 
 	 << " curmax: " << pop->getMembers()->at(0)->getFitness()
 	 << " curmin: " << pop->getMembers()->at(pop->getMembers()->size()-1)->getFitness()
