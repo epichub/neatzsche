@@ -166,6 +166,7 @@ static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *
     if(!easy){
       ret = new GoEvaluator(gw,0,pg,r,set);
     }else{
+      cerr << "making easygoeval!" << endl;
       ret = new EasyGoEvaluator(gw,0,pg,r,set);
     }
     coevo = new Halloffame(cogames,cogames,pg,ret);

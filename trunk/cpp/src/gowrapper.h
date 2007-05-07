@@ -38,6 +38,7 @@
 #include "neuralmath.h"
 #include "statechanges.h"
 #include "evolution.h"
+
 namespace gg{
   extern "C" {
 #include "gnugo.h"
