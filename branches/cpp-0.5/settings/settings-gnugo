@@ -1,0 +1,10 @@
+size 5
+outsidevalue 0.3
+komi 0.5
+level 1
+eyesize 3
+maxlooksteps 100
+mem 100
+easygomode 3
+#easygomode 1: count 2: line 3: not-straight-line..
+easygoiterations 15
