@@ -1,0 +1,13 @@
+set xlabel 'generations'
+set ylabel 'fitness'
+set autoscale x
+set autoscale y
+#set yrange [0:60]
+set term png small # size 480,320
+set key outside
+set key box
+set output 'current.png'
+set title 'current'
+set key title 'Legend'
+set style data lines
+plot 'current.graph' using 1 title 'Best' with lines
