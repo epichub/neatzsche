@@ -178,7 +178,14 @@ void NEATRunner::runLoop()
 //     cerr << "reproducing...";
     rep->reproduce(pop);
     if(generations>0&&(pop->getGeneration()+1)==generations&&runs==(countruns+1)){ // stopconditions
-      setChamp(sbest,best);
+      //      setChamp(sbest,best);
+      if(sbest==NULL)
+	sbest = best;
+      else if(sbest->getOrigFitness()<best->getOrigFitness()){
+	delete sbest;
+	sbest = best;
+      }else
+	delete best;
       stop = true;
     }else{
       if(generations>0&&(pop->getGeneration()+1)==generations){
