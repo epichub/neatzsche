@@ -182,6 +182,9 @@ void NEATRunner::runLoop()
       if(sbest==NULL)
 	sbest = best;
       else if(sbest->getOrigFitness()<best->getOrigFitness()){
+	cerr << "bytter best.." << endl;
+	cerr << "sbeststate: " << printvector(sbest->getState());
+	cerr << "beststate: " << printvector(best->getState());
 	delete sbest;
 	sbest = best;
       }else
