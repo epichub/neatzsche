@@ -76,8 +76,9 @@ private:
   innovationVector * q;
   int curspeciesnum;
   int numtokeep;
-public:
   int curinnovnum;
+public:
+
   int curnodenum;
   Innovations(int inumtokeep){numtokeep=inumtokeep; q = new innovationVector();curspeciesnum = 0; curinnovnum = 0;curnodenum=0;};
   ~Innovations();
@@ -93,5 +94,8 @@ public:
   //friend ostream& operator<< (ostream& os, const Innovations *i);
   friend istream& operator>> (istream& is, Innovations *i);
   void prune();
+  int getInnovNum(){return curinnovnum;}
+  int getAndIncInnovNum(){int tmp = curinnovnum; curinnovnum++; return tmp;}
+  void incInnovNum(){curinnovnum++;}
 };
 #endif

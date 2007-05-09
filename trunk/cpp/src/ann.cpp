@@ -42,6 +42,29 @@ Network::Network(int i, int o)
   inp = i;
   out = o;
 }
+vector< double > Network::getWeights()
+{
+  vector<double> ret;
+  for(unsigned int i=0;i<net->size();i++){
+    for(unsigned int i2=0;i2<net->at(i)->size();i2++){
+      linkVector * lv = net->at(i)->at(i2)->getInputLinks();
+      for(unsigned int i3=0;i3<lv->size();i3++){
+	ret.push_back(lv->at(i3)->getWeight());
+      }
+    }
+  }
+  return ret;
+}
+vector< double > Network::getStates()
+{
+  vector<double> ret;
+  for(unsigned int i=0;i<net->size();i++){
+    for(unsigned int i2=0;i2<net->at(i)->size();i2++){
+      ret.push_back(net->at(i)->at(i2)->getState());
+    }
+  }
+  return ret;
+}
 NeuralNode * findOutput2(nodeVector * nodes)
 {
   for(unsigned int i=0;i<nodes->size();i++)
@@ -71,7 +94,6 @@ void sortBIAS(nodeVector * inputl)
 }
 void Network::addNodes(nodeVector * nodes, bool debug)
 {
-  
 //   if(nodes->at(29)->getType()!=NeuralNode::BIAS)
 //     cerr << "in addnodes nodetype at 29: " << nodes->at(29)->getType() 
 // 	 << " bias at " << findBIAS(nodes) << endl;
@@ -90,7 +112,7 @@ void Network::addNodes(nodeVector * nodes, bool debug)
   for(int i=0;i<=den;i++)//for each level
     net->push_back(new nodeVector());
   //  for(int i=0;i<=den;i++){//for each level
-    for(unsigned int i2=0;i2<nodes->size();i2++){
+  for(unsigned int i2=0;i2<nodes->size();i2++){
       //      if(nodes->at(i2)->getDepth()==i){
 //       if(nodes->at(i2)->getType()==NeuralNode::OUTPUT&&nodes->at(i2)->getDepth()!=c){
 // 	cerr << "adding output node to layer i:" << nodes->at(i2)->getDepth() << " not equal to c: " << c <<  endl;
@@ -100,9 +122,10 @@ void Network::addNodes(nodeVector * nodes, bool debug)
 // 	cerr << "node that did have the highest lvl: " << nodes->at(i2);
 //       if(nodes->at(i2)->getDepth()<0 || nodes->at(i2)->getDepth() >= net->size())
 // 	cerr << "depth er utenfor net size scope; netsize: " << net->size() << " node depth: " << nodes->at(i2)->getDepth() << endl;
-      net->at(nodes->at(i2)->getDepth())->push_back(nodes->at(i2));
+    net->at(nodes->at(i2)->getDepth())->push_back(nodes->at(i2));
       //      }
-      }
+  }
+    
     //  }
     //sortBIAS(net->at(0));
   output = new nodeVector();
@@ -147,7 +170,7 @@ vector<double> Network::runnet(vector<double> inp)
   for(unsigned int i=0;i<inp.size();i++){
     if(net->at(0)->at(i)->getType()==NeuralNode::BIAS)
       cerr << "input node was bias.." << endl;
-    net->at(0)->at(i)->setInput(inp.at(i));//setoutput to avoid the transferfunc..
+    net->at(0)->at(i)->setInput(inp.at(i));
 //     if(inp.at(i)!=0)
 //       cerr << "ikke 0 inp: "<< inp.at(i)
 // 	   <<" .. nodeid: " << net->at(0)->at(i)->getID() 
@@ -214,6 +237,7 @@ ostream& operator<< (ostream& os, const NeuralNode *n)
 {
   os << "node " << n->id << " " << n->type 
      << " " << n->depth << " " << n->ftype<<endl;
+  
   return os;
 }
 istream& operator>> (istream& is, NeuralNode *n)
@@ -237,6 +261,11 @@ istream& operator>> (istream& is, NeuralNode *n)
   //cerr << "id: " << id << " type: " << type << " d: " << d << " ftype : " << ftype << endl;
   n->id = id; n->type = type; n->depth=d; n->ftype=ftype;
   n->initTFunc();
+//   cerr << "i >> operator for node id: " << id << endl;
+  if(n->type==NeuralNode::BIAS){
+     n->setOutput(1);
+//     cerr << "la til bias node" << endl;
+  }
   return is;
 }
 void NeuralNode::initTFunc()//helper function for >> operator
@@ -267,7 +296,17 @@ void NeuralNode::update(){
      valueFromOther += links->at(i)->getOther(this);
   }
 //   if(type==OUTPUT&&valueFromOther!=0)
-//     cerr << "ikke lik nul..." << endl;
+//     cerr << " id: " << id  << " ikke lik nul...: " << valueFromOther << endl;
+//   if(valueFromOther!=0)
+//     cerr << " id: " << id  
+// 	 << " ikke lik nul...: " << valueFromOther 
+// 	 << " output: " << getValue() 
+// 	 << " type: " << type
+// 	 << " ftype: " << ftype
+// 	 << " tfuncs ftype: " << tFunc->ftype
+// 	 << endl;
+//   if(cache!=0)
+//     cerr << "id: " << id  << " cache er ikke null: " << cache << endl;
 //   else if(type==OUTPUT&&valueFromOther==0)
 //     cerr << "fikk null inputs er: " << links->size() << endl;
 }

@@ -66,6 +66,8 @@ void NEATRunner::runLoop()
   Genome * oseed=NULL;
   int osize=pop->getMembers()->size();
   bool localFE=false;
+  vector<double> beststate;
+  int lid=0;
   if(nodes==0){
 //     cerr << "nodes is 0, setting up for local runs.." << endl;
     localFE=true;
@@ -73,6 +75,28 @@ void NEATRunner::runLoop()
 //     cerr << "running cluster code.." << endl;
   writeRunfile(false,basefile,infoline,pid);
   while(!stop){
+    if(beststate.size()!=0&&best!=NULL){
+      best->cleanNet();
+      if(best->getID()==lid){
+	if(!checkvector(best->getState(),beststate,false)){
+	  cerr << "state for genom "<< best->getID() << " ulik, gotcha!!" << endl;
+	  cerr << "genom:\n"  << best->getGenome() << endl;
+	  cerr << "sum1: " << sumvector(best->getState()) << " sum2: " << sumvector(beststate) << endl;
+	  cerr << "checkvector state og index: " << checkvector(best->getState(),beststate,true) << endl;
+	  cerr << "beststate: " << printvector(beststate);
+	  cerr << "curbeststate: " << printvector(best->getState());
+	}
+      }else{
+	beststate = best->getState();
+	lid = best->getID();
+	cerr << "legger til ny genom " << lid << " i beststate" << endl;
+      }     
+    }else if(best!=NULL){
+      best->cleanNet();
+      beststate = best->getState();
+      lid = best->getID();
+    }
+
     startt = time(0);
 //     cerr << "starting new gen popgetgen: " << (pop->getGeneration()+1)
 // 	 << " generations: " << generations << endl;
@@ -117,8 +141,9 @@ void NEATRunner::runLoop()
     ofstream ofs(sCurrentGenomeFile.c_str());
     ofs << best->getGenome();
     ofs.close();
-    if(pop->getGeneration()%2==0)
+    if(pop->getGeneration()%2==0){
       cerr << icb->fe->show(best);
+    }
     icb->best = best;
     writenetwork(best->getGenome(),sCurrentXMLGenomeFile);
 

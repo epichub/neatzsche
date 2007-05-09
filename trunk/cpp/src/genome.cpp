@@ -343,11 +343,11 @@ void Genome::addNode(int &cnodeid)
       n = new NeuralNode(ntfunc,++cnodeid,
 			 NeuralNode::HIDDEN,ntfunc->ftype,
 			 d);
-      genes->push_back(new Gene(innov->curinnovnum++,from,n,w,this));
-      genes->push_back(new Gene(innov->curinnovnum++,n,to,w,this));
+      genes->push_back(new Gene(innov->getAndIncInnovNum(),from,n,w,this));
+      genes->push_back(new Gene(innov->getAndIncInnovNum(),n,to,w,this));
       innov->addInnovation(new Innovation(fromid,toid,
-					  innov->curinnovnum-2,
-					  innov->curinnovnum-1,
+					  innov->getInnovNum()-2,
+					  innov->getInnovNum()-1,
 					  n->getID(),g->getMarker()));
     }
     else if((*iit)->getType()==NEWNODE&&
@@ -475,9 +475,9 @@ void Genome::addLink(int tries)
 	while(!test){
 	  if(init==innov->end()){
 	    nw = randsign()*randdouble()*nlwmax;
-	    genes->push_back(new Gene(innov->curinnovnum,np1,np2,nw,this));
-	    innov->addInnovation(new Innovation(nn1,nn2,innov->curinnovnum,nw));
-	    innov->curinnovnum++;
+	    genes->push_back(new Gene(innov->getInnovNum(),np1,np2,nw,this));
+	    innov->addInnovation(new Innovation(nn1,nn2,innov->getInnovNum(),nw));
+	    innov->incInnovNum();
 	    test=true;
 	  }else if((*init)->getType()==NEWLINK&&
 		   (*init)->getFrom()==nn1&&
@@ -794,7 +794,7 @@ void Genome::randomize(int inpn, int outn,
   for(int i=0;i<inpn;i++)
     nodes->push_back(new NeuralNode(inpfunc,(i+1),NeuralNode::INPUT,inpfunc->ftype,layn));
   nodes->push_back(new NeuralNode(inpfunc,(inpn+1),NeuralNode::BIAS,inpfunc->ftype,layn));
-  nodes->at(inpn)->setInput(1);
+  nodes->at(inpn)->setOutput(1);
   layn++;
   for(int i=0;i<hid;i++)
     nodes->push_back(new NeuralNode((func = tfs->getRandom()),(inpn+i+2),NeuralNode::HIDDEN,func->ftype,layn));
@@ -826,9 +826,9 @@ void Genome::randomize(int inpn, int outn,
 	  while(!test){
 	    if(init==innov->end()){
 	      nw = randsign()*randdouble()*nlwmax;
-	      genes->push_back(new Gene(innov->curinnovnum,from,to,nw,this));
-	      innov->addInnovation(new Innovation(from->getID(),to->getID(),innov->curinnovnum,nw));
-	      innov->curinnovnum++;
+	      genes->push_back(new Gene(innov->getInnovNum(),from,to,nw,this));
+	      innov->addInnovation(new Innovation(from->getID(),to->getID(),innov->getInnovNum(),nw));
+	      innov->incInnovNum();
 	      test=true;
 	    }else if((*init)->getType()==NEWLINK&&
 		     (*init)->getFrom()==from->getID()&&
