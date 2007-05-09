@@ -83,7 +83,6 @@ public:
   void runLoop();
 };
 
-
 class Interruptcallback{
 public:
   Interruptcallback(){fe=NULL; best=NULL;}

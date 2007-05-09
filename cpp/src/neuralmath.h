@@ -191,6 +191,19 @@ inline double sumvector(vector< double > v)
   }
   return ret;
 }
+inline bool checkvector(vector< double > v, vector< double > v2, bool printind)
+{
+  if(v.size()!=v2.size())
+    return false;
+  for(unsigned int i=1;i<v.size();i++){
+    if(v.at(i)!=v2.at(i)){
+      if(printind)
+	cerr << "(first)index at fault+1: " << i+1 << endl;
+      return false;
+    }
+  }
+  return true;
+}
 inline string printvector(vector< double > v, int rl)
 {
   // cout << "v.size: " << v.size();

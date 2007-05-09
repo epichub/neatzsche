@@ -141,22 +141,28 @@ int main(int argc,char *args[]){
     sum += gc;
     sum2 += best->getGenome()->extrons();
     sum3 += best->getGenome()->countHidden();
-    if(rightStruct(best)){
+    if(rightStruct(best)||gc==300){
       // if(best->getGenome()->getGenes()->size()!=7){
 // 	cout << "found the wrong structure..fitness: "<<best->getFitness()<<" ..1 hidden node:" << endl;
 	cout << best->getGenome();
-	((DatasetEvaluator*)de)->runTest(sbest);
+	((DatasetEvaluator*)de)->runTest(best);
 //       }
       rs++;
     }
+//     exit(0);
     if(i2!=iter){
-      Genome * oseed = pop->getOriginalSeed();
-      int oelitism = pop->getOriginalInitialElitism();
-      ocomp = pop->getOcomp();
-      delete pop;
-      pop = new Population(s,ocomp,tfs);
-      //      oseed->setTfs(pop->getTfs());
-      pop->genesis(oseed,osize,oelitism);
+      if(pop->getOriginalSeed()!=NULL){
+	Genome * oseed = pop->getOriginalSeed();
+	int oelitism = pop->getOriginalInitialElitism();
+	ocomp = pop->getOcomp();
+	delete pop;
+	pop = new Population(s,ocomp,tfs);
+	//      oseed->setTfs(pop->getTfs());
+	pop->genesis(oseed,osize,oelitism);
+      }else{
+	pop->resetSpawn();
+      }
+	
     }
   }
   double dgc = sum/(double)iter;

@@ -12,7 +12,7 @@ ifeq ($(GG), )
   DEFINES=-DGGSTABLE
 endif
 
-SRCS=go-consistency.cpp playtwoplayergame.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE)
+SRCS=xorgenomeoutput.cpp go-consistency.cpp playtwoplayergame.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE)
 TSRCS=tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp tinystr.cpp
 TOBJS := $(addsuffix .o,$(basename ${TSRCS}))
 OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o
@@ -24,6 +24,7 @@ OBJS6=$(OBJS) unit-statechange.o
 OBJS7=$(OBJS) playgame.o
 OBJS8=$(OBJS) go-consistency.o
 OBJS9=$(OBJS) playtwoplayergame.o
+OBJS9=$(OBJS) xorgenomeoutput.o
 
 IINCLUDE=-I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0
 BLIBS=-L$(HOME)/local/lib
@@ -143,6 +144,10 @@ playgame: $(OBJS7) playgame.cpp statechanges.h coevolution.h neuralmath.h ann.h 
 playtwoplayergame: $(OBJS) playtwoplayergame.o playtwoplayergame.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ playtwoplayergame.o $(OBJS) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv playtwoplayergame ../
+
+xorgenomeoutput: $(OBJS) xorgenomeoutput.o xorgenomeoutput.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
+	$(CXX) $(BLIBS) $(LIBS) -o $@ xorgenomeoutput.o $(OBJS) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	@ mv xorgenomeoutput ../
 
 go-consistency: $(OBJS8) go-consistency.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS8) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses

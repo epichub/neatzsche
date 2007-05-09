@@ -44,6 +44,8 @@ public:
   vector< nodeVector * > * getNet(){return net;}
   void cleanup();
   NeuralNode * getOutput(){return net->at(net->size()-1)->at(0);}
+  vector< double > getWeights(); 
+  vector< double > getStates(); 
 };
 
 class NeuralNode
@@ -60,20 +62,22 @@ private:
   string ftype;
   int depth;
   TransferFunctions * tfs;
+
   //bool localrecur=false;
 public:
   NeuralNode(NeuralNode * n){id = n->id;links=n->links;
     tFunc=n->tFunc;valueFromOther=n->valueFromOther;input=n->input;
-    cache=n->cache;bias=n->bias;type=n->type;depth=n->depth;ftype=n->ftype;}
+    cache=n->cache;bias=n->bias;type=n->type;depth=n->depth;ftype=n->ftype;outputset=false;}
   NeuralNode(TransferFunctions * itfs){links = new linkVector();input = 0; valueFromOther = 0;tfs=itfs;};
   NeuralNode(TransferFunction * func, int iid, char t, string ftype, int d);
   virtual ~NeuralNode();
-  NeuralNode * duplicate(){NeuralNode * ret = new NeuralNode(this); ret->links= new linkVector();return ret;}
+  NeuralNode * duplicate(){NeuralNode * ret = new NeuralNode(this); ret->links= new linkVector();if(outputset) ret->setOutput(cache); return ret;}
+  bool outputset;
   void setInput(double inp){input = inp;}
   void addLink(Link * link);
   void update();
   void setTransferFunctions(TransferFunctions * itfs){tfs = itfs;}
-  void cleanup(){cache = 0; valueFromOther=0;}
+  void cleanup(){input=valueFromOther=0;}
   TransferFunction * getTFunc(){return tFunc;}
   void deletelinks();
   void setDepth(int d){depth=d;}
@@ -84,8 +88,21 @@ public:
 	 <<" valuefromother: " << valueFromOther
 	 <<" links: "<<links->size()<<" cache: "<<cache<<" value: "<<tFunc->y(valueFromOther+input)<<endl;}
   void reset(){input=0;valueFromOther=0;}
-  inline double getValue(){if(tFunc==NULL) cerr << "tfunc null i getvalue" << endl; cache = tFunc->y(valueFromOther+input);return cache;}
-  void setOutput(double v){cache = v;}
+  inline double getValue(){
+    if(outputset) return cache;
+    else{ 
+//       if(type==NeuralNode::INPUT&&tFunc->y(valueFromOther+input)!=input)
+// 	cerr << "wtf? neuralnode input and getvalue != input.." << endl;
+      return tFunc->y(valueFromOther+input);
+    }
+  }
+  inline double getState(){
+    if(outputset)
+      return cache;
+    else
+      return valueFromOther+input;
+  }
+  void setOutput(double v){cache = v;outputset=true;}
   double getCachedValue(){return cache;}
   Link * getLinkTo(NeuralNode * node);
   linkVector * getInputLinks();

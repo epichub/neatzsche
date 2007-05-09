@@ -49,7 +49,7 @@ public:
     delete net;
     delete g;
   }
-  void genesis(){net = g->genesis();}
+  void genesis(){net = g->genesis(); if(g->getID()==149) cerr << "i genesis i 149" << endl;}
   void cleanup(){delete net;}
   void setPopulationChampClones(int c){popchampclones = c;}
   int getPopulationChampClones(){return popchampclones;}
@@ -82,6 +82,11 @@ public:
   void decClones(){clones--;}
   int getClones(){return clones;}
   void setOffspringToAvg(double avg){eoffspring = f/avg;}
+  vector< double > getState(){
+    vector<double> ret = net->getWeights();
+    vector<double> states = net->getStates();
+    ret.insert(ret.begin(),states.begin(),states.end());
+    return ret;}
 };
 
 inline bool phenocomp(Phenotype * p1, Phenotype * p2){return p1->getOrigFitness() > p2->getOrigFitness();}
@@ -159,8 +164,6 @@ private:
   speciesVector * species;
   Phenotypes * members;
   NEATsettings * set;
-//   TransferFunction * f;//have one for every pop...
-//   TransferFunction * ifunc;//have one for every pop...
   TransferFunctions * tfs;
   double highestf;
   int highestlastchanged;
@@ -177,6 +180,13 @@ private:
   Genome * originalseed;
   double ocomp;
   double compmod;
+  //remembering for spawnreset..
+  int inodes;
+  int onodes;
+  int hnodes;
+  double lprob;
+  double rprob;
+
   void setvars(){spectarget = (int)set->getValue("species_target_size");
     dropoffage = (int)set->getValue("dropoff_age");
     steal = (int)set->getValue("steal");
@@ -237,6 +247,7 @@ public:
   int getOriginalInitialElitism(){return originalinitialelitism;}
   double calcAvgFitness();
   double getOcomp(){return ocomp;}
+  void resetSpawn();
   TransferFunction * sotfunc;
   TransferFunction * sitfunc;
   TransferFunction * gtfunc;
@@ -269,6 +280,7 @@ static inline speciesVector * addToSpeciesCollection(speciesVector * v, Phenotyp
     cout << "!!! in addToSpeciesCollection p:" << p->getID() << endl;
   Genome * compmember = 0;
   double comp = set->getValue("compat_threshold");
+  double tcomp = 0;
   bool found = false;
   int si = 0;double bestcomp=comp;
   for(unsigned int i=0;i<v->size();i++){
@@ -287,7 +299,7 @@ static inline speciesVector * addToSpeciesCollection(speciesVector * v, Phenotyp
 //       else if(debug)
 // 	cout << "firsmember(id:"<<compmember->getID()<<") getgenome->genes er null"<<endl;
 //      cout << "comparing to species " << v->at(i)->getID()<<endl;
-      double tcomp = p->getGenome()->compare(compmember);
+      tcomp = p->getGenome()->compare(compmember);
       if(tcomp<comp){
 	found = true;
 	if(tcomp<bestcomp){

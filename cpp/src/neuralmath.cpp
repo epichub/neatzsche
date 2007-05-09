@@ -5,7 +5,10 @@ TransferFunctions::TransferFunctions(NEATsettings * s)
   f = new vector<TransferFunction *>();
   bool unipolar = s->getValue("unpolar")==1.0;
   ta = new TransferFunction();
-  sigmoid = new SigmoidTransfer(unipolar,s->getValue("sigmoid_sharpness"));
+  double ss = s->getValue("sigmoid_sharpness");
+  if(ss==0)
+    ss = -4.9;
+  sigmoid = new SigmoidTransfer(unipolar,ss);
   f->push_back(sigmoid);
 
   if(s->getValue("enable_sinus_tfunc")==1.0)
@@ -52,7 +55,7 @@ SigmoidTransfer::~SigmoidTransfer(){
 inline double SigmoidTransfer::sgm(double inp)
 {
   return ((double)1.0/
-	  ((double)1.0+exp(-k*inp)));
+	  ((double)1.0+exp(k*inp)));
 }
 bool Dummy::isIn(int ** arr,int length, int x, int y){
   for(int i=0;i<length;i++)

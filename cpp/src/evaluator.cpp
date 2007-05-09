@@ -39,6 +39,10 @@ double DatasetEvaluator::f(Phenotype * f)
     cerr << "v0: " << v.at(0) << endl;
     cerr << "phenotype outputftype: " << f->outputFType() << endl;
     cerr << "pow(ds->getTrainings()-esum,2.0) was over 20!!"<<endl;  
+    cerr << "genome: " << f->getGenome() << endl;
+    cerr << "state: " << printvector(f->getState()) << endl;
+    f->cleanNet();
+    cerr << "state: " << printvector(f->getState()) << endl;
   }
   return r;
 }

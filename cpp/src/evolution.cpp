@@ -157,6 +157,8 @@ void Population::preepoch()
       best->setExpected(best->getExpected()+taken);
     }
   }
+//   Species * top = species->at(0);
+//   Species * bottom = species->at(species->size()-1);
 //   cerr << "sorted species.." << endl
 //        << "top species("<<top->getID()<<") champ("<<top->getChamp()->getID()<<")f:" << top->getChamp()->getOrigFitness()
 //        << " maxf:" << top->getMaxFitness() << " avgf:" << top->getAvgFitness() << " minf:" << top->getMinFitness() 
@@ -278,10 +280,15 @@ void Population::postepoch()
 }
 void Population::populationCleanup()
 {
+  setvars();
+  resetVars();
   deletespecies();
   for(unsigned int i=0;i<members->size();i++)
     delete members->at(i);
   delete members;
+  deletespecies();
+  setvars();
+  resetVars();
 }
 Population::~Population()
 {
@@ -339,7 +346,7 @@ void Species::reproduce()
 	 (mutateaddlinkprob==0.0)){
 	coldg = (set->getValue("coldgaussian_weight_mutate") == 0) ? false : true;
 	newgenome->mutatew(coldg);   
-      }else{
+      }else if(set->getValue("mutate_add_link_prob")!=0){
 	newgenome->addLink((int)set->getValue("newlink_tries"));
       }
     }
@@ -360,8 +367,15 @@ void Species::reproduce()
   double sr = 0; int sn = 0;
   Phenotype * tmpp = NULL;
   int ip = 0;
-  if(luckymembers->size()==0&&p->getSpecies()->size()==1)
-    cerr << "gen: " << p->getGeneration() << " spec size er 1 og luckymembers size er null" << endl;
+//   if(luckymembers->size()==0&&p->getSpecies()->size()==1)
+//     cerr << "gen: " << p->getGeneration() << " spec size er 1 id er: "<<id
+// 	 <<" expected offspring: "<<expectedoffspring
+// 	 <<" og member0 popchamps: "<<members->at(0)->getPopulationChampClones()
+// 	 <<" member 0 eoffpsring " <<members->at(0)->getExpected()
+// 	 <<" member 0 id: " <<members->at(0)->getID()
+// 	 <<" member 0 ofitness: " <<members->at(0)->getOrigFitness()
+// 	 <<"luckymembers size er null og age er:" << age << endl;
+//commented this out as this has nothing to say as the age is always high
   while(luckymembers->size()!=0){
     ip = (luckymembers->size()==1) ? 0 : randint(0,luckymembers->size()-1);
     p1 = luckymembers->at(ip);
@@ -504,9 +518,16 @@ void Population::genesis(Genome * g, int isize, int initialelitism)
   in->setInitNum(g->getLastInnov());
   speciate();
 }
+void Population::resetSpawn(){
+  int tsize = members->size();
+  populationCleanup();
+  randomSpawn(tsize,inodes,onodes,hnodes,hnodes,lprob,rprob);
+}
 void Population::randomSpawn(int pops, int i, int o, int n,int nmax, double linkprob, 
 			     double r)
 {
+  inodes = i; onodes = o; hnodes = n; lprob = linkprob; rprob = r;
+  originalseed = NULL;
   size = pops;
   if(spectarget!=0)
     spectarget = size/spectarget; //calc the number of species to aim
@@ -524,9 +545,12 @@ void Population::randomSpawn(int pops, int i, int o, int n,int nmax, double link
 }
 void Population::deletespecies()
 { 
+  if(!species)
+    return;
   for(unsigned int i=0;i<species->size();i++)
     delete species->at(i);
   delete species;
+  species = NULL;
 }
 void Population::speciate()
 {
