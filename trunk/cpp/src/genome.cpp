@@ -35,6 +35,7 @@ Genome::Genome(TransferFunctions * itfs)
   debug = false;
   innov = NULL;
   tfs = itfs;
+  linksmade = false;
 }
 Genome::Genome(int iid)
 {
@@ -44,11 +45,13 @@ Genome::Genome(int iid)
   innov = NULL;
   tfs = NULL;
   id = iid;
+  linksmade = false;
 }
 //copy genome from given genome...
 Genome::Genome(const Genome & genome)
 {
   tfs = NULL;
+  linksmade = false;
 }
 Genome::Genome(int genomeid, Genes * igenes, nodeVector * inodes, int inp, int out,
 	       NEATsettings * settings, Innovations * is, TransferFunctions * itfs)
@@ -62,6 +65,7 @@ Genome::Genome(int genomeid, Genes * igenes, nodeVector * inodes, int inp, int o
   innov = is;
   set = settings;
   tfs = itfs;
+  linksmade = false;
 }
 Genome::Genome(int new_id,int i, int o, int n,int nmax, 
 	       bool r, double linkprob, NEATsettings * settings,
@@ -76,6 +80,7 @@ Genome::Genome(int new_id,int i, int o, int n,int nmax,
   debug = false;
   innov = is;
   tfs=itfs;
+  linksmade = false;
   randomize(i,o,n,nmax,r,linkprob);
 }
 /*
@@ -84,12 +89,15 @@ Genome::Genome(int new_id,int i, int o, int n,int nmax,
 */
 Network * Genome::genesis()
 {
-  //setting up links..
-  for(unsigned int i=0;i<genes->size();i++)
-    if(genes->at(i)->isEnabled())
-      new Link(false,genes->at(i)->getFrom(),
-	       genes->at(i)->getTo(),
-	       genes->at(i)->getWeight());
+  if(!linksmade){
+    //setting up links..
+    for(unsigned int i=0;i<genes->size();i++)
+      if(genes->at(i)->isEnabled())
+	new Link(false,genes->at(i)->getFrom(),
+		 genes->at(i)->getTo(),
+		 genes->at(i)->getWeight());
+    linksmade = true;
+  }
 
   //setting up the net...
   Network * ret = new Network(input,output);

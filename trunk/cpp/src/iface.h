@@ -305,6 +305,7 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
     cout << "NODES" << endl;
 //     cout.flush();
   }
+  cerr << "siste outputta index: " << i << endl;
   if(pipeio)
     cout << "POPULATION\n" ;
 }
