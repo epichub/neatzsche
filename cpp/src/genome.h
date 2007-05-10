@@ -55,6 +55,7 @@ private:
   Innovations * innov;
   bool debug;
   TransferFunctions * tfs;
+  bool linksmade;
 public:
   Genome(TransferFunctions * itfs);
   Genome(int iid);
