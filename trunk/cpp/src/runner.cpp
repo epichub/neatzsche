@@ -190,7 +190,6 @@ void NEATRunner::runLoop()
 	 << " size: " << pop->getMembers()->size() 
 	 << " time: " << tmpt 
 	 << " time/size: " << (double)tmpt/(double)pop->getMembers()->size() << endl;
-    cerr << "beststate size5: " << best->getState().size() << endl;
 //     cerr.flush();
     //run the code that adjusts fitness according to species age and size..
     //select the lucky ones for reprocicration..
@@ -218,7 +217,6 @@ void NEATRunner::runLoop()
 	pop->genesis(oseed,osize,oelitism);
       }
     }
-    cerr << "beststate size slutt av loop: " << best->getState().size() << endl;
 //     cerr << " generation run over " << endl;
 //     cerr.flush();
   }
