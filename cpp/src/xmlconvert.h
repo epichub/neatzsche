@@ -9,7 +9,7 @@ static inline string makeNodeID(NeuralNode * n){
   ss << n->getID() << ":" << n->getFType();
   return ss.str();
 }
-static void writenetwork(Genome * g, string file)  
+static void writenetwork(Phenotype * pheno, string file)  
 {  
 	TiXmlDocument doc;  
 	TiXmlElement* title;
@@ -20,11 +20,11 @@ static void writenetwork(Genome * g, string file)
 	doc.LinkEndChild( root ); 
 
 	title = new TiXmlElement( "title" );
-	stringstream ss; ss << g->getID();
+	stringstream ss; ss << pheno->getID();
 	title->LinkEndChild( new TiXmlText( ss.str().c_str() ));  
 	root->LinkEndChild( title ); 
 
-	Phenotype * pheno = new Phenotype(g);
+// 	Phenotype * pheno = new Phenotype(g);
 	vector< nodeVector * > *net = pheno->getNet()->getNet();
 	for(unsigned int i2=0;i2<net->size();i2++){
 	  for(unsigned int i=0;i<net->at(i2)->size();i++){
@@ -50,7 +50,7 @@ static void writenetwork(Genome * g, string file)
 	  neuron->SetAttribute("activation", "sigmoid");
 	}
 	}
-	Genes * genes = g->getGenes();
+	Genes * genes = pheno->getGenome()->getGenes();
 
 	for(unsigned int i=0;i<genes->size();i++){
 	  TiXmlElement * neuron;
