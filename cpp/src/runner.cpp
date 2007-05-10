@@ -83,8 +83,11 @@ void NEATRunner::runLoop()
 	  cerr << "genom:\n"  << best->getGenome() << endl;
 	  cerr << "sum1: " << sumvector(best->getState()) << " sum2: " << sumvector(beststate) << endl;
 	  cerr << "checkvector state og index: " << checkvector(best->getState(),beststate,true) << endl;
+	  cerr << "bestgenesize: " << best->getGenome()->getGenes()->size() << endl;
+	  cerr << "bestnodesize: " << best->getGenome()->getNodes()->size() << endl;
 	  cerr << "beststate size: " << beststate.size();
 	  cerr << "curbeststate size: " << best->getState().size();
+	  exit(0);
 	}
       }else{
 	beststate = best->getState();
