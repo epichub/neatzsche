@@ -107,9 +107,10 @@ Population * SigmaScaling::select(Population * p,  int elitism)
   Selector::select(p,elitism);
   speciesVector * s = p->getSpecies();
   //  cerr << "in sigmascaling select .. s->size(): "<<s->size() << endl;
+  elitism = 0;
   for(unsigned int i = 0 ; i<s->size();i++){
-    if(i==speciesforelitism)
-      elitism = 0;    
+//     if(i==speciesforelitism)
+//       elitism = 0;    
     calcstddev(s->at(i));
     //    cerr << "in sigmascaling loop before suswheel i: " << i << endl;
 //     cerr << "species: " << s->at(i)->getID() << " setting special clones" << s->at(i)->getSpecialClones() << endl;
