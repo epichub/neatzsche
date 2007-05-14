@@ -331,7 +331,10 @@ void Species::reproduce()
   Phenotypes * newgeneration = new Phenotypes();
   //do a straight clone of the specieschamp
   if(members->at(0)->getClones()==1){
+
     newgeneration->push_back(new Phenotype(members->at(0)->getGenome()->duplicate(p->getAndIncID())));
+    cerr << "cloning bestmember: " << members->at(0)->getID() << " new id: " << newgeneration->at(0)->getID() 
+	 << " compare: " << members->at(0)->getGenome()->compare(newgeneration->at(0)->getGenome())<< endl;
     members->at(0)->decClones();
   }
 
