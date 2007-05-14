@@ -43,6 +43,7 @@ class SigmoidTransfer : public TransferFunction
 {
 private:
   double k;
+  double con;
 public:
   SigmoidTransfer(bool unipolar, double ik);
   virtual ~SigmoidTransfer();
@@ -57,7 +58,7 @@ private:
   double div;
 public:
   SinusTransfer(bool unipolar, double isharpness, double iadd, double idiv)
-  {sharpness=isharpness; add=iadd; div=idiv;ftype="sin";};
+  {sharpness=isharpness; add=iadd; div=idiv;ftype="sin";}
   virtual ~SinusTransfer(){};
   virtual double y(double x){return (sin(sharpness*x)/div)+add;}
 };
