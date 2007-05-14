@@ -49,13 +49,14 @@ inline int SignumTransfer::sgn(double inp)
 SigmoidTransfer::SigmoidTransfer(bool unipolar, double ik){
   ftype = "so";
   k = ik;
+  con = (unipolar) ? -0.5 : 0;
 }
 SigmoidTransfer::~SigmoidTransfer(){
 }
 inline double SigmoidTransfer::sgm(double inp)
 {
   return ((double)1.0/
-	  ((double)1.0+exp(k*inp)));
+	  ((double)1.0+exp(k*inp)))+con;
 }
 bool Dummy::isIn(int ** arr,int length, int x, int y){
   for(int i=0;i<length;i++)
