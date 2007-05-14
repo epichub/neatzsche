@@ -140,7 +140,7 @@ void NEATRunner::runLoop()
     pop->updateSpeciesStats();
     pop->sortmembers();
     pop->sortspecies();
-    cerr << "!! member at 0 after of: " << pop->getMemebers()->at(0)->getOrigFitness() << endl;
+    cerr << "!! member at 0 after of: " << pop->getMembers()->at(0)->getOrigFitness() << endl;
     avgf = pop->calcAvgFitness();
 
     //keeping a copy of generation champ:
