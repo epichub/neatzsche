@@ -24,6 +24,8 @@ int Selector::suswheel(int n, Species * s, int elitism, bool debug)
 //     cout << "fitness at 0 and fitnes at end not alike!!!!"<<endl;
   if(members->size()==0)
     return 0;
+  if(elitism>0)
+    cerr << "sid: " << s->getID() << " elitism: " << elitism << endl;
   for(int i=(elitism-1);i>=0;i--)
     members->at(i)->incClones();
   //TODO REMOVE FFS
