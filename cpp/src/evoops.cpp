@@ -115,6 +115,8 @@ Population * SigmaScaling::select(Population * p,  int elitism)
     //    cerr << "in sigmascaling loop before suswheel i: " << i << endl;
 //     cerr << "species: " << s->at(i)->getID() << " setting special clones" << s->at(i)->getSpecialClones() << endl;
     suswheel(s->at(i)->getExpected(),s->at(i),elitism+s->at(i)->getSpecialClones(),true);
+    if(s->at(i)->getSpecialClones()>0)
+      s->at(i)->setSpecialClones(0);
     //    cerr << "in sigmascaling loop after suswheel i: " << i << endl;
   }
   return p;
