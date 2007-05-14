@@ -73,7 +73,7 @@ void Population::preepoch()
 //    cerr << "avgfit: " << species->at(i)->getAvgFitness() <<" tmp:" << tmp << endl;
     species->at(i)->setExpected((int)tmp);
   }
-//   cerr << "setting special clones for species " <<   members->at(0)->getSpecies()->getID() << endl;
+  cerr << "setting special clones for species " <<   members->at(0)->getSpecies()->getID() << " of: " << members->at(0)->getOrigFitness() << endl;
   members->at(0)->getSpecies()->setSpecialClones(1);
   //  exit(0);
   for(unsigned int i=0;i<species->size();i++)
