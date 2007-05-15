@@ -28,6 +28,7 @@
 using namespace std;
 
 class Species;
+class FitnessEvaluator;
 
 class Phenotype{
 private:
@@ -193,7 +194,7 @@ private:
     if(ocomp==-1)
       ocomp = set->getValue("compat_threshold");
     compmod = ocomp/10.0;
-
+    fe = NULL;
   }
 public:
   Population(NEATsettings * iset, TransferFunctions * itfs)
@@ -220,6 +221,7 @@ public:
   void genesis(Genome * g, int isize, int initialelitism);
   TransferFunctions * getTfs(){return tfs;}
   void speciate();
+  FitnessEvaluator * fe;
   void deletespecies();
   void sortspecies();
   void sortmembers();
