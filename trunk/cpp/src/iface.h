@@ -326,6 +326,7 @@ static inline void readPopulation(Phenotypes * p, Coevolution * c, TransferFunct
     cin >> g;
     c2++;
     p->push_back(new Phenotype(g));
+    cerr << "slave " << getpid() << " leste inn genom " << g->getID() << endl;
     cin >> s;
     //    cerr <<"i whileløkke slutt s: \"" << s << "\" p->size: " << p->size() << " g->id: "<< g->getID()<< endl;
 //     cin >> s;
