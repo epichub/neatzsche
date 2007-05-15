@@ -74,6 +74,7 @@ void NEATRunner::runLoop()
   }// else
 //     cerr << "running cluster code.." << endl;
   writeRunfile(false,basefile,infoline,pid);
+  pop->fe = icb->fe;
   while(!stop){
 //     if(beststate.size()!=0&&best!=NULL){
 //       best->cleanNet();
