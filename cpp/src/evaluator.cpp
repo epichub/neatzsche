@@ -137,6 +137,7 @@ double GoEvaluator::f(Phenotype * f)
   double finalscore = g->score();
   //  double ftmp = 100-(((tsum*2.0)/(double)moves)+finalscore);
   double ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
+//   cerr << getpid() <<": moves: " << moves << endl;
 //   cerr << "final score: "<< finalscore 
 //        << " moves: " << moves 
 //        << " tsum: " << tsum
