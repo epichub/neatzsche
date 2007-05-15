@@ -126,7 +126,7 @@ public:
   virtual Phenotypes * evaluate(Phenotypes * ps, unsigned int m)
   {
     for(unsigned int i=0;i<ps->size() && i<m;i++){
-//       cerr << "evaluating i:" << i << endl;
+      cerr << "evaluating genom:" << ps->at(0)->getID() << endl;
       fe->f(ps->at(i));
       ps->at(i)->transferFitness();
     }
