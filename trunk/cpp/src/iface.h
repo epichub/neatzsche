@@ -169,13 +169,19 @@ static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *
       cerr << "making easygoeval!" << endl;
       ret = new EasyGoEvaluator(gw,0,pg,r,set);
     }
+    cerr << "making go eval, resign: " << resign  << " size: " << size 
+	 << " outsidev: " << outsidev << " komi: " << komi 
+	 << " mem: " << mem << " level: " << level 
+	 << " eyesize: " << eyesize << " maxlooksteps: " << maxlooksteps 
+	 << " caching: " << caching << " csize: " << csize << " cqsize: " << cqsize 
+	 << " pg: " << pg << " easy: " << easy << endl;
     coevo = new Halloffame(cogames,cogames,pg,ret);
     for(int i=0;i<gnugogames;i++){
       ((Halloffame*)coevo)->addPermantent(NULL);//adding NULL as permanent member, defaults to gnugo in this fitness eval..
     }
   }else if(sv->at(0).find("random")!=string::npos)
         ret = new RandomEvaluator();
-  else{
+  else if(sv->at(0).find("dataset")!=string::npos){
     if(sv->size()!=4){
       cerr << "wrong number of arguments to dataset evalator setup method" << endl;
       exit(1);
@@ -184,7 +190,9 @@ static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *
     bool first = (sv->at(2).find("1")!=string::npos) ? true : false ;
     double p = atof(sv->at(3).c_str());
     ret  = new DatasetEvaluator(new DataSet(first,file.c_str(),p));
-  } 
+  }else{
+    cerr << "wrong fitness evaluator arguments" << endl;
+  }
   delete sv;
   return ret;
 }

@@ -25,6 +25,8 @@
 #include "gowrapper.h"
 #include "dataset.h"
 #include "neuralmath.h"
+#include <sys/types.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -39,7 +41,6 @@ public:
   virtual void nexGen(){}; //generational tickers for the evaluators that need this.
   virtual void interact(Phenotype * p){};
   virtual string show(Phenotype * p){return "";};
-  string pp() {return "heihei";}
 };
 
 class GoEvaluator : public FitnessEvaluator{
@@ -125,11 +126,20 @@ public:
   virtual ~Evaluator(){};
   virtual Phenotypes * evaluate(Phenotypes * ps, unsigned int m)
   {
+    double f=0;
+    time_t startt;
+    double tmp = 0;
+    time_t tmptime;
     for(unsigned int i=0;i<ps->size() && i<m;i++){
-      cerr << "evaluating genom:" << ps->at(0)->getID() << endl;
-      fe->f(ps->at(i));
+      startt = time(0);
+      f = fe->f(ps->at(i));
+      tmptime = time(0) - startt;
+      tmp += tmptime;
+      cerr << getpid() << "evaluating genom:" << ps->at(i)->getID() 
+	   << " : " << f << " time: " << tmptime << endl;
       ps->at(i)->transferFitness();
     }
+    cerr << "avg time: " << tmp/(double)ps->size() << endl;
     return ps;
   }
   virtual FitnessEvaluator * getFitnessEvaluator(){return fe;}
