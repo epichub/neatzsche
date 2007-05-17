@@ -163,8 +163,11 @@ void NEATRunner::runLoop()
 //     }else
 //       delete gbest;
     ofstream ofs(sCurrentGenomeFile.c_str());
+    ofstream ofs2("curbest");
     ofs << best->getGenome();
+    ofs2 << best->getGenome();
     ofs.close();
+    ofs2.close();
     if(pop->getGeneration()%2==0){
       cerr << icb->fe->show(best);
     }
