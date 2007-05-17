@@ -77,13 +77,16 @@ int main(int argc,char *args[]){
     if(gen==c->getStartGeneration())
       coevo = true;
     ifstream ifs2("curbest");
-    Genome * best;
+    Genome * best = NULL;
     Phenotype * pbest = NULL;
-    if(ifs.good())
-
-    ifs2 >> best;
+    if(ifs.good()){
+      
+      ifs2 >> best;
+      pbest = new Phenotype(best);
+      cerr << getpid() << "-slave: bestid: "<<pbest->getID()<<" bestf: " << f->f(pbest) << endl;
+    }
     ifs2.close();
-    cerr << getpid() << "-slave: bestf: " << f->f(pbest) << endl;
+
     //evaluate and set the fitness..
     if(coevo)
       c->evaluate(p);
