@@ -76,6 +76,11 @@ int main(int argc,char *args[]){
     readPopulation(p,c,tfs);
     if(gen==c->getStartGeneration())
       coevo = true;
+    ifstream ifs2("curbest");
+    Genome * best;
+    ifs2 >> best;
+    ifs2.close();
+    cerr << getpid() << "-slave: bestf: " << f->f(best) << endl;
     //evaluate and set the fitness..
     if(coevo)
       c->evaluate(p);
