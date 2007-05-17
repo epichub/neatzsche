@@ -78,7 +78,9 @@ int main(int argc,char *args[]){
       coevo = true;
     ifstream ifs2("curbest");
     Genome * best;
-    Phenotype * pbest = new Phenotype(best);
+    Phenotype * pbest = NULL;
+    if(ifs.good())
+
     ifs2 >> best;
     ifs2.close();
     cerr << getpid() << "-slave: bestf: " << f->f(pbest) << endl;
