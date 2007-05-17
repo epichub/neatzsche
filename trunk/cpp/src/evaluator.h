@@ -135,8 +135,8 @@ public:
       f = fe->f(ps->at(i));
       tmptime = time(0) - startt;
       tmp += tmptime;
-      cerr << getpid() << "evaluating genom:" << ps->at(i)->getID() 
-	   << " : " << f << " time: " << tmptime << endl;
+//       cerr << getpid() << "evaluating genom:" << ps->at(i)->getID() 
+// 	   << " : " << f << " time: " << tmptime << endl;
       ps->at(i)->transferFitness();
     }
     cerr << "avg time: " << tmp/(double)ps->size() << endl;
