@@ -69,7 +69,8 @@ int main(int argc,char *args[]){
   //  cout << "neatslave test1" << endl;
   bool cont = true;
   int gen=0;
-
+  Genome * best = NULL;
+  Phenotype * pbest = NULL;
   while(cont){ // the drive loop of the slaves, read 
                // in cmd(coevo/std), where coevo expects two genomes
     gen++;
@@ -77,14 +78,12 @@ int main(int argc,char *args[]){
     if(gen==c->getStartGeneration())
       coevo = true;
     ifstream ifs2("curbest");
-    Genome * best = NULL;
-    Phenotype * pbest = NULL;
-    if(ifs.good()){
-      
+    if(ifs2.good()){      
       ifs2 >> best;
       pbest = new Phenotype(best);
       cerr << getpid() << "-slave: bestid: "<<pbest->getID()<<" bestf: " << f->f(pbest) << endl;
-    }
+    }else
+      cerr << "ifs2 not good" << endl;
     ifs2.close();
 
     //evaluate and set the fitness..
