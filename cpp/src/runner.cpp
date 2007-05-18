@@ -77,9 +77,17 @@ void NEATRunner::runLoop()
   pop->fe = icb->fe;
   while(!stop){
     if(best!=NULL){
+      cerr << "writing best to curbest" << endl;
       ofstream ofs2("curbest");
       ofs2 << best->getGenome();
       ofs2.close();
+      cerr << "testing write code.." << endl;
+      Genome * gtest = new Genome(tfs);
+      ifstream ifs2("curbest");
+      ifs2 >> gtest;
+      ifs2.close();
+      Phenotype * ptest = new Phenotype(gtest);
+      cerr << "test fitness:" << icb->fe->f(ptest) << endl;
     }
 //     if(beststate.size()!=0&&best!=NULL){
 //       best->cleanNet();
