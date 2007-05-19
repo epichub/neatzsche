@@ -863,7 +863,8 @@ istream& operator>> (istream& is, Genome *g)
   is >> s;
   int c=-1;
   string ls;
-//    cerr << "in genome >> operator s:\"" << s << "\""<< " id: "<< g->id << endl;
+  if(g->debug)
+  cerr << "in genome >> operator s:\"" << s << "\""<< " id: "<< g->id << endl;
   while(s.find("node")!=string::npos){
     NeuralNode * n = new NeuralNode(g->tfs);
     is >> n;
@@ -873,7 +874,8 @@ istream& operator>> (istream& is, Genome *g)
     ls = s;
     is >> s;
   }
-//    cerr << "after node readin.." << endl;
+  if(g->debug)
+  cerr << "after node readin.." << endl;
   int c2=0;
   g->nodes->at(c)->setInput(1);
   while(s.find("gene")!=string::npos){
@@ -887,12 +889,14 @@ istream& operator>> (istream& is, Genome *g)
 //       cerr << "read gene nr " << ++c2 << " s: " << s <<endl;
 //     }
   }
-//   cerr << "after gene readin.." << endl;
+  if(g->debug)
+  cerr << "after gene readin.." << endl;
   if(g->innov){
     g->innov->setInitNum(g->genes->size()+1);
     g->innov->setNodeNum(g->nodes->size()+1);
   }
-//   cerr << "s: "<<s<<" in end of >> operator in genome genes: " << g->genes->size() << " nodes: " << g->nodes->size()  << endl;
+  if(g->debug)
+    cerr << "s: "<<s<<" in end of >> operator in genome genes: " << g->genes->size() << " nodes: " << g->nodes->size()  << endl;
   return is;
 }
 ostream& operator<< (ostream& os, const Genome *g)
