@@ -6,10 +6,10 @@
 #include <fstream>
 static inline string makeNodeID(NeuralNode * n){
   stringstream ss;
-  ss << n->getID() << ":" << n->getFType();
+  ss << n->getID() << ":" << n->getTFunc()->ftype;
   return ss.str();
 }
-static void writenetwork(Phenotype * pheno, string file)  
+static inline void writenetwork(Phenotype * pheno, string file)  
 {  
 	TiXmlDocument doc;  
 	TiXmlElement* title;

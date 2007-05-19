@@ -69,8 +69,8 @@ int main(int argc,char *args[]){
   //  cout << "neatslave test1" << endl;
   bool cont = true;
   int gen=0;
-  Genome * best = new Genome(tfs);
-  Phenotype * pbest = NULL;
+//   Genome * best = new Genome(tfs);
+//   Phenotype * pbest = NULL;
   while(cont){ // the drive loop of the slaves, read 
                // in cmd(coevo/std), where coevo expects two genomes
     gen++;

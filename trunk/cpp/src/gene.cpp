@@ -36,7 +36,6 @@ ostream& operator<< (ostream& os, const Gene *g)
 }
 istream& operator>> (istream& is, Gene *g)
 {
-  bool dgb = g->g->getID()==10;
   int id =0;
   string s;
   is >> s;

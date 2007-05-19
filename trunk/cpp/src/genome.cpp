@@ -879,7 +879,6 @@ istream& operator>> (istream& is, Genome *g)
   }
   if(g->debug)
   cerr << "after node readin.." << endl;
-  int c2=0;
   g->nodes->at(c)->setInput(1);
   while(s.find("gene")!=string::npos){
     Gene * n = new Gene();
