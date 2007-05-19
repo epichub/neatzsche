@@ -127,6 +127,7 @@ public:
   }
   TransferFunction * getFunction(string ftype)
   {
+//     cerr << "i getfunction ftype er:" << ftype << endl;
     if(ftype=="ta")
       return ta;
     if(ftype=="so")
@@ -214,8 +215,11 @@ inline double sumvector(vector< double > v)
 }
 inline bool checkvector(vector< double > v, vector< double > v2, bool printind)
 {
-  if(v.size()!=v2.size())
+  if(v.size()!=v2.size()){
+    if(printind)
+      cerr << "not equal length"<<endl;
     return false;
+  }
   for(unsigned int i=1;i<v.size();i++){
     if(v.at(i)!=v2.at(i)){
       if(printind)

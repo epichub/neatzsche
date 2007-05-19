@@ -12,7 +12,7 @@ ifeq ($(GG), )
   DEFINES=-DGGSTABLE
 endif
 
-SRCS=xorgenomeoutput.cpp go-consistency.cpp playtwoplayergame.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE)
+SRCS=xorgenomeoutput.cpp go-consistency.cpp playtwoplayergame.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE) testwrite.cpp
 TSRCS=tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp tinystr.cpp
 TOBJS := $(addsuffix .o,$(basename ${TSRCS}))
 OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o
@@ -137,9 +137,13 @@ puregotest: $(OBJS5) puregotest.cpp statechanges.h coevolution.h neuralmath.h an
 unit-statechange: $(OBJS6) unit-statechange.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS6) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 
-playgame: $(OBJS7) playgame.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS7) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+playgame: $(OBJS) playgame.o playgame.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) playgame.o -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv playgame ../show
+
+testwrite: $(OBJS) testwrite.o testwrite.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) testwrite.o -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	@ mv testwrite ../testwrite
 
 playtwoplayergame: $(OBJS) playtwoplayergame.o playtwoplayergame.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ playtwoplayergame.o $(OBJS) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses

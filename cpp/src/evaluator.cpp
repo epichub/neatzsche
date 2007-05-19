@@ -37,7 +37,7 @@ double DatasetEvaluator::f(Phenotype * f)
   if(pow(ds->getTrainings()-esum,2.0)>20){
     cerr << "esum: " << esum << endl;
     cerr << "v0: " << v.at(0) << endl;
-    cerr << "phenotype outputftype: " << f->outputFType() << endl;
+    // cerr << "phenotype outputftype: " << f->outputFType() << endl;
     cerr << "pow(ds->getTrainings()-esum,2.0) was over 20!!"<<endl;  
     cerr << "genome: " << f->getGenome() << endl;
     cerr << "state: " << printvector(f->getState()) << endl;
@@ -85,8 +85,6 @@ void GoEvaluator::nextGen()
 }
 double GoEvaluator::f(Phenotype * f)
 {
-  //cout << "in go eval f.. addr:" << this << endl;
-  //REMOVEFFS
   bool secondnull = false;
   if(st==1&&last==NULL){
     last = f;
@@ -112,7 +110,6 @@ double GoEvaluator::f(Phenotype * f)
   Phenotype * c = players[0];
   int count=0; bool first = true;
   sense = g->getSensoryInput(first);
-
   while(!g->done()){
     if(c){
       while(!g->doThis(first,c->react(sense))){
@@ -134,27 +131,17 @@ double GoEvaluator::f(Phenotype * f)
   if(moves==0)
     moves = 1;
   updateStats();
-  double finalscore = g->score();
-  //  double ftmp = 100-(((tsum*2.0)/(double)moves)+finalscore);
   double ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
-//   cerr << getpid() <<": moves: " << moves << endl;
-//   cerr << "final score: "<< finalscore 
-//        << " moves: " << moves 
-//        << " tsum: " << tsum
-//        << " ftmp: " << ftmp << endl;
-//   ftmp = ftmp - (ftmp/2);
-//   cerr << "ftmp2: " << ftmp << endl;
-//  double stmp = ((tsum*2.0)/(double)moves)+finalscore;
   double stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
+
+  if(first!=NULL&&g->puts==0)
+    ftmp -= 0.1;
+
   if(ftmp < fmin)
     fmin = ftmp;
   if(ftmp > fmax)
     fmax = ftmp;
-  
-//   ftmp -= 662;
-//   stmp -= 662;
-//   ftmp /= 100;
-//   stmp /= 100;
+
   if(ftmp<=0)
     ftmp = 0.0001;
   if(stmp<=0)
@@ -362,26 +349,32 @@ void GoEvaluator::interact(Phenotype * f)
 }
 string GoEvaluator::show(Phenotype * f)
 {
-  
+  stringstream ss;
+  bool secondnull = false;
   if(st==1&&last==NULL){
     last = f;
-    return "";
+    return 0;
+  }else if(st==1&&last!=NULL&&f==NULL){
+    secondnull = true;
   }
 
   g->reset();
-  f->cleanNet();
+  if(st==0||(st==1&&f!=NULL))
+    f->cleanNet();
+  if(st==1&&last!=NULL)
+    last->cleanNet();
+
+  double fsum = 0;
+  double ssum = 0;
+  int moves = 0;	      
   vector<double> sense;
   Phenotype ** players = new Phenotype * [2];
-
-  if(st==1){ players[0] = f; players[1] = last;}
+  if(st==1&&!secondnull){ players[0] = f; players[1] = last;}
+  if(secondnull) { players[0] = last; players[1] = NULL;}
   else { players[0] = f; players[1] = NULL;}
   Phenotype * c = players[0];
-  bool first = true;
-  stringstream ss;
-  int moves=0; int count = 0;
-  double tsum = 0;
+  int count=0; bool first = true;
   sense = g->getSensoryInput(first);
-
   while(!g->done()){
     if(c){
       while(!g->doThis(first,c->react(sense))){
@@ -389,33 +382,37 @@ string GoEvaluator::show(Phenotype * f)
       }
       g->resetRound(c);
     }else{
-
-      g->dbg = true;
       g->gw_genmove(first);
-      g->dbg = false;
-    }
-    if(moves<g->getMoves()){
-      ss << g->getLocalBoardAscii(); 
-      moves=g->getMoves();
-      tsum += g->score();
     }
 
+    if(moves<g->getMoves()){
+      moves=g->getMoves();
+      fsum += g->score(true);
+      ssum += g->score(false);
+      ss << g->getLocalBoardAscii();
+    }
     first = !first;
     c = players[++count%2];
   }
   if(moves==0)
     moves = 1;
-  double finalscore = g->score();
+  updateStats();
+  double ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
+  double stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
+  if(first!=NULL&&g->puts==0)
+    ftmp -= 0.1;
 
-  double ftmp = 100-(((tsum*2.0)/(double)moves)+finalscore);
-  double stmp = ((tsum*2.0)/(double)moves)+finalscore;
-  cerr << "fscore: " << finalscore << " tsum: " << tsum << " moves: " << moves
-       << " ftmp: " << ftmp << " stmp: " << stmp << endl;
-  delete[] players;
-  if(st==1 && last!=f){
-    last = NULL;
-    cerr << "setting last to NULL" << endl;
-  }
+  if(ftmp < fmin)
+    fmin = ftmp;
+  if(ftmp > fmax)
+    fmax = ftmp;
+
+  if(ftmp<=0)
+    ftmp = 0.0001;
+  if(stmp<=0)
+    stmp = 0.0001;
+  cerr << "show ftmp: " << ftmp;
+
   return ss.str();
 
 }

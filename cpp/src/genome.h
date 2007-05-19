@@ -62,7 +62,7 @@ public:
   Genome(const Genome&);
   Genome(int genomeid, Genes * igenes, nodeVector * inodes, int inp, int out,
 	 NEATsettings * settings, Innovations * is, TransferFunctions * itfs);
-  Genome(int new_id,int i, int o, int n,int nmax, bool r, double linkprob, NEATsettings * settings, Innovations * is, TransferFunctions * itfs);
+  Genome(int new_id,int i, int o, int n,int nmax, double r, double linkprob, NEATsettings * settings, Innovations * is, TransferFunctions * itfs);
   ~Genome();
   int getID(){return id;}
   nodeVector * getNodes(){return nodes; };
@@ -84,14 +84,14 @@ public:
   void setdebug(){debug=true;}
   void setSettings(NEATsettings * iset){set=iset;}
   void setInnovations(Innovations * iinnov){innov=iinnov;}
-  void setTfs(TransferFunctions * itfs)
-  {
-    tfs=itfs;
-    for(unsigned int i=0;i<nodes->size();i++){
-      nodes->at(i)->setTransferFunctions(tfs);
-      nodes->at(i)->initTFunc();
-    }
-  }
+//   void setTfs(TransferFunctions * itfs)
+//   {
+//     tfs=itfs;
+//     for(unsigned int i=0;i<nodes->size();i++){
+//       nodes->at(i)->setTransferFunctions(tfs);
+//       nodes->at(i)->initTFunc();
+//     }
+//   }
   void addNode(int &cnodeid);
   void augmentNodes(NeuralNode * n, bool rearrange);
   void addLink(int tries);
