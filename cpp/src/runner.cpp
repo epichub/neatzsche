@@ -67,7 +67,6 @@ void NEATRunner::runLoop()
   int osize=pop->getMembers()->size();
   bool localFE=false;
   vector<double> beststate;
-  int lid=0;
   if(nodes==0){
 //     cerr << "nodes is 0, setting up for local runs.." << endl;
     localFE=true;

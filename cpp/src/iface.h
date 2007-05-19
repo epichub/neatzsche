@@ -486,7 +486,7 @@ static inline void writesettings(string resulttype, double result, NEATsettings 
   ofs << printfile;
   ofs.close();
 }
-static void addToAllSignals(void (*signalhandler)(int sig))
+static inline void addToAllSignals(void (*signalhandler)(int sig))
 {
   (void)signal(SIGINT,signalhandler);
   (void)signal(SIGTERM,signalhandler);

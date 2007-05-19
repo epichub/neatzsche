@@ -134,7 +134,7 @@ double GoEvaluator::f(Phenotype * f)
   double ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
   double stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
 
-  if(first!=NULL&&g->puts==0)
+  if(g->puts==0)
     ftmp -= 0.1;
 
   if(ftmp < fmin)
@@ -399,7 +399,7 @@ string GoEvaluator::show(Phenotype * f)
   updateStats();
   double ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
   double stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
-  if(first!=NULL&&g->puts==0)
+  if(g->puts==0)
     ftmp -= 0.1;
 
   if(ftmp < fmin)
