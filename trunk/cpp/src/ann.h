@@ -54,22 +54,24 @@ private:
   int id;
   linkVector * links;
   TransferFunction * tFunc;
-  double valueFromOther;
-  double input;
+
   double cache;
   bool bias;
   char type;
-  string ftype;
   int depth;
   TransferFunctions * tfs;
-
+//   double tmpV;
   //bool localrecur=false;
 public:
   NeuralNode(NeuralNode * n){id = n->id;links=n->links;
-    tFunc=n->tFunc;valueFromOther=n->valueFromOther;input=n->input;
-    cache=n->cache;bias=n->bias;type=n->type;depth=n->depth;ftype=n->ftype;outputset=false;}
-  NeuralNode(TransferFunctions * itfs){links = new linkVector();input = 0; valueFromOther = 0;tfs=itfs;};
-  NeuralNode(TransferFunction * func, int iid, char t, string ftype, int d);
+    tFunc=n->tFunc;valueFromOther=n->valueFromOther;
+//     tmpV=n->tmpV;
+    input=n->input;
+    cache=n->cache;bias=n->bias;type=n->type;depth=n->depth;outputset=false;}
+  NeuralNode(TransferFunctions * itfs){links = new linkVector();input = 0;cache=0; valueFromOther = 0;
+//     tmpV= 0;
+    tfs=itfs;outputset=false;};
+  NeuralNode(TransferFunction * func, int iid, char t, int d);
   virtual ~NeuralNode();
   NeuralNode * duplicate(){NeuralNode * ret = new NeuralNode(this); ret->links= new linkVector();if(outputset) ret->setOutput(cache); return ret;}
   bool outputset;
@@ -83,13 +85,17 @@ public:
   void setDepth(int d){depth=d;}
   void incDepth(){depth++;}
   int getDepth(){return depth;}
+  double valueFromOther;
+  double input;
   void printInfo(){
     cout << "input: " << input
 	 <<" valuefromother: " << valueFromOther
 	 <<" links: "<<links->size()<<" cache: "<<cache<<" value: "<<tFunc->y(valueFromOther+input)<<endl;}
   void reset(){input=0;valueFromOther=0;}
   inline double getValue(){
-    if(outputset) return cache;
+    if(outputset){
+//       cerr << "outputting cache: " << cache << endl;
+      return cache;}
     else{ 
 //       if(type==NeuralNode::INPUT&&tFunc->y(valueFromOther+input)!=input)
 // 	cerr << "wtf? neuralnode input and getvalue != input.." << endl;
@@ -97,9 +103,9 @@ public:
     }
   }
   inline double getState(){
-    if(outputset)
+    if(outputset){
       return cache;
-    else
+    }else
       return valueFromOther+input;
   }
   void setOutput(double v){cache = v;outputset=true;}
@@ -110,7 +116,7 @@ public:
   int getID(){return id;}
   void setBias(){bias=true;}
   bool isBias(){return bias;}
-  void initTFunc();
+  void initTFunc(string ftype);
   //void setlocalrecur(){harlocalrecur = true;}
   //bool localrecur(){return localrecur;}
   friend ostream& operator<< (ostream& os, const NeuralNode *n);
@@ -124,7 +130,7 @@ public:
   static const char OUTPUT = 'o';
 
   char getType(){return type;}
-  string getFType(){return ftype;}
+//   string getFType(){return ftype;}
 };
 inline bool nodedepthcomp(NeuralNode * n1, NeuralNode * n2){
   if(n1->getDepth() == n2->getDepth() ) return n2->getType()==NeuralNode::BIAS;

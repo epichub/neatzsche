@@ -68,7 +68,7 @@ Genome::Genome(int genomeid, Genes * igenes, nodeVector * inodes, int inp, int o
   linksmade = false;
 }
 Genome::Genome(int new_id,int i, int o, int n,int nmax, 
-	       bool r, double linkprob, NEATsettings * settings,
+	       double r, double linkprob, NEATsettings * settings,
 	       Innovations * is,  TransferFunctions * itfs)
 {
   id = new_id;
@@ -349,7 +349,7 @@ void Genome::addNode(int &cnodeid)
     if(iit==innov->end()){
       test = true;
       n = new NeuralNode(ntfunc,++cnodeid,
-			 NeuralNode::HIDDEN,ntfunc->ftype,
+			 NeuralNode::HIDDEN,
 			 d);
       genes->push_back(new Gene(innov->getAndIncInnovNum(),from,n,w,this));
       genes->push_back(new Gene(innov->getAndIncInnovNum(),n,to,w,this));
@@ -364,7 +364,7 @@ void Genome::addNode(int &cnodeid)
 	    (*iit)->getOldNum()==g->getMarker()){
       test = true;
       n = new NeuralNode(ntfunc,(*iit)->getNewNodeID(),
-			 NeuralNode::HIDDEN,ntfunc->ftype,d);
+			 NeuralNode::HIDDEN,d);
       genes->push_back(new Gene((*iit)->getNum(),from,n,w,this));
       genes->push_back(new Gene((*iit)->getNum2(),n,to,w,this));
     }else
@@ -800,18 +800,21 @@ void Genome::randomize(int inpn, int outn,
   int layn = 0;
   //creating all the nodes of this genome
   for(int i=0;i<inpn;i++)
-    nodes->push_back(new NeuralNode(inpfunc,(i+1),NeuralNode::INPUT,inpfunc->ftype,layn));
-  nodes->push_back(new NeuralNode(inpfunc,(inpn+1),NeuralNode::BIAS,inpfunc->ftype,layn));
+    nodes->push_back(new NeuralNode(inpfunc,(i+1),NeuralNode::INPUT,layn));
+  nodes->push_back(new NeuralNode(inpfunc,(inpn+1),NeuralNode::BIAS,layn));
   nodes->at(inpn)->setOutput(1);
   layn++;
-  for(int i=0;i<hid;i++)
-    nodes->push_back(new NeuralNode((func = tfs->getRandom()),(inpn+i+2),NeuralNode::HIDDEN,func->ftype,layn));
+  for(int i=0;i<hid;i++){
+    func = tfs->getRandom();
+    nodes->push_back(new NeuralNode(func,(inpn+i+2),NeuralNode::HIDDEN,layn));
+    //old    nodes->push_back(new NeuralNode((func = tfs->getRandom()),(inpn+i+2),NeuralNode::HIDDEN,func->ftype,layn));
+  }
 
   if(hid>0)
     layn++;  
   func = tfs->getSigmoid();//TODO: check if output should always be sigmoid??
   for(int i=0;i<outn;i++)
-    nodes->push_back(new NeuralNode(func,(inpn+hid+i+2),NeuralNode::OUTPUT,func->ftype,layn));
+    nodes->push_back(new NeuralNode(func,(inpn+hid+i+2),NeuralNode::OUTPUT,layn));
   innov->setNodeNum(nodes->size()+1);
   NeuralNode * from = NULL;
   NeuralNode * to = NULL;

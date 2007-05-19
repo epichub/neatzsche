@@ -115,7 +115,10 @@ void Network::addNodes(nodeVector * nodes, bool debug)
   for(unsigned int i2=0;i2<nodes->size();i2++){
       //      if(nodes->at(i2)->getDepth()==i){
 //       if(nodes->at(i2)->getType()==NeuralNode::OUTPUT&&nodes->at(i2)->getDepth()!=c){
-// 	cerr << "adding output node to layer i:" << nodes->at(i2)->getDepth() << " not equal to c: " << c <<  endl;
+//     cerr << "adding node("<< nodes->at(i2)->getID()
+// 	 <<" type: "<<nodes->at(i2)->getType()
+// 	 <<") to layer i:" << nodes->at(i2)->getDepth()
+// 	 <<" links: " << nodes->at(i2)->getLinks()->size() <<endl;
 // 	fuckup = true;
 //       }
 //       if(fuckup&nodes->at(i2)->getDepth()==c)
@@ -167,20 +170,25 @@ vector<double> Network::runnet(vector<double> inp)
       return vector<double>();
     }
 
-  for(unsigned int i=0;i<inp.size();i++){
+ for(unsigned int i=0;i<inp.size();i++){
     if(net->at(0)->at(i)->getType()==NeuralNode::BIAS)
       cerr << "input node was bias.." << endl;
     net->at(0)->at(i)->setInput(inp.at(i));
+//     cerr << net->at(0)->at(i)->getID() << " : " << net->at(0)->at(i)->getValue() << " ("<<inp.at(i)<<")";
 //     if(inp.at(i)!=0)
 //       cerr << "ikke 0 inp: "<< inp.at(i)
 // 	   <<" .. nodeid: " << net->at(0)->at(i)->getID() 
 // 	   <<" nodetype: " << net->at(0)->at(i)->getType() 
 // 	   <<" node links: " << net->at(0)->at(i)->getLinks()->size() << endl;
   }
+//   cerr << endl;
+//   cerr << "updating net..\n";
   for(unsigned int i=1;i<net->size();i++){
     for(unsigned int i2=0;i2<net->at(i)->size();i2++){
       net->at(i)->at(i2)->update();
+//       cerr << net->at(i)->at(i2)->getID() << " ";
     }
+//     cerr << endl;
   }
   vector<double> ret;
   //nodeVector * output = net->at(net->size()-1);
@@ -188,7 +196,7 @@ vector<double> Network::runnet(vector<double> inp)
   //  if(output->at(0)->getFType().find("so")==string::npos);
     //   cerr << "size of net: "<<net->size() <<" outputsize: " << output->size() 
 //        << " size at one lvl further back " << net->at(net->size()-2)->size() <<endl;
-  //  cerr << "links to last output node: " << output->at(output->size()-1)->getInputLinks()->size()<<endl;
+//   cerr << "links to last output node: " << output->at(output->size()-1)->getInputLinks()->size()<<endl;
   for(unsigned int i=0;i<output->size();i++)
     ret.push_back(output->at(i)->getValue());
   return ret;
@@ -217,17 +225,18 @@ Network::~Network()
   delete net;
   delete output;
 }
-NeuralNode::NeuralNode(TransferFunction * func, int iid, char t, string ft, int d)
+NeuralNode::NeuralNode(TransferFunction * func, int iid, char t, int d)
 {
   links = new linkVector();
   tFunc = func;
   id = iid;
   valueFromOther = 0;
   input = 0;
+  cache = 0;
   bias = false;
   type = t;
-  ftype = ft;
   depth = d;
+  outputset=false;
 }
 
 /*
@@ -236,7 +245,7 @@ NeuralNode::NeuralNode(TransferFunction * func, int iid, char t, string ft, int 
 ostream& operator<< (ostream& os, const NeuralNode *n)
 {
   os << "node " << n->id << " " << n->type 
-     << " " << n->depth << " " << n->ftype<<endl;
+     << " " << n->depth << " " << n->tFunc->ftype<<endl;
   
   return os;
 }
@@ -259,8 +268,8 @@ istream& operator>> (istream& is, NeuralNode *n)
   ftype = s;
   //is >> s;cerr << " id: " << s;  is >> type; is >> d; is >> ftype;
   //cerr << "id: " << id << " type: " << type << " d: " << d << " ftype : " << ftype << endl;
-  n->id = id; n->type = type; n->depth=d; n->ftype=ftype;
-  n->initTFunc();
+  n->id = id; n->type = type; n->depth=d;
+  n->initTFunc(ftype);
 //   cerr << "i >> operator for node id: " << id << endl;
   if(n->type==NeuralNode::BIAS){
      n->setOutput(1);
@@ -268,10 +277,13 @@ istream& operator>> (istream& is, NeuralNode *n)
   }
   return is;
 }
-void NeuralNode::initTFunc()//helper function for >> operator
+void NeuralNode::initTFunc(string ftype)//helper function for >> operator
 {
   //  cerr << "in initFunc()" << endl;
   tFunc = tfs->getFunction(ftype);//easier :)
+//   cerr << id << " : "<< "ftype:" << ftype 
+//        << "  tfuncsftype: " << tFunc->ftype 
+//        << " tfunc(0): " << tFunc->y(0) << endl;
   //   if(ftype.find("so")!=string::npos){
 //     tFunc = new SigmoidTransfer(4.9);//4.9 is NEAT standard
 //   }else if(ftype.find("si")!=string::npos){
@@ -292,9 +304,21 @@ NeuralNode::~NeuralNode()
 
 void NeuralNode::update(){
   valueFromOther = 0;
+//   cerr << "id: " << id << " vof foer update: " << valueFromOther << endl;
+  double tmpf=0;
   for(unsigned int i=0;i<links->size();i++){
-     valueFromOther += links->at(i)->getOther(this);
+//     if(links->at(i)->getOtherNode(this)!=NULL)
+//       cerr << "updating from node "<<links->at(i)->getOtherNode(this)->getID()
+// 	   <<"  with func: " << links->at(i)->getOtherNode(this)->tFunc->ftype 
+// 	   <<"  with func(0): " << links->at(i)->getOtherNode(this)->tFunc->y(0) 
+// 	   <<"  with inputLinks: " << links->at(i)->getOtherNode(this)->getInputLinks()->size() << endl;
+//     else
+//       cerr << "getother ga 0..." << endl;
+    tmpf += links->at(i)->getOther(this);
   }
+  //valueFromOther = tmpV;
+  valueFromOther=tmpf;
+//   cerr << " id: " << id  <<" valueFromOther: " << valueFromOther << endl;
 //   if(type==OUTPUT&&valueFromOther!=0)
 //     cerr << " id: " << id  << " ikke lik nul...: " << valueFromOther << endl;
 //   if(valueFromOther!=0)
@@ -363,6 +387,11 @@ Link::~Link()
 
 double Link::getOther(NeuralNode * calling){
   if(&*calling==&*to){
+//     cerr << "link " <<from->getID() << "->" 
+// 	 << to->getID() << " = "<<weight<<" * "
+// 	 <<from->getValue()<<" = " << weight*from->getValue() 
+// 	 << " from->tfunc(0)-> "<< from->getTFunc()->y(0)
+// 	 <<" vfo: "<<from->valueFromOther << "  i: " << from->input << endl;
     return weight*from->getValue();
   }else if(uniDir){
     return weight*to->getValue();

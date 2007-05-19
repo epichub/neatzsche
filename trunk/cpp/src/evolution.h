@@ -65,7 +65,7 @@ public:
   void augmentFitness(double c){f *= c;}
   double getOrigFitness(){return of;}
   void transferFitness(){of=f;}
-  string outputFType(){stringstream ss; ss << "lvl: " << net->getOutput()->getDepth() << " ftype: " << net->getOutput()->getFType() << " type: " << net->getOutput()->getType(); return ss.str();}
+//   string outputFType(){stringstream ss; ss << "lvl: " << net->getOutput()->getDepth() << " ftype: " << net->getOutput()->getFType() << " type: " << net->getOutput()->getType(); return ss.str();}
   void updatePhenotype(){delete net; net = g->genesis();}
   int getID(){return g->getID();}
   void setSpecies(Species * ispec);

@@ -503,7 +503,7 @@ void Population::genesis(Genome * g, int isize, int initialelitism)
   else
     spectarget = (int)set->getValue("species_target");
   Genome * curg = NULL;
-  g->setTfs(tfs);
+//   g->setTfs(tfs);
   originalseed = g;
   originalinitialelitism = initialelitism;
   g->setSettings(set);
