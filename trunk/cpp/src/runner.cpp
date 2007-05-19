@@ -81,8 +81,9 @@ void NEATRunner::runLoop()
       ofstream ofs2("curbest");
       ofs2 << best->getGenome();
       ofs2.close();
-      cerr << "testing write code.." << endl;
+      cerr << "testing write code..before: " << icb->fe->f(best) << endl;
       Genome * gtest = new Genome(tfs);
+      gtest->setdebug();
       ifstream ifs2("curbest");
       ifs2 >> gtest;
       ifs2.close();
