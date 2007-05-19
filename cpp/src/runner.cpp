@@ -88,7 +88,8 @@ void NEATRunner::runLoop()
       ifs2 >> gtest;
       ifs2.close();
       Phenotype * ptest = new Phenotype(gtest);
-      cerr << "test fitness:" << icb->fe->f(ptest) << endl;
+      cerr << "test fitness:" << icb->fe->f(ptest) 
+	   << " compare: " << gtest->compare(best->getGenome()) << " compare2: " << best->getGenome()->compare(gtest) << endl;
     }
 //     if(beststate.size()!=0&&best!=NULL){
 //       best->cleanNet();
