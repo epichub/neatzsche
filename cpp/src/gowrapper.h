@@ -50,6 +50,32 @@ namespace gw {
 
   class GoWrapper {
   protected:
+    //dothis tmpvars:
+    bool forward,back,west,east;
+    bool moving;
+    bool turned;
+    int* heading;
+    int ind;
+    double domax;
+
+    //getSensoryinputvars
+    vector<double> lrange;
+    int legalmove;
+    vector<double> slook;
+    vector<double> sensoryret;
+
+    //sqlook
+    int sqd;
+    int ah, aw;
+    int eyesetsize;
+
+    //longrange
+    vector<double> lret;
+    int *tpos;
+    int lgd;
+    state * temps;
+    int * lcount;
+
     bool fpass,spass;
     bool sp;
     bool t;

@@ -17,16 +17,11 @@ int Selector::suswheel(int n, Species * s, int elitism, bool debug)
   Phenotypes * members = new Phenotypes();
   members->insert(members->begin(),omembers->begin(),omembers->end());
   delete omembers;
- //  cout << "species: " << s->getID() << " size: " << s->getMembers()->size()
-//        << " members->at(0)->getFitnes(): " << members->at(0)->getFitness() 
-//        << "members->at(members->size()-1)->getFitnes()" << members->at(members->size()-1)->getFitness() << endl;
-//   if(members->at(0)->getFitness()!=members->at(members->size()-1)->getFitness())
-//     cout << "fitness at 0 and fitnes at end not alike!!!!"<<endl;
+
   if(members->size()==0)
     return 0;
   bool dbg = false;
   if(elitism>0){
-//     cerr << "sid: " << s->getID() << " elitism: " << elitism << endl;
     dbg = true;
   }
   for(int i=(elitism-1);i>=0;i--){
