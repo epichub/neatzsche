@@ -75,80 +75,14 @@ void NEATRunner::runLoop()
   writeRunfile(false,basefile,infoline,pid);
   pop->fe = icb->fe;
   while(!stop){
-//     if(best!=NULL){
-//       cerr << "writing best to curbest" << endl;
-//       ofstream ofs2("curbest");
-//       ofs2 << best->getGenome();
-//       ofs2.close();
-//       cerr << "testing write code..before: " << icb->fe->f(best) << endl;
-//       Genome * gtest = new Genome(tfs);
-//       gtest->setdebug();
-//       ifstream ifs2("curbest");
-//       ifs2 >> gtest;
-//       ifs2.close();
-//       Phenotype * ptest = new Phenotype(gtest);
-//       cerr << "test fitness:" << icb->fe->f(ptest) 
-// 	   << " compare: " << gtest->compare(best->getGenome()) << " compare2: " << best->getGenome()->compare(gtest) << endl;
-//     }
-
-//     if(beststate.size()!=0&&best!=NULL){
-//       best->cleanNet();
-//       if(best->getID()==lid){
-// 	if(!checkvector(best->getState(),beststate,false)){
-// 	  cerr << "state for genom "<< best->getID() << " ulik, gotcha!!" << endl;
-// 	  cerr << "genom:\n"  << best->getGenome() << endl;
-// 	  cerr << "sum1: " << sumvector(best->getState()) << " sum2: " << sumvector(beststate) << endl;
-// 	  cerr << "checkvector state og index: " << checkvector(best->getState(),beststate,true) << endl;
-// 	  cerr << "bestgenesize: " << best->getGenome()->getGenes()->size() << endl;
-// 	  cerr << "bestnodesize: " << best->getGenome()->getNodes()->size() << endl;
-// 	  cerr << "beststate size: " << beststate.size() << endl;
-// 	  cerr << "curbeststate size: " << best->getState().size() << endl;
-// 	  exit(0);
-// 	}
-//       }else{
-
-// 	beststate = best->getState();
-// 	lid = best->getID();
-// 	cerr << "legger til ny genom " << lid << " i beststate" << endl;
-//       }     
-//     }else if(best!=NULL){
-//       best->cleanNet();
-//       cerr << "setter forste state til: " << best->getState().size() << endl;
-//       cerr << "beststate er: " << beststate.size() << endl;
-//       beststate = best->getState();
-//       lid = best->getID();
-//       exit(0);
-//     }
 
     startt = time(0);
-//     cerr << "starting new gen popgetgen: " << (pop->getGeneration()+1)
-// 	 << " generations: " << generations << endl;
-//     cerr << "starting new gen runs: " << runs
-// 	 << " countruns: " << countruns << endl;
     if(localFE)
       ev->evaluate(pop->getMembers(),pop->getMembers()->size());
     else{
-      //      cerr << "writing pop...";
       outputPopulation(pop,nodes,coevo,mc,pipeio); //stream the population out to nodes for evaluation	
-      cerr << "done outputting" << endl;
-      //      cout.flush();
-//       flush(cout);
-//       flush(cerr);
-//       //      flush(cin);
-
-//       //      cin.flush();
-//       fflush(stdout);
-//       fflush(stdin);
-//       fflush(stderr);
-
-//      exit(0);
       ev->evaluate(pop->getMembers(),mc);//sweet..
-//       cerr << "reading pop fitness...";
-      cerr << "done evaluating" << endl;
-//       cerr.flush();
       readFitness(pop,mc); //read the corresponding returned fitness values
-      cerr << "done reading" << endl;
-//       (new Evaluator((new RandomEvaluator())))->evaluate(pop->getMembers(),pop->getMembers()->size());
     }
 
     //checking and updating for the overall best phenotype.
@@ -157,27 +91,13 @@ void NEATRunner::runLoop()
     pop->updateSpeciesStats();
     pop->sortmembers();
     pop->sortspecies();
-    cerr << "!! member at 0 after of: " << pop->getMembers()->at(0)->getOrigFitness() << endl;
+
     avgf = pop->calcAvgFitness();
 
     //keeping a copy of generation champ:
     gbest = pop->getCopyOfCurrentBest();
     setChamp(best,gbest);
-//     if(best==NULL){
-//       cerr << "setter forste best" << endl;
-//       best = gbest;
-//       cerr << "bestgenesize: " << best->getGenome()->getGenes()->size() << endl;
-//       cerr << "bestnodesize: " << best->getGenome()->getNodes()->size() << endl;
-//       cerr << "beststate size: " << best->getState().size() << endl;
-//       cerr << "beststate size2: " << best->getState().size() << endl;
-//     }else if(best->getOrigFitness()<gbest->getOrigFitness()){
-//       cerr << "bytter best.." << endl;
-// //       cerr << "sbeststate: " << printvector(best->getState());
-// //       cerr << "beststate: " << printvector(gbest->getState());
-//       delete best;
-//       best = gbest;
-//     }else
-//       delete gbest;
+
     ofstream ofs(sCurrentGenomeFile.c_str());
     ofs << best->getGenome();
 
@@ -201,7 +121,7 @@ void NEATRunner::runLoop()
 
     tmpt = (time(0)-startt);
     totaltime += tmpt;
-//     cerr.flush();
+
     cerr << (pop->getGeneration()+1) << ": bestid: "<<best->getID()<<" bestfitness: "<< best->getFitness()
 	 << " maxfitness: " << pop->getHighestFitness() 
 	 << " curmax: " << pop->getMembers()->at(0)->getFitness()
@@ -237,10 +157,8 @@ void NEATRunner::runLoop()
 	pop->genesis(oseed,osize,oelitism);
       }
     }
-//     cerr << " generation run over " << endl;
-//     cerr.flush();
   }
-//   cerr << "writing finalgenome file " << endl;
+
   ofstream ofs(sFinalGenomeFile.c_str());
   ofs << sbest->getGenome();
   ofs.close();

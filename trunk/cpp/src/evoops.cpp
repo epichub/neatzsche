@@ -26,12 +26,12 @@ int Selector::suswheel(int n, Species * s, int elitism, bool debug)
     return 0;
   bool dbg = false;
   if(elitism>0){
-    cerr << "sid: " << s->getID() << " elitism: " << elitism << endl;
+//     cerr << "sid: " << s->getID() << " elitism: " << elitism << endl;
     dbg = true;
   }
   for(int i=(elitism-1);i>=0;i--){
-    if(dbg)
-      cerr << "incing clones of: " << members->at(i)->getID() << " of: " << members->at(i)->getOrigFitness() << endl;
+//     if(dbg)
+//       cerr << "incing clones of: " << members->at(i)->getID() << " of: " << members->at(i)->getOrigFitness() << endl;
     members->at(i)->incClones();
   }
   //TODO REMOVE FFS

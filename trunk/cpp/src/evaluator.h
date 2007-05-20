@@ -61,11 +61,25 @@ protected:
   int mPasses;
   int turns;
   NEATsettings * s;
+
+  //tmp vars for f calc..
+  double fsum;
+  double ssum;
+  double ftmp;
+  double stmp;
+  int moves;
+  vector<double>sense;
+  Phenotype * c;
+  Phenotype ** players;
+  int count;
+  bool first;
+  
 public:
   GoEvaluator(gw::GoWrapper * ig, int status, int puregnugo, double gnugor, NEATsettings * is)
   {g=ig;st=status; pg=puregnugo; r=gnugor;
     last=NULL;gen=turns=mMoves=mPuts=mPasses=0;
-    avgMoves = avgPuts = avgPasses = 0.0;s=is;fmax=0;fmin=RAND_MAX;}
+    avgMoves = avgPuts = avgPasses = 0.0;s=is;fmax=0;fmin=RAND_MAX;
+    players = new Phenotype * [2];}
   virtual ~GoEvaluator(){delete g;delete s;};
   virtual double f(Phenotype * f);
   virtual double debugeval(Phenotype * f);
@@ -126,22 +140,10 @@ public:
   virtual ~Evaluator(){};
   virtual Phenotypes * evaluate(Phenotypes * ps, unsigned int m)
   {
-//     double f=0;
-//     time_t startt;
-//     double tmp = 0;
-//     time_t tmptime;
-    cerr << getpid() << " slave starting evaluation " << endl;
     for(unsigned int i=0;i<ps->size() && i<m;i++){
-//       startt = time(0);
       fe->f(ps->at(i));
-//       tmptime = time(0) - startt;
-//       tmp += tmptime;
-//       cerr << getpid() << "evaluating genom:" << ps->at(i)->getID() 
-// 	   << " : " << f << " time: " << tmptime << endl;
       ps->at(i)->transferFitness();
     }
-    cerr << getpid() << " slave done with evaluation " << endl;
-//     cerr << "avg time: " << tmp/(double)ps->size() << endl;
     return ps;
   }
   virtual FitnessEvaluator * getFitnessEvaluator(){return fe;}

@@ -59,7 +59,7 @@ static inline void writenetwork(Phenotype * pheno, string file)
 	  neuron->SetAttribute("src-id", makeNodeID(genes->at(i)->getFrom()).c_str());
 	  neuron->SetAttribute("tgt-id", makeNodeID(genes->at(i)->getTo()).c_str());
 	  bool rec = (genes->at(i)->getTo()->getDepth()<=genes->at(i)->getFrom()->getDepth()) ? true : true;
-	  neuron->SetAttribute("weight", genes->at(i)->getWeight());
+	  neuron->SetAttribute("weight", (int)genes->at(i)->getWeight());
 	  neuron->SetAttribute("recurrent", rec ? "true" : "false");
 	}
 

@@ -75,8 +75,8 @@ void Population::preepoch()
 //    cerr << "avgfit: " << species->at(i)->getAvgFitness() <<" tmp:" << tmp << endl;
     species->at(i)->setExpected((int)tmp);
   }
-  cerr << "setting special clones for species " <<   members->at(0)->getSpecies()->getID() 
-       << " of: " << members->at(0)->getOrigFitness() << endl;
+//   cerr << "setting special clones for species " <<   members->at(0)->getSpecies()->getID() 
+//        << " of: " << members->at(0)->getOrigFitness() << endl;
   members->at(0)->getSpecies()->setSpecialClones(1);
   //  exit(0);
   for(unsigned int i=0;i<species->size();i++)
@@ -336,9 +336,9 @@ void Species::reproduce()
   if(members->at(0)->getClones()==1){
 
     newgeneration->push_back(new Phenotype(members->at(0)->getGenome()->duplicate(p->getAndIncID())));
-    cerr << "cloning bestmember: " << members->at(0)->getID() << " new id: " << newgeneration->at(0)->getID() 
-	 << " compare: " << members->at(0)->getGenome()->compare(newgeneration->at(0)->getGenome())
-	 << " of: " << members->at(0)->getOrigFitness() <<  " new fitness: " << p->fe->f(newgeneration->at(0)) << endl;
+//     cerr << "cloning bestmember: " << members->at(0)->getID() << " new id: " << newgeneration->at(0)->getID() 
+// 	 << " compare: " << members->at(0)->getGenome()->compare(newgeneration->at(0)->getGenome())
+// 	 << " of: " << members->at(0)->getOrigFitness() <<  " new fitness: " << p->fe->f(newgeneration->at(0)) << endl;
     members->at(0)->decClones();
   }
 

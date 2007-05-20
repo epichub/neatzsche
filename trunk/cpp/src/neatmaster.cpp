@@ -131,7 +131,7 @@ int main(int argc,char *args[]){
   //evaluating a slightly bigger batch of genomes
   double mr = set->getValue("masterratio");
   int nom = pop->getMembers()->size()/((unsigned int)nodes+1);
-  unsigned int mc = nom*mr;
+  unsigned int mc = (unsigned int)((double)nom*mr);
   cerr << "running " << mc << " evals on master and " <<  (pop->getMembers()->size()-mc)/nodes << " on the each of the slaves." << endl;
   
   //the running loop itself
