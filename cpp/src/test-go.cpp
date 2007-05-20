@@ -101,6 +101,8 @@ int main(int argc,char *args[]){
   run->rep = rep; run->coevo = coevo; run->nodes = nodes; run->icb = icb; run->set = set; run->tfs = tfs;
   run->ev = ev;
   run->signalhandler = signalhandler;
+  run->basefile = ssCurrentFile.str();
+  run->pid = pid;
   icb->run = run;
 
   addToAllSignals(signalhandler);
