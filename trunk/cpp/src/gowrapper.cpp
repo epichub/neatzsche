@@ -127,13 +127,14 @@ namespace gw{
   //input to the network..
   boost::dynamic_bitset<> * GoWrapper::sqlook(int * pos, bool first)
   {
-    boost::dynamic_bitset<> * ret = new boost::dynamic_bitset<>((int)pow(eyesize,2)*2);
-    int ah = 0, aw = 0;
-    int d = (int)floor(eyesize/2);
+    cerr << "eyesetsize: " << eyesetsize << endl;
+    boost::dynamic_bitset<> * ret = new boost::dynamic_bitset<>(eyesetsize);
+    aw = ah = 0;
+
     for(int i=0;i<eyesize;i++){
       for(int i2=0;i2<eyesize;i2++){
-	ah = pos[0]+i-d;
-	aw = pos[1]+i2-d;
+	ah = pos[0]+i-sqd;
+	aw = pos[1]+i2-sqd;
       
 	if( ah<0 || aw<0 || ah>=bsize || aw>=bsize)
 	  {
@@ -183,39 +184,38 @@ namespace gw{
   }
   vector<double> GoWrapper::getLongrange(bool first)
   {
-    vector<double> ret;
-    int *tpos = new int[2];
-    int d = (int)floor(eyesize/2)+1;
+    lret = vector<double>();
+
     //sone above..
-    tpos = relativeFrontPos(first,tpos,d);
-    state * temps = sqlook(tpos,first);
-    int * t = countPieces(temps);
+    tpos = relativeFrontPos(first,tpos,lgd);
+    temps = sqlook(tpos,first);
+    lcount = countPieces(temps);
     delete temps;
-    inputIt(first,ret,t);
-    delete[] t;
+    inputIt(first,lret,lcount);
+    delete[] lcount;
     //sone left.. 
-    tpos = relativeLeftPos(first,tpos,d);
+    tpos = relativeLeftPos(first,tpos,lgd);
     temps = sqlook(tpos,first);
-    t = countPieces(temps);
+    lcount = countPieces(temps);
     delete temps;
-    inputIt(first,ret,t);
-    delete[] t;
+    inputIt(first,lret,lcount);
+    delete[] lcount;
     //sone right..
-    tpos = relativeRightPos(first,tpos,d);
+    tpos = relativeRightPos(first,tpos,lgd);
     temps = sqlook(tpos,first);
-    t = countPieces(temps);
+    lcount = countPieces(temps);
     delete temps;
-    inputIt(first,ret,t);
-    delete[] t;
+    inputIt(first,lret,lcount);
+    delete[] lcount;
     //sone behind..
-    tpos = relativeBackPos(first,tpos,d);
+    tpos = relativeBackPos(first,tpos,lgd);
     temps = sqlook(tpos,first);
-    t = countPieces(temps);
+    lcount = countPieces(temps);
     delete temps;
-    inputIt(first,ret,t);
-    delete[] t;
+    inputIt(first,lret,lcount);
+    delete[] lcount;
     delete[] tpos;
-    return ret;
+    return lret;
   }
   int GoWrapper::getInputCount()
   {
@@ -225,39 +225,40 @@ namespace gw{
   {
     //get all the data..
     boost::dynamic_bitset<> * oslook = sqlook(first);
-    vector<double> lrange = getLongrange(first);
+    cerr << "oslook size: " << oslook->size() << endl;
+    lrange = getLongrange(first);
 
     int * pos = getpos(first);
-    int l = islegal(first);
+    legalmove = islegal(first);
 
-    vector<double> slook;
-    vector<double> ret;
+    //    slook = vector<double>();
+    sensoryret = vector<double>();
     if(first){
       for(unsigned int i=0;i<(*oslook).size();i++)
-	ret.push_back((*oslook)[i]);
+	sensoryret.push_back((*oslook)[i]);
     }else{//we need to give the network the same kind of inputs when
       //doing coevo and playing white..that way it doesnt need to
       //learn the "concept" of having the pieces it used to play
       //itself, as enemy pieces, the concepts should be ['mine','other'] :)
       for(unsigned int i=0;i<(*oslook).size();i+=2){
 	if((*oslook)[i]==1&&(*oslook)[i+1]==1){//outside board, shouldnt change
-	  ret.push_back((*oslook)[i]);ret.push_back((*oslook)[i+1]);
+	  sensoryret.push_back((*oslook)[i]);sensoryret.push_back((*oslook)[i+1]);
 	}else{//a piece, just reverse
-	  ret.push_back(!(*oslook)[i]);ret.push_back(!(*oslook)[i+1]);
+	  sensoryret.push_back(!(*oslook)[i]);sensoryret.push_back(!(*oslook)[i+1]);
 	}
       }
     }
-    delete oslook;
+    //    delete oslook;
     //concat the vectors...that is for a later time
     //cause now my battery is running empty and I
     //am on a bus heading home for christmas! :D
     //...and also, dunno this syntax, need web :p
     for(unsigned int i=0;i<lrange.size();i++)
-      ret.push_back(ret.at(i));
-    ret.push_back((double)pos[0]/(double)(bsize-1));
-    ret.push_back((double)pos[1]/(double)(bsize-1));
-    ret.push_back(l);
-    return ret;
+      sensoryret.push_back(lrange.at(i));
+    sensoryret.push_back((double)pos[0]/(double)(bsize-1));
+    sensoryret.push_back((double)pos[1]/(double)(bsize-1));
+    sensoryret.push_back(legalmove);
+    return sensoryret;
   }
   //returns true for limit pass, pass or put, false for movement or 
   // .. inp: a,b,c,d,e,f,g :
@@ -287,10 +288,9 @@ namespace gw{
     //default in conflicts; left & righ ->left
     //first check turning, as the eye can move and turn
     //in one move.
-    bool forward,back,west,east;
-    forward=back=west=east=false;
-    bool moving = false;
-    bool turned = false;
+
+    moving=turned=forward=back=west=east=false;
+
     if(inp.at(1)>0.5){//turn left
       turnleft(first);
       turned = true;
@@ -298,7 +298,7 @@ namespace gw{
       turnright(first);
       turned = true;
     } 
-    int *heading = getHeading(first);
+    heading = getHeading(first);
     if(inp.at(0)>0.5){//forward..
       moving = true;
       if(*heading == 0)
@@ -313,13 +313,10 @@ namespace gw{
 
   
     if(!moving&&!turned){
-      int ind = 5;
-      int n = 5;
-      double max=0.5;
-      for(int i=3;i<n;i++){
-	if(inp.at(i)>max){
+      for(int i=3;i<5;i++){
+	if(inp.at(i)>domax){
 	  ind = i;
-	  max = inp.at(i);
+	  domax = inp.at(i);
 	}
       }
       if(ind==5){//default
@@ -483,6 +480,12 @@ namespace gw{
     pos1 = new int[2];
     pos2 = new int[2];
     lgpos = new int[2];
+    tpos = new int[2];
+    lgd = (int)floor(eyesize/2)+1;
+    eyesetsize = (int)pow(eyesize,2)*2;
+    ind = 5;
+    domax = 0.5;
+    sqd = (int)floor(eyesize/2);
 
     sp = isp;
     lvl = ilvl;
