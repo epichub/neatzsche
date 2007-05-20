@@ -75,21 +75,22 @@ void NEATRunner::runLoop()
   writeRunfile(false,basefile,infoline,pid);
   pop->fe = icb->fe;
   while(!stop){
-    if(best!=NULL){
-      cerr << "writing best to curbest" << endl;
-      ofstream ofs2("curbest");
-      ofs2 << best->getGenome();
-      ofs2.close();
-      cerr << "testing write code..before: " << icb->fe->f(best) << endl;
-      Genome * gtest = new Genome(tfs);
-      gtest->setdebug();
-      ifstream ifs2("curbest");
-      ifs2 >> gtest;
-      ifs2.close();
-      Phenotype * ptest = new Phenotype(gtest);
-      cerr << "test fitness:" << icb->fe->f(ptest) 
-	   << " compare: " << gtest->compare(best->getGenome()) << " compare2: " << best->getGenome()->compare(gtest) << endl;
-    }
+//     if(best!=NULL){
+//       cerr << "writing best to curbest" << endl;
+//       ofstream ofs2("curbest");
+//       ofs2 << best->getGenome();
+//       ofs2.close();
+//       cerr << "testing write code..before: " << icb->fe->f(best) << endl;
+//       Genome * gtest = new Genome(tfs);
+//       gtest->setdebug();
+//       ifstream ifs2("curbest");
+//       ifs2 >> gtest;
+//       ifs2.close();
+//       Phenotype * ptest = new Phenotype(gtest);
+//       cerr << "test fitness:" << icb->fe->f(ptest) 
+// 	   << " compare: " << gtest->compare(best->getGenome()) << " compare2: " << best->getGenome()->compare(gtest) << endl;
+//     }
+
 //     if(beststate.size()!=0&&best!=NULL){
 //       best->cleanNet();
 //       if(best->getID()==lid){
@@ -129,6 +130,7 @@ void NEATRunner::runLoop()
     else{
       //      cerr << "writing pop...";
       outputPopulation(pop,nodes,coevo,mc,pipeio); //stream the population out to nodes for evaluation	
+      cerr << "done outputting" << endl;
       //      cout.flush();
 //       flush(cout);
 //       flush(cerr);
@@ -142,10 +144,10 @@ void NEATRunner::runLoop()
 //      exit(0);
       ev->evaluate(pop->getMembers(),mc);//sweet..
 //       cerr << "reading pop fitness...";
-
+      cerr << "done evaluating" << endl;
 //       cerr.flush();
       readFitness(pop,mc); //read the corresponding returned fitness values
-
+      cerr << "done reading" << endl;
 //       (new Evaluator((new RandomEvaluator())))->evaluate(pop->getMembers(),pop->getMembers()->size());
     }
 

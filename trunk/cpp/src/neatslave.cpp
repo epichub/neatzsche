@@ -97,6 +97,7 @@ int main(int argc,char *args[]){
       e->evaluate(p,p->size());
 
     //    cerr << "coevo size: " << c->size() << endl;
+    cerr << getpid() << " done evaluating on slave" << endl;
     outputFitness(p);
     cleanupPopulation(p);
 //     cont = readExitToken();
