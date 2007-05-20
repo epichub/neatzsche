@@ -89,15 +89,16 @@ namespace gw{
   }
   static inline boost::dynamic_bitset<> * twistit(boost::dynamic_bitset<> * v,  int h, int rowsize)
   {
-    boost::dynamic_bitset<> * ret = new boost::dynamic_bitset<>((int)pow(rowsize,2)*2);
+    boost::dynamic_bitset<> * ret = NULL;
 
     if(h==1){
-      delete ret;
+
       boost::dynamic_bitset<> * tmp = NULL;
       tmp = transVertLine(*v,h,rowsize);
       ret = transLRDiag(*tmp,h,rowsize);
       delete tmp;
     }else if(h==3){
+      ret = new boost::dynamic_bitset<>((int)pow(rowsize,2)*2);
       for(int i=0;i<rowsize;i++){
 	for(int j=0;j<rowsize;j++){
 	  (*ret)[(j*rowsize*2)+(2*((rowsize-1)-i))] = (*v)[(i*rowsize*2)+(2*j)];
@@ -106,7 +107,6 @@ namespace gw{
       }
     }else{
       //switch around vertical axis..
-      delete ret;
       ret = transVertLine(*v,h,rowsize);
       boost::dynamic_bitset<> tmp = *ret;
       for(int i=0;i<rowsize;i++){
@@ -127,7 +127,6 @@ namespace gw{
   //input to the network..
   boost::dynamic_bitset<> * GoWrapper::sqlook(int * pos, bool first)
   {
-    cerr << "eyesetsize: " << eyesetsize << endl;
     boost::dynamic_bitset<> * ret = new boost::dynamic_bitset<>(eyesetsize);
     aw = ah = 0;
 
@@ -214,7 +213,7 @@ namespace gw{
     delete temps;
     inputIt(first,lret,lcount);
     delete[] lcount;
-    delete[] tpos;
+//     delete[] tpos;
     return lret;
   }
   int GoWrapper::getInputCount()
@@ -225,7 +224,6 @@ namespace gw{
   {
     //get all the data..
     boost::dynamic_bitset<> * oslook = sqlook(first);
-    cerr << "oslook size: " << oslook->size() << endl;
     lrange = getLongrange(first);
 
     int * pos = getpos(first);
@@ -491,11 +489,12 @@ namespace gw{
     lvl = ilvl;
     netmoves = 0;
     //making my gowrapper local board repr.
-    gwboard = state((int)pow(bsize,2)*2);
+
 
     //setting up gnugo!
 //     cerr << "bs: "  << bs << endl;
     gg::board_size = bsize = bs;
+    gwboard = state((int)pow(bsize,2)*2);
 //     cerr << "gg::board_size: "  << gg::board_size << endl;
 //     cerr << "bsize: "  << bsize << endl;
     gg::init_gnugo(mem,1);
