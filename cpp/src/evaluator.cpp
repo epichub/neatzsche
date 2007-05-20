@@ -99,16 +99,15 @@ double GoEvaluator::f(Phenotype * f)
   if(st==1&&last!=NULL)
     last->cleanNet();
 
-  double fsum = 0;
-  double ssum = 0;
-  int moves = 0;	      
-  vector<double> sense;
-  Phenotype ** players = new Phenotype * [2];
+  fsum = 0;
+  ssum = 0;
+  moves = 0;	      
+  //vector<double> sense;
   if(st==1&&!secondnull){ players[0] = f; players[1] = last;}
   if(secondnull) { players[0] = last; players[1] = NULL;}
   else { players[0] = f; players[1] = NULL;}
-  Phenotype * c = players[0];
-  int count=0; bool first = true;
+  c = players[0];
+  count=0; first = true;
   sense = g->getSensoryInput(first);
   while(!g->done()){
     if(c){
@@ -131,8 +130,8 @@ double GoEvaluator::f(Phenotype * f)
   if(moves==0)
     moves = 1;
   updateStats();
-  double ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
-  double stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
+  ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
+  stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
 
   if(g->puts==0)
     ftmp -= 0.1;
@@ -150,7 +149,7 @@ double GoEvaluator::f(Phenotype * f)
     f->setFitness(ftmp);
   if(st==1)
     last->setFitness(stmp);
-  delete[] players;
+
   if(st==1 && last!=f){
     last = NULL;
   }
