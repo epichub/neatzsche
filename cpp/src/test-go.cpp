@@ -102,7 +102,7 @@ int main(int argc,char *args[]){
   run->ev = ev;
   run->signalhandler = signalhandler;
   run->basefile = ssCurrentFile.str();
-  run->pid = pid;
+  run->pid = getpid();
   icb->run = run;
 
   addToAllSignals(signalhandler);
