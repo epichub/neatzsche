@@ -47,6 +47,9 @@ ifeq ($(STYLE), OPTIMISED)
     ifeq ($(p-type), AMD Athlon(tm) 64 X2 Dual Core Processor 4200+)
       OPTS = -march=k8 -O3 -pipe -fomit-frame-pointer -funroll-loops -ftree-vectorize -ftracer -ffast-math
     endif
+    ifeq ($(p-type), AMD Athlon(tm) 64 X2 Dual Core Processor 4600+)
+      OPTS = -march=k8 -O3 -pipe -fomit-frame-pointer -funroll-loops -ftree-vectorize -ftracer -ffast-math
+    endif
     ifeq ($(p-type), i686)
       OPTS = -march=pentium4 -O3 -pipe -fomit-frame-pointer -funroll-loops -ftree-vectorize -ftracer -ffast-math
     endif

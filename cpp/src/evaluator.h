@@ -126,20 +126,22 @@ public:
   virtual ~Evaluator(){};
   virtual Phenotypes * evaluate(Phenotypes * ps, unsigned int m)
   {
-    double f=0;
-    time_t startt;
-    double tmp = 0;
-    time_t tmptime;
+//     double f=0;
+//     time_t startt;
+//     double tmp = 0;
+//     time_t tmptime;
+    cerr << getpid() << " slave starting evaluation " << endl;
     for(unsigned int i=0;i<ps->size() && i<m;i++){
-      startt = time(0);
-      f = fe->f(ps->at(i));
-      tmptime = time(0) - startt;
-      tmp += tmptime;
+//       startt = time(0);
+      fe->f(ps->at(i));
+//       tmptime = time(0) - startt;
+//       tmp += tmptime;
 //       cerr << getpid() << "evaluating genom:" << ps->at(i)->getID() 
 // 	   << " : " << f << " time: " << tmptime << endl;
       ps->at(i)->transferFitness();
     }
-    cerr << "avg time: " << tmp/(double)ps->size() << endl;
+    cerr << getpid() << " slave done with evaluation " << endl;
+//     cerr << "avg time: " << tmp/(double)ps->size() << endl;
     return ps;
   }
   virtual FitnessEvaluator * getFitnessEvaluator(){return fe;}

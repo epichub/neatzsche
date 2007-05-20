@@ -88,7 +88,7 @@ public:
   double valueFromOther;
   double input;
   void printInfo(){
-    cout << "input: " << input
+    cerr << "input: " << input
 	 <<" valuefromother: " << valueFromOther
 	 <<" links: "<<links->size()<<" cache: "<<cache<<" value: "<<tFunc->y(valueFromOther+input)<<endl;}
   void reset(){input=0;valueFromOther=0;}
