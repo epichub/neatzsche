@@ -103,9 +103,9 @@ void NEATRunner::runLoop()
 
     ofs.close();
 
-    if(pop->getGeneration()%2==0){
-      cerr << icb->fe->show(best);
-    }
+//     if(pop->getGeneration()%2==0){
+//       cerr << icb->fe->show(best);
+//     }
     icb->best = best;
     writenetwork(best,sCurrentXMLGenomeFile);
 
@@ -122,9 +122,10 @@ void NEATRunner::runLoop()
     tmpt = (time(0)-startt);
     totaltime += tmpt;
 
-    cerr << (pop->getGeneration()+1) << ": bestid: "<<best->getID()<<" bestfitness: "<< best->getFitness()
-	 << " maxfitness: " << pop->getHighestFitness() 
+    cerr << (pop->getGeneration()+1) << ":"
 	 << " curmax: " << pop->getMembers()->at(0)->getFitness()
+	 << " bestid: "<<best->getID()<<" bestfitness: "<< best->getFitness()
+	 << " maxfitness: " << pop->getHighestFitness() 
 	 << " curmin: " << pop->getMembers()->at(pop->getMembers()->size()-1)->getFitness()
 	 << " species: " << pop->getSpecies()->size() 
 	 << " size: " << pop->getMembers()->size() 

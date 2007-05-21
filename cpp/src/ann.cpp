@@ -51,6 +51,7 @@ vector< double > Network::getWeights()
       for(unsigned int i3=0;i3<lv->size();i3++){
 	ret.push_back(lv->at(i3)->getWeight());
       }
+      delete lv;
     }
   }
   return ret;

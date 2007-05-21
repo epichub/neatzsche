@@ -17,12 +17,14 @@ int main(int argc,char *args[]){
   int rands = 0;
   bool randnull=false;
   rands = atoi(args[1]);
-  if(rands!=0)
+  if(rands!=0){
     srand(rands);
-  else{
+    srand48(rands);
+  }else{
     randnull=true;
     rands = time(0);
     srand(rands);
+    srand48(rands);
     cout << "ny seed: " << rands << endl;
   }
   
@@ -63,11 +65,11 @@ int main(int argc,char *args[]){
     do{
       if(testp!=NULL)
 	delete testp;
-      genomeo = new Genome(1,29,5,0,0,set->getValue("spawn_recur_prob"),0.5,set,in,tfs);
+      genomeo = new Genome(1,29,5,1,1,set->getValue("spawn_recur_prob"),1,set,in,tfs);
       testp = new Phenotype(genomeo);
       r = fe->f(testp);
-      cerr << "r: " << r << endl;
-      c++;
+      cerr << "r: " << r << " puts: " << gw->puts << " gwmoves: " << gw->getMoves() <<  endl;
+//       c++;
     }while(r<0.15);
 //   }while(c>3&&randnull);
 //   if(randnull){
@@ -89,23 +91,18 @@ int main(int argc,char *args[]){
 //   cerr << "compare: " << genomeo->compare(g) << endl;
 //   cerr << "compare2: " << g->compare(genomeo) << endl;
   Phenotype * p = new Phenotype(g);
-
+  Phenotype * clone = new Phenotype(genomeo->duplicate(8));
 
 //   testp->cleanNet();
 //   p->cleanNet();
 //   cerr << "original state: " << printvector(testp->getState()) << endl;
 //   cerr << "read state: " << printvector(p->getState()) << endl;
-//   cerr << "osum: "<< sumvector(testp->getState()) << " readsum: " << sumvector(p->getState()) << endl;
-//   cerr << "checkvector: " << checkvector(testp->getState(),testp->getState(),true) << endl;
-  testp->cleanNet();
-  gw->reset();
-  cerr << "\n\nreact original: "  << printvector(testp->react(gw->getSensoryInput(true)));
+
+
 //   testp->cleanNet();
 //   gw->reset();
 //   cerr << "react original2: "  << printvector(testp->react(gw->getSensoryInput(true)));
-  p->cleanNet();
-  gw->reset();
-  cerr << "\n\nreact read: "  << printvector(p->react(gw->getSensoryInput(true)));
+
 //   p->cleanNet();
 //   gw->reset();
 //   cerr << "react read2: "  << printvector(p->react(gw->getSensoryInput(true)));
@@ -113,11 +110,43 @@ int main(int argc,char *args[]){
 //   gw->reset();
 //   cerr << "react original3: "  << printvector(testp->react(gw->getSensoryInput(true)));  
 //   cerr << genomeo;
-//   cerr << "orig fitness:" << fe->f(testp) << endl;
-//   cerr << "read fitness:" << fe->f(p) << endl;
+
   cerr << "showgame original: " << endl << fe->show(testp);
   cerr << "showgame read: " << endl << fe->show(p);
+
+  testp->cleanNet();
+  gw->reset();
+  cerr << "\n\nreact original: "  << printvector(testp->react(gw->getSensoryInput(true)));
+
+  p->cleanNet();
+  gw->reset();
+  cerr << "\n\nreact read: "  << printvector(p->react(gw->getSensoryInput(true)));
+
+  clone->cleanNet();
+  gw->reset();
+  cerr << "\n\nreact clone: "  << printvector(clone->react(gw->getSensoryInput(true)));
+
+  ((GoEvaluator*)fe)->detrm = true;
+
+  cerr << "orig fitness:" << fe->f(testp) << endl;
+  cerr << "netinpsum: "<<sumvector(((GoEvaluator*)fe)->netinp) << endl;
+  cerr << "orig fitness2:" << fe->f(testp) << endl;
+  cerr << "netinpsum: "<<sumvector(((GoEvaluator*)fe)->netinp) << endl;
+  cerr << "read fitness:" << fe->f(p) << endl;
+  cerr << "netinpsum: "<<sumvector(((GoEvaluator*)fe)->netinp) << endl;
+  cerr << "read fitness2:" << fe->f(p) << endl;
+  cerr << "netinpsum: "<<sumvector(((GoEvaluator*)fe)->netinp) << endl;
+  cerr << "clone fitness:" << fe->f(clone) << endl;
+  cerr << "netinpsum: "<<sumvector(((GoEvaluator*)fe)->netinp) << endl;
+  cerr << "clone fitness2:" << fe->f(clone) << endl;
+  cerr << "netinpsum: "<<sumvector(((GoEvaluator*)fe)->netinp) << endl;
+  p->cleanNet();testp->cleanNet();clone->cleanNet();
+  cerr << "osum: "<< sumvector(testp->getState()) << " readsum: " << sumvector(p->getState()) << " clonesum: " << sumvector(clone->getState()) << endl;
+  cerr << "checkvector o read: " << checkvector(testp->getState(),p->getState(),true) << endl;
+  cerr << "checkvector o clone: " << checkvector(testp->getState(),clone->getState(),true) << endl;
   delete fe;
   delete p;
-
+  delete clone;
+  delete testp;
+  cerr << "seed: " << rands << endl;
 }

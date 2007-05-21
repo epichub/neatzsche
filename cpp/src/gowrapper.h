@@ -105,9 +105,6 @@ namespace gw {
     int *fheading;
     int *sheading;
     int *  getHeading(bool first){return (first) ? fheading : sheading;}
-    void setPass(bool first) { 
-      if(first) fpass = true; 
-      else spass = true;}
     void unsetPass(bool first) { 
       if(first) fpass = false; 
       else spass = false;}
@@ -154,7 +151,9 @@ namespace gw {
   public:
     GoWrapper(int bs, bool isp, double iovalue, double komi, int lvl, int ieyesize, int tsteps, int mem);//endrer 
     virtual ~GoWrapper();
-
+    void setPass(bool first) { 
+      if(first) fpass = true; 
+      else spass = true;}
     void turnleft(bool first){int *heading =getHeading(first); *heading = (3+(*heading))%4;}
     void turnright(bool first){int *heading =getHeading(first); *heading = (++(*heading))%4;}
     void updateFromGnuGo();
