@@ -164,6 +164,9 @@ namespace gw{
   int* GoWrapper::countPieces(boost::dynamic_bitset<> * look)
   {
     int *r = new int[2];
+    //REMEMBER, the following line caused randomness across runs
+    //for a good 6 months. REMEMBER this lesson, omfg..
+    r[0] = 0; r[1] = 0;
     for(unsigned int i=0;i<((*look).size()/2);i++){
       if((*look)[2*i]==0&&(*look)[(2*i)+1]==1)
 	r[0]++;
@@ -246,7 +249,7 @@ namespace gw{
 	}
       }
     }
-    //    delete oslook;
+    delete oslook;
     //concat the vectors...that is for a later time
     //cause now my battery is running empty and I
     //am on a bus heading home for christmas! :D
@@ -477,9 +480,12 @@ namespace gw{
     ovalue = iovalue;
     pos1 = new int[2];
     pos2 = new int[2];
+
+    //getlongrange
     lgpos = new int[2];
     tpos = new int[2];
     lgd = (int)floor(eyesize/2)+1;
+
     eyesetsize = (int)pow(eyesize,2)*2;
     ind = 5;
     domax = 0.5;
@@ -497,7 +503,7 @@ namespace gw{
     gwboard = state((int)pow(bsize,2)*2);
 //     cerr << "gg::board_size: "  << gg::board_size << endl;
 //     cerr << "bsize: "  << bsize << endl;
-    gg::init_gnugo(mem,1);
+    gg::init_gnugo(mem,rand());
 //     cerr << "bsize2: "  << bsize << endl;
     gg::gnugo_clear_board(bsize);
 #ifdef GGSTABLE
@@ -574,18 +580,20 @@ namespace gw{
   {
     float * upper = new float;  float * lower = new float;
     float ret = gg::gnugo_estimate_score(upper,lower); // returns a number pos for white dom, neg for black dom
+    delete upper; delete lower;
     return ret;
   } 
   double GoWrapper::score(bool first){
     float * upper = new float;  float * lower = new float;
     float ret = gg::gnugo_estimate_score(upper,lower); // returns a number pos for white dom, neg for black dom
+    delete upper; delete lower;
     if(first)
       ret = -ret;
     return (ret+scorevalmax)/twoscorevalmax;
   }
   GoWrapper::~GoWrapper()
   {
-    delete fheading; delete sheading; delete[] pos1; delete[] pos2;
+    delete fheading; delete sheading; delete[] pos1; delete[] pos2; delete[] tpos; delete[] lgpos;
 
   }
   //returns a string containing a prettyprint of the local board

@@ -79,8 +79,8 @@ public:
   {g=ig;st=status; pg=puregnugo; r=gnugor;
     last=NULL;gen=turns=mMoves=mPuts=mPasses=0;
     avgMoves = avgPuts = avgPasses = 0.0;s=is;fmax=0;fmin=RAND_MAX;
-    players = new Phenotype * [2];}
-  virtual ~GoEvaluator(){delete g;delete s;};
+    players = new Phenotype * [2];detrm=false;}
+  virtual ~GoEvaluator(){delete g;delete s; delete[] players;};
   virtual double f(Phenotype * f);
   virtual double debugeval(Phenotype * f);
   void setStatus(int ist){st=ist;}
@@ -104,6 +104,8 @@ public:
     return ss.str();
   }
   virtual void interact(Phenotype * f);
+  bool detrm;
+  vector<double> netinp;
 };
 class EasyGoEvaluator : public GoEvaluator {
 public:

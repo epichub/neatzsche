@@ -94,21 +94,23 @@ double GoEvaluator::f(Phenotype * f)
   }
 
   g->reset();
+
   if(st==0||(st==1&&f!=NULL))
     f->cleanNet();
   if(st==1&&last!=NULL)
     last->cleanNet();
-
+  netinp = vector<double>();
   fsum = 0;
   ssum = 0;
   moves = 0;	      
-  //vector<double> sense;
+
   if(st==1&&!secondnull){ players[0] = f; players[1] = last;}
   if(secondnull) { players[0] = last; players[1] = NULL;}
   else { players[0] = f; players[1] = NULL;}
   c = players[0];
   count=0; first = true;
   sense = g->getSensoryInput(first);
+
   while(!g->done()){
     if(c){
       while(!g->doThis(first,c->react(sense))){
@@ -358,22 +360,23 @@ string GoEvaluator::show(Phenotype * f)
   }
 
   g->reset();
+
   if(st==0||(st==1&&f!=NULL))
     f->cleanNet();
   if(st==1&&last!=NULL)
     last->cleanNet();
+  netinp = vector<double>();
+  fsum = 0;
+  ssum = 0;
+  moves = 0;	      
 
-  double fsum = 0;
-  double ssum = 0;
-  int moves = 0;	      
-  vector<double> sense;
-  Phenotype ** players = new Phenotype * [2];
   if(st==1&&!secondnull){ players[0] = f; players[1] = last;}
   if(secondnull) { players[0] = last; players[1] = NULL;}
   else { players[0] = f; players[1] = NULL;}
-  Phenotype * c = players[0];
-  int count=0; bool first = true;
+  c = players[0];
+  count=0; first = true;
   sense = g->getSensoryInput(first);
+
   while(!g->done()){
     if(c){
       while(!g->doThis(first,c->react(sense))){
@@ -396,8 +399,9 @@ string GoEvaluator::show(Phenotype * f)
   if(moves==0)
     moves = 1;
   updateStats();
-  double ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
-  double stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
+  ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
+  stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
+
   if(g->puts==0)
     ftmp -= 0.1;
 
@@ -410,8 +414,14 @@ string GoEvaluator::show(Phenotype * f)
     ftmp = 0.0001;
   if(stmp<=0)
     stmp = 0.0001;
-  cerr << "show ftmp: " << ftmp;
+  if(!secondnull)
+    f->setFitness(ftmp);
+  if(st==1)
+    last->setFitness(stmp);
+
+  if(st==1 && last!=f){
+    last = NULL;
+  }
 
   return ss.str();
-
 }

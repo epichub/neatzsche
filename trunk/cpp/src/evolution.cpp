@@ -336,9 +336,12 @@ void Species::reproduce()
   if(members->at(0)->getClones()==1){
 
     newgeneration->push_back(new Phenotype(members->at(0)->getGenome()->duplicate(p->getAndIncID())));
-//     cerr << "cloning bestmember: " << members->at(0)->getID() << " new id: " << newgeneration->at(0)->getID() 
-// 	 << " compare: " << members->at(0)->getGenome()->compare(newgeneration->at(0)->getGenome())
-// 	 << " of: " << members->at(0)->getOrigFitness() <<  " new fitness: " << p->fe->f(newgeneration->at(0)) << endl;
+    cerr << "cloning bestmember: " << members->at(0)->getID() << " new id: " << newgeneration->at(0)->getID() 
+	 << " compare: " << members->at(0)->getGenome()->compare(newgeneration->at(0)->getGenome())
+	 << " of: " << members->at(0)->getOrigFitness() 
+	 <<  " testf: " << p->fe->f(members->at(0))
+	 <<  " testf: " << p->fe->f(members->at(0))
+	 << "  new fitness: " << p->fe->f(newgeneration->at(0)) << endl;
     members->at(0)->decClones();
   }
 
