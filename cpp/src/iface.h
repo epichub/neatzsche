@@ -296,13 +296,11 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
 //     }
 //     cout << "NODES" << endl;
 //   }
-  int nc = 0;
+
   while(i < s) {
     cout << "NODES" << endl;
     cout << c;
 //     cout.flush();
-//     nc++;
-//     cerr << "node " << nc << " :" ;
     for(size_t i2 = 0; i2 < n && i < s; i2++, i++) {
       //the endline at the end here is to make the >> operator of
       //genome stop for each genome, the genome tag is for the nodes
@@ -311,9 +309,7 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
 //       cout.flush();
       cout << "genome" << endl << p->getMembers()->at(i)->getGenome() << endl;
 //       cout.flush();
-//       cerr << i << " " ;
     }
-    cerr << endl;
     cout << "NODES" << endl;
 //     cout.flush();
   }

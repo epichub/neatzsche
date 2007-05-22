@@ -84,8 +84,8 @@ int main(int argc,char *args[]){
   int nodes = atoi(args[5]);
 
   //5. 
-  Coevolution * dummycoevo = NULL;
-  FitnessEvaluator * fe = makeFitnessEvaluator(args[6],dummycoevo);
+  Coevolution * coevo = NULL;
+  FitnessEvaluator * fe = makeFitnessEvaluator(args[6],coevo);
   Evaluator * ev = new Evaluator(fe); 
 
   //6. stopping condition (usually generation counter, should support
@@ -108,7 +108,7 @@ int main(int argc,char *args[]){
 
   LocalReproducer * rep = new LocalReproducer();
 
-  Coevolution * coevo = new Halloffame(5,5,0,NULL);
+//   Coevolution * coevo = new Halloffame(5,5,0,NULL);
 
   //pointers for keeping track and saving all time best genome
   int pid = getpid();
