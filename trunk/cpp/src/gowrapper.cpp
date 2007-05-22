@@ -503,7 +503,7 @@ namespace gw{
     gwboard = state((int)pow(bsize,2)*2);
 //     cerr << "gg::board_size: "  << gg::board_size << endl;
 //     cerr << "bsize: "  << bsize << endl;
-    gg::init_gnugo(mem,rand());
+    gg::init_gnugo(mem,12312352);
 //     cerr << "bsize2: "  << bsize << endl;
     gg::gnugo_clear_board(bsize);
 #ifdef GGSTABLE
