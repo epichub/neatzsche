@@ -3,6 +3,6 @@ slave-verbosity:        0
 batch-mode:             EOF
 master-output-mode:     EOF
 master-program:         ./neatmaster
-master-arguments:    	0 SETTINGFILE "spawn 29 5 0 0.5 GENOMES" "sigma 1" NODENUM "go GENS 0.2 10 0 1 500 500 0" "count GENS 1" 0
+master-arguments:    	0 SETTINGFILE "spawn 29 5 3 0.7 GENOMES" "sigma 1" NODENUM "go GENS 0.2 10 0 1 500 500 0" "count GENS 1" 0
 slave-program:          ./neatslave
 slave-arguments:	0 SETTINGFILE "go GENS 0.2 10 0 1 500 500 0"
