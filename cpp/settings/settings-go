@@ -22,7 +22,7 @@ mate_multipoint_avg_prob 0.4
 mate_singlepoint_prob 0.0
 mate_only_prob 0.2
 newlink_tries 900
-spawn_recur_prob 1.0
+spawn_recur_prob 0.2
 coldgaussian_weight_mutate 0
 recurrent_conn_prob 1
 number_of_innovations 0
