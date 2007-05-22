@@ -107,6 +107,7 @@ Network * Genome::genesis()
 //delete all pointer and allocate memory
 Genome::~Genome()
 {
+//   cerr << "deleing genome " << id << endl;
   //delete this genome`s network..
   for(unsigned int i=0;i<nodes->size();i++)
     delete nodes->at(i);

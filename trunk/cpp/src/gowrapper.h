@@ -57,7 +57,7 @@ namespace gw {
     int* heading;
     int ind;
     double domax;
-
+    double dotmp;
     //getSensoryinputvars
     vector<double> lrange;
     int legalmove;
@@ -159,6 +159,7 @@ namespace gw {
     void updateFromGnuGo();
     int bsize;
     bool dbg;
+    bool shoulda;
     int netmoves;
     void setResignAllowed(bool ires){gg::capture_all_dead = !ires; gg::resign_allowed=resignallowed=ires;}
     bool getResignAllowed(){return resignallowed;}
@@ -180,7 +181,7 @@ namespace gw {
       gg::gnugo_clear_board(bsize);
       fpass=spass=false;gwboard.clear(); 
       gwboard = state((int)pow(bsize,2)*2);
-      fcount=scount=moves=puts=passes=0;
+      fcount=scount=moves=movedputs=passes=0;
       resetPos();
       *fheading = 0; *sheading = 0;}
     void simplereset(){fpass=spass=false;gwboard.clear(); 
@@ -193,7 +194,8 @@ namespace gw {
       p->cleanNet();
     }
     void resetCount(){fcount=scount=0;}
-    void resetPos(){pos1[0] = pos1[1] = pos2[0] = pos2[1] = (bsize/2);
+    void resetPos(){ 
+      pos1[0] = pos1[1] = pos2[0] = pos2[1] = (bsize/2);
     }
     void mput(int i, int j, int color){gg::play_move(POS(i,j),color);}
     void quit(){}
@@ -225,7 +227,10 @@ namespace gw {
 
     //Stats...
     int moves;
-    int puts;
+    int movedputs;
+    int getPuts(){return movedputs;}
+    void setPuts(int i){movedputs = i;}
+    inline void incPuts(){movedputs++;}
     int passes;
   };
   class CachingGoWrapper : public GoWrapper 

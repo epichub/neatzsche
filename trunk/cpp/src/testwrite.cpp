@@ -65,10 +65,13 @@ int main(int argc,char *args[]){
     do{
       if(testp!=NULL)
 	delete testp;
-      genomeo = new Genome(1,29,5,1,1,set->getValue("spawn_recur_prob"),1,set,in,tfs);
+      genomeo = new Genome(1,29,5,1,1,set->getValue("spawn_recur_prob"),0.5,set,in,tfs);
       testp = new Phenotype(genomeo);
       r = fe->f(testp);
-      cerr << "r: " << r << " puts: " << gw->puts << " gwmoves: " << gw->getMoves() <<  endl;
+//       cerr << "showgame original: " << endl << fe->show(testp);
+      cerr << "r: " << r << " puts: " << gw->getPuts() << " gwmoves: " << gw->getMoves() <<  endl;
+//       if(gw->getMoves()==4)
+// 	exit(0);
 //       c++;
     }while(r<0.15);
 //   }while(c>3&&randnull);

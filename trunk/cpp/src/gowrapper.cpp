@@ -267,8 +267,28 @@ namespace gw{
   // e: put, f: pass, g: pause
   bool GoWrapper::doThis(bool first, vector<double> inp)
   {
+//     bool shoulda = false;
+//     if(inp.at(3) > 0.5 && inp.at(0) < 0.5 && inp.at(1) < 0.5 && inp.at(2) < 0.5 && inp.at(4) < 0.5){
+//       int i = getpos(first)[0];
+//       int j = getpos(first)[1];
+//       cerr << "board:\n" << getLocalBoardAscii() << endl;
+//       cerr << "moves: "<<moves<<" pos: " 
+// 	   << i << "," << j 
+// 	   << " board at pos ";
+//       if(gg::board[POS(i,j)] == gg::EMPTY) cerr << "empty";
+//       else if(gg::board[POS(i,j)] == gg::WHITE) cerr << "white";
+//       else cerr << "black";
+//       cerr << " legal: " << gg::is_legal(POS(i,j), first+1);
+//       int board_size = gg::board_size;
+//       cerr << " onboard: " << ON_BOARD2(i,j);
+//       cerr << " put vector" << printvector(inp) << endl;
+//       shoulda = true;
+//       cerr << "shoulda is now: " << shoulda << endl;
+// //       exit(0);
+//     }
     if(first){
       if(fcount>=thinksteps){
+// 	cerr << "fcount cache moves++" << endl;
 	moves++;
 	setPass(first);
 	return true;
@@ -277,6 +297,7 @@ namespace gw{
     }
     if(!first){
       if(scount>=thinksteps){
+//     cerr << "scount cache moves++" << endl;
 	moves++;
 	setPass(first);
 	return true;
@@ -314,19 +335,30 @@ namespace gw{
 
   
     if(!moving&&!turned){
+//       int dbind = false;
+      dotmp = domax;
+      ind = 5;
+//       if(shoulda)
+// 	dbind = true;
       for(int i=3;i<5;i++){
-	if(inp.at(i)>domax){
+// 	if(dbind)
+// 	  cerr << "inp at " << i << " : " << inp.at(i) << " domax: " << domax << endl;
+	if(inp.at(i)>dotmp){
 	  ind = i;
-	  domax = inp.at(i);
+	  dotmp = inp.at(i);
 	}
       }
+
+//       cerr << "ind er " << ind << endl;
+//       if(shoulda)
+// 	exit(0);
       if(ind==5){//default
 	return false;
       }
       if(ind==3){
 
 	if(put(first)){//regardless of illegal move?? heh
-	  puts++;
+	  incPuts();
 	  unsetPass(first);
 	  unsetCount(first);
 	}else{
@@ -455,6 +487,7 @@ namespace gw{
   }
   bool GoWrapper::put(bool first)
   {
+//     cerr << "int gw put " << endl;
     int * pos = getpos(first);
     int to_move = first+1;
 
@@ -464,8 +497,18 @@ namespace gw{
       gg::play_move(move, to_move);
     }else
       return false;
+//     cerr << "put moves++" << endl;
     moves++;
+//     int pre = countBlack(gwboard);
     updateFromGnuGo();
+//     int post = countBlack(gwboard);
+//     if(post == pre){
+//       cerr << "put didnt go through" << endl;
+//       exit(0);
+//     }else{
+//       cerr << "put did go through pre: " << pre << " post:" << post << endl;      
+//       exit(0);
+//     } 
     return true;
   }
   GoWrapper::GoWrapper(int bs, bool isp, double iovalue, 
@@ -751,6 +794,7 @@ namespace gw{
 	  state fcoord = convertToBits(i);
 	  state scoord = convertToBits(j);
 	  scs->add(oldboard,gwboard,fcoord,scoord,first); //add to cache
+// 	  cerr << "adding to cache i: " << i  << " j: " << j << endl;
 	}
       }
 #endif
@@ -787,6 +831,7 @@ namespace gw{
       gg::play_move(move, to_move);//play move
       gwboard = ss->getTo();//set the local repr to the cached move
     }
+//     cerr << "genmove cache moves++" << endl;
     moves++;
   }
 

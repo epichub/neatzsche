@@ -370,13 +370,23 @@ static inline void cleanupPopulation(Phenotypes * p)
 }
 static inline void setChamp(Phenotype *& oldchamp, Phenotype * challenger)
 {
-  if(oldchamp==NULL)
+  if((&oldchamp == &challenger) || (oldchamp!=NULL && (oldchamp->getID()==challenger->getID() && oldchamp->getFitness() && challenger->getFitness())))
+    return;
+//   else
+//     cerr << "not equal memory addr: " << &oldchamp << " and " << &challenger << endl;
+  if(oldchamp==NULL){
+//     cerr << "champn null challenger("<<challenger->getID()<<"): "<<challenger->getFitness()<<endl;
     oldchamp = challenger;
-  else if(oldchamp->getFitness()<challenger->getFitness()){
+  }else if(oldchamp->getFitness()<challenger->getFitness()){
+//     cerr << "deleing champ" << endl;
+//     cerr << "champ("<<oldchamp->getID()<<"):"<<oldchamp->getFitness()<<" challenger("<<challenger->getID()<<"): "<<challenger->getFitness()<<endl;
     delete oldchamp;
     oldchamp = challenger;
-  }else
+  }else{
+//     cerr << "deleing challenger" << endl;
+//     cerr << "champ("<<oldchamp->getID()<<"):"<<oldchamp->getFitness()<<" challenger("<<challenger->getID()<<"): "<<challenger->getFitness()<<endl;
     delete challenger;
+  }
     
 }
 //"topf avgf minf"
@@ -393,7 +403,7 @@ static inline void updateSmoothData(double ** d, Population *p, double avg, int 
   int gen = p ->getGeneration();
   d[gen][0] = (d[gen][0]+ph->at(0)->getFitness())/(double)runs;
   d[gen][1] = (d[gen][1]+avg)/(double)runs;
-  d[gen][0] = (d[gen][0]+ph->at(ph->size()-1)->getFitness())/(double)runs;
+  d[gen][2] = (d[gen][2]+ph->at(ph->size()-1)->getFitness())/(double)runs;
 }
 static inline void writeRunfile(bool ended, string basefile, string infoline, int pid)
 {

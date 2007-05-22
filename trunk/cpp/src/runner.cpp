@@ -67,6 +67,7 @@ void NEATRunner::runLoop()
   int osize=pop->getMembers()->size();
   bool localFE=false;
   vector<double> beststate;
+  generations++;
   if(nodes==0){
 //     cerr << "nodes is 0, setting up for local runs.." << endl;
     localFE=true;
@@ -149,13 +150,19 @@ void NEATRunner::runLoop()
 	//generation run is over lets go on to the next run..
 	countruns++;
 	//keep superchamp across runs..
-	setChamp(sbest,best);
+	Phenotype * tmp = best;
+	best = NULL;
+	setChamp(sbest,tmp);
 	//reset population...
-	oseed = pop->getOriginalSeed();
-	oelitism = pop->getOriginalInitialElitism();
-	delete pop;
-	pop = new Population(set,tfs);
-	pop->genesis(oseed,osize,oelitism);
+// 	oseed = pop->getOriginalSeed();
+// 	oelitism = pop->getOriginalInitialElitism();
+// 	delete pop;
+// 	pop = new Population(set,tfs);
+// 	pop->genesis(oseed,osize,oelitism);
+	if(pop->spawn)
+	  pop->resetSpawn();
+	else
+	  pop->resetGenesis();
       }
     }
   }
@@ -163,15 +170,16 @@ void NEATRunner::runLoop()
   ofstream ofs(sFinalGenomeFile.c_str());
   ofs << sbest->getGenome();
   ofs.close();
+  cerr << "final best fitness" << sbest->getFitness() << endl;
 //   cerr << "done writing finalgenome file " << endl;
 //   cerr << "writing smoothed final graph file generations: " << generations
 //        << "smoothdata size:" << sizeof(smoothdata)/sizeof(smoothdata[0]) << endl;
   ofstream finalgraphf(finalgraphfile.c_str());
-  for(int i=0;i<generations;i++)
+  for(int i=0;i<generations-1;i++)
     finalgraphf << smoothdata[i][0] << " " 
 		<< smoothdata[i][1] << " " 
 		<< smoothdata[i][2] << endl;
-//   cerr << "done writing smoothed final graph file " << endl;
+  cerr << "done writing smoothed final graph file to " << finalgraphfile << endl;
 //   cerr << "!!! total time divided by number of evals: " << (double)totaltime/((double)(generations*countruns*osize))<<endl ;
   //close graph files..
   finalgraphf.close();
