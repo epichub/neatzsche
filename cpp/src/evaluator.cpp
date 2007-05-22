@@ -95,6 +95,7 @@ double GoEvaluator::f(Phenotype * f)
 
   g->reset();
 //   cerr << "before game puts: " << g->getPuts() << endl;
+//   cerr << "f: " << f << endl;
   if(st==0||(st==1&&f!=NULL))
     f->cleanNet();
   if(st==1&&last!=NULL)

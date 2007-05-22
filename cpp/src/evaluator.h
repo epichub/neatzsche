@@ -33,6 +33,8 @@ using namespace std;
 static vector<double> sensecomp;
 
 class FitnessEvaluator {
+protected:
+  int st;//0 = singleplayer, 1 = co-evolution
 public:
   FitnessEvaluator(){};
   virtual double f(Phenotype * f){return 0;}
@@ -41,13 +43,15 @@ public:
   virtual void nexGen(){}; //generational tickers for the evaluators that need this.
   virtual void interact(Phenotype * p){};
   virtual string show(Phenotype * p){return "";};
+  virtual void setStatus(int ist){st=ist;}
+  virtual int getStatus(){return st;}
 };
 
 class GoEvaluator : public FitnessEvaluator{
 protected:
   gw::GoWrapper *g;
   double r;
-  int st;//0 = singleplayer, 1 = co-evolution
+
   int pg;
   int gen;
   double fmax;
@@ -83,7 +87,7 @@ public:
   virtual ~GoEvaluator(){delete g;delete s; delete[] players;};
   virtual double f(Phenotype * f);
   virtual double debugeval(Phenotype * f);
-  void setStatus(int ist){st=ist;}
+
   virtual void nextGen();
   virtual string show(Phenotype * f);
   gw::GoWrapper * getGoWrapper(){return g;}

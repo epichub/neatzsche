@@ -57,37 +57,45 @@ void Halloffame::update(Population * p)
       
 }
 
-void Halloffame::evaluate(Phenotypes * p)
+double Halloffame::evaluate(Phenotype * p)
 {
   // Phenotypes * members = p->getMembers();
   
   double sum=0;
   Phenotype * first = NULL; Phenotype * second = NULL;
   //  cout<<"in hof eval psize: " << p->size() << " permsize: " << perm->size() << " fepointeraddr: " << fe << endl;
-  for(unsigned int i=0;i<p->size();i++){
-    sum = 0;
-    for(unsigned int i3=0;i3<perm->size();i3++){
-	fe->f(p->at(i));
-	fe->f(perm->at(i3));
-    }
-    for(int i2=0;i2<n;i2++){
-
-      if(randdouble()<0.5){
-	first = halloffame->at(i2); second = p->at(i);
-      } else {
-	second = halloffame->at(i2); first = p->at(i);
-      }
-      fe->f(first);fe->f(second);
-      sum += p->at(i)->getFitness();
-    }
-    if(sum<=0){
-      sum = 0.0001;
-    }
-    p->at(i)->setFitness(sum/(double)(n+perm->size()));
-    p->at(i)->transferFitness();
+//   for(unsigned int i=0;i<p->size();i++){
+  sum = 0;
+  fe->setStatus(1);
+//   cerr << "fe status: " << fe->getStatus() << endl;
+  for(unsigned int i3=0;i3<perm->size();i3++){
+//     cerr << "perm er:" << perm->at(i3)<<endl;
+    fe->f(p);
+    fe->f(perm->at(i3));
   }
+  for(int i2=0;i2<n;i2++){
+    
+    if(randdouble()<0.5){
+      first = halloffame->at(i2); second = p;
+    } else {
+      second = halloffame->at(i2); first = p;
+      }
+//     cerr << "p: "<<p->getID()
+// 	 <<" first: " << first->getID() 
+// 	 << " second: " << second->getID() << endl;
+    fe->f(first);fe->f(second);
+    sum += p->getFitness();
+//     cerr << "p f: " << p->getFitness() << endl;
+  }
+  if(sum<=0){
+    sum = 0.0001;
+  }
+  sum /= (double)(n+perm->size());
+  p->setFitness(sum);
+  return sum;
+//   }
 
-
+  fe->setStatus(0);
 }
 
 void Halloffame::print(ostream& os) const //, const Halloffame * h)
