@@ -83,6 +83,7 @@ class Plotter
 
     @file = ""
     @plotfile = @neatrun.graphfile() + ".png"
+    @plotbestfile = @neatrun.graphfile() + "-best.png"
     puts "plotfile: \"" + @plotfile + "\""
     @rdir = @dir + @neatrun.base()[7..@neatrun.base().size]
     @rplotfile = @plotfile[7..@plotfile.size]
@@ -99,19 +100,24 @@ class Plotter
     end
     @basebase = @hostname + @neatrun.base()[8..@neatrun.base().size]
     @gsftp.mkdir(@basebase)
-    @gsftp.putfile(@settingsfile, @basebase + "/" + @settingsfile[8..@settingsfile.size]) #upload plot
+    @gsftp.putfile(@settingsfile, @basebase + "/settings") #upload plot
   end
 
   def myloop(loop)
     begin
       if File.exist?(@graphfile) && File.size(@graphfile) > 0
         system("./plot.sh " + @graphfile) #update plot
-        @gsftp.putfile(@plotfile, @basebase + "/" + @plotfile[8..@plotfile.size]) #upload plot
+        @gsftp.putfile(@plotfile, @basebase + "/bam.png") #upload plot
+        FileUtils.rm @plotfile #delete file 
+      end
+      if File.exist?(@graphfile) && File.size(@graphfile) > 0
+        system("./plotbest.sh " + @graphfile) #update plot
+        @gsftp.putfile(@plotbestfile, @basebase + "/best.png") #upload plot
         FileUtils.rm @plotfile #delete file 
       end
       if File.exist?(@curgenomefile)
         system("./show 0 " + @curgenomefile + " 0 > tmpshow")
-        @gsftp.putfile(@curgenomefile, @basebase + "/" + @curgenomefile[8..@curgenomefile.size]) #upload curgenome      
+        @gsftp.putfile(@curgenomefile, @basebase + "/curegenome") #upload curgenome      
         @gsftp.putfile('tmpshow', @basebase + "/" + 'show') #upload show
         FileUtils.rm 'tmpshow' #delete filen
       end
