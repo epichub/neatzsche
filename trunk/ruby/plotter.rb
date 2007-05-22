@@ -113,7 +113,7 @@ class Plotter
       if File.exist?(@graphfile) && File.size(@graphfile) > 0
         system("./plotbest.sh " + @graphfile) #update plot
         @gsftp.putfile(@plotbestfile, @basebase + "/best.png") #upload plot
-        FileUtils.rm @plotfile #delete file 
+        FileUtils.rm @plotbestfile #delete file 
       end
       if File.exist?(@curgenomefile)
         system("./show 0 " + @curgenomefile + " 0 > tmpshow")
