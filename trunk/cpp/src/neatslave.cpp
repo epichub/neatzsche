@@ -79,7 +79,7 @@ int main(int argc,char *args[]){
 
     //evaluate and set the fitness..
     if(coevo)
-      c->evaluate(p);
+      c->evaluate(p,p->size());
     else
       e->evaluate(p,p->size());
 

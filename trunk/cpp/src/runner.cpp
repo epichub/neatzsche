@@ -62,12 +62,13 @@ void NEATRunner::runLoop()
   
   //  cerr << "humhum2" << endl;
   int countruns=0;
-  int oelitism=0;
-  Genome * oseed=NULL;
-  int osize=pop->getMembers()->size();
+//   int oelitism=0;
+//   Genome * oseed=NULL;
+//   int osize=pop->getMembers()->size();
   bool localFE=false;
   vector<double> beststate;
   generations++;
+  Evaluator * bak = NULL;
   if(nodes==0){
 //     cerr << "nodes is 0, setting up for local runs.." << endl;
     localFE=true;
@@ -76,11 +77,14 @@ void NEATRunner::runLoop()
   writeRunfile(false,basefile,infoline,pid);
   pop->fe = icb->fe;
   while(!stop){
-
+    if(pop->getGeneration() == coevo->getStartGeneration()){
+      bak = ev;
+      ev = coevo;
+    }
     startt = time(0);
-    if(localFE)
+    if(localFE){
       ev->evaluate(pop->getMembers(),pop->getMembers()->size());
-    else{
+    }else{
       outputPopulation(pop,nodes,coevo,mc,pipeio); //stream the population out to nodes for evaluation	
       ev->evaluate(pop->getMembers(),mc);//sweet..
       readFitness(pop,mc); //read the corresponding returned fitness values

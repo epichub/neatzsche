@@ -24,7 +24,7 @@
 #include "evolution.h"
 #include "evaluator.h"
 
-class Coevolution {
+class Coevolution : public Evaluator {
 protected:
   int games;
   FitnessEvaluator * fe;
@@ -32,10 +32,18 @@ protected:
   virtual void print(ostream& o) const {};
   virtual void read(istream& i ) const {};
 public:
-  Coevolution(int igames){games=igames;}
+  Coevolution(int igames) : Evaluator(NULL) {games=igames;}
   virtual ~Coevolution(){};
   virtual void update(Population * p){};
-  virtual void evaluate(Phenotypes * p){};
+  virtual double evaluate(Phenotype * p){p->setFitness(0); return 0;}
+  virtual Phenotypes * evaluate(Phenotypes * ps, unsigned int m)
+  {
+    for(unsigned int i=0;i<ps->size() && i<m;i++){
+      evaluate(ps->at(i));
+      ps->at(i)->transferFitness();
+    }
+    return ps;
+  }
   friend ostream& operator<< (ostream& os, const Coevolution * c){c->print(os); return os;};
   friend istream& operator>> (istream& is, Coevolution  * c){c->read(is); return is;};
   virtual int size(){return 0;};
@@ -70,7 +78,8 @@ public:
   Halloffame(int num, int igames, int isg, FitnessEvaluator * ife) : Coevolution(igames) {halloffame = new Phenotypes(); n = num;first=true; perm = new Phenotypes(); sg = isg; fe = ife;}
   ~Halloffame(){delete halloffame;}
   virtual void update(Population * p);
-  virtual void evaluate(Phenotypes * p);
+  virtual double evaluate(Phenotype * p);
+//   virtual void evaluate(Phenotypes * p);
   virtual int size(){return halloffame->size();};
   void addPermantent(Phenotype * permphenotype){perm->push_back(permphenotype);}
   virtual int getStartGeneration(){return sg;}
@@ -87,7 +96,7 @@ public:
   Pareto(int num, int igames) : Coevolution(igames) {halloffame = new Phenotypes(); n = num;}
   ~Pareto(){delete halloffame;}
   virtual void update(Population * p){};
-  virtual void evaluate(Phenotypes * p){};
+  virtual double evaluate(Phenotype * p){p->setFitness(0); return 0;}
   virtual int size(){return halloffame->size();};
   virtual int getStartGeneration(){return 0;}
 };
