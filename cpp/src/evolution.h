@@ -194,16 +194,19 @@ private:
     if(ocomp==-1)
       ocomp = set->getValue("compat_threshold");
     compmod = ocomp/10.0;
-    fe = NULL;
   }
 public:
   Population(NEATsettings * iset, TransferFunctions * itfs)
-  {ocomp=-1;set = iset; resetVars();
+  {
+    fe = NULL; 
+    ocomp=-1;set = iset;
+    resetVars();
     setvars();
     tfs = itfs;
   }
   Population(NEATsettings * iset,double iocomp, TransferFunctions * itfs)
   {
+    fe = NULL; 
     set = iset; resetVars();
     ocomp=iocomp;
     setvars();
@@ -255,6 +258,7 @@ public:
   TransferFunction * gtfunc;
   TransferFunction * parfunc;
   TransferFunction * tafunc;
+  bool spawn;
 };
 static inline Genome * mutate(Genome * g, NEATsettings * set, int & cnodeid){
   if(randdouble()<set->getValue("mutate_add_node_prob")){

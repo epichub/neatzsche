@@ -91,9 +91,9 @@ public:
   void nullCounters(){avgMoves = avgPuts = avgPasses = 0;}
   void updateStats(){
     turns++;
-    avgMoves += g->moves;  avgPuts += g->puts; avgPasses += g->passes;
+    avgMoves += g->moves;  avgPuts += g->getPuts(); avgPasses += g->passes;
     if(g->moves>mMoves) mMoves = g->moves;
-    if(g->puts>mPuts) mPuts = g->puts;
+    if(g->getPuts()>mPuts) mPuts = g->getPuts();
     if(g->passes>mPasses) mPasses = g->passes;
   }
   string getStats(){

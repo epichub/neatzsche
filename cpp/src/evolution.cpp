@@ -283,8 +283,8 @@ void Population::postepoch()
 }
 void Population::populationCleanup()
 {
-  setvars();
-  resetVars();
+//   setvars();
+//   resetVars();
   deletespecies();
   for(unsigned int i=0;i<members->size();i++)
     delete members->at(i);
@@ -498,6 +498,7 @@ void Population::resetGenesis()
 }
 void Population::genesis(Genome * g, int isize, int initialelitism)
 {
+  spawn = false;
   size = isize;
   if(spectarget!=0)
     spectarget = size/spectarget; //calc the number of species to aim
@@ -531,11 +532,13 @@ void Population::genesis(Genome * g, int isize, int initialelitism)
 void Population::resetSpawn(){
   int tsize = members->size();
   populationCleanup();
+  resetVars();
   randomSpawn(tsize,inodes,onodes,hnodes,hnodes,lprob,rprob);
 }
 void Population::randomSpawn(int pops, int i, int o, int n,int nmax, double linkprob, 
 			     double r)
 {
+  spawn = true;
   inodes = i; onodes = o; hnodes = n; lprob = linkprob; rprob = r;
   originalseed = NULL;
   size = pops;

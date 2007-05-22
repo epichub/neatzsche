@@ -94,7 +94,7 @@ double GoEvaluator::f(Phenotype * f)
   }
 
   g->reset();
-
+//   cerr << "before game puts: " << g->getPuts() << endl;
   if(st==0||(st==1&&f!=NULL))
     f->cleanNet();
   if(st==1&&last!=NULL)
@@ -110,10 +110,13 @@ double GoEvaluator::f(Phenotype * f)
   c = players[0];
   count=0; first = true;
   sense = g->getSensoryInput(first);
-
+//    int tmpputs=0;
   while(!g->done()){
+//     tmpputs = g->getPuts();
     if(c){
       while(!g->doThis(first,c->react(sense))){
+// 	if(g->shoulda&&tmpputs==g->getPuts())//should have put but didnt
+// 	  exit(0);
 	sense = g->getSensoryInput(first);
       }
       g->resetRound(c);
@@ -135,7 +138,7 @@ double GoEvaluator::f(Phenotype * f)
   ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
   stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
 
-  if(g->puts==0)
+  if(g->getPuts()==0)
     ftmp -= 0.1;
 
   if(ftmp < fmin)
@@ -294,14 +297,14 @@ double EasyGoEvaluator::f(Phenotype * f)
     f->setFitness(1.0+s);
     return 1.0+s;
   }if(m==2){
-     f->setFitness(1.0+(double)g->straightLineFitness());
-     return (1.0+(double)g->straightLineFitness());
+    f->setFitness(1.0+(double)g->straightLineFitness());
+    return (1.0+(double)g->straightLineFitness());
   }else if(m==1){
-     f->setFitness(1.0+g->puts);
-     return (1.0+g->puts);
+    f->setFitness(1.0+g->getPuts());
+    return (1.0+g->getPuts());
   }else if(m==3){
-     f->setFitness(1.0+g->crockedLineFitness());
-     return (1.0+g->crockedLineFitness());
+    f->setFitness(1.0+g->crockedLineFitness());
+    return (1.0+g->crockedLineFitness());
   }else{
     f->setFitness(1.0);
     return 1.0;
@@ -402,7 +405,7 @@ string GoEvaluator::show(Phenotype * f)
   ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
   stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
 
-  if(g->puts==0)
+  if(g->getPuts()==0)
     ftmp -= 0.1;
 
   if(ftmp < fmin)
