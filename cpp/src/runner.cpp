@@ -85,11 +85,8 @@ void NEATRunner::runLoop()
     if(localFE){
       ev->evaluate(pop->getMembers(),pop->getMembers()->size());
     }else{
-      cerr << "outputting pop" << endl;
       outputPopulation(pop,nodes,coevo,mc,pipeio); //stream the population out to nodes for evaluation	
-      cerr << "evaling pop" << endl;
       ev->evaluate(pop->getMembers(),mc);//sweet..
-      cerr << "reading pop" << endl;
       readFitness(pop,mc); //read the corresponding returned fitness values
     }
 
