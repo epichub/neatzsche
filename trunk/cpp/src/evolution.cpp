@@ -344,7 +344,7 @@ void Species::reproduce()
 	 << "  new fitness: " << p->fe->f(newgeneration->at(0)) << endl;
     double testfn = p->fe->f(members->at(0));
     if(testfn<members->at(0)->getOrigFitness()){
-      cerr << "testfn var: " << testfn << " exiting.. " << endl:
+      cerr << "testfn var: " << testfn << " exiting.. " << endl;
       exit(1);
     }
     members->at(0)->decClones();
