@@ -346,7 +346,7 @@ void Species::reproduce()
     if(testfn!=members->at(0)->getOrigFitness()){
       cerr << "testfn var: " << testfn << " exiting.. " << endl;
       cerr << "test var: ";
-      cerr << (testfn!=members->at(0)->getOrigFitness()) ? "true" : "false" << endl;
+      cerr << (testfn!=members->at(0)->getOrigFitness()) << endl;
       exit(1);
     }
     members->at(0)->decClones();
