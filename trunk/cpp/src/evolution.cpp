@@ -342,6 +342,8 @@ void Species::reproduce()
 	 <<  " testf: " << p->fe->f(members->at(0))
 	 <<  " testf: " << p->fe->f(members->at(0))
 	 << "  new fitness: " << p->fe->f(newgeneration->at(0)) << endl;
+    if(p->fe->f(members->at(0))<members->at(0)->getOrigFitness())
+      exit(1);
     members->at(0)->decClones();
   }
 
