@@ -867,15 +867,13 @@ istream& operator>> (istream& is, Genome *g)
   is >> s;
   int c=-1;
   string ls;
-  //if(g->debug)
-  cerr << "in genome >> operator s:\"" << s << "\""<< " id: "<< g->id << endl;
+
   
   while(s.find("node")!=string::npos){
     NeuralNode * n = new NeuralNode(g->tfs);
     is >> n;
     if(n->getDepth()==0)
       c++;
-    cerr << "pusing back node id: " << n->getID() << endl;
     g->nodes->push_back(n);
     ls = s;
     is >> s;
