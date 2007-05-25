@@ -261,5 +261,8 @@ inline string printvector(vector< int > v, int rl)
   ss << " >"<<endl;
   return ss.str();
 }
-
+static inline bool myequal(double x, double y){
+  static double epsilon = 0.00001;
+  return (fabs(x - y) < epsilon * x);
+}
 #endif //_NEURALMATH_H_
