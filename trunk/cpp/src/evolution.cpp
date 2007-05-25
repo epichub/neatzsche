@@ -343,8 +343,7 @@ void Species::reproduce()
 	 <<  " testf: " << p->fe->f(members->at(0))
 	 << "  new fitness: " << p->fe->f(newgeneration->at(0)) << endl;
     double testfn = p->fe->f(members->at(0));
-    if(myequal(testfn,members->at(0)->getOrigFitness())){
-      
+    if(!myequal(testfn,members->at(0)->getOrigFitness())){
       cerr.precision(99);
       cerr << "of var: "<< members->at(0)->getOrigFitness()
 	   <<" testfn var: " << testfn << " exiting.. " << endl;
