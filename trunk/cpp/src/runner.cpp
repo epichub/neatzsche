@@ -77,7 +77,7 @@ void NEATRunner::runLoop()
   writeRunfile(false,basefile,infoline,pid);
   pop->fe = icb->fe;
   while(!stop){
-    if(pop->getGeneration() == coevo->getStartGeneration()){
+    if(coevo != NULL && pop->getGeneration() == coevo->getStartGeneration()){
       bak = ev;
       ev = coevo;
     }
@@ -121,8 +121,9 @@ void NEATRunner::runLoop()
 
     //updating smoothed graph data..
     updateSmoothData(smoothdata,pop,avgf,countruns+1);
-
-    coevo->update(pop); // update the coevolution data..
+    cerr << "coevo er: "<< coevo << endl;
+    if(coevo!=NULL)
+      coevo->update(pop); // update the coevolution data..
 
     tmpt = (time(0)-startt);
     totaltime += tmpt;
