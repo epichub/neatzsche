@@ -121,7 +121,7 @@ void NEATRunner::runLoop()
 
     //updating smoothed graph data..
     updateSmoothData(smoothdata,pop,avgf,countruns+1);
-    cerr << "coevo er: "<< coevo << endl;
+//     cerr << "coevo er: "<< coevo << endl;
     if(coevo!=NULL)
       coevo->update(pop); // update the coevolution data..
 
