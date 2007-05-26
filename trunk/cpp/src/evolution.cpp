@@ -336,19 +336,30 @@ void Species::reproduce()
   if(members->at(0)->getClones()==1){
 
     newgeneration->push_back(new Phenotype(members->at(0)->getGenome()->duplicate(p->getAndIncID())));
+    vector<double> ngs = newgeneration->at(0)->getState();
+    vector<double> ogs = members->at(0)->getState();
+    double otestfn = p->fe->f(members->at(0));
+    double ntestfn = p->fe->f(newgeneration->at(0));    
+    vector<double> ngs2 = newgeneration->at(0)->getState();
+    vector<double> ogs2 = members->at(0)->getState();
     cerr << "cloning bestmember: " << members->at(0)->getID() << " new id: " << newgeneration->at(0)->getID() 
 	 << " compare: " << members->at(0)->getGenome()->compare(newgeneration->at(0)->getGenome())
 	 << " of: " << members->at(0)->getOrigFitness() 
-	 <<  " testf: " << p->fe->f(members->at(0))
-	 <<  " testf: " << p->fe->f(members->at(0))
-	 << "  new fitness: " << p->fe->f(newgeneration->at(0)) << endl;
-    double testfn = p->fe->f(members->at(0));
-    if(!myequal(testfn,members->at(0)->getOrigFitness())){
+	 << " testf: " << otestfn
+	 << " new fitness: " << ntestfn
+	 << " checkvector1: " << checkvector(ngs,ogs,false)
+	 << " sumvector1o: " << sumvector(ogs)
+	 << " sumvector1n: " << sumvector(ngs)
+	 << " checkvector2: " << checkvector(ngs2,ogs2,false)
+	 << " sumvector1o: " << sumvector(ogs)
+	 << " sumvector1n: " << sumvector(ngs)<< endl;
+
+    if(!myequal(otestfn,ntestfn)){
       cerr.precision(99);
       cerr << "of var: "<< members->at(0)->getOrigFitness()
-	   <<" testfn var: " << testfn << " exiting.. " << endl;
+	   <<" testfn var: " << otestfn << " exiting.. " << endl;
       cerr << "test var: ";
-      cerr << (testfn!=members->at(0)->getOrigFitness()) << endl;
+      cerr << (otestfn!=members->at(0)->getOrigFitness()) << endl;
       exit(1);
     }
     members->at(0)->decClones();
