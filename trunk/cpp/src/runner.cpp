@@ -49,9 +49,12 @@ void Interruptcallback::operator()(int sig){
 }
 static inline void GoTest(Phenotype * p, FitnessEvaluator * fe)
 {
-  if(p->getOrigFitness()<0.5)
+  cerr << "in gotest" << endl;
+  if(p->getFitness()<0.5){
+    cerr << "p's orignfitness to low: " << p->getFitness() << endl;
     return;
-  cerr << "found phenotype with over 0.5 fitness: " << p->getOrigFitness() 
+  }
+  cerr << "found phenotype with over 0.5 fitness: " << p->getFitness() 
        << " testing.. "<< endl;
   for(int i=0;i<20;i++){
     cerr << fe->f(p) << endl;
