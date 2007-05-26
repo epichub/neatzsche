@@ -29,7 +29,7 @@
     <path id="generation" stroke-width="1" stroke="black" fill="none" 
           d="M 40 340 L 540 340" />
     <text fill="blue" font-size="12" font-family="Verdana">
-    <textPath dy="30" startOffset="25%" xlink:href="#generation">Generation</textPath>
+    <textPath dy="30" startOffset="25%">Generation</textPath>
     </text>
 
     <path stroke-width="1" stroke="black" fill="none" 

@@ -251,6 +251,9 @@ public:
   Genome * getOriginalSeed(){return originalseed;}
   int getOriginalInitialElitism(){return originalinitialelitism;}
   double calcAvgFitness();
+  double calcAvgComplexity();
+  double minComplexity();
+  double maxComplexity();
   double getOcomp(){return ocomp;}
   void resetSpawn();
   TransferFunction * sotfunc;

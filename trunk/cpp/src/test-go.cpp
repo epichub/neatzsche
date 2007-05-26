@@ -87,6 +87,7 @@ int main(int argc,char *args[]){
   string sCurrentXMLGenomeFile = ssCurrentFile.str() + "-cur.xmlgenome";
   string sFinalGenomeFile = ssCurrentFile.str() + "-final.genome";
   string finalgraphfile = ssCurrentFile.str() + "-final.graph";
+  string specgraphfile = ssCurrentFile.str() + "-spec.xmlgraph";
 
   icb->fe = fe;
 
@@ -103,6 +104,7 @@ int main(int argc,char *args[]){
   run->signalhandler = signalhandler;
   run->basefile = ssCurrentFile.str();
   run->pid = getpid();
+  run->sgf = specgraphfile;
   icb->run = run;
 
   addToAllSignals(signalhandler);

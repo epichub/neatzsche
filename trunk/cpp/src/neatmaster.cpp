@@ -120,6 +120,7 @@ int main(int argc,char *args[]){
   string sCurrentXMLGenomeFile = ssCurrentFile.str() + "-cur.xmlgenome";
   string sFinalGenomeFile = ssCurrentFile.str() + "-final.genome";
   string finalgraphfile = ssCurrentFile.str() + "-final.graph";
+  string specgraphfile = ssCurrentFile.str() + "-spec.xmlgraph";
 
   //making a copy of settings
   ofstream sfile(sSettingsFile.c_str());
@@ -147,7 +148,9 @@ int main(int argc,char *args[]){
   run->pipeio = !pipeio;
   run->basefile = ssCurrentFile.str();
   run->pid = pid;
+  run->sgf = specgraphfile;
   icb->run = run;
+
   //make the infoline..
   stringstream iss;
   for(int i=0;i<argc;i++)
