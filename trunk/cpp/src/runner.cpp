@@ -112,11 +112,10 @@ void NEATRunner::runLoop()
 
     //keeping a copy of generation champ:
     gbest = pop->getCopyOfCurrentBest();
-    setChamp(best,gbest);
-
+    setChamp(best,gbest); 
+    GoTest(best,icb->fe);   
     ofstream ofs(sCurrentGenomeFile.c_str());
     ofs << best->getGenome();
-
     ofs.close();
 
 //     if(pop->getGeneration()%2==0){
