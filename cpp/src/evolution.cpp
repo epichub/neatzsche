@@ -271,7 +271,7 @@ void Population::postepoch()
       foundbest = true;
 
   if(!foundbest)
-    cerr << "best species(" << bestspecnum << ")"<< " died.." << endl;
+    cerr << "best species(" << bestspecnum << ")"<< " died.." << " spec size: " << species->size() << endl;
   if(debug)
     cerr << "curgen:"<<curgen<<" members size: " << members->size() << " species size : " << species->size() << endl;
   curgen++;
