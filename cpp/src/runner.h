@@ -47,11 +47,13 @@ class NEATRunner{
 private:
   double ** smoothdata;
   bool stop;
+  SpecGraph * sg;
 public:
   NEATRunner(int igens, int iiter)
   {smoothdata = new double * [igens]; 
    for(int i=0;i<igens;i++) smoothdata[i] = new double[3];
-   generations=igens; runs=iiter;stop=false;currentgraphf=NULL;sbest=NULL; best=NULL; gbest=NULL;}
+   generations=igens; runs=iiter;stop=false;
+   currentgraphf=NULL;sbest=NULL; best=NULL; gbest=NULL; sgf = "defaultspecgraphfile.xmlgraph";}
   ofstream * currentgraphf;
   Population * pop;
   Selector * sel;
@@ -79,6 +81,7 @@ public:
   NEATsettings * set;
   TransferFunctions * tfs;
   Evaluator * ev;
+  string sgf;
   void (*signalhandler)(int sig);
   void runLoop();
 };

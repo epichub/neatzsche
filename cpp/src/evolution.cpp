@@ -719,3 +719,26 @@ double Population::calcAvgFitness()
     sum += species->at(i)->getAvgFitness();
   return sum/(double)species->size();
 }
+double Population::calcAvgComplexity()
+{
+  double sum=0;
+  for(unsigned int i=0;i < members->size(); i++)
+    sum += members->at(i)->getGenome()->getGenes()->size();
+  return sum/(double)members->size();
+}
+double Population::minComplexity()
+{
+  double min=RAND_MAX;
+  for(unsigned int i=0;i < members->size(); i++)
+    if(min>members->at(i)->getGenome()->getGenes()->size())
+      min = members->at(i)->getGenome()->getGenes()->size();
+  return min;
+}
+double Population::maxComplexity()
+{
+  double max=0;
+  for(unsigned int i=0;i < members->size(); i++)
+    if(max<members->at(i)->getGenome()->getGenes()->size())
+      max = members->at(i)->getGenome()->getGenes()->size();
+  return max;
+}

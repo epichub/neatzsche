@@ -76,6 +76,7 @@ void NEATRunner::runLoop()
 //     cerr << "running cluster code.." << endl;
   writeRunfile(false,basefile,infoline,pid);
   pop->fe = icb->fe;
+  sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgf);
   while(!stop){
     if(coevo != NULL && pop->getGeneration() == coevo->getStartGeneration()){
       bak = ev;
@@ -113,7 +114,7 @@ void NEATRunner::runLoop()
 //     }
     icb->best = best;
     writenetwork(best,sCurrentXMLGenomeFile);
-
+    sg->update(pop);
 
     //writing stats to file
     *currentgraphf << getStatString(pop,avgf);
@@ -175,7 +176,7 @@ void NEATRunner::runLoop()
       }
     }
   }
-
+  sg->writetofile();
   ofstream ofs(sFinalGenomeFile.c_str());
   ofs << sbest->getGenome();
   ofs.close();
