@@ -47,7 +47,17 @@ void Interruptcallback::operator()(int sig){
 //   else
 //     run->runLoop();
 }
+static inline void GoTest(Phenotype * p, FitnessEvaluator * fe)
+{
+  if(p->getOrigFitness()<0.5)
+    return;
+  cerr << "found phenotype with over 0.5 fitness: " << p->getOrigFitness() 
+       << " testing.. "<< endl;
+  for(int i=0;i<20;i++){
+    cerr << fe->f(p) << endl;
+  }
 
+}
 void NEATRunner::runLoop()
 {
   //setting up signal handlers
