@@ -3,8 +3,8 @@ excess_coeff 1.5
 mutdiff_coeff 2.0
 weightmutation_rate 1.0
 severe_mutation_prob 0.1
-compat_threshold 65.0
-dropoff_age 200
+compat_threshold 8.0
+dropoff_age 130
 age_significance 1.0
 survival_thresh 0.2
 species_target_size 20
@@ -14,7 +14,7 @@ mutate_link_weights_prob 0.8
 mutate_link_weights_power 1.5
 mutate_toggle_enable_prob 0.0
 mutate_gene_reenable_prob 0.05
-mutate_add_node_prob 0.006
+mutate_add_node_prob 0.005
 mutate_add_link_prob 0.1
 interspecies_mate_rate 0.015
 mate_multipoint_prob 0.6
