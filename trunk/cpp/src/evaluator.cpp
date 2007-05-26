@@ -162,7 +162,8 @@ double GoEvaluator::f(Phenotype * f)
   if(ftmp>0.5){
     cerr << "fitness over 0.5: " << ftmp << endl;
     cerr << "board:\n " << g->getLocalBoardAscii();
-  }
+  }else
+    cerr << ftmp << " ";
   return ftmp;
 }
 double GoEvaluator::debugeval(Phenotype * f)
