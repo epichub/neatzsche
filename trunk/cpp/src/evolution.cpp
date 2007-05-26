@@ -212,7 +212,7 @@ Phenotype * Species::findCenter(Phenotype * ofirst)
   Phenotype * newFirst = NULL;
   double comp = RAND_MAX;
   for(unsigned int i=0;i<members->size();i++){
-    if(comp>ofirst->getGenome()->comparemembers->at(i)->getGenome())){
+    if(comp>ofirst->getGenome()->compare(members->at(i)->getGenome())){
       comp = ofirst->getGenome()->compare(members->at(i)->getGenome());
       newFirst = members->at(i);
     }
