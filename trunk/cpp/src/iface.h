@@ -279,6 +279,7 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
 {
   unsigned int s = p->getMembers()->size();
   unsigned int n = (s-i)/nodes;
+  bool uneven = (floor(s/(double)n)!=s/(double)n);
   if(pipeio)
     cout << "POPULATION\n";
   //  cerr << "outputting " << n << " genomes to each node.\n";
@@ -303,7 +304,10 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
   while(i < s) {
     cout << "NODES" << endl;
     cout << c;
+//not yet:     cout << p->getGeneration();
 //     cout.flush();
+    if(uneven && (s-i)<(2*n))
+      n = (s-i);
     for(size_t i2 = 0; i2 < n && i < s; i2++, i++) {
       //the endline at the end here is to make the >> operator of
       //genome stop for each genome, the genome tag is for the nodes
@@ -320,7 +324,7 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
   if(pipeio)
     cout << "POPULATION\n" ;
 }
-static inline void readPopulation(Phenotypes * p, Coevolution * c, TransferFunctions * tfs)
+static inline void readPopulation(Phenotypes * p, Coevolution * c, TransferFunctions * tfs, int & gencount)
 {
   string s;
   cin >> s;
