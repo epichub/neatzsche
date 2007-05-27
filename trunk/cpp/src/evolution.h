@@ -62,7 +62,7 @@ public:
   vector< double > react(vector<double> inp){return net->runnet(inp);}
   double getFitness(){return f;}
   void setFitness(double fi){
-    if(fi>0.5) cerr << "setfitness f over 0.5 if: " << fi << endl;
+    if(fi>0.5) cerr << "<sfs> id: " << getID() << " setfitness f over 0.5 if: " << fi << " </sfs>" << endl <<flush;
     f = fi;}
   void augmentFitness(double c){f *= c;
     if(f>0.5) cerr << "setfitness f over 0.5 c: " << c  << endl;}
