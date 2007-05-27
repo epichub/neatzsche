@@ -279,7 +279,7 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
 {
   unsigned int s = p->getMembers()->size();
   unsigned int n = (s-i)/nodes;
-  bool uneven = (floor(s/(double)n)!=s/(double)n);
+//   bool uneven = (floor(s/(double)n)!=s/(double)n);
   if(pipeio)
     cout << "POPULATION\n";
   //  cerr << "outputting " << n << " genomes to each node.\n";
@@ -304,10 +304,10 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
   while(i < s) {
     cout << "NODES" << endl;
     cout << c;
-//not yet:     cout << p->getGeneration();
+    cout << p->getGeneration() << endl;
 //     cout.flush();
-    if(uneven && (s-i)<(2*n))
-      n = (s-i);
+//     if(uneven && (s-i)<(2*n))
+//       n = (s-i);
     for(size_t i2 = 0; i2 < n && i < s; i2++, i++) {
       //the endline at the end here is to make the >> operator of
       //genome stop for each genome, the genome tag is for the nodes
@@ -334,6 +334,12 @@ static inline void readPopulation(Phenotypes * p, Coevolution * c, TransferFunct
   //  cerr << "s before coevo in:" << s << endl;
   cin >> c; // read in the coevo stuff..
   cin >> s;
+
+  cin >> s;
+  gencount = atoi(s.c_str());
+  cerr << "read in gencount: " << gencount << endl;
+  cin >> s;
+
   //  cerr << "s after coevo in:" << s << endl;
   int c2 = 0;
   while(s.find("NODESTOP")==string::npos&&s.find("genome")!=string::npos){
