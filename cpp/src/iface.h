@@ -310,7 +310,7 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
 //     cout.flush();
     if(uneven && (s-i)<(2*n)){
       cerr << "uneven er true og (s-i): " << (s-i) << " er mindre en 2*n" << (2*n) << endl;
-      cerr << "i: " << i << " i2: " << i2 << " n: " << n << endl;
+      cerr << "i: " << i << " n: " << n << endl;
       n = (s-i);
       exit(0);
     }
