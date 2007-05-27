@@ -281,7 +281,7 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
   unsigned int n = (s-i)/nodes;
   bool uneven = (floor((s-i)/(double)n)!=(s-i)/(double)n);
   cerr << "uneven: " << uneven;
-  exit(0);
+//   exit(0);
   if(pipeio)
     cout << "POPULATION\n";
   //  cerr << "outputting " << n << " genomes to each node.\n";
@@ -306,10 +306,14 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
   while(i < s) {
     cout << "NODES" << endl;
     cout << c;
-    cout << p->getGeneration();
+//     cout << p->getGeneration();
 //     cout.flush();
-//     if(uneven && (s-i)<(2*n))
-//       n = (s-i);
+    if(uneven && (s-i)<(2*n)){
+      cerr << "uneven er true og (s-i): " << (s-i) << " er mindre en 2*n" << (2*n) << endl;
+      cerr << "i: " << i << " i2: " << i2 << " n: " << n << endl;
+      n = (s-i);
+      exit(0);
+    }
     for(size_t i2 = 0; i2 < n && i < s; i2++, i++) {
       //the endline at the end here is to make the >> operator of
       //genome stop for each genome, the genome tag is for the nodes
@@ -337,10 +341,10 @@ static inline void readPopulation(Phenotypes * p, Coevolution * c, TransferFunct
   cin >> c; // read in the coevo stuff..
   cin >> s;
 
-  cin >> s;
-  gencount = atoi(s.c_str());
-  cerr << "read in gencount: " << gencount << endl;
-  cin >> s;
+//   cin >> s;
+//   gencount = atoi(s.c_str());
+//   cerr << "read in gencount: " << gencount << endl;
+//   cin >> s;
   //  cerr << "s after coevo in:" << s << endl;
   int c2 = 0;
   while(s.find("NODESTOP")==string::npos&&s.find("genome")!=string::npos){
