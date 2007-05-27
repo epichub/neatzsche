@@ -309,10 +309,10 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
 //     cout << p->getGeneration();
 //     cout.flush();
     if(uneven && (s-i)<(2*n)){
-      cerr << "uneven er true og (s-i): " << (s-i) << " er mindre en 2*n" << (2*n) << endl;
-      cerr << "i: " << i << " n: " << n << endl;
+//       cerr << "uneven er true og (s-i): " << (s-i) << " er mindre en 2*n" << (2*n) << endl;
+//       cerr << "i: " << i << " n: " << n << endl;
       n = (s-i);
-      exit(0);
+//       exit(0);
     }
     for(size_t i2 = 0; i2 < n && i < s; i2++, i++) {
       //the endline at the end here is to make the >> operator of
