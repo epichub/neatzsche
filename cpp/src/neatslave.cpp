@@ -75,7 +75,7 @@ int main(int argc,char *args[]){
     gen++;
     readPopulation(p,c,tfs);
     if(!coevo && gen==c->getStartGeneration()){
-      cerr << "!!!!!!!!!!!!!! neatslave settings coevo true " << endl;
+      cerr << "!!!!!!!!!!!!!! neatslave settings coevo true gen: " << gen << " cstart: " << c->getStartGeneration() << endl;
       coevo = true;
     }
 
