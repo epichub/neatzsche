@@ -603,6 +603,7 @@ void Population::speciate()
 }
 void Species::adjustFitness(NEATsettings * set)
 {
+  cerr << "<spec adjustfitness> id: " << id << endl;
   int par=0;
   int agedebt = (age-lastimprov+1)-(int)set->getValue("dropoff_age");
   double age_significance = set->getValue("age_significance");
@@ -636,7 +637,7 @@ void Species::adjustFitness(NEATsettings * set)
   for(unsigned int i=par;i<members->size();i++) { //should it be par-1?
     members->at(i)->markDead();
   }
-
+  cerr << "</spec adjustfitness> id: " << id << endl;
 }
 void Species::updateavgf()
 {
