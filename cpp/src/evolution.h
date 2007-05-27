@@ -61,8 +61,11 @@ public:
   void setGenome(Genome * ig){g=ig;}
   vector< double > react(vector<double> inp){return net->runnet(inp);}
   double getFitness(){return f;}
-  void setFitness(double fi){f = fi;}
-  void augmentFitness(double c){f *= c;}
+  void setFitness(double fi){
+    if(fi>0.5) cerr << "setfitness f over 0.5 if: " << fi << endl;
+    f = fi;}
+  void augmentFitness(double c){f *= c;
+    if(f>0.5) cerr << "setfitness f over 0.5 c: " << c  << endl;}
   double getOrigFitness(){return of;}
   void transferFitness(){of=f;}
 //   string outputFType(){stringstream ss; ss << "lvl: " << net->getOutput()->getDepth() << " ftype: " << net->getOutput()->getFType() << " type: " << net->getOutput()->getType(); return ss.str();}
