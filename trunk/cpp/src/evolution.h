@@ -72,6 +72,7 @@ public:
 //   string outputFType(){stringstream ss; ss << "lvl: " << net->getOutput()->getDepth() << " ftype: " << net->getOutput()->getFType() << " type: " << net->getOutput()->getType(); return ss.str();}
   void updatePhenotype(){delete net; net = g->genesis();}
   int getID(){return g->getID();}
+  int getSID(){return sid;}
   void setSpecies(Species * ispec);
   Species * getSpecies(){return spec;}
   void markDead(){died = true;}
@@ -348,7 +349,8 @@ static inline speciesVector * addToSpeciesCollection(speciesVector * v, Phenotyp
     //    cout << "adding phenotype "<<p->getID()<<" to new species"<< news->getID() << endl;
     //    p->setSpecies(news);
   }
-  
+  if(p->getSID()==-1)
+    cerr << "p("<<p->getID()<<") sin sid er -1: " << endl;
   return v;
 }
 static inline speciesVector * copyAndSort(speciesVector * v)
