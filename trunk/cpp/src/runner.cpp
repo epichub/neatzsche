@@ -90,10 +90,10 @@ void NEATRunner::runLoop()
   writeRunfile(false,basefile,infoline,pid);
   pop->fe = icb->fe;
   sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgf);
-  cerr << "===============\ncoevostartgen:" << coevo->getStartGeneration() 
+  cerr << "===============\ncoevostartgen:" << coevo->getStartGeneration()+1
        << "generations: " << generations <<  "===============\n" << endl;
   while(!stop){
-    if(coevo != NULL && pop->getGeneration() == coevo->getStartGeneration()){
+    if(coevo != NULL && pop->getGeneration() == (coevo->getStartGeneration()+1)){
       bak = ev;
       ev = coevo;
     }
