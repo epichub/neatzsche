@@ -348,6 +348,8 @@ static inline void readPopulation(Phenotypes * p, Coevolution * c, TransferFunct
 static inline void outputFitness(Phenotypes * p)
 {
   for(unsigned int i=0;i<p->size();i++){
+    if(p->at(i)->getFitness()>0.5)
+      cerr << "p->at(i)->getFitness() over 0.5 for id: " << p->at(i)->getID() << " : " << p->at(i)->getFitness() << endl;
     cout << p->at(i)->getID() << "\t" << p->at(i)->getFitness() << "\t";
   }
   cout << endl << flush;
