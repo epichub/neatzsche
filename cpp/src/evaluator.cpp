@@ -402,8 +402,7 @@ string GoEvaluator::show(Phenotype * f)
 
     if(moves<g->getMoves()){
       moves=g->getMoves();
-//       fsum += g->score(true);
-//       ssum += g->score(false);
+
       ss << g->getLocalBoardAscii();
     }
     first = !first;
@@ -411,30 +410,7 @@ string GoEvaluator::show(Phenotype * f)
   }
   if(moves==0)
     moves = 1;
-//   updateStats();
-//   ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
-//   stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
 
-//   if(g->getPuts()==0)
-//     ftmp -= 0.1;
-
-//   if(ftmp < fmin)
-//     fmin = ftmp;
-//   if(ftmp > fmax)
-//     fmax = ftmp;
-
-//   if(ftmp<=0)
-//     ftmp = 0.0001;
-//   if(stmp<=0)
-//     stmp = 0.0001;
-//   if(!secondnull)
-//     f->setFitness(ftmp);
-//   if(st==1)
-//     last->setFitness(stmp);
-
-//   if(st==1 && last!=f){
-//     last = NULL;
-//   }
 
   return ss.str();
 }
