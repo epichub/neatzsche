@@ -159,11 +159,11 @@ double GoEvaluator::f(Phenotype * f)
   if(st==1 && last!=f){
     last = NULL;
   }
-  if(ftmp>0.5){
-    cerr << "fitness over 0.5: " << ftmp << endl;
-    cerr << "board:\n " << g->getLocalBoardAscii();
-  }else
-    cerr << "<id: " << f->getID()  << " " << ftmp << "> " << flush;
+//   if(ftmp>0.5){
+//     cerr << "fitness over 0.5: " << ftmp << endl;
+//     cerr << "board:\n " << g->getLocalBoardAscii();
+//   }else
+//     cerr << "<id: " << f->getID()  << " " << ftmp << "> " << flush;
   return ftmp;
 }
 double GoEvaluator::debugeval(Phenotype * f)

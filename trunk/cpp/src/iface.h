@@ -253,6 +253,9 @@ static inline void readFitness(Population * p, unsigned int i)
     cin >> nID >> fFitn;
 //     cerr << "prøver å lese fitnes s: "<< s << endl;
     Phenotype * ph = p->getByID(nID);
+    if(fFitn>0.5){
+      cerr << "id: " << ph->getID() << "( "<< nID  <<" )" << " fikk fitness over .5: " << fFitn << endl;
+    }
     ph->setFitness(fFitn);
     ph->transferFitness();
 //     cerr << "reading fitness for member id: " << ph->getID() << " : " << ph->getFitness() <<  endl;
