@@ -72,7 +72,7 @@ int main(int argc,char *args[]){
 
   while(cont){ // the drive loop of the slaves, read 
                // in cmd(coevo/std), where coevo expects two genomes
-    //    gen++;
+    gen++;
     readPopulation(p,c,tfs,gen);
     if(!coevo && gen==(c->getStartGeneration()+1)){
       cerr << "!!!!!!!!!!!!!! neatslave settings coevo true gen: " << gen << " cstart: " << c->getStartGeneration() << endl;
