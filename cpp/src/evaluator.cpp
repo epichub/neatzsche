@@ -172,84 +172,85 @@ double GoEvaluator::f(Phenotype * f)
 }
 double GoEvaluator::debugeval(Phenotype * f)
 {
-  bool secondnull = false;
-  if(st==1&&last==NULL){
-    last = f;
-    return 0;
-  }else if(st==1&&last!=NULL&&f==NULL){
-    secondnull = true;
-  }
+//   bool secondnull = false;
+//   if(st==1&&last==NULL){
+//     last = f;
+//     return 0;
+//   }else if(st==1&&last!=NULL&&f==NULL){
+//     secondnull = true;
+//   }
 
-  g->reset();
-  if(st==0||(st==1&&f!=NULL))
-    f->cleanNet();
-  if(st==1&&last!=NULL)
-    last->cleanNet();
+//   g->reset();
+//   if(st==0||(st==1&&f!=NULL))
+//     f->cleanNet();
+//   if(st==1&&last!=NULL)
+//     last->cleanNet();
 
-  double tsum = 0;
-  vector<double> sense;
-  vector<double> reaction;
-  Phenotype ** players = new Phenotype * [2];
-  if(st==1&&!secondnull){ players[0] = f; players[1] = last;}
-  if(secondnull) { players[0] = last; players[1] = NULL;}
-  else { players[0] = f; players[1] = NULL;}
-  Phenotype * c = players[0];
-  int count=0, moves=0; bool first = true;
-  sense = g->getSensoryInput(first);
-  reaction = c->react(sense);
-  g->fakeThis(first,reaction);
-  double hmm=0;
-  while(!g->done()){
-//     rounds++;
-    if(c){
+//   double tsum = 0;
+//   vector<double> sense;
+//   vector<double> reaction;
+//   Phenotype ** players = new Phenotype * [2];
+//   if(st==1&&!secondnull){ players[0] = f; players[1] = last;}
+//   if(secondnull) { players[0] = last; players[1] = NULL;}
+//   else { players[0] = f; players[1] = NULL;}
+//   Phenotype * c = players[0];
+//   int count=0, moves=0; bool first = true;
+//   sense = g->getSensoryInput(first);
+//   reaction = c->react(sense);
+//   g->fakeThis(first,reaction);
+//   double hmm=0;
+//   while(!g->done()){
+// //     rounds++;
+//     if(c){
 
-      while(!g->doThis(first,reaction)){
-	cerr << "sense: " << printvector(sense);
-	if(hmm!=sumvector(reaction))
-	  cerr << "!!! whoot whoot reaction changed: " << hmm/sumvector(reaction) << endl;
-	cerr << "reaction: " << printvector(reaction);
-	sense = g->getSensoryInput(first);
-	hmm = sumvector(reaction);
-	reaction = c->react(sense);
-	g->fakeThis(first,reaction);
-      }
-      g->resetRound(c);
-    }else{
-      g->gw_genmove(first);
-    }
-    if(moves<g->getMoves()){
-      cerr << g->getLocalBoardAscii(); 
-      moves=g->getMoves();
-      tsum += g->score();
-      cerr << "tsum: " << tsum<<endl;
-    }
-    first = !first;
-    c = players[++count%2];
+//       while(!g->doThis(first,reaction)){
+// 	cerr << "sense: " << printvector(sense);
+// 	if(hmm!=sumvector(reaction))
+// 	  cerr << "!!! whoot whoot reaction changed: " << hmm/sumvector(reaction) << endl;
+// 	cerr << "reaction: " << printvector(reaction);
+// 	sense = g->getSensoryInput(first);
+// 	hmm = sumvector(reaction);
+// 	reaction = c->react(sense);
+// 	g->fakeThis(first,reaction);
+//       }
+//       g->resetRound(c);
+//     }else{
+//       g->gw_genmove(first);
+//     }
+//     if(moves<g->getMoves()){
+//       cerr << g->getLocalBoardAscii(); 
+//       moves=g->getMoves();
+//       tsum += g->score();
+//       cerr << "tsum: " << tsum<<endl;
+//     }
+//     first = !first;
+//     c = players[++count%2];
 
 
-  }
-  if(moves==0)
-    moves = 1;
-  updateStats();
-  cerr << "tsum before ftmp: " << tsum<<endl;
-  double finalscore = g->score();
-  double ftmp = 100-(((tsum*2.0)/(double)moves)+finalscore);
-  double stmp = (((tsum*2.0)/(double)moves)+finalscore);
-  cerr << "ftmp: " << ftmp << endl;
-  if(ftmp<=0)
-    ftmp = 0.0001;
-  if(stmp<=0)
-    stmp = 0.0001;
-  if(!secondnull)
-    f->setFitness(ftmp);
-  if(st==1)
-    last->setFitness(stmp);
-  delete[] players;
-  if(st==1 && last!=f){
-    last = NULL;
-  }
-  cerr << "fmax: "<< fmax << " fmin: " << fmin << endl;
-  return ftmp;
+//   }
+//   if(moves==0)
+//     moves = 1;
+//   updateStats();
+//   cerr << "tsum before ftmp: " << tsum<<endl;
+//   double finalscore = g->score();
+//   double ftmp = 100-(((tsum*2.0)/(double)moves)+finalscore);
+//   double stmp = (((tsum*2.0)/(double)moves)+finalscore);
+//   cerr << "ftmp: " << ftmp << endl;
+//   if(ftmp<=0)
+//     ftmp = 0.0001;
+//   if(stmp<=0)
+//     stmp = 0.0001;
+//   if(!secondnull)
+//     f->setFitness(ftmp);
+//   if(st==1)
+//     last->setFitness(stmp);
+//   delete[] players;
+//   if(st==1 && last!=f){
+//     last = NULL;
+//   }
+//   cerr << "fmax: "<< fmax << " fmin: " << fmin << endl;
+//   return ftmp;
+  return 0;
 }
 string GoEvaluator::getFinishedBoard(Phenotype * p)
 {
@@ -302,22 +303,22 @@ double EasyGoEvaluator::f(Phenotype * f)
   // 	 << g->getLocalBoardAscii();
   updateStats();
 //   cerr << "goset sin size: " << s->getValue("size") << endl;
-  if(m==4){
-    f->setFitness(1.0+s);
-    return 1.0+s;
-  }if(m==2){
-    f->setFitness(1.0+(double)g->straightLineFitness());
-    return (1.0+(double)g->straightLineFitness());
-  }else if(m==1){
-    f->setFitness(1.0+g->getPuts());
-    return (1.0+g->getPuts());
-  }else if(m==3){
-    f->setFitness(1.0+g->crockedLineFitness());
-    return (1.0+g->crockedLineFitness());
-  }else{
-    f->setFitness(1.0);
-    return 1.0;
-  }
+//   if(m==4){
+//     f->setFitness(1.0+s);
+//     return 1.0+s;
+//   }if(m==2){
+//     f->setFitness(1.0+(double)g->straightLineFitness());
+//     return (1.0+(double)g->straightLineFitness());
+//   }else if(m==1){
+//     f->setFitness(1.0+g->getPuts());
+//     return (1.0+g->getPuts());
+//   }else if(m==3){
+//     f->setFitness(1.0+g->crockedLineFitness());
+//     return (1.0+g->crockedLineFitness());
+//   }else{
+//     f->setFitness(1.0);
+//     return 1.0;
+//   }
   
 //   return 1.0;
 }
