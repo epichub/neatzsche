@@ -304,7 +304,7 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
   while(i < s) {
     cout << "NODES" << endl;
     cout << c;
-    cout << p->getGeneration() << endl;
+    cout << p->getGeneration();
 //     cout.flush();
 //     if(uneven && (s-i)<(2*n))
 //       n = (s-i);
@@ -339,7 +339,6 @@ static inline void readPopulation(Phenotypes * p, Coevolution * c, TransferFunct
   gencount = atoi(s.c_str());
   cerr << "read in gencount: " << gencount << endl;
   cin >> s;
-
   //  cerr << "s after coevo in:" << s << endl;
   int c2 = 0;
   while(s.find("NODESTOP")==string::npos&&s.find("genome")!=string::npos){
