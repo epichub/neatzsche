@@ -109,9 +109,9 @@ public:
     double cavg = p->calcAvgComplexity();
     speciesVector * v  = new speciesVector();
     speciesVector * orig = p->getSpecies();
-    v->insert(v->end(),p->begin(),p->end());
+    v->insert(v->end(),orig->begin(),orig->end());
     sort(v->begin(),v->end(),speciesidcomp);
-    addgeneration(p->getSpecies(),max,avg,min,cmax,cavg,cmin,cchamp);
+    addgeneration(v,max,avg,min,cmax,cavg,cmin,cchamp);
   }
   inline void addgeneration(speciesVector * v, double max, double avg, double min,
 			    double cmax, double cavg, double cmin, double cchamp)  
