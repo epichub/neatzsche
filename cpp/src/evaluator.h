@@ -36,14 +36,14 @@ class FitnessEvaluator {
 protected:
   int st;//0 = singleplayer, 1 = co-evolution
 public:
-  FitnessEvaluator(){};
+  FitnessEvaluator(){st=0;};
   virtual double f(Phenotype * f){return 0;}
   virtual double debugeval(Phenotype * f){return 0;}
   virtual ~FitnessEvaluator(){};
   virtual void nexGen(){}; //generational tickers for the evaluators that need this.
   virtual void interact(Phenotype * p){};
   virtual string show(Phenotype * p){return "";};
-  virtual void setStatus(int ist){st=ist;}
+  virtual void setStatus(int ist){cerr<<"i status set ist:" << ist << endl;st=ist;}
   virtual int getStatus(){return st;}
 };
 

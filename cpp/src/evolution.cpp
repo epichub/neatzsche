@@ -234,7 +234,7 @@ Phenotype * Species::findBest(Phenotype * ofirst)
 void Population::postepoch()
 {
   //delete everyone for the old generation.
-  //  if(debug)
+   if(debug)
     cerr << "postepoch start: curgen:"<<curgen<<" members size: " << members->size() << " species size : " << species->size() << endl;
   for(unsigned int i=0;i<members->size();i++){
     members->at(i)->getSpecies()->removePhenotype(members->at(i));
@@ -278,7 +278,7 @@ void Population::postepoch()
   sortmembers();
 
   bestmember = members->at(0);
-  //  if(debug)
+  if(debug)
     cerr << "postepoch stop: curgen:"<<curgen<<" members size: " << members->size() << " species size : " << species->size() << endl;
 }
 void Population::populationCleanup()
