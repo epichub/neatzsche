@@ -46,7 +46,7 @@ private:
 public:
   Phenotype(Genome * ig){
     g=ig;net = g->genesis();
-    died=false;popchampclones=clones=0;specchamp=false;f=0;eoffspring=0;spec=NULL;of=0;}
+    died=false;popchampclones=clones=0;specchamp=false;f=0;eoffspring=0;spec=NULL;of=0;sid=-1;}
   ~Phenotype(){
     delete net;
     delete g;
