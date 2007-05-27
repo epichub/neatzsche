@@ -62,7 +62,7 @@ public:
   vector< double > react(vector<double> inp){return net->runnet(inp);}
   double getFitness(){return f;}
   void setFitness(double fi){
-    if(fi>0.5) cerr << "<sfs> id: " << getID() << " setfitness f over 0.5 if: " << fi << " </sfs>" << endl <<flush;
+    if(fi>0.5) cerr << "<sfs> sid: " << spec->getID()<< " id: " << getID() << " setfitness f over 0.5 if: " << fi << " </sfs>" << endl <<flush;
     f = fi;}
   void augmentFitness(double c){f *= c;
     if(f>0.5) cerr << "setfitness f over 0.5 c: " << c  << endl;}
@@ -160,6 +160,7 @@ public:
 };
 
 inline bool speciescomp(Species * s1, Species * s2){return s1->getMaxFitness() > s2->getMaxFitness();}
+inline bool speciescomp(Species * s1, Species * s2){return s1->getID() < s2->getID();}
 typedef vector<Species * > speciesVector;
 
 class Population {
