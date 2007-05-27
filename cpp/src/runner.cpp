@@ -94,6 +94,7 @@ void NEATRunner::runLoop()
        << "generations: " << generations <<  "===============\n" << endl;
   while(!stop){
     if(coevo != NULL && pop->getGeneration() == (coevo->getStartGeneration()+1)){
+      cerr << "!!!!!!!!!!!!! runner: doing coevo popgen: " << pop->getGeneration() << " c start" << (coevo->getStartGeneration()+1) << endl;
       bak = ev;
       ev = coevo;
     }
