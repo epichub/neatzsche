@@ -711,6 +711,7 @@ void Population::sortmembers()
 void Phenotype::setSpecies(Species * ispec)
 {
   spec=ispec;
+  sid = spec->getID();
 }
 
 double Population::calcAvgFitness()
