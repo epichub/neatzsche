@@ -74,8 +74,10 @@ int main(int argc,char *args[]){
                // in cmd(coevo/std), where coevo expects two genomes
     gen++;
     readPopulation(p,c,tfs);
-    if(gen==c->getStartGeneration())
+    if(!coevo && gen==c->getStartGeneration()){
+      cerr << "!!!!!!!!!!!!!! neatslave settings coevo true " << endl;
       coevo = true;
+    }
 
     //evaluate and set the fitness..
     if(coevo)
