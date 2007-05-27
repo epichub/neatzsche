@@ -112,6 +112,7 @@ public:
     v->insert(v->end(),orig->begin(),orig->end());
     sort(v->begin(),v->end(),speciesidcomp);
     addgeneration(v,max,avg,min,cmax,cavg,cmin,cchamp);
+    delete v;
   }
   inline void addgeneration(speciesVector * v, double max, double avg, double min,
 			    double cmax, double cavg, double cmin, double cchamp)  
