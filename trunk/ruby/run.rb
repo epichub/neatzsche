@@ -80,7 +80,7 @@ class NEATRun
       print counter
       print ". time: " + key.to_s
       print " info: " + value.getruninfo()
-      print " ended: " + value.getended()
+      print " ended: " + value.getended().to_s
     }
   end
   def selectfromlist
