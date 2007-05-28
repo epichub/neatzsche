@@ -49,7 +49,7 @@ end
 print "input number of hours: "
 @hours = gets
 @hours = @hours[0..(@hours.size-2)].to_i
-@hours = @hours-48
+# @hours = @hours-48
 puts "you inputted: \"" + @hours.to_s + "\""
 @neatrun.makelist(@hours)
 @neatrun.selectfromlist()
