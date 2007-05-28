@@ -18,7 +18,7 @@
 require 'plotter'
 
 @plotter = Plotter.new
-@plotter.init("/home/www/www.generation.no/htdocs/gores","epic")
+@plotter.init("/home/www/www.generation.no/htdocs/gores","epic",1,false)
 @plotter.myloop(false)
 # @plotter.cgioutput()
 

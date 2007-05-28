@@ -84,7 +84,8 @@ class NEATRun
       print "\n"
     }
   end
-  def selectfromlist
+  def selectfromlist(hours)
+    makelist(hours)
     printlist
     print "your selection: "
     s = gets
