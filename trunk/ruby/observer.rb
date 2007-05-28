@@ -17,7 +17,7 @@
 
 require "fileutils"
 require "run"
-
+require "plotter"
 def menu
   def init
     print "input number of hours: "
