@@ -60,12 +60,12 @@ class NEATRun
       if path[".runinfo"]
         thistime = File.new(path).ctime
         if(thistime>starttime)
-          puts 'adding file: ' + path
+#           puts 'adding file: ' + path
           tmpval = Runfile.new
           tmpval.init(path)
           @list[thistime] = tmpval
         else
-          puts 'not adding file: ' + path
+#           puts 'not adding file: ' + path
         end
       end
     end
@@ -81,6 +81,7 @@ class NEATRun
       print ". time: " + key.to_s
       print " info: " + value.getruninfo()
       print " ended: " + value.getended().to_s
+      print "\n"
     }
   end
   def selectfromlist
