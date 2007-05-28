@@ -58,7 +58,7 @@ int main(int argc,char *args[]){
   Coevolution * c = NULL;
   FitnessEvaluator * f = makeFitnessEvaluator(args[3],c);
   c->setFitnessEvaluator(f);
-  ing maxgen = atoi(args[4]);
+  int maxgen = atoi(args[4]);
   Phenotypes * p = new Phenotypes();
   Evaluator * e = new Evaluator(f);
   
