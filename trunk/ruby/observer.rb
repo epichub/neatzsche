@@ -48,6 +48,7 @@ end
 @neatrun = NEATRun.new
 print "input number of hours: "
 @hours = gets
-
+@hours = @hours[0]
+puts "you inputted: \"" + @hours.to_s + "\""
 @neatrun.makelist(@hours)
 @neatrun.selectfromlist()
