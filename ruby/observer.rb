@@ -46,5 +46,6 @@ def menu
 end
 # menu.runner
 @neatrun = NEATRun.new
-@neatrun.makelist(1)
+@hours = gets
+@neatrun.makelist(@hours)
 @neatrun.selectfromlist()
