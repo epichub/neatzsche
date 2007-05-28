@@ -67,12 +67,16 @@ end
 class Plotter
   @neatrun = NEATRun.new
   @graphfile = "test"
-  def init(dir,user,hours)
+  def init(dir,user,hours,menu)
     @dir = dir
     @user = user
     FileUtils.chdir("../cpp")
     @neatrun = NEATRun.new
-    @neatrun.getnewest(hours)
+    if menu==true
+      @neatrun.selectfromlist(hours)
+    else 
+      @neatrun.getnewest(hours)
+    end
     if @neatrun.size()==0
       puts "not starting plotter.."
       exit

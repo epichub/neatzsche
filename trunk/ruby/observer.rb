@@ -15,9 +15,9 @@
 #   along with NEATzsche; if not, write to the Free Software Foundation,
 #   Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
-require "fileutils"
-require "run"
-require "plotter.rb"
+#require "fileutils"
+#require "run"
+require 'plotter'
 
 def menu
   def init
@@ -27,18 +27,20 @@ def menu
     # @hours = @hours-48
     puts "you inputted: \"" + @hours.to_s + "\""
     @plotter = Plotter.new
-    @plotter.init("/home/www/www.generation.no/htdocs/gores","epic",1)
+    @plotter.init("/home/www/www.generation.no/htdocs/gores","epic",1,true)
   end
   def readchoice
     @choice = gets
-    case @choice
+    case @choice.to_i
     when 1
+    then
       @plotter.plotbam(true)
     when 2
     when 3
     when 4
     when 5
       exit
+    else
     end
   end
   def outputmenu
@@ -50,10 +52,10 @@ def menu
     print "choice: "
   end
   def runner
-    outputmenu
-    readchoice
-    puts "your choice was " + @choice
-    puts "cwd:" + FileUtils.getwd()
+    while true
+      outputmenu
+      readchoice
+    end
   end
 end
 menu.init
