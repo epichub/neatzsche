@@ -44,4 +44,6 @@ def menu
     puts "cwd:" + FileUtils.getwd()
   end
 end
-menu.runner
+# menu.runner
+run.makelist(1)
+run.selectfromlist()

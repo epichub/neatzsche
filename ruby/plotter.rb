@@ -72,7 +72,7 @@ class Plotter
     @user = user
     FileUtils.chdir("../cpp")
     @neatrun = NEATRun.new
-    @neatrun.getnewest()
+    @neatrun.getnewest(1)
     if @neatrun.size()==0
       puts "not starting plotter.."
       exit
@@ -84,14 +84,14 @@ class Plotter
     @file = ""
     @plotfile = @neatrun.graphfile() + ".png"
     @plotbestfile = @neatrun.graphfile() + "-best.png"
-    puts "plotfile: \"" + @plotfile + "\""
+#     puts "plotfile: \"" + @plotfile + "\""
     @rdir = @dir + @neatrun.base()[7..@neatrun.base().size]
     @rplotfile = @plotfile[7..@plotfile.size]
     @graphfile = @neatrun.graphfile()
     @curgenomefile = @neatrun.curgenomefile()
     @settingsfile = @neatrun.settingsfile()
-    puts "graphfile: " + @graphfile
-    puts "genomefile: " + @curgenomefile
+#     puts "graphfile: " + @graphfile
+#     puts "genomefile: " + @curgenomefile
     @gsftp = GenerationSFTP.new
     @gsftp.init(@user,@dir)
     @hostname = Socket.gethostname()
