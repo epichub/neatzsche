@@ -5,7 +5,7 @@ then
     gnuplot "${1}.plt"
 else
     cat "templates/plotpersist.plt.template" | sed -e "s!current.graph!${1}!g" > "${1}.plt"
-    gnuplot "${1}.plt" &
+    gnuplot "${1}.plt"
 fi
 
 rm "${1}.plt"
