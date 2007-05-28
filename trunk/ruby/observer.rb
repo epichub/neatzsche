@@ -45,5 +45,6 @@ def menu
   end
 end
 # menu.runner
-run.makelist(1)
-run.selectfromlist()
+@neatrun = NEATRun.new
+@neatrun.makelist(1)
+@neatrun.selectfromlist()
