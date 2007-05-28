@@ -71,6 +71,9 @@ class NEATRun
   end
   def printlist
     counter = 0
+    if @list.size==0
+      return
+    end
     @list.each{ |key,value|
       counter = counter+1
       print counter
@@ -86,9 +89,9 @@ class NEATRun
     @runfile = @list.to_a()[s.to_i-1][1]
     update
   end
-  def getnewest
+  def getnewest(timelimit)
     @list = Hash.new
-    makelist(1)
+    makelist(timelimit)
     if @list.size == 0
       @norun = true
     else
