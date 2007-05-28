@@ -51,6 +51,7 @@ class NEATRun
     @norun = false
   end
   def makelist(hours)
+    @list = Hash.new
     if(hours==0)#set for a year
       hours = 24*365
     end
@@ -90,7 +91,6 @@ class NEATRun
     update
   end
   def getnewest(timelimit)
-    @list = Hash.new
     makelist(timelimit)
     if @list.size == 0
       @norun = true
