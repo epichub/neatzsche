@@ -67,12 +67,12 @@ end
 class Plotter
   @neatrun = NEATRun.new
   @graphfile = "test"
-  def init(dir,user)
+  def init(dir,user,hours)
     @dir = dir
     @user = user
     FileUtils.chdir("../cpp")
     @neatrun = NEATRun.new
-    @neatrun.getnewest(1)
+    @neatrun.getnewest(hours)
     if @neatrun.size()==0
       puts "not starting plotter.."
       exit
@@ -102,16 +102,36 @@ class Plotter
     @gsftp.mkdir(@basebase)
     @gsftp.putfile(@settingsfile, @basebase + "/settings") #upload plot
   end
-
+  def plotbam(persist)
+    if File.exist?(@graphfile) && File.size(@graphfile) > 0
+      if(persist)
+        system("./plot.sh " + @graphfile + " 1") #update plot
+      else
+        system("./plot.sh " + @graphfile + " 0") #update plot
+      end
+    end
+    return @graphfile
+  end
+  def plotbest
+    if File.exist?(@graphfile) && File.size(@graphfile) > 0
+      system("./plotbest.sh " + @graphfile) #update plot
+    end
+    return @graphfile
+  end
+  def show
+      if File.exist?(@curgenomefile)
+        system("./show 0 " + @curgenomefile + " 0 > tmpshow")
+      end
+  end
   def myloop(loop)
     begin
       if File.exist?(@graphfile) && File.size(@graphfile) > 0
-        system("./plot.sh " + @graphfile) #update plot
+        plotbam(false)
         @gsftp.putfile(@plotfile, @basebase + "/bam.png") #upload plot
         FileUtils.rm @plotfile #delete file 
       end
       if File.exist?(@graphfile) && File.size(@graphfile) > 0
-        system("./plotbest.sh " + @graphfile) #update plot
+        plotbest()
         @gsftp.putfile(@plotbestfile, @basebase + "/best.png") #upload plot
         FileUtils.rm @plotbestfile #delete file 
       end

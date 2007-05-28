@@ -19,22 +19,33 @@ require "fileutils"
 require "run"
 
 def menu
+  def init
+    print "input number of hours: "
+    @hours = gets
+    @hours = @hours[0..(@hours.size-2)].to_i
+    # @hours = @hours-48
+    puts "you inputted: \"" + @hours.to_s + "\""
+    @plotter = Plotter.new
+    @plotter.init("/home/www/www.generation.no/htdocs/gores","epic",1)
+  end
   def readchoice
     @choice = gets
     case @choice
-      when 1
-
-      # system("./plot.sh")
-      when 2
-      when 3
-      when 4
+    when 1
+      @plotter.plotbam(true)
+    when 2
+    when 3
+    when 4
+    when 5
+      exit
     end
   end
   def outputmenu
-    puts "1.view plot"
+    puts "1.view plot(must have x forwarding..)"
     puts "2.view game"
     puts "3.play game"
     puts "4.view debuggame"
+    puts "5. exit"
     print "choice: "
   end
   def runner
@@ -44,12 +55,6 @@ def menu
     puts "cwd:" + FileUtils.getwd()
   end
 end
-# menu.runner
-@neatrun = NEATRun.new
-print "input number of hours: "
-@hours = gets
-@hours = @hours[0..(@hours.size-2)].to_i
-# @hours = @hours-48
-puts "you inputted: \"" + @hours.to_s + "\""
-@neatrun.makelist(@hours)
-@neatrun.selectfromlist()
+menu.init
+menu.runner
+

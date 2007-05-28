@@ -34,7 +34,7 @@ using namespace std;
 //void mytryrun()
 int main(int argc,char *args[]){
   cerr << "slave initiated.." << endl;
-  int n = 4;
+  int n = 5;
   if(argc!=n){
     slaveUsage(args[0]);
     exit(1);
@@ -58,7 +58,7 @@ int main(int argc,char *args[]){
   Coevolution * c = NULL;
   FitnessEvaluator * f = makeFitnessEvaluator(args[3],c);
   c->setFitnessEvaluator(f);
-
+  ing maxgen = atoi(args[4]);
   Phenotypes * p = new Phenotypes();
   Evaluator * e = new Evaluator(f);
   
@@ -75,8 +75,13 @@ int main(int argc,char *args[]){
     gen++;
     readPopulation(p,c,tfs,gen);
     if(!coevo && gen==(c->getStartGeneration()+1)){
-      cerr << "!!!!!!!!!!!!!! neatslave settings coevo true gen: " << gen << " cstart: " << c->getStartGeneration() << endl;
+//       cerr << "!!!!!!!!!!!!!! neatslave settings coevo true gen: " << gen << " cstart: " << c->getStartGeneration() << endl;
       coevo = true;
+    }
+    if(gen==maxgen){
+      gen = 0;
+      if(coevo)
+	coevo = false;
     }
 
     //evaluate and set the fitness..
