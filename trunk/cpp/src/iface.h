@@ -446,7 +446,7 @@ static inline void masterUsage(string progname)
 static inline void slaveUsage(string progname)
 {
   cerr << "usage: " << endl
-       << progname << " [seed (0 for new)] [settings] [phenotype eval options]" << endl
+       << progname << " [seed (0 for new)] [settings] [phenotype eval options] [generations]" << endl
        << "where:" << endl
        << makefitnessevaluatorUsage() << flush;
 }
