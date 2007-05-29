@@ -124,9 +124,9 @@ void NEATRunner::runLoop()
     ofs << best->getGenome();
     ofs.close();
 
-//     if(pop->getGeneration()%2==0){
-//       cerr << icb->fe->show(best);
-//     }
+    if(pop->getGeneration()%2==0){
+      cerr << icb->fe->show(best);
+    }
     icb->best = best;
     writenetwork(best,sCurrentXMLGenomeFile);
     sg->update(pop);
