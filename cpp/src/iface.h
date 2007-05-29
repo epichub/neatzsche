@@ -280,8 +280,6 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
   unsigned int s = p->getMembers()->size();
   unsigned int n = (s-i)/nodes;
   bool uneven = (floor((s-i)/(double)n)!=(s-i)/(double)n);
-  cerr << "uneven: " << uneven;
-//   exit(0);
   if(pipeio)
     cout << "POPULATION\n";
   //  cerr << "outputting " << n << " genomes to each node.\n";
