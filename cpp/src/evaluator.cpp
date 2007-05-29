@@ -303,24 +303,24 @@ double EasyGoEvaluator::f(Phenotype * f)
   // 	 << g->getLocalBoardAscii();
   updateStats();
 //   cerr << "goset sin size: " << s->getValue("size") << endl;
-//   if(m==4){
-//     f->setFitness(1.0+s);
-//     return 1.0+s;
-//   }if(m==2){
-//     f->setFitness(1.0+(double)g->straightLineFitness());
-//     return (1.0+(double)g->straightLineFitness());
-//   }else if(m==1){
-//     f->setFitness(1.0+g->getPuts());
-//     return (1.0+g->getPuts());
-//   }else if(m==3){
-//     f->setFitness(1.0+g->crockedLineFitness());
-//     return (1.0+g->crockedLineFitness());
-//   }else{
-//     f->setFitness(1.0);
-//     return 1.0;
-//   }
+  if(m==4){
+    f->setFitness(1.0+s);
+    return 1.0+s;
+  }if(m==2){
+    f->setFitness(1.0+(double)g->straightLineFitness());
+    return (1.0+(double)g->straightLineFitness());
+  }else if(m==1){
+    f->setFitness(1.0+g->getPuts());
+    return (1.0+g->getPuts());
+  }else if(m==3){
+    f->setFitness(1.0+g->crockedLineFitness());
+    return (1.0+g->crockedLineFitness());
+  }else{
+    f->setFitness(1.0);
+    return 1.0;
+  }
   
-//   return 1.0;
+  return 1.0;
 }
 string EasyGoEvaluator::show(Phenotype * p)
 {
