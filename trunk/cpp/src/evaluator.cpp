@@ -141,6 +141,8 @@ double GoEvaluator::f(Phenotype * f)
 
   if(g->getPuts()==0)
     ftmp -= 0.1;
+  else
+    ftmp += .1 * g->getPuts();
 
   if(ftmp < fmin)
     fmin = ftmp;
@@ -163,8 +165,8 @@ double GoEvaluator::f(Phenotype * f)
     last = NULL;
   }
   if(ftmp>0.5){
-    cerr << "fitness over 0.5: " << ftmp << endl;
-    cerr << "board:\n " << g->getLocalBoardAscii();
+//     cerr << "fitness over 0.5: " << ftmp << endl;
+//     cerr << "board:\n " << g->getLocalBoardAscii();
   }
 //   }else
 //     cerr << "<id: " << f->getID()  << " " << ftmp << "> " << flush;
