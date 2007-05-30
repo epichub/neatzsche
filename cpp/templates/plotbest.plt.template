@@ -3,7 +3,8 @@ set ylabel 'fitness'
 set autoscale x
 set yrange [0:1]
 set autoscale ymax
-set term png small # size 480,320
+#set term png small # size 480,320
+set term postscript eps enhanced
 set key outside
 set key box
 set output 'current.png'
