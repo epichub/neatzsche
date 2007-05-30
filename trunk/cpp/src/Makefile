@@ -1,7 +1,7 @@
 # make neat
 #
 TAGS= etags -a
-LDFLAGS= -lpthread -lutilities
+LDFLAGS= -lpthread
 
 GOSOURCE=gowrapper.cpp gowrapper.h
 GOOBJ=gowrapper.o
