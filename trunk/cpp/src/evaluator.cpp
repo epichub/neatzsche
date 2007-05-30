@@ -141,8 +141,8 @@ double GoEvaluator::f(Phenotype * f)
 
   if(g->getPuts()==0)
     ftmp -= 0.1;
-//   else
-//     ftmp += .1 * g->getPuts();
+  else
+    ftmp += .1 * g->getPuts();
 
   if(ftmp < fmin)
     fmin = ftmp;
