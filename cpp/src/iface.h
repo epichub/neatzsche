@@ -254,7 +254,7 @@ static inline void readFitness(Population * p, unsigned int i)
 //     cerr << "prøver å lese fitnes s: "<< s << endl;
     Phenotype * ph = p->getByID(nID);
     if(fFitn>0.5){
-      cerr << "id: " << ph->getID() << "( "<< nID  <<" )" << " fikk fitness over .5: " << fFitn << endl;
+//       cerr << "id: " << ph->getID() << "( "<< nID  <<" )" << " fikk fitness over .5: " << fFitn << endl;
     }
     ph->setFitness(fFitn);
     ph->transferFitness();
@@ -361,8 +361,8 @@ static inline void readPopulation(Phenotypes * p, Coevolution * c, TransferFunct
 static inline void outputFitness(Phenotypes * p)
 {
   for(unsigned int i=0;i<p->size();i++){
-    if(p->at(i)->getFitness()>0.5)
-      cerr << "p->at(i)->getFitness() over 0.5 for id: " << p->at(i)->getID() << " : " << p->at(i)->getFitness() << endl;
+//     if(p->at(i)->getFitness()>0.5)
+//       cerr << "p->at(i)->getFitness() over 0.5 for id: " << p->at(i)->getID() << " : " << p->at(i)->getFitness() << endl;
     cout << p->at(i)->getID() << "\t" << p->at(i)->getFitness() << "\t";
   }
   cout << endl << flush;
