@@ -125,8 +125,8 @@ double GoEvaluator::f(Phenotype * f)
       g->gw_genmove(first);
     }
 
-    if(moves<g->getMoves()){
-      moves=g->getMoves();
+    if(moves<g->puts){
+      moves=g->puts;
       fsum += g->score(true);
       ssum += g->score(false);
     }
