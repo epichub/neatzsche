@@ -11,7 +11,7 @@ species_target_size 20
 #species_target 20
 mutate_only_prob 0.25
 mutate_link_weights_prob 0.8
-mutate_link_weights_power 2.5
+mutate_link_weights_power 1.5
 mutate_toggle_enable_prob 0.0
 mutate_gene_reenable_prob 0.05
 mutate_add_node_prob 0.005
