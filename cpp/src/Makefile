@@ -106,7 +106,7 @@ gcc:
 
 # To get things out of the revision control system
 $(SRCS):
-	$(CXX) $(BINCLUDE) $(BLIBS) -c $*.cpp -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -lutilities
+	$(CXX) $(BINCLUDE) $(BLIBS) -c $*.cpp -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses 
 
 neatmaster.cpp: $(OBJS) runner.h
 	$(CXX) $(BLIBS) -c neatmaster.cpp
@@ -116,48 +116,48 @@ neatslave.cpp: $(OBJS2) iface.h
 
 
 neatmaster: $(OBJS) $(TOBJS) neatmaster.o runner.o statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) dataset.h tinyxml.h tinystr.h  iface.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) $(TOBJS) runner.o neatmaster.o -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) $(TOBJS) runner.o neatmaster.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv neatmaster ../
 
 neatslave: $(OBJS2) neatslave.o statechanges.h coevolution.h neatslave.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS2) neatslave.o -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS2) neatslave.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv neatslave ../
 #test.o:
 #	$(CXX) $(BINCLUDE) $(BLIBS) -c test-xor.cpp
 
 test-xor: $(OBJS3) statechanges.h coevolution.h test-xor.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS3) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS3)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv test-xor ../
 
 test-go: $(OBJS4) test-go.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h tinyxml.h tinystr.h 
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS4) $(TOBJS) runner.o -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS4) $(TOBJS) runner.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv test-go ../
 
 puregotest: $(OBJS5) puregotest.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS5) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS5)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv puregotest ../
 
 unit-statechange: $(OBJS6) unit-statechange.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS6) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS6)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 
 playgame: $(OBJS) playgame.o playgame.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) playgame.o -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) playgame.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv playgame ../show
 
 testwrite: $(OBJS) testwrite.o testwrite.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) testwrite.o -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) testwrite.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv testwrite ../testwrite
 
 playtwoplayergame: $(OBJS) playtwoplayergame.o playtwoplayergame.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ playtwoplayergame.o $(OBJS) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ playtwoplayergame.o $(OBJS)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv playtwoplayergame ../
 
 # xorgenomeoutput: $(OBJS) xorgenomeoutput.o xorgenomeoutput.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-# 	$(CXX) $(BLIBS) $(LIBS) -o $@ xorgenomeoutput.o $(OBJS) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+# 	$(CXX) $(BLIBS) $(LIBS) -o $@ xorgenomeoutput.o $(OBJS)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 # 	@ mv xorgenomeoutput ../
 
 go-consistency: $(OBJS8) go-consistency.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS8) -lutilities -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS8)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv go-consistency ../
 
 # where are functions/procedures?
