@@ -11,7 +11,7 @@ QUEUE=$7
 INTER=$8
 
 echo $ANODES
-cat "templates/distconfig-go.txt.template" | sed -e "s/POP/${POPOP}/g" -e "s/NODENUM/${ANODES}/g" -e "s/GENS/${GENERATIONS}/g" -e "s/PENS/${PUREGENERATIONS}/g" -e "s/RUNS/${RUNS}/g" -e "s!SETTINGFILE!${SETTINGS}!g" > "distconfig-go.txt"
+cat "templates/distconfig-go.txt.template" | sed -e "s!POP!${POPOP}!g" -e "s/NODENUM/${ANODES}/g" -e "s/GENS/${GENERATIONS}/g" -e "s/PENS/${PUREGENERATIONS}/g" -e "s/RUNS/${RUNS}/g" -e "s!SETTINGFILE!${SETTINGS}!g" > "distconfig-go.txt"
 cat "templates/pbs_go.sh.template" | sed -e "s/NODENUM/${NODES}/g" -e "s/QUEUE/${QUEUE}/" > pbs_go.sh
 chmod a+x pbs_go.sh
 
