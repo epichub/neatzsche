@@ -1,2 +1,2 @@
 #!/bin/sh
-ls -lart results/200*
+ls -art results/200*
