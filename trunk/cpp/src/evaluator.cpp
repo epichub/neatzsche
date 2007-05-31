@@ -157,7 +157,7 @@ double GoEvaluator::f(Phenotype * f)
     
     f->setFitness(ftmp);
   }if(st==1){
-    cerr << "setting last("<< last->getID()<<") to stmp" << stmp << endl;
+//     cerr << "setting last("<< last->getID()<<") to stmp" << stmp << endl;
     last->setFitness(stmp);
   }
 
