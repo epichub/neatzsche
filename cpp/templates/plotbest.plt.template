@@ -8,7 +8,7 @@ set autoscale ymax
 set term pdf	     
 set key outside
 set key box
-set output 'current.png'
+set output 'current.pdf'
 set title 'current'
 set key title 'Legend'
 set style data lines
