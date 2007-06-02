@@ -148,7 +148,7 @@ double GoEvaluator::f(Phenotype * f)
     fmin = ftmp;
   if(ftmp > fmax)
     fmax = ftmp;
-
+  ftmp = 100-g->score();
   if(ftmp<=0)
     ftmp = 0.0001;
   if(stmp<=0)
