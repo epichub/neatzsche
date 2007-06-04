@@ -23,8 +23,6 @@
 #include "genome.h"
 #include "settings.h"
 
-//#include "evoops.h"
-
 using namespace std;
 
 class Species;
@@ -62,15 +60,10 @@ public:
   void setGenome(Genome * ig){g=ig;}
   vector< double > react(vector<double> inp){return net->runnet(inp);}
   double getFitness(){return f;}
-  void setFitness(double fi){
-//     if(fi>0.5) cerr << "<sfs> sid: " << sid << " id: " << getID() << " setfitness f over 0.5 if: " << fi << " </sfs>" << endl <<flush;
-    f = fi;}
-  void augmentFitness(double c){f *= c;
-//     if(f>0.5) cerr << "setfitness f over 0.5 c: " << c  << endl;
-}
+  void setFitness(double fi){f = fi;}
+  void augmentFitness(double c){f *= c;}
   double getOrigFitness(){return of;}
   void transferFitness(){of=f;}
-//   string outputFType(){stringstream ss; ss << "lvl: " << net->getOutput()->getDepth() << " ftype: " << net->getOutput()->getFType() << " type: " << net->getOutput()->getType(); return ss.str();}
   void updatePhenotype(){delete net; net = g->genesis();}
   int getID(){return g->getID();}
   int getSID(){return sid;}
@@ -292,8 +285,6 @@ static inline Genome * mutate(Genome * g, NEATsettings * set, int & cnodeid){
 static inline speciesVector * addToSpeciesCollection(speciesVector * v, Phenotype * p, 
 						     Population *pop, NEATsettings * set, bool debug)
 {
-  if(debug)
-    cout << "!!! in addToSpeciesCollection p:" << p->getID() << endl;
   Genome * compmember = 0;
   double comp = set->getValue("compat_threshold");
   double tcomp = 0;
@@ -302,19 +293,8 @@ static inline speciesVector * addToSpeciesCollection(speciesVector * v, Phenotyp
   for(unsigned int i=0;i<v->size();i++){
     if(v->at(i)->getMembers()->size()!=0
        &&v->at(i)->firstMember()!=NULL){
-//       if(v->at(i)->firstMember()->getGenome()!=NULL&&debug)
-// 	cout << "firsmembers getgenome er ikke null"<<endl;
-//       else if(debug)
-// 	cout << "firsmembers getgenome er null"<<endl;
 
       compmember = v->at(i)->firstMember()->getGenome();
-      if(debug&&compmember==0)
-	cout << "compmember er 0 wtf??" << endl;
-//       if(compmember->getGenes()!=NULL&&debug)
-// 	cout << "firsmember(id:"<<compmember->getID()<<") getgenome->genes er ikke null"<<endl;
-//       else if(debug)
-// 	cout << "firsmember(id:"<<compmember->getID()<<") getgenome->genes er null"<<endl;
-//      cout << "comparing to species " << v->at(i)->getID()<<endl;
       tcomp = p->getGenome()->compare(compmember);
       if(tcomp<comp){
 	found = true;
@@ -326,29 +306,15 @@ static inline speciesVector * addToSpeciesCollection(speciesVector * v, Phenotyp
 	break;
       }
     }
-    if(debug&&v->at(i)->firstMember()!=NULL)
-      cout << "firstmember er null....." << endl;
-    if(debug&&v->at(i)->getMembers()->size())
-      cout << "species membersize er 0....." << endl;
-    // else if(debug)
-//       cout << "i:"<<i <<"s size var null eller firsmember var null" << endl;
   }
   if(found){
     v->at(si)->addChild(p);
-    //cout << "adding phenotype "<<p->getID()<<" to species" << v->at(si)->getID() << endl;
     return v;
   }
-  if(debug&&compmember!=0)
-    cout << "fant ingen species compmember ikke 0 og vsize: " << v->size() << " found: " << found << endl;
-  if(debug&&compmember==0)
-    cout << "fant ingen species compmember er 0 og vsize: " << v->size() << " found: " << found << endl;
   if(!found&&(compmember != 0||v->size()==0)){//test shouldnt bee here, the species shouldnt have 0 members!!
-
     Species * news = NULL;
     v->push_back(news = new Species(pop->getAndIncSpecID(),set,pop));
     news->addPhenotype(p);
-    //    cout << "adding phenotype "<<p->getID()<<" to new species"<< news->getID() << endl;
-    //    p->setSpecies(news);
   }
   if(p->getSID()==-1)
     cerr << "p("<<p->getID()<<") sin sid er -1: " << endl;
@@ -358,16 +324,14 @@ static inline speciesVector * copyAndSort(speciesVector * v)
 {
   for(unsigned int i=0;i<v->size();i++)
     v->at(i)->updatemaxminf();
-
   speciesVector * ret = new speciesVector(v->begin(),v->end());//deep copy?? we dont want deep copy
-
   sort(ret->begin(),ret->end(),speciescomp);
   return ret;
 }
 static inline void printFitness(Phenotypes * p)
 {
   for(unsigned int i=0;i<p->size();i++)
-    cout << "pid: " << p->at(i)->getID() << " f:" << p->at(i)->getFitness() << endl; 
+    cerr << "pid: " << p->at(i)->getID() << " f:" << p->at(i)->getFitness() << endl; 
 }
 
 #endif

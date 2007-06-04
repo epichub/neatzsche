@@ -31,9 +31,9 @@
 #include "iface.h"
 #include "gowrapper.h"
 using namespace std;
-//void mytryrun()
+
+
 int main(int argc,char *args[]){
-  cerr << "slave initiated.." << endl;
   int n = 5;
   if(argc!=n){
     slaveUsage(args[0]);
@@ -75,7 +75,6 @@ int main(int argc,char *args[]){
     gen++;
     readPopulation(p,c,tfs,gen);
     if(!coevo && gen==(c->getStartGeneration()+1)){
-//       cerr << "!!!!!!!!!!!!!! neatslave settings coevo true gen: " << gen << " cstart: " << c->getStartGeneration() << endl;
       coevo = true;
     }
     if(gen==maxgen){

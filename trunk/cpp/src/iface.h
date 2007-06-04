@@ -138,8 +138,6 @@ static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *
     int level = (int)set->getValue("level");
     int eyesize = (int)set->getValue("eyesize");
     int maxlooksteps = (int)set->getValue("maxlooksteps");
-//     GoWrapper * sp = new GoWrapper(size,true,outsidev,
-// 				   komi,level,eyesize,maxlooksteps);
     bool caching = atoi(sv->at(5).c_str()) == 1;
     int csize = atoi(sv->at(6).c_str());
     int cqsize = atoi(sv->at(7).c_str());
@@ -148,7 +146,6 @@ static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *
     if(caching){
       gw = new gw::CachingGoWrapper(size,true,outsidev,
 				komi,level,eyesize,maxlooksteps,mem,csize,cqsize);
-//       cerr << "making caching go wrapper.. " << endl;
     }else{
       gw = new gw::GoWrapper(size,true,outsidev,
 			 komi,level,eyesize,maxlooksteps,mem);
@@ -169,12 +166,6 @@ static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *
       cerr << "making easygoeval!" << endl;
       ret = new EasyGoEvaluator(gw,0,pg,r,set);
     }
-    cerr << "making go eval, resign: " << resign  << " size: " << size 
-	 << " outsidev: " << outsidev << " komi: " << komi 
-	 << " mem: " << mem << " level: " << level 
-	 << " eyesize: " << eyesize << " maxlooksteps: " << maxlooksteps 
-	 << " caching: " << caching << " csize: " << csize << " cqsize: " << cqsize 
-	 << " pg: " << pg << " easy: " << easy << endl;
     coevo = new Halloffame(cogames,cogames,pg,ret);
     for(int i=0;i<gnugogames;i++){
       ((Halloffame*)coevo)->addPermantent(NULL);//adding NULL as permanent member, defaults to gnugo in this fitness eval..
@@ -251,15 +242,12 @@ static inline void readFitness(Population * p, unsigned int i)
     int nID;
     float fFitn;
     cin >> nID >> fFitn;
-//     cerr << "prøver å lese fitnes s: "<< s << endl;
     Phenotype * ph = p->getByID(nID);
     if(fFitn>0.5){
-//       cerr << "id: " << ph->getID() << "( "<< nID  <<" )" << " fikk fitness over .5: " << fFitn << endl;
     }
     ph->setFitness(fFitn);
     ph->transferFitness();
-//     cerr << "reading fitness for member id: " << ph->getID() << " : " << ph->getFitness() <<  endl;
-//     cerr << nID << ".."; 
+
   }
   string s;
   getline(cin, s); // chomp off final newline
@@ -275,54 +263,26 @@ static inline void readFitness(Population * p, unsigned int i)
     }
 }
 static inline void outputPopulation(Population * p, int nodes,  Coevolution * c, unsigned int i, bool pipeio)
-//void outputPopulation(Coevolution * h, Population * p, int nodes)
 {
   unsigned int s = p->getMembers()->size();
   unsigned int n = (s-i)/nodes;
   bool uneven = (floor((s-i)/(double)n)!=(s-i)/(double)n);
   if(pipeio)
     cout << "POPULATION\n";
-  //  cerr << "outputting " << n << " genomes to each node.\n";
-//   while(i<(unsigned int)nodes){
-//     cout << "NODES" << endl;
-//     cout << c;
-// //     if((s-i)>=n)
-// //       cout << n << endl;
-// //     else
-// //       cout << (s-i) << endl;
-//     for(unsigned int i2=0;i2<n&&i<s;i2++){
-//       //the endline at the end here is to make the >> operator of
-//       //genome stop for each genome, the genome tag is for the nodes
-//       //parsing..
-// //       cerr << "outputting genome " << p->getMembers()->at(i2)->getID() << endl;
-//       cout << "genome" << endl << p->getMembers()->at(i2)->getGenome() << endl;
-//       i++;
-//     }
-//     cout << "NODES" << endl;
-//   }
 
   while(i < s) {
     cout << "NODES" << endl;
     cout << c;
-//     cout << p->getGeneration();
-//     cout.flush();
     if(uneven && (s-i)<(2*n)){
-//       cerr << "uneven er true og (s-i): " << (s-i) << " er mindre en 2*n" << (2*n) << endl;
-//       cerr << "i: " << i << " n: " << n << endl;
       n = (s-i);
-//       exit(0);
     }
     for(size_t i2 = 0; i2 < n && i < s; i2++, i++) {
       //the endline at the end here is to make the >> operator of
       //genome stop for each genome, the genome tag is for the nodes
       //parsing..
-//       cerr << "outputting genome " << p->getMembers()->at(i2)->getID() << " genes: " << p->getMembers()->at(i)->getGenome()->getGenes()->size() << endl;
-//       cout.flush();
       cout << "genome" << endl << p->getMembers()->at(i)->getGenome() << endl;
-//       cout.flush();
     }
     cout << "NODES" << endl;
-//     cout.flush();
   }
 
   if(pipeio)
@@ -334,35 +294,21 @@ static inline void readPopulation(Phenotypes * p, Coevolution * c, TransferFunct
   cin >> s;
   stringstream tmpbuf;
   Genome * g = NULL;
-  //cin >> s;
-  //  cerr << "s before coevo in:" << s << endl;
   cin >> c; // read in the coevo stuff..
   cin >> s;
 
-//   cin >> s;
-//   gencount = atoi(s.c_str());
-//   cerr << "read in gencount: " << gencount << endl;
-//   cin >> s;
-  //  cerr << "s after coevo in:" << s << endl;
   int c2 = 0;
   while(s.find("NODESTOP")==string::npos&&s.find("genome")!=string::npos){
     g = new Genome(tfs);
     cin >> g;
     c2++;
     p->push_back(new Phenotype(g));
-//     cerr << "slave " << getpid() << " leste inn genom " << g->getID() << endl;
     cin >> s;
-    //    cerr <<"i whileløkke slutt s: \"" << s << "\" p->size: " << p->size() << " g->id: "<< g->getID()<< endl;
-//     cin >> s;
-//     cerr <<"3 i whileløkke slutt s: \"" << s << "\"" << endl;
-//    exit(1);
   }
 }
 static inline void outputFitness(Phenotypes * p)
 {
   for(unsigned int i=0;i<p->size();i++){
-//     if(p->at(i)->getFitness()>0.5)
-//       cerr << "p->at(i)->getFitness() over 0.5 for id: " << p->at(i)->getID() << " : " << p->at(i)->getFitness() << endl;
     cout << p->at(i)->getID() << "\t" << p->at(i)->getFitness() << "\t";
   }
   cout << endl << flush;
@@ -374,7 +320,6 @@ static inline void sendExitToken(bool exit){
 static inline bool readExitToken(){
   string s;
   cin >> s;
-  //  cerr << "in readExitToken s: " << s << endl;
   if(s.find("NOEXIT")==string::npos)
     return false;
   return true;
@@ -390,19 +335,12 @@ static inline void setChamp(Phenotype *& oldchamp, Phenotype * challenger)
 {
   if((&oldchamp == &challenger) || (oldchamp!=NULL && (oldchamp->getID()==challenger->getID() && oldchamp->getFitness() && challenger->getFitness())))
     return;
-//   else
-//     cerr << "not equal memory addr: " << &oldchamp << " and " << &challenger << endl;
   if(oldchamp==NULL){
-//     cerr << "champn null challenger("<<challenger->getID()<<"): "<<challenger->getFitness()<<endl;
     oldchamp = challenger;
   }else if(oldchamp->getFitness()<challenger->getFitness()){
-//     cerr << "deleing champ" << endl;
-//     cerr << "champ("<<oldchamp->getID()<<"):"<<oldchamp->getFitness()<<" challenger("<<challenger->getID()<<"): "<<challenger->getFitness()<<endl;
     delete oldchamp;
     oldchamp = challenger;
   }else{
-//     cerr << "deleing challenger" << endl;
-//     cerr << "champ("<<oldchamp->getID()<<"):"<<oldchamp->getFitness()<<" challenger("<<challenger->getID()<<"): "<<challenger->getFitness()<<endl;
     delete challenger;
   }
     
@@ -500,7 +438,6 @@ static inline void writesettings(string resulttype, double result, NEATsettings 
   stringstream commentl1;
   stringstream commentl2;
 
-  //  cout << "ctime of time 0 is: " << ctime(heh) << endl;
   string timestr = getTimeString();
   file << "results/" << resulttype << "-" << timestr << ".settings";
   commentl1 << " " << resulttype << " :" ;
