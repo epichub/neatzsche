@@ -32,18 +32,18 @@ double DatasetEvaluator::f(Phenotype * f)
   f->setFitness(r);
   //   cerr << "pid: " << f->getID() << " new fitness: " << pow(ds->getTrainings()-esum,2.0) 
   //       << " getfitness: " << f->getFitness() << endl;
-  if(pow(ds->getTrainings()-esum,2.0)==0)
-    cerr << "pow(ds->getTrainings()-esum,2.0) was zero!!"<<endl;  
-  if(pow(ds->getTrainings()-esum,2.0)>20){
-    cerr << "esum: " << esum << endl;
-    cerr << "v0: " << v.at(0) << endl;
-    // cerr << "phenotype outputftype: " << f->outputFType() << endl;
-    cerr << "pow(ds->getTrainings()-esum,2.0) was over 20!!"<<endl;  
-    cerr << "genome: " << f->getGenome() << endl;
-    cerr << "state: " << printvector(f->getState()) << endl;
-    f->cleanNet();
-    cerr << "state: " << printvector(f->getState()) << endl;
-  }
+//   if(pow(ds->getTrainings()-esum,2.0)==0)
+//     cerr << "pow(ds->getTrainings()-esum,2.0) was zero!!"<<endl;  
+//   if(pow(ds->getTrainings()-esum,2.0)>20){
+//     cerr << "esum: " << esum << endl;
+//     cerr << "v0: " << v.at(0) << endl;
+//     // cerr << "phenotype outputftype: " << f->outputFType() << endl;
+//     cerr << "pow(ds->getTrainings()-esum,2.0) was over 20!!"<<endl;  
+//     cerr << "genome: " << f->getGenome() << endl;
+//     cerr << "state: " << printvector(f->getState()) << endl;
+//     f->cleanNet();
+//     cerr << "state: " << printvector(f->getState()) << endl;
+//   }
   return r;
 }
 void DatasetEvaluator::runTest(Phenotype * f)
@@ -148,7 +148,8 @@ double GoEvaluator::f(Phenotype * f)
     fmin = ftmp;
   if(ftmp > fmax)
     fmax = ftmp;
-  ftmp = 100-g->score();
+//   ftmp = 100-g->score();
+  ftmp = g->score(true);
   if(ftmp<=0)
     ftmp = 0.0001;
   if(stmp<=0)
