@@ -25,14 +25,8 @@ int Selector::suswheel(int n, Species * s, int elitism, bool debug)
     dbg = true;
   }
   for(int i=(elitism-1);i>=0;i--){
-//     if(dbg)
-//       cerr << "incing clones of: " << members->at(i)->getID() << " of: " << members->at(i)->getOrigFitness() << endl;
     members->at(i)->incClones();
   }
-  //TODO REMOVE FFS
-//   for(unsigned int i=0;i<members->size();i++)
-//     if(members->at(i)->getGenome()->mydebug==18)
-//       cout << "in selector .. still have node added genome(size:"<<members->at(i)->getGenome()->getGenes()->size()<<") after death.." << endl;
 
   n -= elitism;
   int taken = 0;int n2 =0;double tmp = 0, space = 0;
@@ -44,7 +38,6 @@ int Selector::suswheel(int n, Species * s, int elitism, bool debug)
     n2 = n;
 
   while(taken<n){
-    //    cerr << "in suswheel whileloop n: "<<n<<" taken: "<< taken << endl; 
     for(unsigned int i=0;i<members->size();i++){
       sum += this->eval(members->at(i),i);
     }
@@ -101,18 +94,12 @@ Population * SigmaScaling::select(Population * p,  int elitism)
 {
   Selector::select(p,elitism);
   speciesVector * s = p->getSpecies();
-  //  cerr << "in sigmascaling select .. s->size(): "<<s->size() << endl;
   elitism = 0;
   for(unsigned int i = 0 ; i<s->size();i++){
-//     if(i==speciesforelitism)
-//       elitism = 0;    
     calcstddev(s->at(i));
-    //    cerr << "in sigmascaling loop before suswheel i: " << i << endl;
-//     cerr << "species: " << s->at(i)->getID() << " setting special clones" << s->at(i)->getSpecialClones() << endl;
     suswheel(s->at(i)->getExpected(),s->at(i),elitism+s->at(i)->getSpecialClones(),true);
     if(s->at(i)->getSpecialClones()>0)
       s->at(i)->setSpecialClones(0);
-    //    cerr << "in sigmascaling loop after suswheel i: " << i << endl;
   }
   return p;
 }
@@ -133,7 +120,6 @@ Population * RankSelection::select(Population * p, int elitism)
     if(i==speciesforelitism)
       elitism = 0;
     n = s->at(i)->getExpected();  
-    ssize = s->at(i)->getMembers()->size();
     suswheel((int)n,s->at(i),elitism,true);
   }
   return p;
@@ -144,18 +130,14 @@ Population * LocalReproducer::reproduce(Population * p)
   speciesVector * s = p->getSpecies();
   unsigned int size = s->size();
   for(unsigned int i=0;i<size;i++){
-    //    cout << "pre reproduce" << p->getMembers()->size() << endl;
     s->at(i)->reproduce();
-    //    cout << "post reproduce" << p->getMembers()->size() << endl;
   }
   int c=0;
   for(unsigned int i=0;i<s->size();i++)
     c += s->at(i)->getChildren()->size();
   
-  //  cerr << "children after reproduction: " << c << endl;
   for(unsigned int i=0;i<s->size();i++)
     s->at(i)->transferChildren();
   p->postepoch();
-  //  cerr << "post postepoch" << p->getMembers()->size() << endl;
   return p;
 }

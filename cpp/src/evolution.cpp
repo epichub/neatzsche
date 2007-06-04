@@ -35,9 +35,6 @@ void Population::updateSpeciesStats()
 //for selection within the species and finally reproduction.
 void Population::preepoch()
 {
-  //  if(debug)
-//     cerr << "prepoch start: curgen:"<<curgen<<" members size: " << members->size() << " species size : " << species->size() << endl;
-//     cout << "member0 fitness: " << members->at(0)->getFitness()<<endl;
   double skim = 0;
   double sum = 0;
   unsigned int total_expected = 0;
@@ -68,23 +65,12 @@ void Population::preepoch()
     }      
     tmp2 = floor(tmp);
     skim += tmp-tmp2;
-//     cerr << "species->at(i)->getAvgFitness(): "<< species->at(i)->getAvgFitness()
-// 	 <<" sum: "<<sum
-// 	 <<" members: "<< species->at(i)->getMembers()->size()
-// 	 <<" setting expected to tmp: " << (int)tmp << endl;
-//    cerr << "avgfit: " << species->at(i)->getAvgFitness() <<" tmp:" << tmp << endl;
     species->at(i)->setExpected((int)tmp);
   }
-//   cerr << "setting special clones for species " <<   members->at(0)->getSpecies()->getID() 
-//        << " of: " << members->at(0)->getOrigFitness() << endl;
   members->at(0)->getSpecies()->setSpecialClones(1);
-  //  exit(0);
   for(unsigned int i=0;i<species->size();i++)
     total_expected += species->at(i)->getExpected();
-//   if(total_expected>150)
-//     cout << "gen: "<<curgen<<" total expected er over 150: "<<total_expected<<" ..members size: " << members->size() << endl;
   if(total_expected<(unsigned int)size){
-    //cout << "smaller than size.. total_expected: " << total_expected << endl;
     int max = 0;
     Species * best = NULL;
     for(unsigned int i=0;i<species->size();i++){   
@@ -100,8 +86,6 @@ void Population::preepoch()
     total_expected += species->at(i)->getExpected();
 
   bestspecnum=species->at(0)->getID();
-//   Species * top = species->at(0);
-//   Species * bottom = species->at(species->size()-1);
   if(members->at(0)->getOrigFitness()>highestf){
     highestf = members->at(0)->getOrigFitness();
     highestlastchanged=0;
@@ -283,8 +267,6 @@ void Population::postepoch()
 }
 void Population::populationCleanup()
 {
-//   setvars();
-//   resetVars();
   deletespecies();
   for(unsigned int i=0;i<members->size();i++)
     delete members->at(i);
@@ -334,34 +316,7 @@ void Species::reproduce()
   Phenotypes * newgeneration = new Phenotypes();
   //do a straight clone of the specieschamp
   if(members->at(0)->getClones()==1){
-
     newgeneration->push_back(new Phenotype(members->at(0)->getGenome()->duplicate(p->getAndIncID())));
-//     vector<double> ngs = newgeneration->at(0)->getState();
-//     vector<double> ogs = members->at(0)->getState();
-//     double otestfn = p->fe->f(members->at(0));
-//     double ntestfn = p->fe->f(newgeneration->at(0));    
-//     vector<double> ngs2 = newgeneration->at(0)->getState();
-//     vector<double> ogs2 = members->at(0)->getState();
-//     cerr << "cloning bestmember: " << members->at(0)->getID() << " new id: " << newgeneration->at(0)->getID() 
-// 	 << " compare: " << members->at(0)->getGenome()->compare(newgeneration->at(0)->getGenome())
-// 	 << " of: " << members->at(0)->getOrigFitness() 
-// 	 << " testf: " << otestfn
-// 	 << " new fitness: " << ntestfn
-// 	 << " checkvector1: " << checkvector(ngs,ogs,false)
-// 	 << " sumvector1o: " << sumvector(ogs)
-// 	 << " sumvector1n: " << sumvector(ngs)
-// 	 << " checkvector2: " << checkvector(ngs2,ogs2,false)
-// 	 << " sumvector1o: " << sumvector(ogs)
-// 	 << " sumvector1n: " << sumvector(ngs)<< endl;
-
-//     if(!myequal(otestfn,ntestfn)){
-//       cerr.precision(99);
-//       cerr << "of var: "<< members->at(0)->getOrigFitness()
-// 	   <<" testfn var: " << otestfn << " exiting.. " << endl;
-//       cerr << "test var: ";
-//       cerr << (otestfn!=members->at(0)->getOrigFitness()) << endl;
-//       exit(1);
-//     }
     members->at(0)->decClones();
   }
 
@@ -393,19 +348,9 @@ void Species::reproduce()
   Phenotype * p2 = NULL;
   int p2n = 0;
   speciesVector * species = NULL;
-  //  Species * cspecies = NULL;
   double sr = 0; int sn = 0;
   Phenotype * tmpp = NULL;
   int ip = 0;
-//   if(luckymembers->size()==0&&p->getSpecies()->size()==1)
-//     cerr << "gen: " << p->getGeneration() << " spec size er 1 id er: "<<id
-// 	 <<" expected offspring: "<<expectedoffspring
-// 	 <<" og member0 popchamps: "<<members->at(0)->getPopulationChampClones()
-// 	 <<" member 0 eoffpsring " <<members->at(0)->getExpected()
-// 	 <<" member 0 id: " <<members->at(0)->getID()
-// 	 <<" member 0 ofitness: " <<members->at(0)->getOrigFitness()
-// 	 <<"luckymembers size er null og age er:" << age << endl;
-//commented this out as this has nothing to say as the age is always high
   while(luckymembers->size()!=0){
     ip = (luckymembers->size()==1) ? 0 : randint(0,luckymembers->size()-1);
     p1 = luckymembers->at(ip);
@@ -460,25 +405,6 @@ void Species::reproduce()
       }
     }
     //add to appropriate species..
-//     int af = newgenome->getGenes()->at(0)->getFrom()->getID();
-//     if(tf!=af){
-//       cerr << "tf("<< tf <<"->"<<p1->getGenome()->getGenes()->at(0)->getTo()->getID()
-// 	   << "("<<p1->getGenome()->getGenes()->at(0)->getMarker()<<") (p2: " 
-// 	   << p2->getGenome()->getGenes()->at(0)->getFrom()->getID() 
-// 	   <<"->"<<p2->getGenome()->getGenes()->at(0)->getTo()->getID() 
-// 	   << "("<<p2->getGenome()->getGenes()->at(0)->getMarker()<<") id: "<< p2->getGenome()->getID() <<" )"
-// 	   <<" id: "<< p1->getGenome()->getID()
-// 	   <<"  2.: "<< p1->getGenome()->getGenes()->at(1)->getFrom()->getID() 
-// 	   <<"->"<<p1->getGenome()->getGenes()->at(1)->getTo()->getID()
-// 	   <<" ) ikke lik af("<< af <<"->"<<newgenome->getGenes()->at(0)->getTo()->getID()
-// 	   <<" id: "<< newgenome->getID()
-// 	   <<" 2.: "<< newgenome->getGenes()->at(1)->getFrom()->getID() 
-// 	   <<"->"<<newgenome->getGenes()->at(1)->getTo()->getID()
-// 	   <<" ) i good old repro..type:"<< type <<"\n";
-//       cerr << "p1:\n" << p1->getGenome();
-//       cerr << "p2:\n" << p1->getGenome();
-//      exit(1);
-//    }
     //remove the expected offspring from individual..
 
     tmpp = new Phenotype(newgenome);
@@ -603,7 +529,6 @@ void Population::speciate()
 }
 void Species::adjustFitness(NEATsettings * set)
 {
-//   cerr << "<spec adjustfitness> id: " << id << endl;
   int par=0;
   int agedebt = (age-lastimprov+1)-(int)set->getValue("dropoff_age");
   double age_significance = set->getValue("age_significance");
@@ -637,7 +562,6 @@ void Species::adjustFitness(NEATsettings * set)
   for(unsigned int i=par;i<members->size();i++) { //should it be par-1?
     members->at(i)->markDead();
   }
-//   cerr << "</spec adjustfitness> id: " << id << endl;
 }
 void Species::updateavgf()
 {
