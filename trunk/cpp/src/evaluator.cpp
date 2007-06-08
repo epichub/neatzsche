@@ -150,6 +150,12 @@ double GoEvaluator::f(Phenotype * f)
     fmax = ftmp;
 //   ftmp = 100-g->score();
   ftmp = g->score(true);
+
+  if(g->getPuts()==0)
+    ftmp -= 0.1;
+  else
+    ftmp += .15 * g->getPuts();
+
   if(ftmp<=0)
     ftmp = 0.0001;
   if(stmp<=0)
