@@ -64,6 +64,11 @@ namespace gw {
     vector<double> slook;
     vector<double> sensoryret;
 
+
+    //default put value
+    double pfire;
+    int ppos[2];
+
     //sqlook
     int sqd;
     int ah, aw;
@@ -182,6 +187,7 @@ namespace gw {
       fpass=spass=false;gwboard.clear(); 
       gwboard = state((int)pow(bsize,2)*2);
       fcount=scount=moves=movedputs=passes=0;
+      pfire = 0;
       resetPos();
       *fheading = 0; *sheading = 0;}
     void simplereset(){fpass=spass=false;gwboard.clear(); 
@@ -189,9 +195,16 @@ namespace gw {
       fcount=scount=moves=0;
       resetPos();}
     void resetRound(Phenotype * p){
+      pfire = 0;
       resetCount();
       resetPos();
       p->cleanNet();
+    }
+    void defaultPut(bool first){ 	
+      int * p = getpos(first);
+      p[0] = ppos[0];
+      p[1] = ppos[1];
+      put(first);
     }
     void resetCount(){fcount=scount=0;}
     void resetPos(){ 

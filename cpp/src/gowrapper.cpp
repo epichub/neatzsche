@@ -290,7 +290,8 @@ namespace gw{
       if(fcount>=thinksteps){
 // 	cerr << "fcount cache moves++" << endl;
 	moves++;
-	setPass(first);
+	defaultPut(first);
+// 	setPass(first);
 	return true;
       }else 
 	fcount++;
@@ -299,7 +300,8 @@ namespace gw{
       if(scount>=thinksteps){
 //     cerr << "scount cache moves++" << endl;
 	moves++;
-	setPass(first);
+	defaultPut(first);
+// 	setPass(first);
 	return true;
       }else
 	scount++;
@@ -312,6 +314,14 @@ namespace gw{
     //in one move.
 
     moving=turned=forward=back=west=east=false;
+    
+
+    //recording highest fire of put node for default move.
+    if(inp.at(3)>pfire){
+      ppos[0] = getpos(first)[0];
+      ppos[1] = getpos(first)[1];
+      pfire = inp.at(3);
+    }
 
     if(inp.at(1)>0.5){//turn left
       turnleft(first);
@@ -533,7 +543,7 @@ namespace gw{
     ind = 5;
     domax = 0.5;
     sqd = (int)floor(eyesize/2);
-
+    pfire = 0; ppos[0] = 0; ppos[1] = 0;
     sp = isp;
     lvl = ilvl;
     netmoves = 0;
