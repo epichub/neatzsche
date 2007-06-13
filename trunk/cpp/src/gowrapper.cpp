@@ -290,8 +290,8 @@ namespace gw{
       if(fcount>=thinksteps){
 // 	cerr << "fcount cache moves++" << endl;
 	moves++;
-	defaultPut(first);
-// 	setPass(first);
+// 	defaultPut(first);
+ 	setPass(first);
 	return true;
       }else 
 	fcount++;
@@ -300,8 +300,8 @@ namespace gw{
       if(scount>=thinksteps){
 //     cerr << "scount cache moves++" << endl;
 	moves++;
-	defaultPut(first);
-// 	setPass(first);
+// 	defaultPut(first);
+ 	setPass(first);
 	return true;
       }else
 	scount++;
