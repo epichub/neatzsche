@@ -280,6 +280,8 @@ Population::~Population()
 {
   populationCleanup();
   delete in;
+  delete members;
+  delete species;
 }
 Species::~Species()
 {
