@@ -271,6 +271,7 @@ void Population::populationCleanup()
   for(unsigned int i=0;i<members->size();i++)
     delete members->at(i);
   delete members;
+  delete in;
   deletespecies();
   setvars();
   resetVars();
