@@ -166,6 +166,12 @@ int main(int argc,char *args[]){
   delete pop;
   delete sel;
   delete set;
+  delete tfs;
+  delete ev;
+  delete coevo;
+  delete fe;
+  delete rep;
+  delete stopv;
 
   exit(0);//exit with success
 }
