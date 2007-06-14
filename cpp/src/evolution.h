@@ -217,7 +217,9 @@ public:
   unsigned int spectarget;
 
   void resetVars(){
-    in = new Innovations((int)set->getValue("number_of_innovations")); species = new speciesVector(); members = new Phenotypes();
+    in = new Innovations((int)set->getValue("number_of_innovations")); 
+    species = new speciesVector(); 
+    members = new Phenotypes();
     highestf=0;highestlastchanged=curgenome=curspec=curgen=bestspecnum=debug=size=0;
     bestmember=NULL;
     }
