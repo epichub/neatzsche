@@ -51,7 +51,7 @@ private:
 public:
   NEATRunner(int igens, int iiter)
   {smoothdata = new double * [igens]; 
-   for(int i=0;i<igens;i++) smoothdata[i] = new double[3];
+    for(int i=0;i<igens;i++) {smoothdata[i] = new double[3];smoothdata[i][0] = 0;smoothdata[i][1] = 0;smoothdata[i][2] = 0;}
    generations=igens; runs=iiter;stop=false;
    currentgraphf=NULL;sbest=NULL; best=NULL; gbest=NULL; sgf = "defaultspecgraphfile.xmlgraph";}
   ofstream * currentgraphf;
