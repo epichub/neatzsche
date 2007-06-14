@@ -33,7 +33,7 @@ TransferFunction::TransferFunction()
 }
 TransferFunction::~TransferFunction()
 {
-  delete ftype;
+
 }
 
 SignumTransfer::SignumTransfer(){
