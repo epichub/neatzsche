@@ -117,6 +117,7 @@ int main(int argc,char *args[]){
   delete sel;
   delete rep;
   delete set;
+  delete tfs;
 
   return 0;
 }
