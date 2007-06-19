@@ -7,4 +7,4 @@ maxlooksteps 100
 mem 20
 easygomode 1
 #easygomode 1: count 2: line 3: not-straight-line..
-easygoiterations 50  
+easygoiterations 50

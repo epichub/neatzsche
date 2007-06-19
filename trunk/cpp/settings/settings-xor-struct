@@ -3,19 +3,19 @@ excess_coeff 1.5
 mutdiff_coeff 0.4
 weightmutation_rate 1.0
 severe_mutation_rate 0.0
-compat_threshold 2.0
+compat_threshold 3.0
 dropoff_age 15
 age_significanse 1.0
 survival_thresh 0.25
-#species_target_size 3
+species_target_size 3
 #species_target
 mutate_only_prob 0.25
 mutate_link_weights_prob 0.85
-mutate_link_weights_power 2.5
+mutate_link_weights_power 1.9
 mutate_toggle_enable_prob 0.0
-mutate_gene_reenable_prob 0.0
-mutate_add_node_prob 0.03
-mutate_add_link_prob 0.05
+mutate_gene_reenable_prob 0.1
+mutate_add_node_prob 0.05
+mutate_add_link_prob 0.11
 interspecies_mate_rate 0.001
 mate_multipoint_prob 0.6
 mate_multipoint_avg_prob 0.4
@@ -26,7 +26,7 @@ spawn_recur_prob 0.0
 coldgaussian_weight_mutate 0
 recurrent_conn_prob 0.0
 number_of_innovations 0
-keeplink 1
+keeplink 0
 enable_gauss_tfunc 0
 enable_sinus_tfunc 0
 enable_parabel_tfunc 0
