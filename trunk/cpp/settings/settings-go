@@ -11,10 +11,10 @@ species_target_size 20
 #species_target 20
 mutate_only_prob 0.25
 mutate_link_weights_prob 0.8
-mutate_link_weights_power 2.5
+mutate_link_weights_power 0.7
 mutate_toggle_enable_prob 0.0
 mutate_gene_reenable_prob 0.05
-mutate_add_node_prob 0.009
+mutate_add_node_prob 0.01
 mutate_add_link_prob 0.12
 interspecies_mate_rate 0.015
 mate_multipoint_prob 0.6
@@ -25,12 +25,12 @@ newlink_tries 900
 spawn_recur_prob 0.6
 coldgaussian_weight_mutate 0
 recurrent_conn_prob 1
-number_of_innovations 0
+number_of_innovations 500000
 keeplink 1
 enable_gauss_tfunc 0
 enable_sinus_tfunc 0
 enable_parabel_tfunc 0
-newlink_weight_max 2.5
+newlink_weight_max 10
 #transferfunction settings
 unipolar 1
 gauss_median 0.5
