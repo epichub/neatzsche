@@ -156,6 +156,10 @@ playtwoplayergame: $(OBJS) playtwoplayergame.o playtwoplayergame.cpp statechange
 # 	$(CXX) $(BLIBS) $(LIBS) -o $@ xorgenomeoutput.o $(OBJS)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 # 	@ mv xorgenomeoutput ../
 
+lightsim-test: $(OBJS) lightsim-test.o lightsim-test.cpp
+	$(CXX) $(BLIBS) $(LIBS) -o $@ lightsim-test.o $(OBJS) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	@mv lightsim-test ../
+
 go-consistency: $(OBJS8) go-consistency.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS8)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv go-consistency ../
