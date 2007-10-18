@@ -13,4 +13,4 @@ profile: changedir
 	@ cd src ; make STYLE=PROFILE ;
 
 clean: 
-	@ rm neatmaster neatslave test-xor test-go ; cd src; rm *.o TAGS
+	@ rm neatmaster neatslave test-xor test-go lightsim-test; cd src; rm *.o TAGS
