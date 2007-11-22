@@ -3,16 +3,21 @@
 TAGS= etags -a
 LDFLAGS= -lpthread
 
+QTDEFINES       = -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_SHARED
+QTINCLUDE       = -I/usr/local/Qt4.3/mkspecs/macx-g++ -I. -I/Library/Frameworks/QtCore.framework/Versions/4/Headers -I/usr/include/QtCore -I/Library/Frameworks/QtNetwork.framework/Versions/4/Headers -I/usr/include/QtNetwork -I/Library/Frameworks/QtGui.framework/Versions/4/Headers -I/usr/include/QtGui -I/usr/include -I. -Iwrapper -I. -I. -F/Library/Frameworks
+QTLIBS          = $(SUBLIBS) -F/Library/Frameworks -L/Library/Frameworks -framework QtGui -framework Carbon -framework AppKit -framework QtNetwork -framework QtCore -lz -lm -liconv -framework ApplicationServices
+
 GOSOURCE=gowrapper.cpp gowrapper.h
 GOOBJ=gowrapper.o
 ifeq ($(GG), CVS)
-  DEFINES=-DGGCVS
+
+  DEFINES=$(QTDEFINES) -DGGCVS
 endif
 ifeq ($(GG), )
-  DEFINES=-DGGSTABLE
+  DEFINES=$(QTDEFINES) -DGGSTABLE
 endif
 
-SRCS=go-consistency.cpp playtwoplayergame.cpp lightsim/lightsim-test.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE) testwrite.cpp
+SRCS=go-consistency.cpp playtwoplayergame.cpp test-or.cpp lightsim/lightsim-test.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE) testwrite.cpp lightsim/lightsim.cpp lightsim/cell.cpp lightsim/lightsource.cpp lightsim/lsc.cpp lightsim/lightvector.cpp lightsim/nworld.cpp lightsim/paintwindow.cpp lightsim/moc_paintwindow.cpp lightsim/paintarea.cpp
 TSRCS=tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp tinystr.cpp
 TOBJS := $(addsuffix .o,$(basename ${TSRCS}))
 OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o
@@ -24,9 +29,12 @@ OBJS6=$(OBJS) unit-statechange.o
 OBJS7=$(OBJS) playgame.o
 OBJS8=$(OBJS) go-consistency.o
 OBJS9=$(OBJS) playtwoplayergame.o
-OBJS9=$(OBJS) xorgenomeoutput.o
+OBJS10=$(OBJS) xorgenomeoutput.o
+OBJS11=$(OBJS) lightsim/lightsim-test.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o moc_paintwindow.o
+OBJS12=$(OBJS) test-or.o
 
-IINCLUDE=-I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0
+
+IINCLUDE=$(QTINCLUDE) -I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0
 BLIBS=-L$(HOME)/local/lib
 OPTS = -g -Wall
 
@@ -75,6 +83,8 @@ ifeq ($(CC),)
 endif
 CXX=g++ $(OPTS) $(DEFINES) $(BINCLUDE)
 
+LIBS=$(QTLIBS)
+
 ifeq ($(os-type), Linux)
   LIBS=-L$(HOME)/local/lib -Wl,--rpath,$(HOME)/local/lib
   BLIBS=
@@ -87,7 +97,7 @@ ifeq ($(os-type), Darwin)
   BINCLUDE = $(IINCLUDE) -I/opt/local/include
 endif
 
-all:	neatmaster neatslave tags test-xor test-go playgame
+all:	neatmaster neatslave tags test-xor test-go playgame lightsim-test test-or
 
 dist:
 	@ +make STYLE=RELEASE
@@ -156,9 +166,13 @@ playtwoplayergame: $(OBJS) playtwoplayergame.o playtwoplayergame.cpp statechange
 # 	$(CXX) $(BLIBS) $(LIBS) -o $@ xorgenomeoutput.o $(OBJS)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 # 	@ mv xorgenomeoutput ../
 
-lightsim-test: $(OBJS) lightsim/lightsim-test.o lightsim/lightsim-test.cpp
-	$(CXX) $(BLIBS) $(LIBS) -o $@ lightsim/lightsim-test.o $(OBJS) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+lightsim-test: $(OBJS11) lightsim/lightsim-test.o lightsim/lightsim-test.cpp moc_paintwindow.cpp moc_paintwindow.o
+	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS11) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@mv lightsim-test ../
+
+test-or: $(OBJS) test-or.o test-or.cpp
+	$(CXX) $(BLIBS) $(LIBS) -o $@ test-or.o $(OBJS) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	@mv test-or ../
 
 go-consistency: $(OBJS8) go-consistency.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS8)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
@@ -186,3 +200,16 @@ libecho:
 
 includeecho:
 	@echo "includes is \"$(BINCLUDE)\""
+
+
+mocclean: compiler_moc_header_clean compiler_moc_source_clean
+
+mocables: compiler_moc_header_make_all compiler_moc_source_make_all
+
+compiler_objective_c_make_all:
+compiler_objective_c_clean:
+compiler_moc_header_make_all: moc_botthread.cpp moc_botthreadwindow.cpp moc_botwindow.cpp moc_lobbywindow.cpp moc_paintwindow.cpp moc_senderthread.cpp moc_serverwindow.cpp moc_session.cpp moc_sessionwindow.cpp moc_settingswindow.cpp moc_wrapper.cpp
+compiler_moc_header_clean:
+	-$(DEL_FILE) moc_botthread.cpp moc_botthreadwindow.cpp moc_botwindow.cpp moc_lobbywindow.cpp moc_paintwindow.cpp moc_senderthread.cpp moc_serverwindow.cpp moc_session.cpp moc_sessionwindow.cpp moc_settingswindow.cpp moc_wrapper.cpp
+moc_paintwindow.cpp: lightsim/paintwindow.h
+	/Developer/Tools/Qt/moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ lightsim/paintwindow.h -o moc_paintwindow.cpp

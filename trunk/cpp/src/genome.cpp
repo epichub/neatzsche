@@ -119,6 +119,7 @@ Genome::~Genome()
 Genome * Genome::duplicate(int id)
 {
   Genome * ret = new Genome(id);
+//   cerr << "gene size is: " << genes->size();
   int tf = genes->at(0)->getFrom()->getID();
   nodeVector * retn = ret->nodes;
   for(unsigned int i=0;i<nodes->size();i++)
