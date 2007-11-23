@@ -37,50 +37,17 @@ double nVector::scalarValue(nVector & linevector)
 
 nVector * nVector::orthogonal(nPoint & p, nVector & l)
 {
-  nPoint point = p;
-  nVector linevector = l;
-  bool trans = false;
-  if(fabs(linevector.vec->at(0))> fabs(linevector.vec->at(1))){
-    nPoint * p2 = p.twodTransPose();
-    point = *p2;
-    nVector * l2 = l.twodTransPose();
-    linevector = *l2;
-    trans = true;
-  }
-
-  if(point.size()!=linevector.vec->size()){
-    return NULL;
-  }
-
-  nVector * ret = new nVector();
-  ret->vec->insert(ret->vec->end(),linevector.vec->size(),0);
-  double abValue = scalarValue(linevector);
-
-  double b[2];
-  b[0] = 0; b[1] = abValue;
-
-  double c[2];
-  c[0] = (point.at(0)-linevector.vec->at(0));
-  c[1] = b[1] + (point.at(1)-linevector.vec->at(1));
-
-  double j = (point.at(1)/b[1]);
-
-  if(j>1.0){ //not orthogonal
-    return NULL;
-  }
-  double d[2];
-  d[0] = 0; d[1] = c[1];
-  ret->start = new nPoint();
-  ret->start->push_back(d[0]);
-  ret->start->push_back(d[1]);
-  ret->vec = new std::vector<double>();
-  ret->vec->push_back(c[0]);
-  ret->vec->push_back(c[1]-d[1]);
-  if(trans){
-    nVector * heh = ret;
-    ret = heh->twodTransPose();
-    delete heh;
-  }
-  return ret;
+  double x1 = l.start->at(0);
+  double y1 = l.start->at(1);
+  double x2 = l.start->at(0)+l.vec->at(0);
+  double y2 = l.start->at(1)+l.vec->at(1);
+  double x3 = p.at(0);
+  double y3 = p.at(1);
+  double len = scalarValue(l);
+  double u = (((x3-x1)*(x2-x1))+((y3-y1)*(y2-y1)))/pow(len,2);
+  double x = x1+(u*(x2-x1));
+  double y = y1+(u*(y2-y1));
+  nPoint cPoint(x,y);
+  return new nVector(p,cPoint);
 }
 

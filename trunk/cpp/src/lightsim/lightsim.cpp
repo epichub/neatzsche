@@ -57,16 +57,19 @@ void Lightsim2D::createVectors() {
 void Lightsim2D::pruneBlockedVectors() {
   vector<nVector*>::iterator it = lightvectors->begin();
   while(it!=lightvectors->end()){
+    cout << "checking lightvector: ("<<(*it)->start->at(0)<<","<<(*it)->start->at(1)<<") + t("<<(*it)->vec->at(0)<<","<<(*it)->vec->at(1)<<")" << endl;
     for(unsigned int j=0;j<opaquecells->size();j++) {
       //      if((*it)->twodHasPoint(opaquecells->at(j)->getX(),opaquecells->at(j)->getY(),0.5)) {
       nVector * tmpvec=(*it)->orthogonal(*new nPoint(opaquecells->at(j)->getX(),opaquecells->at(j)->getY()));
       cout << "ocx: "<<opaquecells->at(j)->getX()<<" ocy: "<<opaquecells->at(j)->getY()<<" ovx: "<<tmpvec->vec->at(0)<<" ovy: "<<tmpvec->vec->at(1)<<" tmpvec->scalarValue(): " << tmpvec->scalarValue() << endl;
-      if(tmpvec->scalarValue()<20) {
+      if(tmpvec->scalarValue()<1) {
 	deletedLightvectors->push_back(*it);
-	it = lightvectors->erase(it);
-      cout << "Checking if: "<<opaquecells->at(j)->getX()<<","<<opaquecells->at(j)->getY()<<" blocks "<<(*it)->start->at(0)<<","<<(*it)->start->at(1)<<" with V=["<<(*it)->vec->at(0)<<","<<(*it)->vec->at(1)<<"]\n";
-	cout<< "It did! pruning that one.\n";
-      }
+	lightvectors->erase(it);
+//       cout << "Checking if: "<<opaquecells->at(j)->getX()<<","<<opaquecells->at(j)->getY()<<" blocks "<<(*it)->start->at(0)<<","<<(*it)->start->at(1)<<" with V=["<<(*it)->vec->at(0)<<","<<(*it)->vec->at(1)<<"]\n";
+	cout<< "!!!! It did! pruning that one.\n";
+	j = opaquecells->size();
+      }else
+	cout<< "@@@@ NO GO" << endl;
     }
     ++it;
   }

@@ -13,7 +13,7 @@ int main(int argc, char *args[])
   f >> ls2d;
   f.close();
   ls2d->createVectors();
-  //  ls2d->pruneBlockedVectors();
+  ls2d->pruneBlockedVectors();
   ls2d->print();
   QApplication app(argc,args);
   PaintWindow *pw=new PaintWindow(1100,900,ls2d,NULL);
