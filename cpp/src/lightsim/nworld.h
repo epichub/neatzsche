@@ -121,6 +121,32 @@ public:
 typedef std::vector< nPoint * > nPoints;
 typedef std::vector< nVector * > nVectors;
 
+inline double myscalarValue(nVector & linevector)
+{
+  double ret=0;
+  for(unsigned int i=0;i<linevector.vec->size();i++)
+    ret += pow(linevector.vec->at(i),2);
+  return sqrt(ret);
+}
+
+inline nVector * myorthogonal(nPoint & p, nVector & l)
+{
+  double x1 = l.start->at(0);
+  double y1 = l.start->at(1);
+  double x2 = l.start->at(0)+l.vec->at(0);
+  double y2 = l.start->at(1)+l.vec->at(1);
+  double x3 = p.at(0);
+  double y3 = p.at(1);
+  double len = myscalarValue(l);
+  double u = (((x3-x1)*(x2-x1))+((y3-y1)*(y2-y1)))/pow(len,2);
+  double x = x1+(u*(x2-x1));
+  double y = y1+(u*(y2-y1));
+  nPoint cPoint(x,y);
+  return new nVector(p,cPoint);
+}
+
+
+
 // nVector * orthogonal(nPoint & point, nVector & linevector);
 // inline double scalarValue(nVector & linevector);
 
