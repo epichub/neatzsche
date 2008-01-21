@@ -19,6 +19,11 @@
  */
 
 #include "evaluator.h"
+double PictureEvaluator::f(Phenotype * f)
+{
+  double r = 1;
+  return r;
+}
 double DatasetEvaluator::f(Phenotype * f)
 {
   double esum = 0;
