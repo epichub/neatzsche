@@ -165,7 +165,7 @@ class PictureEvaluator : public FitnessEvaluator {
 private:
   int ** picdata;
 public:
-  DatasetEvaluator(int ** picdata){this.picdata=picdata;};
+  PictureEvaluator(int ** picdata){this->picdata=picdata;};
   virtual ~PictureEvaluator(){};
   virtual double f(Phenotype * f);
   virtual void nextGen(){return;} // no need for this here..
