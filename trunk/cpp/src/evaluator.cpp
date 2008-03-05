@@ -19,6 +19,47 @@
  */
 
 #include "evaluator.h"
+
+double LightsimEvaluator::f(Phenotype * f)
+{
+  cout<<"xmax: "<<xmax<<" ymax: "<<ymax<<"\n";
+  unsigned int ** twodmap;
+  twodmap=new unsigned int*[xmax];
+  for(unsigned int i=0;i<xmax;i++) {
+    twodmap[i]=new unsigned int[ymax];
+    for(unsigned int j=0;j<ymax;j++) {
+      vector <double> tmpin;
+      tmpin.push_back(i);
+      tmpin.push_back(j);
+      vector <double> tmpout;
+      tmpout=f->react(tmpin);
+      int tmpstrength=0;
+      int tmpwinner=0;
+      for(unsigned int k=0;k<tmpout.size();k++){
+	if(tmpout.at(k)>tmpstrength&&tmpout.at(k)>0.3) {
+	  tmpwinner=k+2;
+	  tmpstrength=tmpout.at(k);
+	}
+      }
+      //cout << "winner of "<<i<<","<<j<<" is "<<tmpwinner<<"\n";
+      twodmap[i][j]=tmpwinner;
+    }
+    //      cout <<"done with "<<i<<"\n";
+  }
+  //    cout << "one phenotype done!\n";
+
+  for(unsigned int i=0;i<xmax;i+=((int)(xmax/lsnum))) {
+    twodmap[0][i]=1;
+    //    cout << "creating a new LS at 0,"<<i<<"\n";
+  }
+
+  Lightsim2D *ls2d=new Lightsim2D(0.5,twodmap);
+  ls2d->print();
+
+  f->setFitness(ls2d->getLightvectors()->size());
+  return f->getFitness();
+}
+
 double PictureEvaluator::f(Phenotype * f)
 {
   double r = 1;
