@@ -17,11 +17,11 @@ ifeq ($(GG), )
   DEFINES=$(QTDEFINES) -DGGSTABLE
 endif
 
-SRCS=go-consistency.cpp playtwoplayergame.cpp test-or.cpp lightsim/lightsim-test.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE) testwrite.cpp lightsim/lightsim.cpp lightsim/cell.cpp lightsim/lightsource.cpp lightsim/lsc.cpp lightsim/lightvector.cpp lightsim/nworld.cpp lightsim/paintwindow.cpp lightsim/moc_paintwindow.cpp lightsim/paintarea.cpp
+SRCS=test-eye.cpp go-consistency.cpp playtwoplayergame.cpp test-or.cpp lightsim/lightsim-test.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE) testwrite.cpp lightsim/lightsim.cpp lightsim/cell.cpp lightsim/lightsource.cpp lightsim/lsc.cpp lightsim/lightvector.cpp lightsim/nworld.cpp lightsim/paintwindow.cpp lightsim/moc_paintwindow.cpp lightsim/paintarea.cpp
 TSRCS=tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp tinystr.cpp
 TOBJS := $(addsuffix .o,$(basename ${TSRCS}))
-OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o
-OBJS2=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o
+OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o moc_paintwindow.o
+OBJS2=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o moc_paintwindow.o
 OBJS3=$(OBJS) test-xor.o
 OBJS4=$(OBJS) test-go.o
 OBJS5=$(OBJS) puregotest.o
@@ -30,9 +30,9 @@ OBJS7=$(OBJS) playgame.o
 OBJS8=$(OBJS) go-consistency.o
 OBJS9=$(OBJS) playtwoplayergame.o
 OBJS10=$(OBJS) xorgenomeoutput.o
-OBJS11=$(OBJS) lightsim/lightsim-test.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o moc_paintwindow.o
+OBJS11=$(OBJS) lightsim/lightsim-test.o 
 OBJS12=$(OBJS) test-or.o
-
+OBJS13=$(OBJS) test-eye.o
 
 IINCLUDE=$(QTINCLUDE) -I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0
 BLIBS=-L$(HOME)/local/lib
@@ -97,7 +97,7 @@ ifeq ($(os-type), Darwin)
   BINCLUDE = $(IINCLUDE) -I/opt/local/include
 endif
 
-all:	neatmaster neatslave tags test-xor test-go playgame lightsim-test test-or
+all:	neatmaster neatslave tags test-xor test-go playgame lightsim-test test-or test-eye
 
 dist:
 	@ +make STYLE=RELEASE
@@ -169,6 +169,10 @@ playtwoplayergame: $(OBJS) playtwoplayergame.o playtwoplayergame.cpp statechange
 lightsim-test: $(OBJS11) lightsim/lightsim-test.o lightsim/lightsim-test.cpp moc_paintwindow.cpp moc_paintwindow.o
 	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS11) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@mv lightsim-test ../
+
+test-eye: $(OBJS) test-eye.o test-eye.cpp moc_paintwindow.cpp moc_paintwindow.o
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS13) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	@mv test-eye ../
 
 test-or: $(OBJS) test-or.o test-or.cpp
 	$(CXX) $(BLIBS) $(LIBS) -o $@ test-or.o $(OBJS) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses

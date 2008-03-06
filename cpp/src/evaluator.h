@@ -23,6 +23,7 @@
 
 #include "evolution.h"
 #include "gowrapper.h"
+#include "lightsim/lightsim.h"
 #include "dataset.h"
 #include "neuralmath.h"
 #include <sys/types.h>
@@ -170,4 +171,17 @@ public:
   virtual double f(Phenotype * f);
   virtual void nextGen(){return;} // no need for this here..
 };
+
+class LightsimEvaluator : public FitnessEvaluator {
+private:
+  NEATsettings * settings;
+  unsigned int xmax;
+  unsigned int ymax;
+  unsigned int lsnum;
+public:
+  LightsimEvaluator(NEATsettings * set, unsigned int xmax, unsigned int ymax, unsigned int lsnum){settings=set; this->xmax=xmax; this->ymax=ymax; this->lsnum=lsnum;};
+  virtual double f(Phenotype * f);
+  virtual void nextGen(){return;} // no need for this here..
+};
+
 #endif

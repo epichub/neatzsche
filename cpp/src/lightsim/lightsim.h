@@ -19,9 +19,13 @@ private:
   unsigned int sizeY;
   std::vector<nVector*> *lightvectors;
   std::vector<nVector*> *deletedLightvectors;
+  double cellsize;
 public:
   friend std::istream& operator>>(std::istream& i, Lightsim2D * ls);
-  Lightsim2D();
+  Lightsim2D(double cellsize);
+  Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xmax,unsigned int ymax);
+  ~Lightsim2D();
+  void init(double cellsize);
   unsigned int getSizeX() { return sizeX; }
   unsigned int getSizeY() { return sizeY; }
   std::vector<Lightsource*>* getLightsources() { return lightsources; }
