@@ -3,7 +3,7 @@
 #include <fstream>
 #include "lightsim.h"
 #include "paintwindow.h"
-#include "QApplication.h"
+#include <QApplication>
 
 int main(int argc, char *args[])
 {
