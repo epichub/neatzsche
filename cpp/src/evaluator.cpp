@@ -22,11 +22,13 @@
 
 double LightsimEvaluator::f(Phenotype * f)
 {
+  cout <<"testing!\n";
   unsigned int ** twodmap;
   twodmap=new unsigned int*[xmax];
   for(unsigned int i=0;i<xmax;i++) {
     twodmap[i]=new unsigned int[ymax];
     for(unsigned int j=0;j<ymax;j++) {
+      /*
       vector <double> tmpin;
       tmpin.push_back(i);
       tmpin.push_back(j);
@@ -42,32 +44,34 @@ double LightsimEvaluator::f(Phenotype * f)
       }
       //cout << "winner of "<<i<<","<<j<<" is "<<tmpwinner<<"\n";
       twodmap[i][j]=tmpwinner;
+      */
     }
     //      cout <<"done with "<<i<<"\n";
   }
   //    cout << "one phenotype done!\n";
-
-  for(unsigned int i=0;i<xmax;i+=((int)(xmax/lsnum))) {
+  /*
+  for(unsigned int i=0;i<ymax;i+=((int)(ymax/lsnum))) {
     twodmap[0][i]=1;
     //    cout << "creating a new LS at 0,"<<i<<"\n";
   }
 
   Lightsim2D *ls2d=new Lightsim2D(0.5,twodmap,xmax,ymax);
-
+  */
   for(unsigned int i=0;i<xmax;i++) {
     for(unsigned int j=0;j<ymax;j++) {
       //free(twodmap[i][j]);
     }
-    delete(twodmap[i]);
+    delete[](twodmap[i]);
   }
-  delete(twodmap);
+  delete[](twodmap);
 
-
+  /*
   ls2d->print();
 
   f->setFitness(ls2d->getLightvectors()->size());
   cout << "Fitness is: "<<f->getFitness()<<"\n";
   delete(ls2d);
+  */
   return f->getFitness();
 }
 
