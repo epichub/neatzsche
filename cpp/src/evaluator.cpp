@@ -22,7 +22,6 @@
 
 double LightsimEvaluator::f(Phenotype * f)
 {
-  cout <<"testing!\n";
   unsigned int ** twodmap;
   twodmap=new unsigned int*[xmax];
   for(unsigned int i=0;i<xmax;i++) {
