@@ -91,21 +91,21 @@ int main(int argc, char *args[])
       pop->sortspecies();
       cbest = pop->getCopyOfCurrentBest();
       ls2de->f(cbest);
-      cout << "generation " << i << " : ";
+      //      cout << "generation " << i << " : ";
      if(best==NULL){
 	best = cbest;
-// 	cout << "setting first best ("<<best->getFitness()<<"):"<<best->getID() << endl;
-// 	cout << "genome:" << best->getGenome();
+	// 	cout << "setting first best ("<<best->getFitness()<<"):"<<best->getID() << endl;
+	// 	cout << "genome:" << best->getGenome();
       }else if(cbest->getFitness()>best->getFitness()){
 	delete best;
 	best = cbest;
 	//	cout << "setting new best ("<<best->getFitness()<<"):"<<best->getID() << endl;
 	//	cout << "genome:" << best->getGenome();
       }else{
-	//	cout << "cbest not good enough: " << cbest->getFitness() << " :" << cbest->getID() << endl;
+       //	cout << "cbest not good enough: " << cbest->getFitness() << " :" << cbest->getID() << endl;
 	delete cbest;
       }
-      //      cerr << i << ": maxfitness: " << pop->getHighestFitness() << endl;
+     //      cerr << i << ": maxfitness: " << pop->getHighestFitness() << endl;
       sel->select(pop,0);
       rp->reproduce(pop);
       //cout << "species after repro : " << pop->getSpecies()->size() << endl;
