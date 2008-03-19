@@ -122,4 +122,5 @@ void Lightsim2D::pruneBlockedVectors() {
       ++it;
     }
   }
+  delete it;
 }
