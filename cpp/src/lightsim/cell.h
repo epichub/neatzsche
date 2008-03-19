@@ -9,6 +9,7 @@ private:
   unsigned int y;
 public:
   Cell(int x, int y){this->x=x; this->y=y;};
+  ~Cell() { free(x); free(y); }
   unsigned int getX() { return x; };
   unsigned int getY() { return y; };
 };

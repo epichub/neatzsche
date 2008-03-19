@@ -116,6 +116,7 @@ void Lightsim2D::pruneBlockedVectors() {
       }else{
 	//	cout<< "@@@@ NO GO" << endl;
       }
+      delete tmpvec;
     }
     if(!erased) {
       ++it;
