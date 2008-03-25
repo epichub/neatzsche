@@ -46,7 +46,7 @@ os-type := $(shell uname)
 p-type := $(shell uname -p)
 
 ifeq ($(STYLE), DEBUG)
-  OPTS = -gp -Wall -DDEBUG
+  OPTS = -g -Wall -DDEBUG
 endif
 ifeq ($(STYLE), PROFILE)
   OPTS = -pg -Wall
@@ -80,6 +80,9 @@ ifeq ($(STYLE), OPTIMISED)
       OPTS = -mtune=powerpc -maltivec -mabi=altivec -mcpu=7400 -O3 -pipe -fomit-frame-pointer -funroll-loops -ftree-vectorize -ftracer -ffast-math
     endif
   endif
+endif
+ifeq ($(STYLE), NOOPT)
+	OPTS = -Wall
 endif
 
 ifeq ($(CC),)

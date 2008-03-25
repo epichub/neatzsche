@@ -109,14 +109,17 @@ void Lightsim2D::print() {
 }
 
 void Lightsim2D::createVectors() {
+  //  cout << "Creating vectors...";
   for(unsigned int i=0;i<LSCs->size();i++) {
     for(unsigned int j=0;j<lightsources->size();j++) {
       lightvectors->push_back(new nVector(LSCs->at(i)->getX(),LSCs->at(i)->getY(),lightsources->at(j)->getX(),lightsources->at(j)->getY()));
     }
   }
+  //  cout<< "done!\n";
 }
 
 void Lightsim2D::pruneBlockedVectors() {
+  //cout << "Pruning blocked vectors...";
   vector<nVector*>::iterator it = lightvectors->begin();
   bool erased=false;
   while(it!=lightvectors->end()){
@@ -143,4 +146,5 @@ void Lightsim2D::pruneBlockedVectors() {
       ++it;
     }
   }
+  //cout << "done!\n";
 }
