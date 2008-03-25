@@ -46,7 +46,7 @@ os-type := $(shell uname)
 p-type := $(shell uname -p)
 
 ifeq ($(STYLE), DEBUG)
-  OPTS = -g -Wall -DDEBUG
+  OPTS = -gp -Wall -DDEBUG
 endif
 ifeq ($(STYLE), PROFILE)
   OPTS = -pg -Wall
