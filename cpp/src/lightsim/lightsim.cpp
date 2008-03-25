@@ -35,10 +35,29 @@ Lightsim2D::Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xma
 }
 
 Lightsim2D::~Lightsim2D() {
+  for(unsigned int i=0;i<lightsources->size();i++) {
+    delete(lightsources->at(i));
+  }
   delete(lightsources);
+
+  for(unsigned int i=0;i<opaquecells->size();i++) {
+    delete(opaquecells->at(i));
+  }
   delete(opaquecells);
+
+  for(unsigned int i=0;i<LSCs->size();i++) {
+    delete(LSCs->at(i));
+  }
   delete(LSCs);
+
+  for(unsigned int i=0;i<lightvectors->size();i++) {
+    delete(lightvectors->at(i));
+  }
   delete(lightvectors);
+
+  for(unsigned int i=0;i<deletedLightvectors->size();i++) {
+    delete(deletedLightvectors->at(i));
+  }
   delete(deletedLightvectors);
 }
 

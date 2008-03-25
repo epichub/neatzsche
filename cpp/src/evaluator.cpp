@@ -65,7 +65,20 @@ double LightsimEvaluator::f(Phenotype * f)
 
   ls2d->print();
 
-  f->setFitness(ls2d->getLightvectors()->size());
+  if(((int)settings->getValue("fitness_mode")) == 0) {
+    //TODO: Need tom implement prec and recall correctly!
+    double precision=1;
+    double recall=1;
+    double fMeasure=2*(precision*recall)/(precision+recall);
+    f->setFitness(fMeasure);
+  }
+  else if(((int)settings->getValue("fitness_mode")) == 1) {
+    f->setFitness(ls2d->getLightvectors()->size());
+  }
+  else {
+    cout << "Error: Wrong fitness mode";
+    exit(1);
+  }
   cout << "Fitness is: "<<f->getFitness()<<"\n";
   delete(ls2d);
 
