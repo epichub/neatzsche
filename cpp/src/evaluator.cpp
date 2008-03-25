@@ -65,7 +65,8 @@ double LightsimEvaluator::f(Phenotype * f)
 
   ls2d->print();
 
-  cout << "fitness mode er: "<<settings->getValue("fitness_ratio");
+  cout << "fitness mode er: "<<settings->getValue("fitness_ratio")<<"\n";
+  cout << "fire threshold er: "<<settings->getValue("firethreshold")<<"\n";
   if(((int)settings->getValue("fitness_mode")) == 0) {
     //TODO: Need tom implement prec and recall correctly!
     double precision=1;
