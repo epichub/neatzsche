@@ -5,7 +5,9 @@ Lightsim2D::Lightsim2D(double cellsize) {
 }
 
 Lightsim2D::Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xmax,unsigned int ymax) {
+
   init(cellsize);
+
   for(unsigned int i=0; i<xmax;i++)
     {
       for(unsigned int j=0;j<ymax;j++)
@@ -30,8 +32,17 @@ Lightsim2D::Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xma
 	}
       }
     }
+
   createVectors();
+
+  cout <<"Pruning vectors...";
+  time_t t1=time(NULL);
+
   pruneBlockedVectors();
+
+  time_t t2=time(NULL);
+  cout <<"done in "<<difftime(t2,t1)<<" secs!\n";
+
 }
 
 Lightsim2D::~Lightsim2D() {
@@ -127,9 +138,7 @@ void Lightsim2D::pruneBlockedVectors() {
     //    cout << "checking lightvector: ("<<(*it)->start->at(0)<<","<<(*it)->start->at(1)<<") + t("<<(*it)->vec->at(0)<<","<<(*it)->vec->at(1)<<")" << endl;
     for(unsigned int j=0;j<opaquecells->size();j++) {
       //      if((*it)->twodHasPoint(opaquecells->at(j)->getX(),opaquecells->at(j)->getY(),0.5)) {
-      nPoint *tmppt=new nPoint(opaquecells->at(j)->getX(),opaquecells->at(j)->getY());
-      nVector * tmpvec=(*it)->orthogonal(*tmppt);
-      delete(tmppt);
+      nVector * tmpvec=(*it)->orthogonal(opaquecells->at(j)->getX(),opaquecells->at(j)->getY());
       //      cout << "ocx: "<<opaquecells->at(j)->getX()<<" ocy: "<<opaquecells->at(j)->getY()<<" ovx: "<<tmpvec->vec->at(0)<<" ovy: "<<tmpvec->vec->at(1)<<" tmpvec->scalarValue(): " << tmpvec->scalarValue() << endl;
       if(tmpvec->scalarValue()<cellsize) {
 	deletedLightvectors->push_back(*it);

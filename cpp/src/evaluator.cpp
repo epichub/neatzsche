@@ -22,7 +22,6 @@
 
 double LightsimEvaluator::f(Phenotype * f)
 {
-  //cout <<"Creating 2D Map...";
   unsigned int ** twodmap;
   twodmap=new unsigned int*[xmax];
   for(unsigned int i=0;i<xmax;i++) {
@@ -55,7 +54,6 @@ double LightsimEvaluator::f(Phenotype * f)
 
   Lightsim2D *ls2d=new Lightsim2D(0.5,twodmap,xmax,ymax);
 
-
   for(unsigned int i=0;i<xmax;i++) {
     for(unsigned int j=0;j<ymax;j++) {
       //free(twodmap[i][j]);
@@ -63,8 +61,6 @@ double LightsimEvaluator::f(Phenotype * f)
     delete[](twodmap[i]);
   }
   delete[](twodmap);
-
-  //cout <<"done!\n";
 
   //ls2d->print();
 

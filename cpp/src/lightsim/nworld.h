@@ -104,8 +104,12 @@ public:
   bool twodHasPoint(int x, int y,double margin);
   double scalarValue(nVector & linevector);
   nVector * orthogonal(nPoint & p, nVector & l);
+  nVector * orthogonal(int x3, int y3, nVector & l);
   nVector * orthogonal(nPoint & p) {
     return orthogonal(p,*(this->copy()));
+  }
+  nVector * orthogonal(int x, int y) {
+    return orthogonal(x,y,*(this->copy()));
   }
   double scalarValue() { return scalarValue(*this); }
   nPoint* endPoint() 

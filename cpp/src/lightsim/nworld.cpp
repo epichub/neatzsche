@@ -37,17 +37,18 @@ double nVector::scalarValue(nVector & linevector)
 
 nVector * nVector::orthogonal(nPoint & p, nVector & l)
 {
+  orthogonal(p.at(0),p.at(1),l);
+}
+
+nVector * nVector::orthogonal(int x3, int y3, nVector &l) {
   double x1 = l.start->at(0);
   double y1 = l.start->at(1);
   double x2 = l.start->at(0)+l.vec->at(0);
   double y2 = l.start->at(1)+l.vec->at(1);
-  double x3 = p.at(0);
-  double y3 = p.at(1);
   double len = scalarValue(l);
   double u = (((x3-x1)*(x2-x1))+((y3-y1)*(y2-y1)))/pow(len,2);
   double x = x1+(u*(x2-x1));
   double y = y1+(u*(y2-y1));
-  nPoint cPoint(x,y);
-  return new nVector(p,cPoint);
+  return new nVector(x3,y3,x,y);
 }
 
