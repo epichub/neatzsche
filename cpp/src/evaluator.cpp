@@ -62,7 +62,7 @@ double LightsimEvaluator::f(Phenotype * f)
   }
   delete[](twodmap);
 
-  //ls2d->print();
+  ls2d->print();
 
   if(((int)settings->getValue("fitness_mode")) == 0) {
     //TODO: Need tom implement prec and recall correctly!
