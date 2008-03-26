@@ -32,7 +32,7 @@ double LightsimEvaluator::f(Phenotype * f)
       tmpin.push_back(j);
       vector <double> tmpout;
       tmpout=f->react(tmpin);
-      int tmpstrength=0;
+      double tmpstrength=0;
       int tmpwinner=0;
       for(unsigned int k=0;k<tmpout.size();k++){
 	if(tmpout.at(k)>tmpstrength&&tmpout.at(k)>0.3) {
