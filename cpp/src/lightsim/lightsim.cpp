@@ -33,16 +33,6 @@ Lightsim2D::Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xma
       }
     }
 
-  createVectors();
-
-  cout <<"Pruning vectors...";
-  time_t t1=time(NULL);
-
-  pruneBlockedVectors();
-
-  time_t t2=time(NULL);
-  cout <<"done in "<<difftime(t2,t1)<<" secs!\n";
-
 }
 
 Lightsim2D::~Lightsim2D() {
@@ -115,8 +105,7 @@ std::istream& operator>>(std::istream& i, Lightsim2D * ls)
 }
 
 void Lightsim2D::print() {
-  cout << "length av LSRC OPC og LSC er : " << lightsources->size() << "," <<opaquecells->size() << "," << LSCs->size() <<"\n";
-  cout << "number of lightvectors is: " << lightvectors->size() <<"\n";
+  cout << "length av LSRC OPC, LSC, LVec og Pruned er : " << lightsources->size() << "," <<opaquecells->size() << "," << LSCs->size() <<","<<lightvectors->size()<<","<<deletedLightvectors->size()<<"\n";
 }
 
 void Lightsim2D::createVectors() {
@@ -133,23 +122,25 @@ void Lightsim2D::pruneBlockedVectors() {
   //cout << "Pruning blocked vectors...";
   vector<nVector*>::iterator it = lightvectors->begin();
   bool erased=false;
+  //  nVector * shortest;
   while(it!=lightvectors->end()){
     erased=false;
-    //    cout << "checking lightvector: ("<<(*it)->start->at(0)<<","<<(*it)->start->at(1)<<") + t("<<(*it)->vec->at(0)<<","<<(*it)->vec->at(1)<<")" << endl;
     for(unsigned int j=0;j<opaquecells->size();j++) {
-      //      if((*it)->twodHasPoint(opaquecells->at(j)->getX(),opaquecells->at(j)->getY(),0.5)) {
-      nVector * tmpvec=(*it)->orthogonal(opaquecells->at(j)->getX(),opaquecells->at(j)->getY());
-      //      cout << "ocx: "<<opaquecells->at(j)->getX()<<" ocy: "<<opaquecells->at(j)->getY()<<" ovx: "<<tmpvec->vec->at(0)<<" ovy: "<<tmpvec->vec->at(1)<<" tmpvec->scalarValue(): " << tmpvec->scalarValue() << endl;
-      if(tmpvec->scalarValue()<cellsize) {
-	deletedLightvectors->push_back(*it);
+      /*
+      shortest=(*it)->orthogonal(opaquecells->at(j)->getX(),opaquecells->at(j)->getY());
+      if(shortest->scalarValue()<cellsize) {
 	lightvectors->erase(it);
-	//cout << "Pruning: "<<opaquecells->at(j)->getX()<<","<<opaquecells->at(j)->getY()<<" blocks "<<(*it)->start->at(0)<<","<<(*it)->start->at(1)<<" with V=["<<(*it)->vec->at(0)<<","<<(*it)->vec->at(1)<<"]\n";
        	j = opaquecells->size();
 	erased=true;
-      }else{
-	//	cout<< "@@@@ NO GO" << endl;
       }
-      delete tmpvec;
+      */
+      //      delete shortest;
+      if((*it)->orthogonalLength(opaquecells->at(j)->getX(),opaquecells->at(j)->getY()) <cellsize) {
+	deletedLightvectors->push_back(*it);
+	lightvectors->erase(it);
+       	j = opaquecells->size();
+	erased=true;
+      }
     }
     if(!erased) {
       ++it;

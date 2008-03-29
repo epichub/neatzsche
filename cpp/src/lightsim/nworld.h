@@ -111,6 +111,11 @@ public:
   nVector * orthogonal(int x, int y) {
     return orthogonal(x,y,*(this->copy()));
   }
+  double orthogonalLength(int x3, int y3, nVector &l);
+  double orthogonalLength(int x3, int y3) {
+    orthogonalLength(x3,y3,*(this->copy()));
+  }
+
   double scalarValue() { return scalarValue(*this); }
   nPoint* endPoint() 
   {

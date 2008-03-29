@@ -52,3 +52,16 @@ nVector * nVector::orthogonal(int x3, int y3, nVector &l) {
   return new nVector(x3,y3,x,y);
 }
 
+
+double nVector::orthogonalLength(int x3, int y3, nVector &l) {
+  double x1 = l.start->at(0);
+  double y1 = l.start->at(1);
+  double x2 = l.start->at(0)+l.vec->at(0);
+  double y2 = l.start->at(1)+l.vec->at(1);
+  double len = scalarValue(l);
+  double u = (((x3-x1)*(x2-x1))+((y3-y1)*(y2-y1)))/pow(len,2);
+  double x = x1+(u*(x2-x1));
+  double y = y1+(u*(y2-y1));
+  return sqrt(pow(x-x3,2)+pow(y-y3,2));
+  //  return new nVector(x3,y3,x,y);
+}

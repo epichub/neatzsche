@@ -54,6 +54,18 @@ double LightsimEvaluator::f(Phenotype * f)
 
   Lightsim2D *ls2d=new Lightsim2D(0.5,twodmap,xmax,ymax);
 
+  ls2d->createVectors();
+
+  time_t t1=time(NULL);
+
+  ls2d->pruneBlockedVectors();
+
+  time_t t2=time(NULL);
+
+  cout <<"Pruningtime: "<<difftime(t2,t1)<<" secs --> ";
+
+  ls2d->print();
+
   for(unsigned int i=0;i<xmax;i++) {
     for(unsigned int j=0;j<ymax;j++) {
       //free(twodmap[i][j]);
@@ -62,7 +74,6 @@ double LightsimEvaluator::f(Phenotype * f)
   }
   delete[](twodmap);
 
-  ls2d->print();
 
   if(((int)settings->getValue("fitness_mode")) == 0) {
     //TODO: Need tom implement prec and recall correctly!
@@ -78,7 +89,7 @@ double LightsimEvaluator::f(Phenotype * f)
     cout << "Error: Wrong fitness mode";
     exit(1);
   }
-  cout << "Fitness is: "<<f->getFitness()<<"\n";
+  //  cout << "Fitness is: "<<f->getFitness()<<"\n";
   delete(ls2d);
 
   return f->getFitness();
