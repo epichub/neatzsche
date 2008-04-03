@@ -32,8 +32,8 @@ public:
   std::vector<Lightsource*>* getLightsources() { return lightsources; }
   std::vector<Opaquecell*>* getOpaquecells() { return opaquecells; }
   std::vector<LSC*>* getLSCs() { return LSCs; }
-  std::vector<nVector*>* getLightvectors() { return lightvectors; }
-  std::vector<nVector*>* getDeletedLightvectors() { return deletedLightvectors; }
+  std::vector<Lightvector*>* getLightvectors() { return lightvectors; }
+  std::vector<Lightvector*>* getDeletedLightvectors() { return deletedLightvectors; }
   void print();
   void createVectors();
   void pruneBlockedVectors();

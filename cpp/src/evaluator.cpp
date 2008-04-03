@@ -85,8 +85,8 @@ double LightsimEvaluator::f(Phenotype * f)
   else if(((int)settings->getValue("fitness_mode")) == 1) {
     double myFit=0;
     double optimalRatio=ls2d->getLightsources()->size()/ls2d->getLSCs()->size();
-    for(unsigned int=0;i<ls2d-getLSCs()->size();i++) {
-      double error=abs(ls2d->getLSCs()->at(i)->getNumHits()-optimalRatio); // distance from the optimal number of hits
+    for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
+      double error=fabs(ls2d->getLSCs()->at(i)->getNumHits()-optimalRatio); // distance from the optimal number of hits
       myFit+=optimalRatio*(1-error);
     }
     f->setFitness(myFit);

@@ -36,6 +36,16 @@ Lightsim2D::Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xma
 }
 
 Lightsim2D::~Lightsim2D() {
+  for(unsigned int i=0;i<lightvectors->size();i++) {
+    delete(lightvectors->at(i));
+  }
+  delete(lightvectors);
+
+  for(unsigned int i=0;i<deletedLightvectors->size();i++) {
+    delete(deletedLightvectors->at(i));
+  }
+  delete(deletedLightvectors);
+
   for(unsigned int i=0;i<lightsources->size();i++) {
     delete(lightsources->at(i));
   }
@@ -50,16 +60,6 @@ Lightsim2D::~Lightsim2D() {
     delete(LSCs->at(i));
   }
   delete(LSCs);
-
-  for(unsigned int i=0;i<lightvectors->size();i++) {
-    delete(lightvectors->at(i));
-  }
-  delete(lightvectors);
-
-  for(unsigned int i=0;i<deletedLightvectors->size();i++) {
-    delete(deletedLightvectors->at(i));
-  }
-  delete(deletedLightvectors);
 }
 
 void Lightsim2D::init(double cellsize) {
@@ -67,8 +67,8 @@ void Lightsim2D::init(double cellsize) {
   lightsources=new vector<Lightsource*>();
   opaquecells=new vector<Opaquecell*>();
   LSCs=new vector<LSC*>();
-  lightvectors=new vector<nVector*>();
-  deletedLightvectors=new vector<nVector*>();
+  lightvectors=new vector<Lightvector*>();
+  deletedLightvectors=new vector<Lightvector*>();
 }
 
 std::istream& operator>>(std::istream& i, Lightsim2D * ls)

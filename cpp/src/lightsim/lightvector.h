@@ -17,7 +17,7 @@ public:
     delete nvec;
   }
   Lightsource* getLightsource() { return ls; }
-  LSC* getLSC() { return LSC; }
+  LSC* getLSC() { return lsc; }
   nVector* getnVector() { return nvec; }
 };
 
