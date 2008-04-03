@@ -6,6 +6,7 @@
 #include "cell.h"
 #include "opaquecell.h"
 #include "lightsource.h"
+#include "lightvector.h"
 #include "lsc.h"
 #include "nworld.h"
 
@@ -17,8 +18,8 @@ private:
   std::vector<LSC*> *LSCs;
   unsigned int sizeX;
   unsigned int sizeY;
-  std::vector<nVector*> *lightvectors;
-  std::vector<nVector*> *deletedLightvectors;
+  std::vector<Lightvector*> *lightvectors;
+  std::vector<Lightvector*> *deletedLightvectors;
   double cellsize;
 public:
   friend std::istream& operator>>(std::istream& i, Lightsim2D * ls);

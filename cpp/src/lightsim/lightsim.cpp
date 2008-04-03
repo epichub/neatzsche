@@ -112,7 +112,7 @@ void Lightsim2D::createVectors() {
   //  cout << "Creating vectors...";
   for(unsigned int i=0;i<LSCs->size();i++) {
     for(unsigned int j=0;j<lightsources->size();j++) {
-      lightvectors->push_back(new nVector(LSCs->at(i)->getX(),LSCs->at(i)->getY(),lightsources->at(j)->getX(),lightsources->at(j)->getY()));
+      lightvectors->push_back(new Lightvector(LSCs->at(i),lightsources->at(j)));
     }
   }
   //  cout<< "done!\n";
@@ -120,7 +120,7 @@ void Lightsim2D::createVectors() {
 
 void Lightsim2D::pruneBlockedVectors() {
   //cout << "Pruning blocked vectors...";
-  vector<nVector*>::iterator it = lightvectors->begin();
+  vector<lightvector*>::iterator it = lightvectors->begin();
   bool erased=false;
   //  nVector * shortest;
   while(it!=lightvectors->end()){
@@ -135,12 +135,13 @@ void Lightsim2D::pruneBlockedVectors() {
       }
       */
       //      delete shortest;
-      if((*it)->orthogonalLength(opaquecells->at(j)->getX(),opaquecells->at(j)->getY()) <cellsize) {
+      if((*it)->getnVector()->orthogonalLength(opaquecells->at(j)->getX(),opaquecells->at(j)->getY()) <cellsize) {
 	deletedLightvectors->push_back(*it);
 	lightvectors->erase(it);
        	j = opaquecells->size();
 	erased=true;
       }
+      else { (*it)->getLSC()->addHit(); }
     }
     if(!erased) {
       ++it;
