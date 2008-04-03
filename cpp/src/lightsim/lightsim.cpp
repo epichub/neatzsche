@@ -120,7 +120,7 @@ void Lightsim2D::createVectors() {
 
 void Lightsim2D::pruneBlockedVectors() {
   //cout << "Pruning blocked vectors...";
-  vector<lightvector*>::iterator it = lightvectors->begin();
+  vector<Lightvector*>::iterator it = lightvectors->begin();
   bool erased=false;
   //  nVector * shortest;
   while(it!=lightvectors->end()){
