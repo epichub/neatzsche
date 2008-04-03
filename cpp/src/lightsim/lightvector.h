@@ -1,6 +1,10 @@
 #ifndef LIGHTVECTOR_H_
 #define LIGHTVECTOR_H_
 
+#include "lightsource.h"
+#include "lsc.h"
+#include "nworld.h"
+
 class Lightvector {
 
 private:
@@ -12,9 +16,9 @@ public:
   ~Lightvector() {
     delete nvec;
   }
-  Lightsource *getLightsource() { return ls; }
-  LSC *getLSC() { return LSC; }
-  nVector *getnVector() { return nvec; }
+  Lightsource* getLightsource() { return ls; }
+  LSC* getLSC() { return LSC; }
+  nVector* getnVector() { return nvec; }
 };
 
 #endif
