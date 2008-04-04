@@ -122,29 +122,24 @@ void Lightsim2D::pruneBlockedVectors() {
   //cout << "Pruning blocked vectors...";
   vector<Lightvector*>::iterator it = lightvectors->begin();
   bool erased=false;
-  //  nVector * shortest;
   while(it!=lightvectors->end()){
-    erased=false;
     for(unsigned int j=0;j<opaquecells->size();j++) {
-      /*
-      shortest=(*it)->orthogonal(opaquecells->at(j)->getX(),opaquecells->at(j)->getY());
-      if(shortest->scalarValue()<cellsize) {
-	lightvectors->erase(it);
-       	j = opaquecells->size();
-	erased=true;
-      }
-      */
-      //      delete shortest;
       if((*it)->getnVector()->orthogonalLength(opaquecells->at(j)->getX(),opaquecells->at(j)->getY()) <cellsize) {
 	deletedLightvectors->push_back(*it);
 	lightvectors->erase(it);
        	j = opaquecells->size();
 	erased=true;
       }
-      else { (*it)->getLSC()->addHit(); }
+      else { 
+	erased=false; 
+      }
     }
     if(!erased) {
       ++it;
+    }
+    else {
+      (*it)->getLSC()->addHit(); 
+      (*it)->getLightsource()->addHit(); 
     }
   }
   //cout << "done!\n";

@@ -83,13 +83,39 @@ double LightsimEvaluator::f(Phenotype * f)
     f->setFitness(fMeasure);
   }
   else if(((int)settings->getValue("fitness_mode")) == 1) {
-    double myFit=0;
-    double optimalRatio=ls2d->getLightsources()->size()/ls2d->getLSCs()->size();
-    for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
-      double error=fabs(ls2d->getLSCs()->at(i)->getNumHits()-optimalRatio); // distance from the optimal number of hits
-      myFit+=optimalRatio*(1-error);
+    /*
+      double optimalRatio=(double)ls2d->getLightsources()->size()/ls2d->getLSCs()->size();
+      for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
+      double error=fabs(ls2d->getLSCs()->at(i)->getNumHits()-floor(optimalRatio+1)); // distance from the optimal number of hits
+      myFit+=optimalRatio*(1/(error+1));
+      }
+    */
+    double error=0;
+    unsigned int lsNum=ls2d->getLightsources()->size();
+    unsigned int LscNum=ls2d->getLSCs()->size();
+    double LscToLsRatio=LscNum/lsNum;
+    double numerator=0;
+    for(unsigned int i=0;i<lsNum;i++) {
+      if(ls2d->getLightsources()->at(i)->getNumHits()>0) {
+	//	cout<<"error: LtLRat: "<<LscToLsRatio<<"- Ls->numhits: "<<ls2d->getLightsources()->at(i)->getNumHits()<<"\n";
+	error=fabs((ls2d->getLightsources()->at(i)->getNumHits()-LscToLsRatio)/ls2d->getLSCs()->size()); 
+	//cout<<"error: "<<error<<"\n";
+	//cout <<"temp num: ((1/"<<lsNum<<")*(1-"<<error<<")) : "<<((1/(double)lsNum)*(1-error))<<"\n";
+	numerator+=(1/(double)lsNum)*(1-error);
+      }
     }
-    f->setFitness(myFit);
+    cout <<numerator<<" ";
+    double denominator=0;
+    for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
+      if(ls2d->getLSCs()->at(i)->getNumHits()>0) {
+	denominator+=(1/ls2d->getLSCs()->at(i)->getNumHits());
+      }
+    }
+    cout<<denominator;
+    if(LscNum>0) {
+      f->setFitness(numerator*(denominator/LscNum));
+    }
+    else { f->setFitness(0); }
   }
   else if(((int)settings->getValue("fitness_mode")) == 2) {
     f->setFitness(ls2d->getLightvectors()->size());
@@ -98,9 +124,8 @@ double LightsimEvaluator::f(Phenotype * f)
     cout << "Error: Wrong fitness mode";
     exit(1);
   }
-  //  cout << "Fitness is: "<<f->getFitness()<<"\n";
+  cout << "Fitness is: "<<f->getFitness()<<"\n";
   delete(ls2d);
-
   return f->getFitness();
 }
 
