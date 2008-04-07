@@ -16,4 +16,4 @@ noopt:
 	@ cd src ; make STYLE=NOOPT ;
 
 clean: 
-	@ rm neatmaster neatslave test-xor test-go lightsim-test; cd src; rm *.o TAGS
+	@ rm neatmaster neatslave test-xor test-go lightsim-test; cd src; rm *.o TAGS; cd lightsim; rm *.o;
