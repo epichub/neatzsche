@@ -35,6 +35,52 @@ Lightsim2D::Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xma
 
 }
 
+Lightsim2D::Lightsim2D(double cellsize, vector<double> ann(vector<double> input), unsigned int xmax, unsigned int ymax, unsigned int lsnum) {
+
+  init(cellsize);
+
+  vector<double> tmpin;
+  vector<double> tmpout;
+  double tmpstr;
+  int tmpwinner;
+  for(unsigned int i=0;i<xmax;i++) {
+    for(unsigned int j=0;j<ymax;j++) {
+      if((ymax % lsnum) == 0 || ymax == 0) {
+	lightsources->push_back(new Lightsource(i,j));
+      }
+      else {
+	tmpin.push_back(i);
+	tmpin.push_back(j);
+	tmpout=ann(tmpin);
+	tmpstr=0;
+	tmpwinner=0;
+	for(unsigned int k=0;k<tmpout.size();k++){
+	  if(tmpout.at(k)>tmpstr&&tmpout.at(k)>0.3) {
+	    tmpwinner=k+1;
+	    tmpstr=tmpout.at(k);
+	  }
+	}
+	tmpin.clear();
+	
+	if(tmpwinner == ((unsigned int)0)) {
+	  // Do nothing, empty
+	}
+	else if(tmpwinner == ((unsigned int)1)) {
+	  //cout << "found OC at "<<i<<","<<j<<"\n";
+	  opaquecells->push_back(new Opaquecell(i,j));
+	}
+	else if(tmpwinner == ((unsigned int)2)) {
+	  //cout << "found LSC at "<<i<<","<<j<<"\n";
+	  LSCs->push_back(new LSC(i,j));
+	}
+	else {
+	  cout << "Error: Got output: "<<tmpwinner<<"\n";
+	}
+      }
+    }
+  }
+}
+
 Lightsim2D::~Lightsim2D() {
   for(unsigned int i=0;i<lightvectors->size();i++) {
     delete(lightvectors->at(i));

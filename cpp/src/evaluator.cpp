@@ -23,23 +23,26 @@
 double LightsimEvaluator::f(Phenotype * f)
 {
   unsigned int ** twodmap;
+  double tmpstrength=0;
+  int tmpwinner=0;
+  vector <double> tmpin;
+  vector <double> tmpout;
   twodmap=new unsigned int*[xmax];
   for(unsigned int i=0;i<xmax;i++) {
     twodmap[i]=new unsigned int[ymax];
     for(unsigned int j=0;j<ymax;j++) {
-      vector <double> tmpin;
       tmpin.push_back(i);
       tmpin.push_back(j);
-      vector <double> tmpout;
       tmpout=f->react(tmpin);
-      double tmpstrength=0;
-      int tmpwinner=0;
+      tmpstrength=0;
+      tmpwinner=0;
       for(unsigned int k=0;k<tmpout.size();k++){
 	if(tmpout.at(k)>tmpstrength&&tmpout.at(k)>0.3) {
 	  tmpwinner=k+2;
 	  tmpstrength=tmpout.at(k);
 	}
       }
+      tmpin.clear();
       //cout << "winner of "<<i<<","<<j<<" is "<<tmpwinner<<"\n";
       twodmap[i][j]=tmpwinner;
     }
