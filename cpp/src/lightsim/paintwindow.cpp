@@ -33,18 +33,18 @@ void PaintWindow::paintWorld()
   }
 
   for(unsigned int i=0;i<ls->getLightvectors()->size(); i++) {
-    nPoint* tmp=ls->getLightvectors()->at(i)->endPoint();
+    nPoint* tmp=ls->getLightvectors()->at(i)->getnVector()->endPoint();
     paintArea->drawLine(Qt::yellow,
-			ls->getLightvectors()->at(i)->start->at(0)*scale,
-			ls->getLightvectors()->at(i)->start->at(1)*scale,
+			ls->getLightvectors()->at(i)->getnVector()->start->at(0)*scale,
+			ls->getLightvectors()->at(i)->getnVector()->start->at(1)*scale,
 			tmp->coords->at(0)*scale,
 			tmp->coords->at(1)*scale);
   }
   for(unsigned int i=0;i<ls->getDeletedLightvectors()->size(); i++) {
-    nPoint* tmp=ls->getDeletedLightvectors()->at(i)->endPoint();
+    nPoint* tmp=ls->getDeletedLightvectors()->at(i)->getnVector()->endPoint();
     paintArea->drawLine(Qt::red,
-			ls->getDeletedLightvectors()->at(i)->start->at(0)*scale,
-			ls->getDeletedLightvectors()->at(i)->start->at(1)*scale,
+			ls->getDeletedLightvectors()->at(i)->getnVector()->start->at(0)*scale,
+			ls->getDeletedLightvectors()->at(i)->getnVector()->start->at(1)*scale,
 			tmp->coords->at(0)*scale,
 			tmp->coords->at(1)*scale);
 
