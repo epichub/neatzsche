@@ -58,7 +58,9 @@ double LightsimEvaluator::f(Phenotype * f)
 
   Lightsim2D *ls2d=new Lightsim2D(0.5,twodmap,xmax,ymax);
   */
+
   Lightsim2D *ls2d=new Lightsim2D(0.5,f,xmax,ymax,lsnum);
+
   ls2d->createVectors();
 
   time_t t1=time(NULL);
@@ -102,8 +104,8 @@ double LightsimEvaluator::f(Phenotype * f)
     double LscToLsRatio=LscNum/lsNum;
     double numerator=0;
     for(unsigned int i=0;i<lsNum;i++) {
-      if(ls2d->getLightsources()->at(i)->getNumHits()>0) {
-	//	cout<<"error: LtLRat: "<<LscToLsRatio<<"- Ls->numhits: "<<ls2d->getLightsources()->at(i)->getNumHits()<<"\n";
+      if(lsNum<LscNum&&ls2d->getLightsources()->at(i)->getNumHits()>0) {
+	//cout<<"error: LtLRat: "<<LscToLsRatio<<"- Ls->numhits: "<<ls2d->getLightsources()->at(i)->getNumHits()<<"\n";
 	error=fabs((ls2d->getLightsources()->at(i)->getNumHits()-LscToLsRatio)/ls2d->getLSCs()->size()); 
 	//cout<<"error: "<<error<<"\n";
 	//cout <<"temp num: ((1/"<<lsNum<<")*(1-"<<error<<")) : "<<((1/(double)lsNum)*(1-error))<<"\n";
@@ -117,9 +119,10 @@ double LightsimEvaluator::f(Phenotype * f)
 	denominator+=(1/ls2d->getLSCs()->at(i)->getNumHits());
       }
     }
+    denominator=denominator/LscNum;
     cout<<denominator;
     if(LscNum>0) {
-      f->setFitness(numerator*(denominator/LscNum));
+      f->setFitness(numerator*denominator);
     }
     else { f->setFitness(0); }
   }
