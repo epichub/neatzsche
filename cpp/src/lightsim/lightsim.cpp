@@ -43,6 +43,8 @@ Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigne
   vector<double> tmpout;
   double tmpstr;
   int tmpwinner;
+  int centerX=xmax/2;
+  int centerY=ymax/2;
   for(unsigned int i=0;i<xmax;i++) {
     for(unsigned int j=0;j<ymax;j++) {
       if(i == 0 &&((j % (ymax/lsnum)) == 0 || j == 0)) {
@@ -51,6 +53,7 @@ Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigne
       else {
 	tmpin.push_back(i);
 	tmpin.push_back(j);
+	tmpin.push_back(sqrt(pow(i-centerX,2)+pow(j-centerY,2)));
 	tmpout=f->react(tmpin);
 	tmpstr=0;
 	tmpwinner=0;
