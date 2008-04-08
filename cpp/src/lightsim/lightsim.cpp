@@ -121,9 +121,9 @@ void Lightsim2D::init(double cellsize) {
 }
 
 
-std::ostream& operator<< (ostream& os, const Lightsim2D *ls)
+std::ostream& operator<< (ostream& os, Lightsim2D *ls)
 {
-
+  os << ls->getLSCs()->size()<< " ";
   for(unsigned int i=0;i<ls->getLSCs()->size(); i++) {
     os <<ls->getLSCs()->at(i)->getX()<<" "<<ls->getLSCs()->at(i)->getY();
     if(i!=ls->getLSCs()->size()-1) { 
@@ -132,6 +132,7 @@ std::ostream& operator<< (ostream& os, const Lightsim2D *ls)
   }
   os << "\n";
 
+  os << ls->getOpaquecells()->size()<< " ";
   for(unsigned int i=0;i<ls->getOpaquecells()->size(); i++) {
     os <<ls->getOpaquecells()->at(i)->getX()<<" "<<ls->getOpaquecells()->at(i)->getY();
     if(i!=ls->getOpaquecells()->size()-1) { 
@@ -140,6 +141,7 @@ std::ostream& operator<< (ostream& os, const Lightsim2D *ls)
   }
   os << "\n";
 
+  os << ls->getLightvectors()->size()<< " ";
   for(unsigned int i=0;i<ls->getLightvectors()->size(); i++) {
     os <<ls->getLightvectors()->at(i)->getLightsource()->getX()<<" "<<ls->getLightvectors()->at(i)->getLightsource()->getY()<<" "<<ls->getLightvectors()->at(i)->getLSC()->getX()<<" "<<ls->getLightvectors()->at(i)->getLSC()->getY();
     if(i!=ls->getLightvectors()->size()-1) { 
@@ -148,6 +150,7 @@ std::ostream& operator<< (ostream& os, const Lightsim2D *ls)
   }
   os << "\n";
 
+  os << ls->getDeletedLightvectors()->size()<< " ";
   for(unsigned int i=0;i<ls->getDeletedLightvectors()->size(); i++) {
     os <<ls->getDeletedLightvectors()->at(i)->getLightsource()->getX()<<" "<<ls->getDeletedLightvectors()->at(i)->getLightsource()->getY()<<" "<<ls->getDeletedLightvectors()->at(i)->getLSC()->getX()<<" "<<ls->getDeletedLightvectors()->at(i)->getLSC()->getY();
     if(i!=ls->getDeletedLightvectors()->size()-1) { 
@@ -156,6 +159,7 @@ std::ostream& operator<< (ostream& os, const Lightsim2D *ls)
   }
   os << "\n";
 
+  os << ls->getLightsources()->size()<< " ";
   for(unsigned int i=0;i<ls->getLightsources()->size(); i++) {
     os <<ls->getLightsources()->at(i)->getX()<<" "<<ls->getLightsources()->at(i)->getY();
     if(i!=ls->getLightsources()->size()-1) { 
@@ -167,9 +171,45 @@ std::ostream& operator<< (ostream& os, const Lightsim2D *ls)
   return os;
 }
 
-std::istream& operator>>(std::istream& i, Lightsim2D * ls)
+std::istream& operator>>(std::istream& ins, Lightsim2D * ls)
 {
-  string id;
+  int num;
+  unsigned int x,y,x2,y2;
+  cout << "in >> overload";
+  while(ins.good()) {
+    ins>>num;
+    for(unsigned int i=0;i<num;i++) {
+      ins>>x>>y;
+      ls->LSCs->push_back(new LSC(x,y));
+    }
+
+    ins>>num;
+    for(unsigned int i=0;i<num;i++) {
+      ins>>x>>y;
+      ls->opaquecells->push_back(new Opaquecell(x,y));
+    }
+
+    ins>>num;
+    for(unsigned int i=0;i<num;i++) {
+      ins>>x>>y>>x2,y2;
+      ls->lightvectors->push_back(new Lightvector(x,y,x2,y2));
+    }
+
+    ins>>num;
+    for(unsigned int i=0;i<num;i++) {
+      ins>>x>>y>>x2,y2;
+      ls->deletedLightvectors->push_back(new Lightvector(x,y,x2,y2));
+    }
+
+    ins>>num;
+    for(unsigned int i=0;i<num;i++) {
+      ins>>x>>y;
+      ls->lightsources->push_back(new Lightsource(x,y));
+    }
+  }
+
+  /*
+   string id;
   unsigned int x,y;
   while(i.good()) {
     i>>id;
@@ -198,6 +238,9 @@ std::istream& operator>>(std::istream& i, Lightsim2D * ls)
     id="done";
   }
   return i;
+  */
+
+  return ins;
 }
 
 void Lightsim2D::print() {

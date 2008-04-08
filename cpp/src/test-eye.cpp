@@ -82,6 +82,8 @@ int main(int argc, char *args[])
   time_t startt;
   double timesum = 0;
 
+  Lightsim2D *ls2d;
+
   for(int i2=0;i2<iter;i2++){
     cout <<"Iteration: "<<i2<<"\n";
     gc = 0;
@@ -122,7 +124,7 @@ int main(int argc, char *args[])
 
       ofstream fil("data/bestls2d"); 
       fil << ls2d;
-      ofs.close();
+      fil.close();
 	
       delete ls2d;
 

@@ -34,9 +34,10 @@ OBJS7=$(OBJS) playgame.o
 OBJS8=$(OBJS) go-consistency.o
 OBJS9=$(OBJS) playtwoplayergame.o
 OBJS10=$(OBJS) xorgenomeoutput.o
-OBJS11=$(OBJS) lightsim/lightsim-test.o 
+OBJS11=$(OBJS) lightsim/lightsim-test.o
 OBJS12=$(OBJS) test-or.o
 OBJS13=$(OBJS) test-eye.o
+OBJS14=$(OBJS) lightsim/lightsim-viewer.o
 
 IINCLUDE=$(QTINCLUDE) -I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0
 BLIBS=-L$(HOME)/local/lib
@@ -104,7 +105,7 @@ ifeq ($(os-type), Darwin)
   BINCLUDE = $(IINCLUDE) -I/opt/local/include
 endif
 
-all:	neatmaster neatslave tags test-xor test-go playgame lightsim-test test-or test-eye
+all:	neatmaster neatslave tags test-xor test-go playgame lightsim-test lightsim-viewer test-or test-eye
 
 dist:
 	@ +make STYLE=RELEASE
@@ -176,6 +177,10 @@ playtwoplayergame: $(OBJS) playtwoplayergame.o playtwoplayergame.cpp statechange
 lightsim-test: $(OBJS11) lightsim/lightsim-test.o lightsim/lightsim-test.cpp moc_paintwindow.cpp moc_paintwindow.o
 	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS11) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@mv lightsim-test ../
+
+lightsim-viewer: $(OBJS14) lightsim/lightsim-viewer.o lightsim/lightsim-viewer.cpp moc_paintwindow.cpp moc_paintwindow.o
+	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS14) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	@mv lightsim-viewer ../
 
 test-eye: $(OBJS) test-eye.o test-eye.cpp moc_paintwindow.cpp moc_paintwindow.o
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS13) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
