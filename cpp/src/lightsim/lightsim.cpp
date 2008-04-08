@@ -35,7 +35,7 @@ Lightsim2D::Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xma
 
 }
 
-Lightsim2D::Lightsim2D(double cellsize, vector<double> ann(vector<double> input), unsigned int xmax, unsigned int ymax, unsigned int lsnum) {
+Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigned int ymax, unsigned int lsnum) {
 
   init(cellsize);
 
@@ -51,7 +51,7 @@ Lightsim2D::Lightsim2D(double cellsize, vector<double> ann(vector<double> input)
       else {
 	tmpin.push_back(i);
 	tmpin.push_back(j);
-	tmpout=ann(tmpin);
+	tmpout=f->react(tmpin);
 	tmpstr=0;
 	tmpwinner=0;
 	for(unsigned int k=0;k<tmpout.size();k++){

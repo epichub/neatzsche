@@ -58,7 +58,7 @@ double LightsimEvaluator::f(Phenotype * f)
 
   Lightsim2D *ls2d=new Lightsim2D(0.5,twodmap,xmax,ymax);
   */
-  Lightsim2D *ls2d=new Lightsim2D(0.5,f->react,xmax,ymax);
+  Lightsim2D *ls2d=new Lightsim2D(0.5,f,xmax,ymax);
   ls2d->createVectors();
 
   time_t t1=time(NULL);
