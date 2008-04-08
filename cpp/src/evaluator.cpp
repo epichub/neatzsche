@@ -22,6 +22,7 @@
 
 double LightsimEvaluator::f(Phenotype * f)
 {
+  /*
   unsigned int ** twodmap;
   double tmpstrength=0;
   int tmpwinner=0;
@@ -56,7 +57,8 @@ double LightsimEvaluator::f(Phenotype * f)
   }
 
   Lightsim2D *ls2d=new Lightsim2D(0.5,twodmap,xmax,ymax);
-
+  */
+  Lightsim2D *ls2d=new Lightsim2D(0.5,f->react,xmax,ymax);
   ls2d->createVectors();
 
   time_t t1=time(NULL);
@@ -69,6 +71,7 @@ double LightsimEvaluator::f(Phenotype * f)
 
   ls2d->print();
 
+  /*
   for(unsigned int i=0;i<xmax;i++) {
     for(unsigned int j=0;j<ymax;j++) {
       //free(twodmap[i][j]);
@@ -76,7 +79,7 @@ double LightsimEvaluator::f(Phenotype * f)
     delete[](twodmap[i]);
   }
   delete[](twodmap);
-
+  */
 
   if(((int)settings->getValue("fitness_mode")) == 0) {
     //TODO: Need tom implement prec and recall correctly!
