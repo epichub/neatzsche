@@ -45,7 +45,7 @@ Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigne
   int tmpwinner;
   for(unsigned int i=0;i<xmax;i++) {
     for(unsigned int j=0;j<ymax;j++) {
-      if((ymax % lsnum) == 0 || ymax == 0) {
+      if((j % lsnum) == 0 || j == 0) {
 	lightsources->push_back(new Lightsource(i,j));
       }
       else {
