@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <time.h>
 #include <stdlib.h>
 #include <fstream>
@@ -11,6 +12,9 @@
 #include <sstream>
 #include "iface.h"
 #include "gowrapper.h"
+#include "lightsim/paintwindow.h"
+#include <QApplication>
+
 
 /*
 bool rightStruct(Phenotype * p);
@@ -61,7 +65,11 @@ int main(int argc, char *args[])
   int g = atoi(args[5]);
   int iter = atoi(args[6]);
 
-  FitnessEvaluator * ls2de = new LightsimEvaluator(s,50,50,5);
+  unsigned int lsnum=5;
+  unsigned int ymax=50;
+  unsigned int xmax=50;
+
+  FitnessEvaluator * ls2de = new LightsimEvaluator(s,xmax,ymax,lsnum);
   Evaluator * ev = new Evaluator(ls2de); 
   LocalReproducer * rp = new LocalReproducer();
   int gc = 0; double sum=0; double sum2=0; double sum3=0;
@@ -73,6 +81,9 @@ int main(int argc, char *args[])
   double ocomp=0;
   time_t startt;
   double timesum = 0;
+  Lightsim2D *ls2d;
+  QApplication app(argc,args);
+  PaintWindow *pw;
   for(int i2=0;i2<iter;i2++){
     cout <<"Iteration: "<<i2<<"\n";
     gc = 0;
@@ -92,7 +103,7 @@ int main(int argc, char *args[])
       cbest = pop->getCopyOfCurrentBest();
       ls2de->f(cbest);
       //      cout << "generation " << i << " : ";
-     if(best==NULL){
+      if(best==NULL){
 	best = cbest;
 	// 	cout << "setting first best ("<<best->getFitness()<<"):"<<best->getID() << endl;
 	// 	cout << "genome:" << best->getGenome();
@@ -102,10 +113,24 @@ int main(int argc, char *args[])
 	//	cout << "setting new best ("<<best->getFitness()<<"):"<<best->getID() << endl;
 	//	cout << "genome:" << best->getGenome();
       }else{
-       //	cout << "cbest not good enough: " << cbest->getFitness() << " :" << cbest->getID() << endl;
+	//	cout << "cbest not good enough: " << cbest->getFitness() << " :" << cbest->getID() << endl;
 	delete cbest;
       }
-     //      cerr << i << ": maxfitness: " << pop->getHighestFitness() << endl;
+      
+      //Printing the ls2d window I think?
+      ls2d=new Lightsim2D(0.5,best,xmax,ymax,lsnum);
+      ls2d->createVectors();
+      ls2d->pruneBlockedVectors();
+	
+      pw=new PaintWindow(1000,1000,15,ls2d,NULL);
+      pw->paintWorld();
+      pw->show();
+      app.exec();
+      delete pw;
+
+      delete ls2d;
+
+      //      cerr << i << ": maxfitness: " << pop->getHighestFitness() << endl;
       sel->select(pop,0);
       rp->reproduce(pop);
       //cout << "species after repro : " << pop->getSpecies()->size() << endl;

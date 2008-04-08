@@ -179,6 +179,7 @@ private:
   unsigned int xmax;
   unsigned int ymax;
   unsigned int lsnum;
+  Lightsim2D *ls2d;
 public:
   LightsimEvaluator(NEATsettings * set, unsigned int xmax, unsigned int ymax, unsigned int lsnum){settings=set; this->xmax=xmax; this->ymax=ymax; this->lsnum=lsnum;};
   virtual double f(Phenotype * f);

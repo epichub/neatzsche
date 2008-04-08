@@ -19,7 +19,7 @@
  */
 
 #include "evaluator.h"
-
+#include <iomanip>
 double LightsimEvaluator::f(Phenotype * f)
 {
   /*
@@ -59,7 +59,7 @@ double LightsimEvaluator::f(Phenotype * f)
   Lightsim2D *ls2d=new Lightsim2D(0.5,twodmap,xmax,ymax);
   */
 
-  Lightsim2D *ls2d=new Lightsim2D(0.5,f,xmax,ymax,lsnum);
+  ls2d=new Lightsim2D(0.5,f,xmax,ymax,lsnum);
 
   ls2d->createVectors();
 
@@ -68,10 +68,6 @@ double LightsimEvaluator::f(Phenotype * f)
   ls2d->pruneBlockedVectors();
 
   time_t t2=time(NULL);
-
-  cout <<"Pruningtime: "<<difftime(t2,t1)<<" secs --> ";
-
-  ls2d->print();
 
   /*
   for(unsigned int i=0;i<xmax;i++) {
@@ -112,7 +108,7 @@ double LightsimEvaluator::f(Phenotype * f)
 	numerator+=(1/(double)lsNum)*(1-error);
       }
     }
-    cout <<numerator<<" ";
+    //cout <<numerator<<" ";
     double denominator=0;
     for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
       if(ls2d->getLSCs()->at(i)->getNumHits()>0) {
@@ -120,8 +116,8 @@ double LightsimEvaluator::f(Phenotype * f)
       }
     }
     if(LscNum>0) {
-      denominator=denominator/LscNum;
-      cout<<denominator;
+       denominator=denominator/LscNum;
+//       cout<<denominator;
       f->setFitness(numerator*denominator);
     }
     else { f->setFitness(0); }
@@ -133,7 +129,12 @@ double LightsimEvaluator::f(Phenotype * f)
     cout << "Error: Wrong fitness mode";
     exit(1);
   }
-  cout << "Fitness is: "<<f->getFitness()<<"\n";
+  cout << "Fitness is: "<<setprecision(4)<<f->getFitness()<<"   \t";
+  cout <<"Pruningtime: "<<difftime(t2,t1)<<" secs --> ";
+  ls2d->print();
+
+
+
   delete(ls2d);
   return f->getFitness();
 }

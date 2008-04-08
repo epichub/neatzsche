@@ -2,23 +2,28 @@
 #include <QRectF>
 #include <QColor>
 
-PaintWindow::PaintWindow (int w, int h, Lightsim2D *ls, QWidget * parent)
+PaintWindow::PaintWindow (int w, int h, unsigned int scale, Lightsim2D *ls, QWidget * parent)
   : QWidget(parent)
 {
   paintArea = new PaintArea(w,h);
+  this->w=w;
+  this->h=h;
   this->ls=ls;
-  scale=100;
+  this->scale=scale;
 }
 
-void PaintWindow::paintWorld()
+void PaintWindow::paintWorld() {
+  paintIt(false);
+}
+
+void PaintWindow::paintWorldWithPruned() {
+  paintIt(true);
+}
+
+void PaintWindow::paintIt(bool paintPruned)
 {
   paintArea->clear(Qt::white);
-  for(unsigned int i=0;i<ls->getLightsources()->size(); i++) {
-    paintArea->drawFilledRectangle(Qt::blue,
-				   ls->getLightsources()->at(i)->getX()*scale,
-				   ls->getLightsources()->at(i)->getY()*scale,
-				   10,10);
-  }
+
   for(unsigned int i=0;i<ls->getLSCs()->size(); i++) {
     paintArea->drawFilledRectangle(Qt::green,
 				   ls->getLSCs()->at(i)->getX()*scale,
@@ -40,16 +45,22 @@ void PaintWindow::paintWorld()
 			tmp->coords->at(0)*scale,
 			tmp->coords->at(1)*scale);
   }
-  for(unsigned int i=0;i<ls->getDeletedLightvectors()->size(); i++) {
-    nPoint* tmp=ls->getDeletedLightvectors()->at(i)->getnVector()->endPoint();
-    paintArea->drawLine(Qt::red,
-			ls->getDeletedLightvectors()->at(i)->getnVector()->start->at(0)*scale,
-			ls->getDeletedLightvectors()->at(i)->getnVector()->start->at(1)*scale,
-			tmp->coords->at(0)*scale,
-			tmp->coords->at(1)*scale);
-
+  if(paintPruned) {
+    for(unsigned int i=0;i<ls->getDeletedLightvectors()->size(); i++) {
+      nPoint* tmp=ls->getDeletedLightvectors()->at(i)->getnVector()->endPoint();
+      paintArea->drawLine(Qt::red,
+			  ls->getDeletedLightvectors()->at(i)->getnVector()->start->at(0)*scale,
+			  ls->getDeletedLightvectors()->at(i)->getnVector()->start->at(1)*scale,
+			  tmp->coords->at(0)*scale,
+			  tmp->coords->at(1)*scale);   
+    }
   }
-  
+  for(unsigned int i=0;i<ls->getLightsources()->size(); i++) {
+    paintArea->drawFilledRectangle(Qt::blue,
+				   ls->getLightsources()->at(i)->getX()*scale,
+				   ls->getLightsources()->at(i)->getY()*scale,
+				   10,10);
+  }
   buffer=paintArea->getPixmap();
 }
 
@@ -57,6 +68,6 @@ void PaintWindow::paintWorld()
 void PaintWindow::paintEvent(QPaintEvent * e)
 {
   QPainter painter(this);
-  painter.drawPixmap(0,0,11*scale,9*scale,buffer);
+  painter.drawPixmap(0,0,w,h,buffer);
 }
 
