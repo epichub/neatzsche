@@ -175,9 +175,9 @@ std::istream& operator>>(std::istream& ins, Lightsim2D * ls)
 {
   int num;
   unsigned int x,y,x2,y2;
-  cout << "in >> overload";
   while(ins.good()) {
     ins>>num;
+    cout << "num er: "<<num;
     for(unsigned int i=0;i<num;i++) {
       ins>>x>>y;
       ls->LSCs->push_back(new LSC(x,y));
@@ -207,6 +207,8 @@ std::istream& operator>>(std::istream& ins, Lightsim2D * ls)
       ls->lightsources->push_back(new Lightsource(x,y));
     }
   }
+
+  return ins;
 
   /*
    string id;
@@ -240,7 +242,6 @@ std::istream& operator>>(std::istream& ins, Lightsim2D * ls)
   return i;
   */
 
-  return ins;
 }
 
 void Lightsim2D::print() {
