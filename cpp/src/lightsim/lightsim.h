@@ -24,6 +24,7 @@ private:
   double cellsize;
 public:
   friend std::istream& operator>>(std::istream& i, Lightsim2D * ls);
+  friend std::ostream& operator<<(ostream& os, const Lightsim2D *ls);
   Lightsim2D(double cellsize);
   Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xmax,unsigned int ymax);
   Lightsim2D(double cellsize, Phenotype * f, unsigned int xmax, unsigned int ymax, unsigned int lsnum);

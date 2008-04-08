@@ -12,6 +12,10 @@ PaintWindow::PaintWindow (int w, int h, unsigned int scale, Lightsim2D *ls, QWid
   this->scale=scale;
 }
 
+void PaintWindow::updateLS(Lightsim2D *ls) {
+  this->ls=ls; 
+}
+
 void PaintWindow::paintWorld() {
   paintIt(false);
 }

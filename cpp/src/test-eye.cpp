@@ -81,9 +81,7 @@ int main(int argc, char *args[])
   double ocomp=0;
   time_t startt;
   double timesum = 0;
-  Lightsim2D *ls2d;
-  QApplication app(argc,args);
-  PaintWindow *pw;
+
   for(int i2=0;i2<iter;i2++){
     cout <<"Iteration: "<<i2<<"\n";
     gc = 0;
@@ -121,13 +119,11 @@ int main(int argc, char *args[])
       ls2d=new Lightsim2D(0.5,best,xmax,ymax,lsnum);
       ls2d->createVectors();
       ls2d->pruneBlockedVectors();
-	
-      pw=new PaintWindow(1000,1000,15,ls2d,NULL);
-      pw->paintWorld();
-      pw->show();
-      app.exec();
-      delete pw;
 
+      ofstream fil("data/bestls2d"); 
+      fil << ls2d;
+      ofs.close();
+	
       delete ls2d;
 
       //      cerr << i << ": maxfitness: " << pop->getHighestFitness() << endl;
@@ -176,5 +172,4 @@ int main(int argc, char *args[])
 	
     }
   }
-
 }

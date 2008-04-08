@@ -120,6 +120,53 @@ void Lightsim2D::init(double cellsize) {
   deletedLightvectors=new vector<Lightvector*>();
 }
 
+
+std::ostream& operator<< (ostream& os, const Lightsim2D *ls)
+{
+
+  for(unsigned int i=0;i<ls->getLSCs()->size(); i++) {
+    os <<ls->getLSCs()->at(i)->getX()<<" "<<ls->getLSCs()->at(i)->getY();
+    if(i!=ls->getLSCs()->size()-1) { 
+      os << " "; 
+    }
+  }
+  os << "\n";
+
+  for(unsigned int i=0;i<ls->getOpaquecells()->size(); i++) {
+    os <<ls->getOpaquecells()->at(i)->getX()<<" "<<ls->getOpaquecells()->at(i)->getY();
+    if(i!=ls->getOpaquecells()->size()-1) { 
+      os << " "; 
+    }
+  }
+  os << "\n";
+
+  for(unsigned int i=0;i<ls->getLightvectors()->size(); i++) {
+    os <<ls->getLightvectors()->at(i)->getLightsource()->getX()<<" "<<ls->getLightvectors()->at(i)->getLightsource()->getY()<<" "<<ls->getLightvectors()->at(i)->getLSC()->getX()<<" "<<ls->getLightvectors()->at(i)->getLSC()->getY();
+    if(i!=ls->getLightvectors()->size()-1) { 
+      os << " "; 
+    }
+  }
+  os << "\n";
+
+  for(unsigned int i=0;i<ls->getDeletedLightvectors()->size(); i++) {
+    os <<ls->getDeletedLightvectors()->at(i)->getLightsource()->getX()<<" "<<ls->getDeletedLightvectors()->at(i)->getLightsource()->getY()<<" "<<ls->getDeletedLightvectors()->at(i)->getLSC()->getX()<<" "<<ls->getDeletedLightvectors()->at(i)->getLSC()->getY();
+    if(i!=ls->getDeletedLightvectors()->size()-1) { 
+      os << " "; 
+    }
+  }
+  os << "\n";
+
+  for(unsigned int i=0;i<ls->getLightsources()->size(); i++) {
+    os <<ls->getLightsources()->at(i)->getX()<<" "<<ls->getLightsources()->at(i)->getY();
+    if(i!=ls->getLightsources()->size()-1) { 
+      os << " "; 
+    }
+  }
+  os << "\n";
+
+  return os;
+}
+
 std::istream& operator>>(std::istream& i, Lightsim2D * ls)
 {
   string id;

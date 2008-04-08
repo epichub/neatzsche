@@ -94,33 +94,40 @@ double LightsimEvaluator::f(Phenotype * f)
       myFit+=optimalRatio*(1/(error+1));
       }
     */
-    double error=0;
+
     unsigned int lsNum=ls2d->getLightsources()->size();
-    unsigned int LscNum=ls2d->getLSCs()->size();
-    double LscToLsRatio=LscNum/lsNum;
-    double numerator=0;
-    for(unsigned int i=0;i<lsNum;i++) {
-      if(lsNum<LscNum&&ls2d->getLightsources()->at(i)->getNumHits()>0) {
-	//cout<<"error: LtLRat: "<<LscToLsRatio<<"- Ls->numhits: "<<ls2d->getLightsources()->at(i)->getNumHits()<<"\n";
-	error=fabs((ls2d->getLightsources()->at(i)->getNumHits()-LscToLsRatio)/ls2d->getLSCs()->size()); 
-	//cout<<"error: "<<error<<"\n";
-	//cout <<"temp num: ((1/"<<lsNum<<")*(1-"<<error<<")) : "<<((1/(double)lsNum)*(1-error))<<"\n";
-	numerator+=(1/(double)lsNum)*(1-error);
-      }
+    unsigned int lscNum=ls2d->getLSCs()->size();
+    if(lsNum == 0 || lscNum == 0) {
+      f->setFitness(0);
     }
-    //cout <<numerator<<" ";
-    double denominator=0;
-    for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
-      if(ls2d->getLSCs()->at(i)->getNumHits()>0) {
-	denominator+=(1/ls2d->getLSCs()->at(i)->getNumHits());
+    else {
+      double e=0;
+      double numerator=0;
+      double denominator=0;
+      double LscToLsRatio=lscNum/lsNum;
+      unsigned int hOpt=floor(LscToLsRatio+0.5);
+      unsigned int tmpNum=lscNum-hOpt;
+      unsigned int eMax=hOpt < tmpNum ? tmpNum : hOpt;
+      
+      for(unsigned int i=0;i<lsNum;i++) {
+	if(lsNum<lscNum&&ls2d->getLightsources()->at(i)->getNumHits()>0) {
+	  e=fabs(hOpt-ls2d->getLightsources()->at(i)->getNumHits())/eMax;
+	  numerator+=(1/(double)lsNum)*(1-e);
+	}
       }
-    }
-    if(LscNum>0) {
-       denominator=denominator/LscNum;
-//       cout<<denominator;
+      cout << numerator;
+      if(numerator>1) { cout << "to big num: "<<numerator; exit(0); }
+      
+      for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
+	if(ls2d->getLSCs()->at(i)->getNumHits()>0) {
+	  denominator+=(1/ls2d->getLSCs()->at(i)->getNumHits());
+	}
+      }
+      denominator=denominator/lscNum;
+      if(denominator>1) { cout << "to bíg denom"<<denominator; exit(0); }
+
       f->setFitness(numerator*denominator);
     }
-    else { f->setFitness(0); }
   }
   else if(((int)settings->getValue("fitness_mode")) == 2) {
     f->setFitness(ls2d->getLightvectors()->size());

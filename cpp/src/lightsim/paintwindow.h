@@ -12,8 +12,9 @@ class PaintWindow : public QWidget
   QSize sizeHint() const {return paintArea->sizeHint();};
   void paintEvent(QPaintEvent * e);
   PaintArea * getPaintArea(){return paintArea;}
-  void virtual paintWorld();
-  void virtual paintWorldWithPruned();
+  virtual void paintWorld();
+  virtual void paintWorldWithPruned();
+  void updateLS(Lightsim2D *ls);
 
 protected:
   PaintArea * paintArea;
