@@ -119,9 +119,9 @@ double LightsimEvaluator::f(Phenotype * f)
 	denominator+=(1/ls2d->getLSCs()->at(i)->getNumHits());
       }
     }
-    denominator=denominator/LscNum;
-    cout<<denominator;
     if(LscNum>0) {
+      denominator=denominator/LscNum;
+      cout<<denominator;
       f->setFitness(numerator*denominator);
     }
     else { f->setFitness(0); }
