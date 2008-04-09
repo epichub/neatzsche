@@ -173,38 +173,67 @@ std::ostream& operator<< (ostream& os, Lightsim2D *ls)
 
 std::istream& operator>>(std::istream& ins, Lightsim2D * ls)
 {
-  int num;
+  int num=0;
+  string s;
   unsigned int x,y,x2,y2;
   while(ins.good()) {
-    ins>>num;
+    ins>>s;
+    num=atoi(s);
     cout << "num er: "<<num;
     for(unsigned int i=0;i<num;i++) {
-      ins>>x>>y;
+      ins>>s;
+      x=atoi(s);
+      ins>>s;
+      y=atoi(s);
       ls->LSCs->push_back(new LSC(x,y));
     }
 
-    ins>>num;
+    ins>>s;
+    num=atoi(s);
     for(unsigned int i=0;i<num;i++) {
-      ins>>x>>y;
-      ls->opaquecells->push_back(new Opaquecell(x,y));
+      ins>>s;
+      x=atoi(s);
+      ins>>s;
+      y=atoi(s);
+      ls->LSCs->push_back(new LSC(x,y));
     }
 
-    ins>>num;
+    ins>>s;
+    num=atoi(s);
     for(unsigned int i=0;i<num;i++) {
-      ins>>x>>y>>x2,y2;
+      ins>>s;
+      x=atoi(s);
+      ins>>s;
+      y=atoi(s);
+      ins>>s;
+      x2=atoi(s);
+      ins>>s;
+      y2=atoi(s);
       ls->lightvectors->push_back(new Lightvector(x,y,x2,y2));
     }
 
-    ins>>num;
+    ins>>s;
+    num=atoi(s);
     for(unsigned int i=0;i<num;i++) {
-      ins>>x>>y>>x2,y2;
+      ins>>s;
+      x=atoi(s);
+      ins>>s;
+      y=atoi(s);
+      ins>>s;
+      x2=atoi(s);
+      ins>>s;
+      y2=atoi(s);
       ls->deletedLightvectors->push_back(new Lightvector(x,y,x2,y2));
     }
 
-    ins>>num;
+    ins>>s;
+    num=atoi(s);
     for(unsigned int i=0;i<num;i++) {
-      ins>>x>>y;
-      ls->lightsources->push_back(new Lightsource(x,y));
+      ins>>s;
+      x=atoi(s);
+      ins>>s;
+      y=atoi(s);
+      ls->LSCs->push_back(new LSC(x,y));
     }
   }
 
