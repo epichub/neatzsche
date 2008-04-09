@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'paintwindow.h'
 **
-** Created: Wed Apr 9 13:06:01 2008
+** Created: Wed Apr 9 16:45:01 2008
 **      by: The Qt Meta Object Compiler version 59 (Qt 4.3.2)
 **
 ** WARNING! All changes made in this file will be lost!

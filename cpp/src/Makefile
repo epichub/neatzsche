@@ -226,7 +226,7 @@ compiler_objective_c_make_all:
 compiler_objective_c_clean:
 compiler_moc_header_make_all: moc_botthread.cpp moc_botthreadwindow.cpp moc_botwindow.cpp moc_lobbywindow.cpp moc_paintwindow.cpp moc_lightsim-viewer.cpp moc_senderthread.cpp moc_serverwindow.cpp moc_session.cpp moc_sessionwindow.cpp moc_settingswindow.cpp moc_wrapper.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_botthread.cpp moc_botthreadwindow.cpp moc_botwindow.cpp moc_lobbywindow.cpp moc_paintwindow.cpp moc_senderthread.cpp moc_serverwindow.cpp moc_session.cpp moc_sessionwindow.cpp moc_settingswindow.cpp moc_wrapper.cpp
+	-$(DEL_FILE) moc_botthread.cpp moc_botthreadwindow.cpp moc_botwindow.cpp moc_lobbywindow.cpp moc_paintwindow.cpp moc_senderthread.cpp moc_serverwindow.cpp moc_session.cpp moc_sessionwindow.cpp moc_settingswindow.cpp moc_wrapper.cpp moc_lightsim-viewer.cpp moc_paintwindow.cpp
 moc_paintwindow.cpp: lightsim/paintwindow.h
 	/Developer/Tools/Qt/moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ lightsim/paintwindow.h -o moc_paintwindow.cpp
 moc_lightsim-viewer.cpp: lightsim/lightsim-viewer.h
