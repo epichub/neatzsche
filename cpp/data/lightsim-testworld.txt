@@ -8,6 +8,16 @@ opc 2 5
 opc 3 5
 opc 4 5
 opc 8 5
+opc 1 8
+opc 2 8
+opc 3 8
+opc 4 8
+opc 5 8
+opc 6 8
+opc 7 8
+opc 8 8
+opc 9 8
+lsc 4 2
 lsc 2 7
 lsc 3 7
 lsc 4 7

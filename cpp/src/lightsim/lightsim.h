@@ -2,6 +2,7 @@
 #define LIGHTSIM2D_H_
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include "cell.h"
 #include "opaquecell.h"
@@ -23,12 +24,15 @@ private:
   std::vector<Lightvector*> *deletedLightvectors;
   double cellsize;
 public:
-  friend std::istream& operator>>(std::istream& i, Lightsim2D * ls);
+  friend std::istream& operator>>(std::istream& i, Lightsim2D &ls);
   friend std::ostream& operator<<(ostream& os, Lightsim2D *ls);
+  Lightsim2D();
   Lightsim2D(double cellsize);
   Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xmax,unsigned int ymax);
   Lightsim2D(double cellsize, Phenotype * f, unsigned int xmax, unsigned int ymax, unsigned int lsnum);
   ~Lightsim2D();
+  void clear();
+  void reset();
   void init(double cellsize);
   unsigned int getSizeX() { return sizeX; }
   unsigned int getSizeY() { return sizeY; }
@@ -38,6 +42,7 @@ public:
   std::vector<Lightvector*>* getLightvectors() { return lightvectors; }
   std::vector<Lightvector*>* getDeletedLightvectors() { return deletedLightvectors; }
   void print();
+  void readFromFile(string filename);
   void createVectors();
   void pruneBlockedVectors();
 };

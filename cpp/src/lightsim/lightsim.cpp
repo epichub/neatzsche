@@ -1,5 +1,7 @@
 #include "lightsim.h"
 
+Lightsim2D::Lightsim2D() {}
+
 Lightsim2D::Lightsim2D(double cellsize) {
   init(cellsize);
 }
@@ -85,6 +87,15 @@ Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigne
 }
 
 Lightsim2D::~Lightsim2D() {
+  clear();
+}
+
+void Lightsim2D::reset() {
+  clear();
+  init(cellsize);
+}
+
+void Lightsim2D::clear() {
   for(unsigned int i=0;i<lightvectors->size();i++) {
     delete(lightvectors->at(i));
   }
@@ -171,93 +182,95 @@ std::ostream& operator<< (ostream& os, Lightsim2D *ls)
   return os;
 }
 
-std::istream& operator>>(std::istream& ins, Lightsim2D * ls)
+std::istream& operator>>(std::istream& ins, Lightsim2D& ls)
 {
+  ls.reset();
   int num=0;
   string s;
   unsigned int x,y,x2,y2;
-  while(ins.good()) {
     ins>>s;
-    num=atoi(s);
+    num=atoi(s.c_str());
     cout << "num er: "<<num;
     for(unsigned int i=0;i<num;i++) {
       ins>>s;
-      x=atoi(s);
+      x=atoi(s.c_str());
       ins>>s;
-      y=atoi(s);
-      ls->LSCs->push_back(new LSC(x,y));
+      y=atoi(s.c_str());
+      ls.getLSCs()->push_back(new LSC(x,y));
     }
 
     ins>>s;
-    num=atoi(s);
+    num=atoi(s.c_str());
     for(unsigned int i=0;i<num;i++) {
       ins>>s;
-      x=atoi(s);
+      x=atoi(s.c_str());
       ins>>s;
-      y=atoi(s);
-      ls->LSCs->push_back(new LSC(x,y));
+      y=atoi(s.c_str());
+      ls.getOpaquecells()->push_back(new Opaquecell(x,y));
     }
 
     ins>>s;
-    num=atoi(s);
+    num=atoi(s.c_str());
     for(unsigned int i=0;i<num;i++) {
       ins>>s;
-      x=atoi(s);
+      x=atoi(s.c_str());
       ins>>s;
-      y=atoi(s);
+      y=atoi(s.c_str());
       ins>>s;
-      x2=atoi(s);
+      x2=atoi(s.c_str());
       ins>>s;
-      y2=atoi(s);
-      ls->lightvectors->push_back(new Lightvector(x,y,x2,y2));
+      y2=atoi(s.c_str());
+      ls.getLightvectors()->push_back(new Lightvector(x,y,x2,y2));
     }
 
     ins>>s;
-    num=atoi(s);
+    num=atoi(s.c_str());
     for(unsigned int i=0;i<num;i++) {
       ins>>s;
-      x=atoi(s);
+      x=atoi(s.c_str());
       ins>>s;
-      y=atoi(s);
+      y=atoi(s.c_str());
       ins>>s;
-      x2=atoi(s);
+      x2=atoi(s.c_str());
       ins>>s;
-      y2=atoi(s);
-      ls->deletedLightvectors->push_back(new Lightvector(x,y,x2,y2));
+      y2=atoi(s.c_str());
+      ls.getDeletedLightvectors()->push_back(new Lightvector(x,y,x2,y2));
     }
 
     ins>>s;
-    num=atoi(s);
+    num=atoi(s.c_str());
     for(unsigned int i=0;i<num;i++) {
       ins>>s;
-      x=atoi(s);
+      x=atoi(s.c_str());
       ins>>s;
-      y=atoi(s);
-      ls->LSCs->push_back(new LSC(x,y));
+      y=atoi(s.c_str());
+      ls.getLightsources()->push_back(new Lightsource(x,y));
     }
-  }
+
 
   return ins;
+}
 
-  /*
-   string id;
+void Lightsim2D::readFromFile(string filename) {
+  ifstream i(filename.c_str());
+  string id;
   unsigned int x,y;
   while(i.good()) {
     i>>id;
     if(id.find("lsrc")!=string::npos) {
       //cout << "Found lsrc";
       i>>x>>y;
-      ls->lightsources->push_back(new Lightsource(x,y));
+      lightsources->push_back(new Lightsource(x,y));
     }
     else if(id.find("opc")!=string::npos) {
       //cout << "Found opc";
       i>>x>>y;
-      ls->opaquecells->push_back(new Opaquecell(x,y));
+      opaquecells->push_back(new Opaquecell(x,y));
     }
     else if(id.find("lsc")!=string::npos) {
       //cout << "Found LSC";
       i>>x>>y;
-      ls->LSCs->push_back(new LSC(x,y));
+      LSCs->push_back(new LSC(x,y));
     }
     else if(id.find("done")==string::npos){
       cout << "Error in datafile\n";
@@ -268,9 +281,8 @@ std::istream& operator>>(std::istream& ins, Lightsim2D * ls)
     }
     id="done";
   }
-  return i;
-  */
 
+  i.close();
 }
 
 void Lightsim2D::print() {
@@ -291,9 +303,11 @@ void Lightsim2D::pruneBlockedVectors() {
   //cout << "Pruning blocked vectors...";
   vector<Lightvector*>::iterator it = lightvectors->begin();
   bool erased=false;
+  double tmpLen=0;
   while(it!=lightvectors->end()){
     for(unsigned int j=0;j<opaquecells->size();j++) {
-      if((*it)->getnVector()->orthogonalLength(opaquecells->at(j)->getX(),opaquecells->at(j)->getY()) <cellsize) {
+      tmpLen=(*it)->getnVector()->orthogonalLength(opaquecells->at(j)->getX(),opaquecells->at(j)->getY());
+      if(tmpLen>=0&&tmpLen<cellsize) {
 	deletedLightvectors->push_back(*it);
 	lightvectors->erase(it);
        	j = opaquecells->size();

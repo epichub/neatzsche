@@ -8,12 +8,11 @@ class PaintWindow : public QWidget
   Q_OBJECT
 
   public:
-  PaintWindow (int w, int h, unsigned int scale, Lightsim2D *ls, QWidget * parent = 0 );
+  PaintWindow (int w, int h, unsigned int scale, bool paintPruned, QWidget * parent = 0 );
   QSize sizeHint() const {return paintArea->sizeHint();};
   void paintEvent(QPaintEvent * e);
   PaintArea * getPaintArea(){return paintArea;}
   virtual void paintWorld();
-  virtual void paintWorldWithPruned();
   void updateLS(Lightsim2D *ls);
 
 protected:
@@ -23,7 +22,7 @@ protected:
   unsigned int scale;
   unsigned int w;
   unsigned int h;
-  void paintIt(bool paintPruned);
+  bool paintPruned;
 };
 
 #endif

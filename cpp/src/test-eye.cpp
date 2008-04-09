@@ -65,9 +65,9 @@ int main(int argc, char *args[])
   int g = atoi(args[5]);
   int iter = atoi(args[6]);
 
-  unsigned int lsnum=5;
-  unsigned int ymax=50;
-  unsigned int xmax=50;
+  unsigned int lsnum=s->getValue("number_of_lightsources");
+  unsigned int ymax=s->getValue("ymax");
+  unsigned int xmax=s->getValue("xmax");;
 
   FitnessEvaluator * ls2de = new LightsimEvaluator(s,xmax,ymax,lsnum);
   Evaluator * ev = new Evaluator(ls2de); 
@@ -82,6 +82,10 @@ int main(int argc, char *args[])
   time_t startt;
   double timesum = 0;
 
+  /*
+  QApplication app(argc,args);
+  PaintWindow *pw=new PaintWindow(800,800,100,0.5,NULL);
+  */
   Lightsim2D *ls2d;
 
   for(int i2=0;i2<iter;i2++){
@@ -94,8 +98,10 @@ int main(int argc, char *args[])
       gc++;
       //      cout << "species before eval : " << pop->getSpecies()->size() << endl;
       ev->evaluate(pop->getMembers(),pop->getMembers()->size());
-      if((unsigned int)pop->getOriginalSize()!=pop->getMembers()->size())
-	cout << "size not right after eval.." << endl;
+      if((unsigned int)pop->getOriginalSize()!=pop->getMembers()->size()) {
+	cout << "error: size not right after eval.." << endl;
+	exit(1);
+      }
       ss=pop->getSpecies()->size();
       pop->updateSpeciesStats();
       pop->sortmembers();
@@ -117,10 +123,17 @@ int main(int argc, char *args[])
 	delete cbest;
       }
       
-      //Printing the ls2d window I think?
+      //Writing best ls2d to disk
       ls2d=new Lightsim2D(0.5,best,xmax,ymax,lsnum);
       ls2d->createVectors();
       ls2d->pruneBlockedVectors();
+
+      /*
+      pw->updateLS(ls2d);
+      pw->paintWorld();
+      pw->show();
+      app.exec();
+      */
 
       ofstream fil("data/bestls2d"); 
       fil << ls2d;

@@ -2,14 +2,15 @@
 #include <QRectF>
 #include <QColor>
 
-PaintWindow::PaintWindow (int w, int h, unsigned int scale, Lightsim2D *ls, QWidget * parent)
+PaintWindow::PaintWindow (int w, int h, unsigned int scale, bool paintPruned, QWidget * parent)
   : QWidget(parent)
 {
   paintArea = new PaintArea(w,h);
   this->w=w;
   this->h=h;
-  this->ls=ls;
   this->scale=scale;
+  this->paintPruned=paintPruned;
+  resize(w,h);
 }
 
 void PaintWindow::updateLS(Lightsim2D *ls) {
@@ -17,27 +18,12 @@ void PaintWindow::updateLS(Lightsim2D *ls) {
 }
 
 void PaintWindow::paintWorld() {
-  paintIt(false);
-}
-
-void PaintWindow::paintWorldWithPruned() {
-  paintIt(true);
-}
-
-void PaintWindow::paintIt(bool paintPruned)
-{
   paintArea->clear(Qt::white);
 
   for(unsigned int i=0;i<ls->getLSCs()->size(); i++) {
     paintArea->drawFilledRectangle(Qt::green,
 				   ls->getLSCs()->at(i)->getX()*scale,
 				   ls->getLSCs()->at(i)->getY()*scale,
-				   10,10);
-  }
-  for(unsigned int i=0;i<ls->getOpaquecells()->size(); i++) {
-    paintArea->drawFilledRectangle(Qt::black,
-				   ls->getOpaquecells()->at(i)->getX()*scale,
-				   ls->getOpaquecells()->at(i)->getY()*scale,
 				   10,10);
   }
 
@@ -65,6 +51,14 @@ void PaintWindow::paintIt(bool paintPruned)
 				   ls->getLightsources()->at(i)->getY()*scale,
 				   10,10);
   }
+
+  for(unsigned int i=0;i<ls->getOpaquecells()->size(); i++) {
+    paintArea->drawFilledRectangle(Qt::black,
+				   ls->getOpaquecells()->at(i)->getX()*scale,
+				   ls->getOpaquecells()->at(i)->getY()*scale,
+				   10,10);
+  }
+
   buffer=paintArea->getPixmap();
 }
 

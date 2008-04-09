@@ -1,20 +1,38 @@
-#include <stdlib.h>
-#include <iostream>
-#include <fstream>
-#include "lightsim.h"
-#include "paintwindow.h"
-#include <QApplication>
+#include "lightsim-viewer.h"
+
+ReadTimer::ReadTimer(char *args[])
+  { 
+    this->ms=atoi(args[2]); 
+    this->filename=args[1];
+    this->cellsize=atof(args[6]);
+    pw=new PaintWindow(atoi(args[3]),atoi(args[4]),atoi(args[5]),atoi(args[7]),NULL); 
+    ls2d.init(cellsize);
+    update();
+    pw->show();
+    QTimer *pollTimer = new QTimer(this);
+    connect(pollTimer, SIGNAL(timeout()), this, SLOT(update()));
+    pollTimer->start(ms);
+  }
+
+
+void ReadTimer::update() {
+  std::ifstream f(filename);
+  f >> ls2d;
+  f.close();
+  ls2d.print();
+  pw->updateLS(&ls2d);
+  pw->paintWorld();
+}
 
 int main(int argc, char *args[])
 {
-  Lightsim2D *ls2d=new Lightsim2D(0.5);
-  std::ifstream f(args[0]);
-  f >> ls2d;
-  f.close();
-  ls2d->print();
+  if(argc!=8) {
+    cout <<"Usage: lightsim-viewer <filename> <updaterate ms> <width> <height> <scale> <cellsize> <paint pruned (0/1)>"<<endl;
+    exit(1);
+  }
   QApplication app(argc,args);
-  PaintWindow *pw=new PaintWindow(1100,900,100,ls2d,NULL);
-  pw->paintWorld();
-  pw->show();
+  ReadTimer rt(args);
   return app.exec();
 }
+
+
