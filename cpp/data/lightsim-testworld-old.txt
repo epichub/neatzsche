@@ -1,0 +1,16 @@
+lsrc 1 0
+lsrc 4 0
+lsrc 7 0
+lsrc 10 0
+opc 8 4
+opc 1 5
+opc 2 5
+opc 3 5
+opc 4 5
+opc 8 5
+lsc 2 7
+lsc 3 7
+lsc 4 7
+lsc 5 7
+lsc 9 7
+lsc 10 7
