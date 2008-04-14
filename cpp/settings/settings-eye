@@ -22,14 +22,14 @@ mate_multipoint_avg_prob 0.4
 mate_singlepoint_prob 0.0
 mate_only_prob 0.0
 newlink_tries 100
-spawn_recur_prob 0.0
+spawn_recur_prob 0.2
 coldgaussian_weight_mutate 0
-recurrent_conn_prob 0.0
+recurrent_conn_prob 0.5
 number_of_innovations 0
 keeplink 0
 enable_gauss_tfunc 1
 enable_sinus_tfunc 1
-enable_parabel_tfunc 0
+enable_parabel_tfunc 1
 newlink_weight_max 5.0
 #transferfunction settings
 unipolar 1
@@ -53,6 +53,6 @@ masterratio 0.8
 firethreshold 0.3
 #which fitness method to use (0 = f measure, 1 = simple energy (more links is better)
 fitness_mode 1
-number_of_lightsources 5
-xmax 5
-ymax 5
+number_of_lightsources 10
+xmax 20
+ymax 20

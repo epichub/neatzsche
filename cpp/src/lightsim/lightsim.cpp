@@ -317,12 +317,14 @@ void Lightsim2D::pruneBlockedVectors() {
 	erased=false; 
       }
     }
-    if(!erased) {
-      ++it;
+    if(erased) {
+      //hmm
     }
     else {
+      //cout <<"adding hit on lightsource: "<<(*it)->getLightsource()->getX()<<","<<(*it)->getLightsource()->getY()<<endl;
       (*it)->getLSC()->addHit(); 
       (*it)->getLightsource()->addHit(); 
+      ++it; 
     }
   }
   //cout << "done!\n";

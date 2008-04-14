@@ -62,6 +62,16 @@ double nVector::orthogonalLength(int x3, int y3, nVector &l) {
   double u = (((x3-x1)*(x2-x1))+((y3-y1)*(y2-y1)))/pow(len,2);
   double x = x1+(u*(x2-x1));
   double y = y1+(u*(y2-y1));
+  if(l.vec->at(0)>0) { 
+    if(x>x2||x<x1) {
+      return -1;
+    }
+  }
+  else {
+    if(x<x2||x>x1) {
+      return -1;
+    }
+  }
   return sqrt(pow(x-x3,2)+pow(y-y3,2));
   //  return new nVector(x3,y3,x,y);
 }

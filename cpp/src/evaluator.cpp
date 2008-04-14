@@ -87,6 +87,7 @@ double LightsimEvaluator::f(Phenotype * f)
     f->setFitness(fMeasure);
   }
   else if(((int)settings->getValue("fitness_mode")) == 1) {
+    double fitness=0.00001;
     /*
       double optimalRatio=(double)ls2d->getLightsources()->size()/ls2d->getLSCs()->size();
       for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
@@ -97,10 +98,7 @@ double LightsimEvaluator::f(Phenotype * f)
 
     unsigned int lsNum=ls2d->getLightsources()->size();
     unsigned int lscNum=ls2d->getLSCs()->size();
-    if(lsNum == 0 || lscNum == 0) {
-      f->setFitness(0);
-    }
-    else {
+    if(lsNum != 0 && lscNum != 0 && lsNum<lscNum) {
       double e=0;
       double numerator=0;
       double denominator=0;
@@ -109,13 +107,16 @@ double LightsimEvaluator::f(Phenotype * f)
       unsigned int tmpNum=lscNum-hOpt;
       unsigned int eMax=hOpt < tmpNum ? tmpNum : hOpt;
       
+      //cout <<"max error is: "<<eMax<<endl;
       for(unsigned int i=0;i<lsNum;i++) {
-	if(lsNum<lscNum&&ls2d->getLightsources()->at(i)->getNumHits()>0) {
-	  e=fabs(hOpt-ls2d->getLightsources()->at(i)->getNumHits())/eMax;
-	  numerator+=(1/(double)lsNum)*(1-e);
+	if(ls2d->getLightsources()->at(i)->getNumHits()>0) {
+	  //cout << "hopt: "<<hOpt<<" hits: "<<ls2d->getLightsources()->at(i)->getNumHits()<<endl;
+	  e+=fabs(hOpt-ls2d->getLightsources()->at(i)->getNumHits())/eMax;
 	}
+	else { e+=1; }
       }
-      cout << numerator;
+      numerator=1-(e/(double)lsNum);
+      //cout << numerator;
       if(numerator>1) { cout << "to big num: "<<numerator; exit(0); }
       
       for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
@@ -123,11 +124,12 @@ double LightsimEvaluator::f(Phenotype * f)
 	  denominator+=(1/ls2d->getLSCs()->at(i)->getNumHits());
 	}
       }
-      denominator=denominator/lscNum;
+      denominator=denominator/(double)lscNum;
       if(denominator>1) { cout << "to bíg denom"<<denominator; exit(0); }
 
-      f->setFitness(numerator*denominator);
+      fitness+=numerator*denominator;
     }
+    f->setFitness(fitness);
   }
   else if(((int)settings->getValue("fitness_mode")) == 2) {
     f->setFitness(ls2d->getLightvectors()->size());

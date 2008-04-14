@@ -7,13 +7,17 @@
 
 int main(int argc, char *args[])
 {
-  Lightsim2D ls2d=Lightsim2D(atof(args[2]));
+  if(argc!=7) {
+    cout <<"Usage: lightsim-viewer <filename> <width> <height> <scale> <cellsize> <paint pruned (0/1)>"<<endl;
+    exit(1);
+  }
+  Lightsim2D ls2d=Lightsim2D(atof(args[5]));
   ls2d.readFromFile(args[1]);
   ls2d.createVectors();
   ls2d.pruneBlockedVectors();
   ls2d.print();
   QApplication app(argc,args);
-  PaintWindow *pw=new PaintWindow(1100,900,100,true,NULL);
+  PaintWindow *pw=new PaintWindow(atoi(args[2]),atoi(args[3]),atoi(args[4]),atoi(args[6]),NULL);
   pw->updateLS(&ls2d);
   pw->paintWorld();
   pw->show();

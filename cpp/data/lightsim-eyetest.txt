@@ -1,0 +1,33 @@
+lsrc 1 0
+lsrc 3 0
+lsrc 5 0
+lsrc 7 0
+lsrc 9 0
+
+
+opc 3 4
+opc 2 5
+opc 2 6
+opc 2 7
+opc 3 8
+opc 4 9
+opc 5 9
+opc 6 9
+opc 7 8
+opc 8 7
+opc 8 6
+opc 8 5
+opc 7 4
+
+
+
+lsc 3 5
+lsc 3 6
+lsc 3 7
+lsc 4 8
+lsc 5 8
+lsc 6 8
+lsc 7 7
+lsc 7 6
+lsc 7 5
+
