@@ -1,5 +1,5 @@
 all: opt
-	
+
 changedir:
 	@ cd src;
 

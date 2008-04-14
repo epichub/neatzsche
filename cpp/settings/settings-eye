@@ -6,7 +6,7 @@ severe_mutation_rate 0.0
 compat_threshold 3.0
 dropoff_age 15
 age_significanse 1.0
-survival_thresh 0.25
+survival_thresh 0.1
 species_target_size 3
 #species_target
 mutate_only_prob 0.25
@@ -53,6 +53,7 @@ masterratio 0.8
 firethreshold 0.3
 #which fitness method to use (0 = f measure, 1 = simple energy (more links is better)
 fitness_mode 1
-number_of_lightsources 10
-xmax 20
-ymax 20
+number_of_lightsources 30
+xmax 30
+ymax 30
+cellsize 0.7

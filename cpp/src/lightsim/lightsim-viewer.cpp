@@ -5,7 +5,7 @@ ReadTimer::ReadTimer(char *args[])
     this->ms=atoi(args[2]); 
     this->filename=args[1];
     this->cellsize=atof(args[6]);
-    pw=new PaintWindow(atoi(args[3]),atoi(args[4]),atoi(args[5]),atoi(args[7]),NULL); 
+    pw=new PaintWindow(atoi(args[3]),atoi(args[4]),atoi(args[5]),atof(args[6]),atoi(args[7]),NULL); 
     ls2d.init(cellsize);
     update();
     pw->show();

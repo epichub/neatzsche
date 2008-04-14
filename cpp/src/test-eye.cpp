@@ -124,7 +124,7 @@ int main(int argc, char *args[])
       }
       
       //Writing best ls2d to disk
-      ls2d=new Lightsim2D(0.5,best,xmax,ymax,lsnum);
+      ls2d=new Lightsim2D(s->getValue("cellsize"),best,xmax,ymax,lsnum);
       ls2d->createVectors();
       ls2d->pruneBlockedVectors();
 

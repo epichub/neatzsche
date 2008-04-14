@@ -8,7 +8,7 @@ class PaintWindow : public QWidget
   Q_OBJECT
 
   public:
-  PaintWindow (int w, int h, unsigned int scale, bool paintPruned, QWidget * parent = 0 );
+  PaintWindow (int w, int h, unsigned int scale, double objectsizeFactor ,bool paintPruned, QWidget * parent = 0 );
   QSize sizeHint() const {return paintArea->sizeHint();};
   void paintEvent(QPaintEvent * e);
   PaintArea * getPaintArea(){return paintArea;}
@@ -20,6 +20,7 @@ protected:
   QPixmap buffer;
   Lightsim2D *ls;
   unsigned int scale;
+  double objectsizeFactor;
   unsigned int w;
   unsigned int h;
   bool paintPruned;

@@ -106,7 +106,10 @@ double LightsimEvaluator::f(Phenotype * f)
       unsigned int hOpt=floor(LscToLsRatio+0.5);
       unsigned int tmpNum=lscNum-hOpt;
       unsigned int eMax=hOpt < tmpNum ? tmpNum : hOpt;
-      
+      unsigned int cellNum=ls2d->getLSCs()->size()+ls2d->getOpaquecells()->size();
+      double favorLessNum=1-((double)cellNum/(((xmax*ymax)-ls2d->getLightsources()->size())*2));
+      cout << "favorlessnum: 1-"<<cellNum<<"/("<<xmax*ymax<<"-"<<ls2d->getLightsources()->size()<<")*2"<<" = "<< favorLessNum<<endl;
+
       //cout <<"max error is: "<<eMax<<endl;
       for(unsigned int i=0;i<lsNum;i++) {
 	if(ls2d->getLightsources()->at(i)->getNumHits()>0) {
@@ -128,6 +131,7 @@ double LightsimEvaluator::f(Phenotype * f)
       if(denominator>1) { cout << "to bíg denom"<<denominator; exit(0); }
 
       fitness+=numerator*denominator;
+      fitness=fitness*favorLessNum;
     }
     f->setFitness(fitness);
   }

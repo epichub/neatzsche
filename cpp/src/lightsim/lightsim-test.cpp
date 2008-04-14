@@ -17,7 +17,7 @@ int main(int argc, char *args[])
   ls2d.pruneBlockedVectors();
   ls2d.print();
   QApplication app(argc,args);
-  PaintWindow *pw=new PaintWindow(atoi(args[2]),atoi(args[3]),atoi(args[4]),atoi(args[6]),NULL);
+  PaintWindow *pw=new PaintWindow(atoi(args[2]),atoi(args[3]),atoi(args[4]),atof(args[5]),atoi(args[6]),NULL);
   pw->updateLS(&ls2d);
   pw->paintWorld();
   pw->show();
