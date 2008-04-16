@@ -49,13 +49,13 @@ Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigne
   int centerY=ymax/2;
   for(unsigned int i=0;i<xmax;i++) {
     for(unsigned int j=0;j<ymax;j++) {
-      if(i == 0 &&((j % (ymax/lsnum)) == 0 || j == 0)) {
+      if(i == 0 &&((j % (unsigned int)(floor((ymax/(double)lsnum)+0.5))) == 0 || j == 0)) {
 	lightsources->push_back(new Lightsource(i,j));
       }
       else {
 	tmpin.push_back(i);
 	tmpin.push_back(j);
-	tmpin.push_back(sqrt(pow(i-centerX,2)+pow(j-centerY,2)));
+	tmpin.push_back(sqrt(pow(i-(double)centerX,2)+pow(j-(double)centerY,2)));
 	tmpout=f->react(tmpin);
 	tmpstr=0;
 	tmpwinner=0;

@@ -109,22 +109,9 @@ int main(int argc, char *args[])
       cbest = pop->getCopyOfCurrentBest();
       ls2de->f(cbest);
       //      cout << "generation " << i << " : ";
-      if(best==NULL){
-	best = cbest;
-	// 	cout << "setting first best ("<<best->getFitness()<<"):"<<best->getID() << endl;
-	// 	cout << "genome:" << best->getGenome();
-      }else if(cbest->getFitness()>best->getFitness()){
-	delete best;
-	best = cbest;
-	//	cout << "setting new best ("<<best->getFitness()<<"):"<<best->getID() << endl;
-	//	cout << "genome:" << best->getGenome();
-      }else{
-	//	cout << "cbest not good enough: " << cbest->getFitness() << " :" << cbest->getID() << endl;
-	delete cbest;
-      }
-      
+
       //Writing best ls2d to disk
-      ls2d=new Lightsim2D(s->getValue("cellsize"),best,xmax,ymax,lsnum);
+      ls2d=new Lightsim2D(s->getValue("cellsize"),cbest,xmax,ymax,lsnum);
       ls2d->createVectors();
       ls2d->pruneBlockedVectors();
 
@@ -140,6 +127,22 @@ int main(int argc, char *args[])
       fil.close();
 	
       delete ls2d;
+
+
+      if(best==NULL){
+	best = cbest;
+	// 	cout << "setting first best ("<<best->getFitness()<<"):"<<best->getID() << endl;
+	// 	cout << "genome:" << best->getGenome();
+      }else if(cbest->getFitness()>best->getFitness()){
+	delete best;
+	best = cbest;
+	//	cout << "setting new best ("<<best->getFitness()<<"):"<<best->getID() << endl;
+	//	cout << "genome:" << best->getGenome();
+      }else{
+	//	cout << "cbest not good enough: " << cbest->getFitness() << " :" << cbest->getID() << endl;
+	delete cbest;
+      }
+      
 
       //      cerr << i << ": maxfitness: " << pop->getHighestFitness() << endl;
       sel->select(pop,0);

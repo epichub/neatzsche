@@ -53,7 +53,7 @@ masterratio 0.8
 firethreshold 0.3
 #which fitness method to use (0 = f measure, 1 = simple energy (more links is better)
 fitness_mode 1
-number_of_lightsources 30
+number_of_lightsources 4
 xmax 30
 ymax 30
 cellsize 0.7

@@ -59,7 +59,7 @@ double LightsimEvaluator::f(Phenotype * f)
   Lightsim2D *ls2d=new Lightsim2D(0.5,twodmap,xmax,ymax);
   */
 
-  ls2d=new Lightsim2D(0.5,f,xmax,ymax,lsnum);
+  ls2d=new Lightsim2D(settings->getValue("cellsize"),f,xmax,ymax,lsnum);
 
   ls2d->createVectors();
 
@@ -88,13 +88,6 @@ double LightsimEvaluator::f(Phenotype * f)
   }
   else if(((int)settings->getValue("fitness_mode")) == 1) {
     double fitness=0.00001;
-    /*
-      double optimalRatio=(double)ls2d->getLightsources()->size()/ls2d->getLSCs()->size();
-      for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
-      double error=fabs(ls2d->getLSCs()->at(i)->getNumHits()-floor(optimalRatio+1)); // distance from the optimal number of hits
-      myFit+=optimalRatio*(1/(error+1));
-      }
-    */
 
     unsigned int lsNum=ls2d->getLightsources()->size();
     unsigned int lscNum=ls2d->getLSCs()->size();
@@ -103,12 +96,17 @@ double LightsimEvaluator::f(Phenotype * f)
       double numerator=0;
       double denominator=0;
       double LscToLsRatio=lscNum/lsNum;
+      unsigned int centerX=floor(xmax/2);
+      unsigned int centerY=floor(ymax/2);
       unsigned int hOpt=floor(LscToLsRatio+0.5);
       unsigned int tmpNum=lscNum-hOpt;
       unsigned int eMax=hOpt < tmpNum ? tmpNum : hOpt;
       unsigned int cellNum=ls2d->getLSCs()->size()+ls2d->getOpaquecells()->size();
-      double favorLessNum=1-((double)cellNum/(((xmax*ymax)-ls2d->getLightsources()->size())*2));
-      cout << "favorlessnum: 1-"<<cellNum<<"/("<<xmax*ymax<<"-"<<ls2d->getLightsources()->size()<<")*2"<<" = "<< favorLessNum<<endl;
+      double avgLengthFromCenter=0;
+      double maxLengthFromCenter=sqrt(pow(xmax-centerX,2)+pow(ymax-centerY,2)); 
+
+      double favorLessNum=1-((double)cellNum/(((xmax*ymax)-ls2d->getLightsources()->size())*3));
+      //cout << "favorlessnum: 1-"<<cellNum<<"/("<<xmax*ymax<<"-"<<ls2d->getLightsources()->size()<<")*2"<<" = "<< favorLessNum<<endl;
 
       //cout <<"max error is: "<<eMax<<endl;
       for(unsigned int i=0;i<lsNum;i++) {
@@ -124,14 +122,26 @@ double LightsimEvaluator::f(Phenotype * f)
       
       for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
 	if(ls2d->getLSCs()->at(i)->getNumHits()>0) {
+	  avgLengthFromCenter+=sqrt(pow(ls2d->getLSCs()->at(i)->getX()-(double)centerX,2)+pow(ls2d->getLSCs()->at(i)->getY()-(double)centerY,2));
 	  denominator+=(1/ls2d->getLSCs()->at(i)->getNumHits());
 	}
       }
       denominator=denominator/(double)lscNum;
       if(denominator>1) { cout << "to bíg denom"<<denominator; exit(0); }
 
+      for(unsigned int i=0;i<ls2d->getOpaquecells()->size();i++) {
+	avgLengthFromCenter+=sqrt(pow(ls2d->getOpaquecells()->at(i)->getX()-(double)centerX,2)+pow(ls2d->getOpaquecells()->at(i)->getY()-(double)centerY,2));
+      }
+      
+      //cout <<"maxlfc: "<<maxLengthFromCenter<<endl;
+      //cout <<"totallfc: "<<avgLengthFromCenter<<endl;
+      avgLengthFromCenter=avgLengthFromCenter/(ls2d->getLSCs()->size()+ls2d->getOpaquecells()->size());
+      //cout <<"avglfc: "<<avgLengthFromCenter<<endl;
+      double favorCloserNum=1-(avgLengthFromCenter/(maxLengthFromCenter*1));
+      //cout <<"favorCloserNum: "<<favorCloserNum<<endl;
+
       fitness+=numerator*denominator;
-      fitness=fitness*favorLessNum;
+      fitness=fitness*favorLessNum*favorCloserNum;
     }
     f->setFitness(fitness);
   }

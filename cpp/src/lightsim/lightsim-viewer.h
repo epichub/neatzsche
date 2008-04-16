@@ -14,13 +14,17 @@ Q_OBJECT
 private:
   Lightsim2D ls2d;
   PaintWindow *pw;
+  QFileSystemWatcher* watcher;
+  QTimer *timer;
   unsigned int ms;
   char* filename;
   double cellsize;
+  bool timerActive;
 
 public:
   ReadTimer(char *args[]);
 
 public slots:
-  void update();
+  void reload();
+  void scheduleReload();
 };
