@@ -105,7 +105,7 @@ double LightsimEvaluator::f(Phenotype * f)
       double avgLengthFromCenter=0;
       double maxLengthFromCenter=sqrt(pow(xmax-centerX,2)+pow(ymax-centerY,2)); 
 
-      double favorLessNum=1-((double)cellNum/(((xmax*ymax)-ls2d->getLightsources()->size())*3));
+      double favorLessNum=1-((double)cellNum/(((xmax*ymax)-ls2d->getLightsources()->size())*2));
       //cout << "favorlessnum: 1-"<<cellNum<<"/("<<xmax*ymax<<"-"<<ls2d->getLightsources()->size()<<")*2"<<" = "<< favorLessNum<<endl;
 
       //cout <<"max error is: "<<eMax<<endl;
@@ -152,9 +152,9 @@ double LightsimEvaluator::f(Phenotype * f)
     cout << "Error: Wrong fitness mode";
     exit(1);
   }
-  cout << "Fitness is: "<<setprecision(4)<<f->getFitness()<<"   \t";
-  cout <<"Pruningtime: "<<difftime(t2,t1)<<" secs --> ";
-  ls2d->print();
+  //cout << "Fitness is: "<<setprecision(4)<<f->getFitness()<<"   \t";
+  //cout <<"Pruningtime: "<<difftime(t2,t1)<<" secs --> ";
+  //ls2d->print();
 
 
 

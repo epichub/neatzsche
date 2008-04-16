@@ -48,7 +48,6 @@ Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigne
   int centerX=xmax/2;
   int centerY=ymax/2;
   unsigned int skewNum=((ymax-floor((ymax/(double)lsnum)+0.5)*(lsnum-1))/2);
-  cout << skewNum<<endl;
   for(unsigned int i=0;i<xmax;i++) {
     for(unsigned int j=0;j<ymax;j++) {
       if(i == 0 &&((j % (unsigned int)(floor((ymax/(double)lsnum)+0.5))) == skewNum)) {

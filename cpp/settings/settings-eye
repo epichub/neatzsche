@@ -50,10 +50,11 @@ conn_coeff 0.2
 #percentage of genomes evaluated at master while
 #slaves are evaluating a bigger batch, each slave gets 1.0
 masterratio 0.8
-firethreshold 0.3
-#which fitness method to use (0 = f measure, 1 = simple energy (more links is better)
+firethreshold 0.4
+#which fitness method to use (0 = f measure, 1 = my own fitnesss, 2 = simple energy (more links is better)
 fitness_mode 1
-number_of_lightsources 4
-xmax 30
-ymax 30
-cellsize 0.7
+number_of_lightsources 7
+xmax 45
+ymax 45
+cellsize 0.75
+ls_distance 10

@@ -115,6 +115,8 @@ int main(int argc, char *args[])
       ls2d->createVectors();
       ls2d->pruneBlockedVectors();
 
+      ls2d->print();
+      cout <<"Fitness: "<<cbest->getFitness()<<endl;
       /*
       pw->updateLS(ls2d);
       pw->paintWorld();
@@ -125,7 +127,7 @@ int main(int argc, char *args[])
       ofstream fil("data/bestls2d"); 
       fil << ls2d;
       fil.close();
-	
+
       delete ls2d;
 
 
