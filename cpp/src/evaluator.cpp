@@ -59,15 +59,17 @@ double LightsimEvaluator::f(Phenotype * f)
   Lightsim2D *ls2d=new Lightsim2D(0.5,twodmap,xmax,ymax);
   */
 
-  ls2d=new Lightsim2D(settings->getValue("cellsize"),f,xmax,ymax,lsnum);
+  //  time_t t1=time(NULL);
+
+  ls2d=new Lightsim2D(settings->getValue("cellsize"),f,xmax,ymax,lsnum,settings->getValue("ls_distance"));
 
   ls2d->createVectors();
 
-  time_t t1=time(NULL);
-
+  int clo=clock();
   ls2d->pruneBlockedVectors();
+  int clo2=clock();
 
-  time_t t2=time(NULL);
+  //  time_t t2=time(NULL);
 
   /*
   for(unsigned int i=0;i<xmax;i++) {
@@ -96,8 +98,9 @@ double LightsimEvaluator::f(Phenotype * f)
       double numerator=0;
       double denominator=0;
       double LscToLsRatio=lscNum/lsNum;
-      unsigned int centerX=floor(xmax/2);
-      unsigned int centerY=floor(ymax/2);
+      unsigned int ls_distance=settings->getValue("ls_distance")+1;
+      unsigned int centerX=ls_distance+((xmax-ls_distance)/2);
+      unsigned int centerY=ymax/2;
       unsigned int hOpt=floor(LscToLsRatio+0.5);
       unsigned int tmpNum=lscNum-hOpt;
       unsigned int eMax=hOpt < tmpNum ? tmpNum : hOpt;
@@ -105,18 +108,18 @@ double LightsimEvaluator::f(Phenotype * f)
       double avgLengthFromCenter=0;
       double maxLengthFromCenter=sqrt(pow(xmax-centerX,2)+pow(ymax-centerY,2)); 
 
-      double favorLessNum=1-((double)cellNum/(((xmax*ymax)-ls2d->getLightsources()->size())*2));
+      double favorLessNum=1-((double)cellNum/((((xmax-ls_distance)*ymax))*2));
       //cout << "favorlessnum: 1-"<<cellNum<<"/("<<xmax*ymax<<"-"<<ls2d->getLightsources()->size()<<")*2"<<" = "<< favorLessNum<<endl;
 
       //cout <<"max error is: "<<eMax<<endl;
       for(unsigned int i=0;i<lsNum;i++) {
 	if(ls2d->getLightsources()->at(i)->getNumHits()>0) {
 	  //cout << "hopt: "<<hOpt<<" hits: "<<ls2d->getLightsources()->at(i)->getNumHits()<<endl;
-	  e+=fabs(hOpt-ls2d->getLightsources()->at(i)->getNumHits())/eMax;
+	  e+=fabs(pow(hOpt-ls2d->getLightsources()->at(i)->getNumHits(),2))/pow(eMax,2);
 	}
 	else { e+=1; }
       }
-      numerator=1-(e/(double)lsNum);
+      numerator=1-(e/((double)lsNum));
       //cout << numerator;
       if(numerator>1) { cout << "to big num: "<<numerator; exit(0); }
       
@@ -137,10 +140,12 @@ double LightsimEvaluator::f(Phenotype * f)
       //cout <<"totallfc: "<<avgLengthFromCenter<<endl;
       avgLengthFromCenter=avgLengthFromCenter/(ls2d->getLSCs()->size()+ls2d->getOpaquecells()->size());
       //cout <<"avglfc: "<<avgLengthFromCenter<<endl;
-      double favorCloserNum=1-(avgLengthFromCenter/(maxLengthFromCenter*1));
+      double favorCloserNum=1-(pow(avgLengthFromCenter,2)/pow(maxLengthFromCenter,2));
+
       //cout <<"favorCloserNum: "<<favorCloserNum<<endl;
 
       fitness+=numerator*denominator;
+      //      cout << "favorLessNum: "<<favorLessNum<<" favorCloserNum: "<<favorCloserNum<<endl;
       fitness=fitness*favorLessNum*favorCloserNum;
     }
     f->setFitness(fitness);
@@ -152,8 +157,9 @@ double LightsimEvaluator::f(Phenotype * f)
     cout << "Error: Wrong fitness mode";
     exit(1);
   }
-  //cout << "Fitness is: "<<setprecision(4)<<f->getFitness()<<"   \t";
-  //cout <<"Pruningtime: "<<difftime(t2,t1)<<" secs --> ";
+  //  cout << "Fitness is: "<<setprecision(4)<<f->getFitness()<<"   \t";
+  //  cout <<"Pruningtime: "<<setprecision(3)<<(clo2-clo)/(double)CLOCKS_PER_SEC<<" secs --> ";
+  //  cout <<"Pruningtime: "<<difftime(t2,t1)<<" secs --> ";
   //ls2d->print();
 
 

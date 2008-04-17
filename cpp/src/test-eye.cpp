@@ -111,7 +111,7 @@ int main(int argc, char *args[])
       //      cout << "generation " << i << " : ";
 
       //Writing best ls2d to disk
-      ls2d=new Lightsim2D(s->getValue("cellsize"),cbest,xmax,ymax,lsnum);
+      ls2d=new Lightsim2D(s->getValue("cellsize"),cbest,xmax,ymax,lsnum,s->getValue("ls_distance"));
       ls2d->createVectors();
       ls2d->pruneBlockedVectors();
 

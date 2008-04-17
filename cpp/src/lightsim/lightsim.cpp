@@ -37,24 +37,28 @@ Lightsim2D::Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xma
 
 }
 
-Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigned int ymax, unsigned int lsnum) {
+Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigned int ymax, unsigned int lsnum, unsigned int ls_dist) {
 
   init(cellsize);
 
+  ls_distance=ls_dist+1;
   vector<double> tmpin;
   vector<double> tmpout;
   double tmpstr;
   int tmpwinner;
-  int centerX=xmax/2;
+  int centerX=ls_dist+((xmax-ls_dist)/2);
   int centerY=ymax/2;
-  unsigned int skewNum=((ymax-floor((ymax/(double)lsnum)+0.5)*(lsnum-1))/2);
-  for(unsigned int i=0;i<xmax;i++) {
+
+  for(unsigned int i=ls_distance;i<xmax;i++) {
     for(unsigned int j=0;j<ymax;j++) {
+      /*
       if(i == 0 &&((j % (unsigned int)(floor((ymax/(double)lsnum)+0.5))) == skewNum)) {
 	lightsources->push_back(new Lightsource(i,j));
       }
+      
       else {
-	tmpin.push_back(i);
+      */
+	tmpin.push_back(i-ls_distance);
 	tmpin.push_back(j);
 	tmpin.push_back(sqrt(pow(i-(double)centerX,2)+pow(j-(double)centerY,2)));
 	tmpout=f->react(tmpin);
@@ -82,8 +86,14 @@ Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigne
 	else {
 	  cout << "Error: Got output: "<<tmpwinner<<"\n";
 	}
-      }
+	//     }
     }
+  }
+  double lsSpacing=ymax/(double)lsnum;
+  unsigned int skewNum=(ymax-(lsSpacing*(lsnum-1)))/2;
+
+  for(unsigned int i=0;i<lsnum;i++) {
+    lightsources->push_back(new Lightsource(0,skewNum+floor(i*lsSpacing)));
   }
 }
 
@@ -287,7 +297,7 @@ void Lightsim2D::readFromFile(string filename) {
 }
 
 void Lightsim2D::print() {
-  cout << "length av LSRC OPC, LSC, LVec og Pruned er : " << lightsources->size() << "," <<opaquecells->size() << "," << LSCs->size() <<","<<lightvectors->size()<<","<<deletedLightvectors->size()<<"\n";
+  cout << "length av LSRC, OPC, LSC, LVec og Pruned er : " << lightsources->size() << "," <<opaquecells->size() << "," << LSCs->size() <<","<<lightvectors->size()<<","<<deletedLightvectors->size()<<"\n";
 }
 
 void Lightsim2D::createVectors() {
@@ -325,6 +335,7 @@ void Lightsim2D::pruneBlockedVectors() {
       //cout <<"adding hit on lightsource: "<<(*it)->getLightsource()->getX()<<","<<(*it)->getLightsource()->getY()<<endl;
       (*it)->getLSC()->addHit(); 
       (*it)->getLightsource()->addHit(); 
+      (*it)->getLightsource()->addCell((*it)->getLSC());
       ++it; 
     }
   }

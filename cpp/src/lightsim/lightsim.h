@@ -23,13 +23,14 @@ private:
   std::vector<Lightvector*> *lightvectors;
   std::vector<Lightvector*> *deletedLightvectors;
   double cellsize;
+  unsigned int ls_distance;
 public:
   friend std::istream& operator>>(std::istream& i, Lightsim2D &ls);
   friend std::ostream& operator<<(ostream& os, Lightsim2D *ls);
   Lightsim2D();
   Lightsim2D(double cellsize);
   Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xmax,unsigned int ymax);
-  Lightsim2D(double cellsize, Phenotype * f, unsigned int xmax, unsigned int ymax, unsigned int lsnum);
+  Lightsim2D(double cellsize, Phenotype * f, unsigned int xmax, unsigned int ymax, unsigned int lsnum, unsigned int ls_dist);
   ~Lightsim2D();
   void clear();
   void reset();

@@ -24,8 +24,8 @@ endif
 SRCS=test-eye.cpp go-consistency.cpp playtwoplayergame.cpp test-or.cpp lightsim/lightsim-test.cpp lightsim/lightsim-viewer.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE) testwrite.cpp lightsim/lightsim.cpp lightsim/cell.cpp lightsim/lightsource.cpp lightsim/lsc.cpp lightsim/lightvector.cpp lightsim/nworld.cpp lightsim/paintwindow.cpp  lightsim/paintarea.cpp
 TSRCS=tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp tinystr.cpp
 TOBJS := $(addsuffix .o,$(basename ${TSRCS}))
-OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o  moc_paintwindow.o
-OBJS2=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o moc_paintwindow.o
+OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o  moc_paintwindow.o lightsim/cell.o
+OBJS2=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o moc_paintwindow.o lightsim/cell.o
 OBJS3=$(OBJS) test-xor.o
 OBJS4=$(OBJS) test-go.o
 OBJS5=$(OBJS) puregotest.o
