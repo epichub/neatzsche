@@ -19,10 +19,10 @@ public:
     }
     */
     //delete cells;
-  }
+  };
   unsigned int getX() { return x; };
   unsigned int getY() { return y; };
-  double getNumHits() { return numHits; }
+  double getNumHits() { return numHits; };
   void addHit() { numHits++; }
   void addCell(Cell* c);
 
