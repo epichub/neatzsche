@@ -1,5 +1,5 @@
 #PBS -q QUEUE -l nodes=NODENUM
-cd /home/bjornm/neatzsche/trunk/cpp
+cd /home/bjornmm/neatzsche/trunk/cpp
 export PATH=$HOME/local/bin:$PATH
 export GEM_HOME=/home/bjornmm/local/gemrepo
 cd ../ruby
