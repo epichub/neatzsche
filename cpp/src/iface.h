@@ -168,8 +168,21 @@ static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *
     }
     coevo = new Halloffame(cogames,cogames,pg,ret);
     for(int i=0;i<gnugogames;i++){
-      ((Halloffame*)coevo)->addPermantent(NULL);//adding NULL as permanent member, defaults to gnugo in this fitness eval..
+      ((Halloffame*)coevo)->addPermantent(NULL);//adding NULL as permanent member, defaults to gnugo in this fitness 
     }
+  }else if(sv->at(0).find("eye")!=string::npos) {
+    if(sv->size()!=3){
+      cerr <<  "wrong number of arguments to dataset evalator setup method" << endl;
+      exit(1);
+    }
+    NEATsettings * set = new NEATsettings();
+    ifstream ifs("settings/settings-eye",ios::in);
+    ifs >> set;
+    ifs.close();
+    unsigned int lsnum=set->getValue("number_of_lightsources");
+    unsigned int ymax=set->getValue("ymax");
+    unsigned int xmax=set->getValue("xmax");
+    ret = new LightsimEvaluator(set,xmax,ymax,lsnum);
   }else if(sv->at(0).find("random")!=string::npos)
         ret = new RandomEvaluator();
   else if(sv->at(0).find("dataset")!=string::npos){
