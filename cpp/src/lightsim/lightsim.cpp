@@ -30,7 +30,7 @@ Lightsim2D::Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xma
 	  LSCs->push_back(new LSC(i,j));
 	}
 	else {
-	  cout << "Error: Got output: "<<twodmap[i][j]<<"\n";
+	  cerr << "Error: Got output: "<<twodmap[i][j]<<"\n";
 	}
       }
     }
@@ -84,7 +84,7 @@ Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigne
 	  LSCs->push_back(new LSC(i,j));
 	}
 	else {
-	  cout << "Error: Got output: "<<tmpwinner<<"\n";
+	  cerr << "Error: Got output: "<<tmpwinner<<"\n";
 	}
 	//     }
     }
@@ -284,7 +284,7 @@ void Lightsim2D::readFromFile(string filename) {
       LSCs->push_back(new LSC(x,y));
     }
     else if(id.find("done")==string::npos){
-      cout << "Error in datafile\n";
+      cerr << "Error in datafile\n";
       exit(1);
     }
     if(id.find("done")==string::npos) {
