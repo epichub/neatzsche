@@ -112,14 +112,19 @@ double LightsimEvaluator::f(Phenotype * f)
       //cout << "favorlessnum: 1-"<<cellNum<<"/("<<xmax*ymax<<"-"<<ls2d->getLightsources()->size()<<")*2"<<" = "<< favorLessNum<<endl;
 
       //cout <<"max error is: "<<eMax<<endl;
+      double e2;
       for(unsigned int i=0;i<lsNum;i++) {
-	if(ls2d->getLightsources()->at(i)->getNumHits()>0) {
+	if(ls2d->getLightsources()->at(i)->getCellSize()>0) {
 	  //cout << "hopt: "<<hOpt<<" hits: "<<ls2d->getLightsources()->at(i)->getNumHits()<<endl;
-	  e+=fabs(pow(hOpt-ls2d->getLightsources()->at(i)->getNumHits(),2))/pow(eMax,2);
+	  e2=0;
+	  for(unsigned int j=0;j<ls2d->getLightsources()->at(i)->getCellSize();j++) {
+	    e2+=(1/ls2d->getLightsources()->at(i)->getCell(j)->getNumHits());
+	  }
+	  e+=(1-(fabs(hOpt-(double)ls2d->getLightsources()->at(i)->getCellSize())/eMax))*(e2/ls2d->getLightsources()->at(i)->getCellSize());
 	}
-	else { e+=1; }
+	else { e+=0; }
       }
-      numerator=1-(e/((double)lsNum));
+      numerator=(e/((double)lsNum));
       //cout << numerator;
       if(numerator>1) { cout << "to big num: "<<numerator; exit(0); }
       
@@ -157,8 +162,8 @@ double LightsimEvaluator::f(Phenotype * f)
     cout << "Error: Wrong fitness mode";
     exit(1);
   }
-  //  cout << "Fitness is: "<<setprecision(4)<<f->getFitness()<<"   \t";
-  //  cout <<"Pruningtime: "<<setprecision(3)<<(clo2-clo)/(double)CLOCKS_PER_SEC<<" secs --> ";
+  //cout << "Fitness is: "<<setprecision(4)<<f->getFitness()<<"   \t";
+  //cout <<"Pruningtime: "<<setprecision(3)<<(clo2-clo)/(double)CLOCKS_PER_SEC<<" secs --> ";
   //  cout <<"Pruningtime: "<<difftime(t2,t1)<<" secs --> ";
   //ls2d->print();
 
