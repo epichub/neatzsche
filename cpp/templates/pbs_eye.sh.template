@@ -1,9 +1,9 @@
 #PBS -q QUEUE -l nodes=NODENUM
-cd /home/andersto/Documents/svn/neatzsche/trunk/cpp
-export PATH=$HOME/boye/bin:$PATH
+cd /home/bjornm/Documents/svn/neatzsche/trunk/cpp
+export PATH=$HOME/local/bin:$PATH
 export GEM_HOME=/home/bjornmm/local/gemrepo
 cd ../ruby
 ruby plotdaemon.rb
 cd ../cpp
-mpiexec distributor distconfig-go.txt &> output.txt
+mpiexec distributor distconfig-eye.txt &> output.txt
 
