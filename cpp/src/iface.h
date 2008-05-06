@@ -171,8 +171,8 @@ static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *
       ((Halloffame*)coevo)->addPermantent(NULL);//adding NULL as permanent member, defaults to gnugo in this fitness 
     }
   }else if(sv->at(0).find("eye")!=string::npos) {
-    if(sv->size()!=3){
-      cerr <<  "wrong number of arguments to dataset evalator setup method" << endl;
+    if(sv->size()!=1){
+      cerr <<  "wrong number of arguments to eye evalator setup method" << endl;
       exit(1);
     }
     NEATsettings * set = new NEATsettings();
