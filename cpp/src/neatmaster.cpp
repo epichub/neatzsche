@@ -76,7 +76,7 @@ int main(int argc,char *args[]){
   //2. generate the pop
   TransferFunctions * tfs = new TransferFunctions(set);
   Population * pop = makePopulation(args[3],set,tfs);
-  
+  cout << "popsize: " << pop->getMembers()->size() << endl;
   //3. then the selector
   Selector * sel = makeSelector(args[4]);
 
