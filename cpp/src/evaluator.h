@@ -165,11 +165,15 @@ public:
 };
 class PictureEvaluator : public FitnessEvaluator {
 private:
-  int ** picdata;
+  vector<double> picdata;
+  int picoffset;
+  int * sizes;
 public:
-  PictureEvaluator(int ** picdata){this->picdata=picdata;};
+  PictureEvaluator(std::string filename);
   virtual ~PictureEvaluator(){};
   virtual double f(Phenotype * f);
+  double f2(Phenotype * f);
+  void runTest(Phenotype * f);
   virtual void nextGen(){return;} // no need for this here..
 };
 

@@ -1,17 +1,18 @@
 #ifndef CELL_H_
 #define CELL_H_
-
+#include <vector>
 #include <vector>;
 
 using namespace std;
 
-class Cell {
+class Cell;
 
+class Cell {
 private:
   unsigned int x;
   unsigned int y;
   unsigned int numHits;
-  std::vector <Cell*>* cells;
+  vector< Cell* > * cells;
 public:
   Cell(int x, int y);
   ~Cell() {

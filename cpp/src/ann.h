@@ -38,6 +38,7 @@ private:
   int out;
 public:
   Network(int inp, int out);
+  Network(vector< vector<double> > *v);
   ~Network();
   vector< double > runnet(vector< double > inp);
   void addNodes(nodeVector * nodes, bool debug);

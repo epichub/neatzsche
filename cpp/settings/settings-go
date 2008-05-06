@@ -27,9 +27,9 @@ coldgaussian_weight_mutate 0
 recurrent_conn_prob 1
 number_of_innovations 500000
 keeplink 1
-enable_gauss_tfunc 0
-enable_sinus_tfunc 0
-enable_parabel_tfunc 0
+enable_gauss_tfunc 1
+enable_sinus_tfunc 1
+enable_parabel_tfunc 1
 newlink_weight_max 10
 #transferfunction settings
 unipolar 1

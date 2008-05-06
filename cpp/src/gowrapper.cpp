@@ -850,10 +850,8 @@ namespace gw{
   {
     double ret=0;
     for(int i=0;i<bsize;i++){
-      for(int i2=0;i2<bsize;i2++){
-	if(i2 == (bsize/2) && gwboard[(i*bsize*2)+(i2*2)] == 0 && gwboard[(i*bsize*2)+(i2*2)+1] == 1){
-	  ret++;
-	}
+      if( (bsize/2) && gwboard[(i*bsize*2)+(bsize*2)] == 0 && gwboard[(i*bsize*2)+(bsize*2)+1] == 1){
+	ret++;
       }
     }
     return ret;
@@ -901,4 +899,5 @@ namespace gw{
 	ret++;
     return ret;
   }
+
 }

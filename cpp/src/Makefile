@@ -5,7 +5,7 @@ LDFLAGS= -lpthread
 
 #QTDEFINES       = -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_SHARED
 #QTINCLUDE       = -I/usr/include/qt4 -I/usr/include/qt4/QtCore
-QTLIBSLINUX     = $(SUBLIBS)  -L/usr/lib64/qt4  -lQtCore -lQtGui
+QTLIBSLINUX     = $(SUBLIBS)  -L/usr/lib64/qt4  -lQtCore -lQtGui -ltiff
 
 QTDEFINES       = -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_SHARED
 QTINCLUDE       = -I/usr/local/Qt4.3/mkspecs/macx-g++ -I. -I/Library/Frameworks/QtCore.framework/Versions/4/Headers -I/usr/include/QtCore -I/Library/Frameworks/QtNetwork.framework/Versions/4/Headers -I/usr/include/QtNetwork -I/Library/Frameworks/QtGui.framework/Versions/4/Headers -I/usr/include/QtGui -I/usr/include -I. -Iwrapper -I. -I. -F/Library/Frameworks -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtCore
@@ -21,10 +21,10 @@ ifeq ($(GG), )
   DEFINES=$(QTDEFINES) -DGGSTABLE
 endif
 
-SRCS=test-eye.cpp go-consistency.cpp playtwoplayergame.cpp test-or.cpp lightsim/lightsim-test.cpp lightsim/lightsim-viewer.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE) testwrite.cpp lightsim/lightsim.cpp lightsim/cell.cpp lightsim/lightsource.cpp lightsim/lsc.cpp lightsim/lightvector.cpp lightsim/nworld.cpp lightsim/paintwindow.cpp  lightsim/paintarea.cpp
+SRCS=test-eye.cpp test-draw.cpp go-consistency.cpp playtwoplayergame.cpp test-or.cpp lightsim/lightsim-test.cpp lightsim/lightsim-viewer.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE) testwrite.cpp lightsim/lightsim.cpp lightsim/cell.cpp lightsim/lightsource.cpp lightsim/lsc.cpp lightsim/lightvector.cpp lightsim/nworld.cpp lightsim/paintwindow.cpp  lightsim/paintarea.cpp image.c
 TSRCS=tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp tinystr.cpp
 TOBJS := $(addsuffix .o,$(basename ${TSRCS}))
-OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o  moc_paintwindow.o lightsim/cell.o
+OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o  moc_paintwindow.o lightsim/cell.o image.o
 OBJS2=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o moc_paintwindow.o lightsim/cell.o
 OBJS3=$(OBJS) test-xor.o
 OBJS4=$(OBJS) test-go.o
@@ -38,8 +38,9 @@ OBJS11=$(OBJS) lightsim/lightsim-test.o
 OBJS12=$(OBJS) test-or.o
 OBJS13=$(OBJS) test-eye.o
 OBJS14=$(OBJS) lightsim/lightsim-viewer.o moc_lightsim-viewer.o
+OBJS15=$(OBJS) test-draw.o
 
-IINCLUDE=$(QTINCLUDE) -I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0
+IINCLUDE=$(QTINCLUDE) -I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0 -I/opt/local/include
 BLIBS=-L$(HOME)/local/lib
 OPTS = -g -Wall
 
@@ -91,7 +92,7 @@ ifeq ($(CC),)
 endif
 CXX=g++ $(OPTS) $(DEFINES) $(BINCLUDE)
 
-LIBS=$(QTLIBS)
+LIBS=$(QTLIBS) -L/opt/local/lib -ltiff 
 
 ifeq ($(os-type), Linux)
   LIBS=$(QTLIBSLINUX) -L$(HOME)/local/lib -Wl,--rpath,$(HOME)/local/lib
@@ -125,6 +126,8 @@ gcc:
 # To get things out of the revision control system
 $(SRCS):
 	$(CXX) $(BINCLUDE) $(BLIBS) -c $*.cpp -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses 
+image.o:
+	$(CXX) $(BINCLUDE) $(BLIBS) -c image.c -ltiff
 
 neatmaster.cpp: $(OBJS) runner.h
 	$(CXX) $(BLIBS) -c neatmaster.cpp
@@ -138,7 +141,7 @@ neatmaster: $(OBJS) $(TOBJS) neatmaster.o runner.o statechanges.h coevolution.h 
 	@ mv neatmaster ../
 
 neatslave: $(OBJS2) neatslave.o statechanges.h coevolution.h neatslave.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS2) neatslave.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS2) neatslave.o image.o -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv neatslave ../
 #test.o:
 #	$(CXX) $(BINCLUDE) $(BLIBS) -c test-xor.cpp
@@ -146,6 +149,10 @@ neatslave: $(OBJS2) neatslave.o statechanges.h coevolution.h neatslave.cpp neura
 test-xor: $(OBJS3) statechanges.h coevolution.h test-xor.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS3)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@ mv test-xor ../
+
+test-draw: $(OBJS15) statechanges.h coevolution.h test-xor.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h image.o
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS15)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
+	@ mv test-draw ../
 
 test-go: $(OBJS4) test-go.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h tinyxml.h tinystr.h 
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS4) $(TOBJS) runner.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
