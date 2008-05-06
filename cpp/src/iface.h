@@ -183,7 +183,7 @@ static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *
     unsigned int ymax=set->getValue("ymax");
     unsigned int xmax=set->getValue("xmax");
     ret = new LightsimEvaluator(set,xmax,ymax,lsnum);
-    coevo = new Halloffame(0,0,0,ret);
+    coevo = new Halloffame(0,0,1000000,ret);
   }else if(sv->at(0).find("random")!=string::npos)
         ret = new RandomEvaluator();
   else if(sv->at(0).find("dataset")!=string::npos){
