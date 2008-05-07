@@ -1,7 +1,7 @@
 # make neat
 #
 TAGS= etags -a
-LDFLAGS= -lpthread
+LDFLAGS= -lpthread -ltiff
 
 #QTDEFINES       = -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_SHARED
 #QTINCLUDE       = -I/usr/include/qt4 -I/usr/include/qt4/QtCore
@@ -24,8 +24,8 @@ endif
 SRCS=test-eye.cpp test-draw.cpp go-consistency.cpp playtwoplayergame.cpp test-or.cpp lightsim/lightsim-test.cpp lightsim/lightsim-viewer.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE) testwrite.cpp lightsim/lightsim.cpp lightsim/cell.cpp lightsim/lightsource.cpp lightsim/lsc.cpp lightsim/lightvector.cpp lightsim/nworld.cpp lightsim/paintwindow.cpp  lightsim/paintarea.cpp image.c
 TSRCS=tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp tinystr.cpp
 TOBJS := $(addsuffix .o,$(basename ${TSRCS}))
-OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o  moc_paintwindow.o lightsim/cell.o image.o
-OBJS2=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/paintwindow.o lightsim/paintarea.o moc_paintwindow.o lightsim/cell.o
+OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/cell.o image.o
+OBJS2=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/cell.o
 OBJS3=$(OBJS) test-xor.o
 OBJS4=$(OBJS) test-go.o
 OBJS5=$(OBJS) puregotest.o
@@ -38,10 +38,10 @@ OBJS11=$(OBJS) lightsim/lightsim-test.o
 OBJS12=$(OBJS) test-or.o
 OBJS13=$(OBJS) test-eye.o
 OBJS14=$(OBJS) lightsim/lightsim-viewer.o moc_lightsim-viewer.o
-OBJS15=$(OBJS) test-draw.o
+OBJS15=$(OBJS) test-draw.o image.o
 
 IINCLUDE=$(QTINCLUDE) -I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0 -I/opt/local/include
-BLIBS=-L$(HOME)/local/lib
+BLIBS=-L$(HOME)/local/lib 
 OPTS = -g -Wall
 
 os-type := $(shell uname)
@@ -95,7 +95,7 @@ CXX=g++ $(OPTS) $(DEFINES) $(BINCLUDE)
 LIBS=$(QTLIBS) -L/opt/local/lib -ltiff 
 
 ifeq ($(os-type), Linux)
-  LIBS=$(QTLIBSLINUX) -L$(HOME)/local/lib -Wl,--rpath,$(HOME)/local/lib
+  LIBS=-L$(HOME)/local/lib -Wl,--rpath,$(HOME)/local/lib
   BLIBS=
 endif
 
@@ -125,7 +125,7 @@ gcc:
 
 # To get things out of the revision control system
 $(SRCS):
-	$(CXX) $(BINCLUDE) $(BLIBS) -c $*.cpp -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses 
+	$(CXX) $(BINCLUDE) $(BLIBS) -c $*.cpp -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff 
 image.o:
 	$(CXX) $(BINCLUDE) $(BLIBS) -c image.c -ltiff
 
@@ -137,17 +137,17 @@ neatslave.cpp: $(OBJS2) iface.h
 
 
 neatmaster: $(OBJS) $(TOBJS) neatmaster.o runner.o statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) dataset.h tinyxml.h tinystr.h  iface.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) $(TOBJS) runner.o neatmaster.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) $(TOBJS) runner.o neatmaster.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@ mv neatmaster ../
 
 neatslave: $(OBJS2) neatslave.o statechanges.h coevolution.h neatslave.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS2) neatslave.o image.o -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS2) neatslave.o image.o -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@ mv neatslave ../
 #test.o:
 #	$(CXX) $(BINCLUDE) $(BLIBS) -c test-xor.cpp
 
 test-xor: $(OBJS3) statechanges.h coevolution.h test-xor.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS3)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS3)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@ mv test-xor ../
 
 test-draw: $(OBJS15) statechanges.h coevolution.h test-xor.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h image.o
@@ -155,50 +155,50 @@ test-draw: $(OBJS15) statechanges.h coevolution.h test-xor.cpp neuralmath.h ann.
 	@ mv test-draw ../
 
 test-go: $(OBJS4) test-go.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h tinyxml.h tinystr.h 
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS4) $(TOBJS) runner.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS4) $(TOBJS) runner.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@ mv test-go ../
 
 puregotest: $(OBJS5) puregotest.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS5)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS5)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@ mv puregotest ../
 
 unit-statechange: $(OBJS6) unit-statechange.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS6)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS6)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 
 playgame: $(OBJS) playgame.o playgame.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) playgame.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) playgame.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@ mv playgame ../show
 
 testwrite: $(OBJS) testwrite.o testwrite.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) testwrite.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) testwrite.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@ mv testwrite ../testwrite
 
 playtwoplayergame: $(OBJS) playtwoplayergame.o playtwoplayergame.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ playtwoplayergame.o $(OBJS)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ playtwoplayergame.o $(OBJS)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@ mv playtwoplayergame ../
 
 # xorgenomeoutput: $(OBJS) xorgenomeoutput.o xorgenomeoutput.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
 # 	$(CXX) $(BLIBS) $(LIBS) -o $@ xorgenomeoutput.o $(OBJS)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 # 	@ mv xorgenomeoutput ../
 
-lightsim-test: $(OBJS11) lightsim/lightsim-test.o lightsim/lightsim-test.cpp moc_paintwindow.cpp moc_paintwindow.o
-	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS11) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
-	@mv lightsim-test ../
+#lightsim-test: $(OBJS11) lightsim/lightsim-test.o lightsim/lightsim-test.cpp moc_paintwindow.cpp moc_paintwindow.o
+#	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS11) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+#	@mv lightsim-test ../
 
-lightsim-viewer: $(OBJS14) lightsim/lightsim-viewer.o lightsim/lightsim-viewer.cpp moc_lightsim-viewer.cpp moc_lightsim-viewer.o moc_paintwindow.cpp moc_paintwindow.o
-	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS14) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
-	@mv lightsim-viewer ../
+#lightsim-viewer: $(OBJS14) lightsim/lightsim-viewer.o lightsim/lightsim-viewer.cpp moc_lightsim-viewer.cpp moc_lightsim-viewer.o moc_paintwindow.cpp moc_paintwindow.o
+#	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS14) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+#	@mv lightsim-viewer ../
 
-test-eye: $(OBJS) test-eye.o test-eye.cpp moc_paintwindow.cpp moc_paintwindow.o
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS13) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
-	@mv test-eye ../
+#test-eye: $(OBJS) test-eye.o test-eye.cpp moc_paintwindow.cpp moc_paintwindow.o
+#	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS13) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+#	@mv test-eye ../
 
 test-or: $(OBJS) test-or.o test-or.cpp
-	$(CXX) $(BLIBS) $(LIBS) -o $@ test-or.o $(OBJS) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ test-or.o $(OBJS) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@mv test-or ../
 
 go-consistency: $(OBJS8) go-consistency.cpp statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) iface.h dataset.h
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS8)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS8)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@ mv go-consistency ../
 
 # where are functions/procedures?

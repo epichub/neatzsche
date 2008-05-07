@@ -102,7 +102,7 @@ public:
   NeuralNode * getNode(nodeVector * n, int id);
   Network * genesis();
   double compare(Genome * g);
-  bool geneSanity(Genes * g, Gene * g);
+  bool geneSanity(Genes * genes, Gene * gene);
   bool findAdd(NeuralNode * fnode, NeuralNode * tnode, nodeVector *newnodes, Gene * gene);
   int getInput(){return input;}
   int getOutput(){return output;}
