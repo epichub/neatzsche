@@ -9,7 +9,7 @@ QTLIBSLINUX     = $(SUBLIBS)  -L/usr/lib64/qt4  -lQtCore -lQtGui -ltiff
 
 QTDEFINES       = -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_SHARED
 QTINCLUDE       = -I/usr/local/Qt4.3/mkspecs/macx-g++ -I. -I/Library/Frameworks/QtCore.framework/Versions/4/Headers -I/usr/include/QtCore -I/Library/Frameworks/QtNetwork.framework/Versions/4/Headers -I/usr/include/QtNetwork -I/Library/Frameworks/QtGui.framework/Versions/4/Headers -I/usr/include/QtGui -I/usr/include -I. -Iwrapper -I. -I. -F/Library/Frameworks -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtCore
-QTLIBS          = $(SUBLIBS) -F/usr/lib64/qt4 -F/Library/Frameworks -L/usr/lib64/qt4 -L/Library/Frameworks -framework QtGui -framework Carbon -framework AppKit -framework QtNetwork -framework QtCore -lz -lm -liconv -framework ApplicationServices  -lQtCore
+QTLIBS          = $(SUBLIBS) -F/usr/lib64/qt4 -F/Library/Frameworks -L/usr/lib64/qt4 -L/Library/Frameworks -framework QtGui -framework Carbon -framework AppKit -framework QtNetwork -framework QtCore -lz -lm -liconv -framework ApplicationServices
 
 GOSOURCE=gowrapper.cpp gowrapper.h
 GOOBJ=gowrapper.o
@@ -95,11 +95,8 @@ CXX=g++ $(OPTS) $(DEFINES) $(BINCLUDE)
 LIBS=$(QTLIBS) -L/opt/local/lib -ltiff 
 
 ifeq ($(os-type), Linux)
-  LIBS=-L$(HOME)/local/lib -Wl,--rpath,$(HOME)/local/lib
+  LIBS=-L$(HOME)/local/lib -Wl,--rpath,$(HOME)/local/lib $(QTLIBSLINUX)
   BLIBS=
-endif
-
-ifeq ($(os-type), Linux)
   BINCLUDE = $(IINCLUDE)
 endif
 ifeq ($(os-type), Darwin)
