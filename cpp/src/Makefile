@@ -34,10 +34,10 @@ OBJS7=$(OBJS) playgame.o
 OBJS8=$(OBJS) go-consistency.o
 OBJS9=$(OBJS) playtwoplayergame.o
 OBJS10=$(OBJS) xorgenomeoutput.o
-OBJS11=$(OBJS) lightsim/lightsim-test.o
+OBJS11=$(OBJS) lightsim/lightsim-test.o lightsim/paintwindow.o moc_paintwindow.o lightsim/paintarea.o
 OBJS12=$(OBJS) test-or.o
 OBJS13=$(OBJS) test-eye.o
-OBJS14=$(OBJS) lightsim/lightsim-viewer.o moc_lightsim-viewer.o
+OBJS14=$(OBJS) lightsim/lightsim-viewer.o moc_lightsim-viewer.o lightsim/paintwindow.o moc_paintwindow.o lightsim/paintarea.o
 OBJS15=$(OBJS) test-draw.o image.o
 
 IINCLUDE=$(QTINCLUDE) -I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0 -I/opt/local/include
@@ -237,6 +237,6 @@ compiler_moc_header_make_all: moc_botthread.cpp moc_botthreadwindow.cpp moc_botw
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_botthread.cpp moc_botthreadwindow.cpp moc_botwindow.cpp moc_lobbywindow.cpp moc_paintwindow.cpp moc_senderthread.cpp moc_serverwindow.cpp moc_session.cpp moc_sessionwindow.cpp moc_settingswindow.cpp moc_wrapper.cpp moc_lightsim-viewer.cpp
 moc_paintwindow.cpp: lightsim/paintwindow.h
-	/Developer/Tools/Qt/moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ lightsim/paintwindow.h -o moc_paintwindow.cpp
+	moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ lightsim/paintwindow.h -o moc_paintwindow.cpp
 moc_lightsim-viewer.cpp: lightsim/lightsim-viewer.h
-	/Developer/Tools/Qt/moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ lightsim/lightsim-viewer.h -o moc_lightsim-viewer.cpp
+	moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ lightsim/lightsim-viewer.h -o moc_lightsim-viewer.cpp

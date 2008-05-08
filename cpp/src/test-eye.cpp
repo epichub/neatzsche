@@ -90,13 +90,13 @@ int main(int argc, char *args[])
   genset->setValue("ls_dist",ls_dist);
   */
   stringstream tmpss;
-  tmpss << "data/"<<timestamp<<".settings";
+  tmpss << "data/"<<timestamp<<"/settings";
   ofstream fil(tmpss.str().c_str());
   fil << s;
   fil.close();
 
   stringstream tmpss2;
-  tmpss2 << "data/"<<timestamp<<".genome";
+  tmpss2 << "data/"<<timestamp<<"/curgenome";
 
   /*
   QApplication app(argc,args);
