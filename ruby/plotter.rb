@@ -27,8 +27,8 @@ require "socket"
 
 
 class GenerationSFTP
-  def init(user, dir)
-    @session = Net::SSH.start( 'generation.no',user , {:paranoid => false})
+  def init(host,user, dir)
+    @session = Net::SSH.start(host,user , {:paranoid => false})
     @dir = dir
     if( dir[dir.size-1] != '/')
       @dir << '/'
@@ -70,7 +70,8 @@ end
 class Plotter
   @neatrun = NEATRun.new
   @graphfile = "test"
-  def init(dir,user,hours,menu)
+  def init(host,dir,user,hours,menu)
+    @host = host
     @dir = dir
     @user = user
     FileUtils.chdir("../cpp")
@@ -100,7 +101,7 @@ class Plotter
 #     puts "graphfile: " + @graphfile
 #     puts "genomefile: " + @curgenomefile
     @gsftp = GenerationSFTP.new
-    @gsftp.init(@user,@dir)
+    @gsftp.init(@host,@user,@dir)
     @hostname = Socket.gethostname()
     if @hostname["compute"]
       @hostname = "clustis2"

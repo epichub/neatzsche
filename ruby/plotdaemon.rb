@@ -20,7 +20,7 @@ pid = fork do
   Signal.trap('HUP', 'IGNORE') # Don't die upon logout
   @plotter = Plotter.new
   sleep(10)
-  @plotter.init("/var/www/www.generation.no/htdocs/gores","epic",1,false)
+  @plotter.init("generation.no","/var/www/www.generation.no/htdocs/gores","epic",1,false)
   @plotter.myloop(true)
 end
 
