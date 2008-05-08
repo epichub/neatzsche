@@ -13,7 +13,6 @@
 #include <sstream>
 #include "iface.h"
 #include "gowrapper.h"
-#include "lightsim/paintwindow.h"
 #include <QApplication>
 
 
