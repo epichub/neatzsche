@@ -39,6 +39,12 @@ Lightsim2D::Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xma
 
 Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigned int ymax, unsigned int lsnum, unsigned int ls_dist) {
 
+  init(cellsize, f, xmax, ymax, lsnum, ls_dist);
+
+}
+
+void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned int ymax, unsigned lsnum, unsigned int ls_dist) {
+
   init(cellsize);
 
   ls_distance=ls_dist+1;

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <iomanip>
 #include <time.h>
 #include <stdlib.h>
@@ -81,6 +82,23 @@ int main(int argc, char *args[])
   double ocomp=0;
   time_t startt;
   double timesum = 0;
+  string timestamp=getPureTimeString();
+
+  /*
+  NEATSettings *genset=new NEATSettings();
+  genset->setValue("xmax",xmax);
+  genset->setValue("ymax",ymax);
+  genset->setValue("lsnum",lsnum);
+  genset->setValue("ls_dist",ls_dist);
+  */
+  stringstream tmpss;
+  tmpss << "data/"<<timestamp<<".settings";
+  ofstream fil(tmpss.str().c_str());
+  fil << s;
+  fil.close();
+
+  stringstream tmpss2;
+  tmpss2 << "data/"<<timestamp<<".genome";
 
   /*
   QApplication app(argc,args);
@@ -124,12 +142,12 @@ int main(int argc, char *args[])
       app.exec();
       */
 
-      ofstream fil("data/bestls2d"); 
-      fil << ls2d;
+      ofstream fil(tmpss2.str().c_str()); 
+      //fil << ls2d;
+      fil << cbest->getGenome();
       fil.close();
 
       delete ls2d;
-
 
       if(best==NULL){
 	best = cbest;

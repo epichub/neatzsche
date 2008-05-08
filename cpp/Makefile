@@ -3,6 +3,9 @@ all: opt
 changedir:
 	@ cd src;
 
+lightsim-viewer:
+	@ cd src; make STYLE=OPTIMISED ;
+
 dist:
 	@ cd src ; make STYLE=RELEASE ;
 

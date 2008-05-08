@@ -18,8 +18,8 @@ private:
   std::vector<Lightsource*> *lightsources;
   std::vector<Opaquecell*> *opaquecells;
   std::vector<LSC*> *LSCs;
-  unsigned int sizeX;
-  unsigned int sizeY;
+  unsigned int xmax;
+  unsigned int ymax;
   std::vector<Lightvector*> *lightvectors;
   std::vector<Lightvector*> *deletedLightvectors;
   double cellsize;
@@ -35,8 +35,9 @@ public:
   void clear();
   void reset();
   void init(double cellsize);
-  unsigned int getSizeX() { return sizeX; }
-  unsigned int getSizeY() { return sizeY; }
+  void init(double cellsize, Phenotype *f, unsigned int xmax, unsigned int ymax, unsigned int lsnum, unsigned int ls_dist);
+  unsigned int getXmax() { return xmax; }
+  unsigned int getYmax() { return ymax; }
   std::vector<Lightsource*>* getLightsources() { return lightsources; }
   std::vector<Opaquecell*>* getOpaquecells() { return opaquecells; }
   std::vector<LSC*>* getLSCs() { return LSCs; }

@@ -106,7 +106,9 @@ ifeq ($(os-type), Darwin)
   BINCLUDE = $(IINCLUDE) -I/opt/local/include
 endif
 
-all:	neatmaster neatslave tags test-xor test-go playgame lightsim-test lightsim-viewer test-or test-eye
+all:	no-qt lightsim-viewer
+
+no-qt:	neatmaster neatslave tags test-xor test-go playgame lightsim-test test-or test-eye
 
 dist:
 	@ +make STYLE=RELEASE

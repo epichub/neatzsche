@@ -44,11 +44,14 @@ private:
 public:
   Phenotype(Genome * ig){
     g=ig;net = g->genesis();
-    died=false;popchampclones=clones=0;specchamp=false;f=0;eoffspring=0;spec=NULL;of=0;sid=-1;}
+    init();
+  }
+  Phenotype() { init(); }
   ~Phenotype(){
     delete net;
     delete g;
   }
+  void init() { died=false;popchampclones=clones=0;specchamp=false;f=0;eoffspring=0;spec=NULL;of=0;sid=-1; }
   void genesis(){net = g->genesis(); if(g->getID()==149) cerr << "i genesis i 149" << endl;}
   void cleanup(){delete net;}
   void setPopulationChampClones(int c){popchampclones = c;}

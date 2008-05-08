@@ -128,7 +128,7 @@ double LightsimEvaluator::f(Phenotype * f)
       }
       numerator=(e/((double)lsNum));
       //cout << numerator;
-      if(numerator>1) { cout << "to big num: "<<numerator; exit(0); }
+      if(numerator>1) { cerr << "to big num: "<<numerator; exit(0); }
       
       for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
 	if(ls2d->getLSCs()->at(i)->getNumHits()>0) {
@@ -137,7 +137,7 @@ double LightsimEvaluator::f(Phenotype * f)
 	}
       }
       denominator=denominator/(double)lscNum;
-      if(denominator>1) { cout << "to bíg denom"<<denominator; exit(0); }
+      if(denominator>1) { cerr << "to bíg denom"<<denominator; exit(0); }
 
       for(unsigned int i=0;i<ls2d->getOpaquecells()->size();i++) {
 	avgLengthFromCenter+=sqrt(pow(ls2d->getOpaquecells()->at(i)->getX()-(double)centerX,2)+pow(ls2d->getOpaquecells()->at(i)->getY()-(double)centerY,2));
