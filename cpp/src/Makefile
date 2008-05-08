@@ -192,7 +192,7 @@ lightsim-viewer: $(OBJS14) lightsim/lightsim-viewer.o lightsim/lightsim-viewer.c
 	@mv lightsim-viewer ../
 
 test-eye: $(OBJS) test-eye.o test-eye.cpp
-	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS13) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS13) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@mv test-eye ../
 
 test-or: $(OBJS) test-or.o test-or.cpp
