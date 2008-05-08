@@ -43,21 +43,24 @@ class GenerationSFTP
   end
   def putfile(lfile,rfile)
     already = alreadythere(rfile)
+    puts "lfile:"
+    puts lfile
     if(!already)
-      @sftp.put_file(lfile,@dir+rfile)
+      @sftp.upload!(lfile,@dir+rfile)
       @sftp.setstat(@dir + rfile, :permissions => 0755)
     end
   end
   def alreadythere(path)
     already = false
-    handle = @sftp.opendir(@dir)
-    items = @sftp.readdir(handle)
-    items.each do |item|
-      if( item.filename == path )
+    puts "path:"
+    puts @dir+path
+    @sftp.dir.foreach(@dir) do |item|
+      #puts item.name
+      if( item.name == path )
         already = true;
       end
     end
-    @sftp.close_handle(handle)
+    #@sftp.close_handle(handle)
     already
   end
 end
@@ -87,7 +90,7 @@ class Plotter
 
     @file = ""
     @plotfile = @neatrun.graphfile() + ".png"
-    @plotbestfile = @neatrun.graphfile() + "-best.png"
+    @plotbestfile = @neatrun.graphfile() + "-best.pdf"
 #     puts "plotfile: \"" + @plotfile + "\""
     @rdir = @dir + @neatrun.base()[7..@neatrun.base().size]
     @rplotfile = @plotfile[7..@plotfile.size]
