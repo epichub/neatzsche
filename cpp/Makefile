@@ -9,6 +9,9 @@ lightsim-viewer:
 dist:
 	@ cd src ; make STYLE=RELEASE ;
 
+no-qt:
+	@ cd src ; make no-qt STYLE=OPTIMISED ;
+
 opt:
 	@ cd src ; make STYLE=OPTIMISED ;
 
