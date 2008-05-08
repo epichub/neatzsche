@@ -183,17 +183,17 @@ playtwoplayergame: $(OBJS) playtwoplayergame.o playtwoplayergame.cpp statechange
 # 	$(CXX) $(BLIBS) $(LIBS) -o $@ xorgenomeoutput.o $(OBJS)  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 # 	@ mv xorgenomeoutput ../
 
-#lightsim-test: $(OBJS11) lightsim/lightsim-test.o lightsim/lightsim-test.cpp moc_paintwindow.cpp moc_paintwindow.o
-#	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS11) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
-#	@mv lightsim-test ../
+lightsim-test: $(OBJS11) lightsim/lightsim-test.o lightsim/lightsim-test.cpp moc_paintwindow.cpp moc_paintwindow.o
+	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS11) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	@mv lightsim-test ../
 
-#lightsim-viewer: $(OBJS14) lightsim/lightsim-viewer.o lightsim/lightsim-viewer.cpp moc_lightsim-viewer.cpp moc_lightsim-viewer.o moc_paintwindow.cpp moc_paintwindow.o
-#	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS14) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
-#	@mv lightsim-viewer ../
+lightsim-viewer: $(OBJS14) lightsim/lightsim-viewer.o lightsim/lightsim-viewer.cpp moc_lightsim-viewer.cpp moc_lightsim-viewer.o moc_paintwindow.cpp moc_paintwindow.o
+	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS14) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	@mv lightsim-viewer ../
 
-#test-eye: $(OBJS) test-eye.o test-eye.cpp moc_paintwindow.cpp moc_paintwindow.o
-#	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS13) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
-#	@mv test-eye ../
+test-eye: $(OBJS) test-eye.o test-eye.cpp moc_paintwindow.cpp moc_paintwindow.o
+	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS13) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	@mv test-eye ../
 
 test-or: $(OBJS) test-or.o test-or.cpp
 	$(CXX) $(BLIBS) $(LIBS) -o $@ test-or.o $(OBJS) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
