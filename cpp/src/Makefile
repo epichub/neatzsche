@@ -188,7 +188,7 @@ lightsim-test: $(OBJS11) lightsim/lightsim-test.o lightsim/lightsim-test.cpp moc
 	@mv lightsim-test ../
 
 lightsim-viewer: $(OBJS14) lightsim/lightsim-viewer.o lightsim/lightsim-viewer.cpp moc_lightsim-viewer.cpp moc_lightsim-viewer.o moc_paintwindow.cpp moc_paintwindow.o
-	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS14) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS14) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@mv lightsim-viewer ../
 
 test-eye: $(OBJS) test-eye.o test-eye.cpp
