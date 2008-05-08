@@ -13,7 +13,6 @@
 #include <sstream>
 #include "iface.h"
 #include "gowrapper.h"
-#include <QApplication>
 
 
 /*
@@ -101,7 +100,7 @@ int main(int argc, char *args[])
 
   /*
   QApplication app(argc,args);
-  PaintWindow *pw=new PaintWindow(800,800,100,0.5,NULL);
+  PaintWindow *pw=new PaintWindow(800,800,100,0.5,NULL)
   */
   Lightsim2D *ls2d;
 
