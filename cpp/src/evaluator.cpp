@@ -101,7 +101,7 @@ double LightsimEvaluator::f(Phenotype * f)
       double denominator=0;
       double LscToLsRatio=lscNum/lsNum;
       unsigned int ls_distance=settings->getValue("ls_distance")+1;
-      unsigned int centerX=ls_distance+((xmax-ls_distance)/2);
+      unsigned int centerX=ls_distance+(xmax/2);
       unsigned int centerY=ymax/2;
       unsigned int hOpt=floor(LscToLsRatio+0.5);
       unsigned int tmpNum=lscNum-hOpt;
@@ -110,7 +110,7 @@ double LightsimEvaluator::f(Phenotype * f)
       double avgLengthFromCenter=0;
       double maxLengthFromCenter=sqrt(pow(xmax-centerX,2)+pow(ymax-centerY,2)); 
 
-      double favorLessNum=1-((double)cellNum/((((xmax-ls_distance)*ymax))*2));
+      double favorLessNum=1-((double)cellNum/((((xmax)*ymax))*2));
       //cout << "favorlessnum: 1-"<<cellNum<<"/("<<xmax*ymax<<"-"<<ls2d->getLightsources()->size()<<")*2"<<" = "<< favorLessNum<<endl;
 
       //cout <<"max error is: "<<eMax<<endl;

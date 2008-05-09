@@ -13,7 +13,8 @@
 #include <sstream>
 #include "iface.h"
 #include "gowrapper.h"
-
+#include <sys/stat.h>
+#include <sys/types.h>
 
 /*
 bool rightStruct(Phenotype * p);
@@ -89,6 +90,10 @@ int main(int argc, char *args[])
   genset->setValue("lsnum",lsnum);
   genset->setValue("ls_dist",ls_dist);
   */
+  stringstream tmpss3;
+  tmpss3 <<"data/"<<timestamp;
+  mkdir(tmpss3.str().c_str(),0777);
+
   stringstream tmpss;
   tmpss << "data/"<<timestamp<<"/settings";
   ofstream fil(tmpss.str().c_str());
@@ -140,6 +145,7 @@ int main(int argc, char *args[])
       app.exec();
       */
 
+      //cout << "skriver til: "<<tmpss2.str().c_str()<<endl;
       ofstream fil(tmpss2.str().c_str()); 
       //fil << ls2d;
       fil << cbest->getGenome();

@@ -52,10 +52,10 @@ void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned
   vector<double> tmpout;
   double tmpstr;
   int tmpwinner;
-  int centerX=ls_dist+((xmax-ls_dist)/2);
+  int centerX=ls_dist+(xmax/2);
   int centerY=ymax/2;
 
-  for(unsigned int i=ls_distance;i<xmax;i++) {
+  for(unsigned int i=ls_distance;i<xmax+ls_distance;i++) {
     for(unsigned int j=0;j<ymax;j++) {
       /*
       if(i == 0 &&((j % (unsigned int)(floor((ymax/(double)lsnum)+0.5))) == skewNum)) {

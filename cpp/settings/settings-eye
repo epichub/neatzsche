@@ -57,4 +57,4 @@ number_of_lightsources 4
 xmax 25
 ymax 20
 cellsize 0.8
-ls_distance 5
+ls_distance 20
