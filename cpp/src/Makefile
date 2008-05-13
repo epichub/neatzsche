@@ -5,11 +5,11 @@ LDFLAGS= -lpthread -ltiff
 
 #QTDEFINES       = -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_SHARED
 #QTINCLUDE       = -I/usr/include/qt4 -I/usr/include/qt4/QtCore
-QTLIBSLINUX     = $(SUBLIBS)  -L/usr/lib64/qt4  -lQtCore -lQtGui -ltiff
 
 QTDEFINES       = -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_SHARED
 QTINCLUDE       = -I/usr/local/Qt4.3/mkspecs/macx-g++ -I. -I/Library/Frameworks/QtCore.framework/Versions/4/Headers -I/usr/include/QtCore -I/Library/Frameworks/QtNetwork.framework/Versions/4/Headers -I/usr/include/QtNetwork -I/Library/Frameworks/QtGui.framework/Versions/4/Headers -I/usr/include/QtGui -I/usr/include -I. -Iwrapper -I. -I. -F/Library/Frameworks -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtCore
-QTLIBS          = $(SUBLIBS) -F/usr/lib64/qt4 -F/Library/Frameworks -L/usr/lib64/qt4 -L/Library/Frameworks -framework QtGui -framework Carbon -framework AppKit -framework QtNetwork -framework QtCore -lz -lm -liconv -framework ApplicationServices
+QTLIBSMAC          = $(SUBLIBS) -F/usr/lib64/qt4 -F/Library/Frameworks -L/usr/lib64/qt4 -L/Library/Frameworks -framework QtGui -framework Carbon -framework AppKit -framework QtNetwork -framework QtCore -lz -lm -liconv -framework ApplicationServices
+QTLIBSLINUX     = $(SUBLIBS)  -L/usr/lib64/qt4  -lQtCore -lQtGui -ltiff
 
 GOSOURCE=gowrapper.cpp gowrapper.h
 GOOBJ=gowrapper.o
@@ -92,14 +92,17 @@ ifeq ($(CC),)
 endif
 CXX=g++ $(OPTS) $(DEFINES) $(BINCLUDE)
 
-LIBS=$(QTLIBS) -L/opt/local/lib -ltiff 
+LIBS=-L/opt/local/lib -ltiff 
+
 
 ifeq ($(os-type), Linux)
-  LIBS=-L$(HOME)/local/lib -Wl,--rpath,$(HOME)/local/lib $(QTLIBSLINUX)
+  LIBS=-L$(HOME)/local/lib -Wl,--rpath,$(HOME)/local/lib
+  QTLIBS=$(QTLIBSLINUX)
   BLIBS=
   BINCLUDE = $(IINCLUDE)
 endif
 ifeq ($(os-type), Darwin)
+  QTLIBS=$(QTLIBSMAC)
   BINCLUDE = $(IINCLUDE) -I/opt/local/include
 endif
 
@@ -181,11 +184,11 @@ playtwoplayergame: $(OBJS) playtwoplayergame.o playtwoplayergame.cpp statechange
 # 	@ mv xorgenomeoutput ../
 
 lightsim-test: $(OBJS11) lightsim/lightsim-test.o lightsim/lightsim-test.cpp moc_paintwindow.cpp moc_paintwindow.o
-	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS11) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
+	$(CXX) $(BLIBS) $(LIBS) $(QTLIBS) -o $@  $(OBJS11) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses
 	@mv lightsim-test ../
 
 lightsim-viewer: $(OBJS14) lightsim/lightsim-viewer.o lightsim/lightsim-viewer.cpp moc_lightsim-viewer.cpp moc_lightsim-viewer.o moc_paintwindow.cpp moc_paintwindow.o
-	$(CXX) $(BLIBS) $(LIBS) -o $@  $(OBJS14) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
+	$(CXX) $(BLIBS) $(LIBS) $(QTLIBS) -o $@  $(OBJS14) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@mv lightsim-viewer ../
 
 test-eye: $(OBJS) test-eye.o test-eye.cpp
