@@ -604,7 +604,6 @@ double PictureEvaluator::f(Phenotype *f)
     for(int y=0;y<ymax;y++){
       inp.at(0) = (double)x/(double)xmax;
       inp.at(1) = (double)y/(double)ymax;
-//       inp.at(2) = sqrt((x-(xmax/2))^2 + (y-(ymax/2))^2);
       reaction = f->react(inp);
       if(reaction.at(0) > 1.0) reaction.at(0) = .9999;
       else if(reaction.at(0) < 0) reaction.at(0) = 0;

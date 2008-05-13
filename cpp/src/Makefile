@@ -237,3 +237,6 @@ moc_paintwindow.cpp: lightsim/paintwindow.h
 	moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ lightsim/paintwindow.h -o moc_paintwindow.cpp
 moc_lightsim-viewer.cpp: lightsim/lightsim-viewer.h
 	moc $(DEFINES) $(INCPATH) -D__APPLE__ -D__GNUC__ lightsim/lightsim-viewer.h -o moc_lightsim-viewer.cpp
+
+check-syntax:
+	gcc -o nul  -Wall -S ${CHK_SOURCES}
