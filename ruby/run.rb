@@ -107,11 +107,11 @@ class NEATRun
   end
   def update
     @base = @runfile.getbase()
-    @graphfile = @base + '.graph'
-    @curgenomefile = @base + '-cur.genome'
+    @graphfile = @base + '/graph'
+    @curgenomefile = @base + '/curgenome'
     puts "just create curgenome file.."
     puts @curgenomefile
-    @settingsfile = @base + ".settings"
+    @settingsfile = @base + "/settings"
   end
   def graphfile
     @graphfile
