@@ -25,4 +25,4 @@ debug:
 	@ cd src ; $(MAKE) STYLE=DEBUG ;
 
 clean: 
-	@ rm neatmaster neatslave test-xor test-go lightsim-viewer lightsim-test; cd src; rm *.o TAGS; cd lightsim; rm *.o;
+	@ rm neatmaster neatslave test-xor test-go lightsim-viewer lightsim-test test-eye; cd src; rm *.o TAGS; cd lightsim; rm *.o;
