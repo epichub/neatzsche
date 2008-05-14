@@ -24,6 +24,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <sstream>
+#include <sys/stat.h>
 
 #include "genome.h"
 #include "neuralmath.h"
@@ -76,6 +77,7 @@ int main(int argc,char *args[]){
   //2. generate the pop
   TransferFunctions * tfs = new TransferFunctions(set);
   Population * pop = makePopulation(args[3],set,tfs);
+
   //3. then the selector
   Selector * sel = makeSelector(args[4]);
 
@@ -112,14 +114,15 @@ int main(int argc,char *args[]){
   //pointers for keeping track and saving all time best genome
   int pid = getpid();
   //files  
-  stringstream ssCurrentFile; ssCurrentFile << "results/" << getPureTimeString() << "-" << pid ;
-  string sCurrentGraphFile = ssCurrentFile.str() + ".graph";
-  string sCurrentGenomeFile = ssCurrentFile.str() + "-cur.genome";
-  string sSettingsFile = ssCurrentFile.str() + ".settings";
-  string sCurrentXMLGenomeFile = ssCurrentFile.str() + "-cur.xmlgenome";
-  string sFinalGenomeFile = ssCurrentFile.str() + "-final.genome";
-  string finalgraphfile = ssCurrentFile.str() + "-final.graph";
-  string specgraphfile = ssCurrentFile.str() + "-spec.xmlgraph";
+  stringstream ssCurrentFile; ssCurrentFile << "results/" << getPureTimeString() << "-" << pid << "/" ;
+  mkdir(ssCurrentFile.str().c_str(),0777);
+  string sCurrentGraphFile = ssCurrentFile.str() + "graph";
+  string sCurrentGenomeFile = ssCurrentFile.str() + "curgenome";
+  string sSettingsFile = ssCurrentFile.str() + "settings";
+  string sCurrentXMLGenomeFile = ssCurrentFile.str() + "curgenome.xml";
+  string sFinalGenomeFile = ssCurrentFile.str() + "finalgenome";
+  string finalgraphfile = ssCurrentFile.str() + "finalgraph";
+  string specgraphfile = ssCurrentFile.str() + "specgraph.xml";
 
   //making a copy of settings
   ofstream sfile(sSettingsFile.c_str());
