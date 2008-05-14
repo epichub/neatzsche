@@ -15,4 +15,4 @@ cat "templates/distconfig-go.txt.template" | sed -e "s!POP!${POPOP}!g" -e "s/NOD
 cat "templates/pbs_go.sh.template" | sed -e "s/NODENUM/${NODES}/g" -e "s/QUEUE/${QUEUE}/" > pbs_go.sh
 chmod a+x pbs_go.sh
 
-mpirun -machinefile distributor distconfig-go.txt &> output.txt
+mpirun -hostfile hostfile distributor distconfig-go.txt

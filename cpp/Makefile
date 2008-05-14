@@ -4,22 +4,25 @@ changedir:
 	@ cd src;
 
 lightsim-viewer:
-	@ cd src; make STYLE=OPTIMISED ;
+	@ cd src; $(MAKE) STYLE=OPTIMISED ;
 
 dist:
-	@ cd src ; make STYLE=RELEASE ;
+	@ cd src ; $(MAKE) STYLE=RELEASE ;
 
 no-qt:
-	@ cd src ; make no-qt STYLE=OPTIMISED ;
+	@ cd src ; $(MAKE) no-qt STYLE=OPTIMISED ;
 
 opt:
-	@ cd src ; make STYLE=OPTIMISED ;
+	@ cd src ; $(MAKE) STYLE=OPTIMISED ;
 
 profile:
-	@ cd src ; make STYLE=PROFILE ;
+	@ cd src ; $(MAKE) STYLE=PROFILE ;
 
 noopt:
-	@ cd src ; make STYLE=NOOPT ;
+	@ cd src ; $(MAKE) STYLE=NOOPT ;
+
+debug:
+	@ cd src ; $(MAKE) STYLE=DEBUG ;
 
 clean: 
 	@ rm neatmaster neatslave test-xor test-go lightsim-viewer lightsim-test; cd src; rm *.o TAGS; cd lightsim; rm *.o;
