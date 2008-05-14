@@ -38,7 +38,7 @@ OBJS11=$(OBJS) lightsim/lightsim-test.o lightsim/paintwindow.o moc_paintwindow.o
 OBJS12=$(OBJS) test-or.o
 OBJS13=$(OBJS) test-eye.o
 OBJS14=$(OBJS) lightsim/lightsim-viewer.o moc_lightsim-viewer.o lightsim/paintwindow.o moc_paintwindow.o lightsim/paintarea.o
-OBJS15=$(OBJS) test-draw.o image.o
+OBJS15=$(OBJS) test-draw.o
 
 IINCLUDE=$(QTINCLUDE) -I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0 -I/opt/local/include
 BLIBS=-L$(HOME)/local/lib 
