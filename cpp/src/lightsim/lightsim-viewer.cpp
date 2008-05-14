@@ -21,6 +21,7 @@ ReadTimer::ReadTimer(char *args[])
       ss2<<filename<<"/curgenome";
       filename2 = ss2.str();
       }
+    cout <<"Loading..."<<endl<<"settings: "<<ss.str()<<endl<<"genome: "<<ss2.str()<<endl;  
     pw=new PaintWindow(atoi(args[4]),atoi(args[5]),atoi(args[6]),atof(args[7]),atoi(args[8]),NULL); 
     ls2d.init(cellsize);
     reload();

@@ -71,7 +71,7 @@ void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned
 	tmpstr=0;
 	tmpwinner=0;
 	for(unsigned int k=0;k<tmpout.size();k++){
-	  if(tmpout.at(k)>tmpstr&&tmpout.at(k)>0.99) {
+	  if(tmpout.at(k)>tmpstr&&tmpout.at(k)>0.1) {
 	    tmpwinner=k+1;
 	    tmpstr=tmpout.at(k);
 	  }
