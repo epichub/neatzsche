@@ -110,7 +110,7 @@ double LightsimEvaluator::f(Phenotype * f)
       double avgLengthFromCenter=0;
       double maxLengthFromCenter=sqrt(pow(xmax-centerX,2)+pow(ymax-centerY,2)); 
 
-      double favorLessNum=1-((double)cellNum/((((xmax)*ymax))*2));
+      double favorLessNum=1-((double)cellNum/((((xmax)*ymax))));
       //cout << "favorlessnum: 1-"<<cellNum<<"/("<<xmax*ymax<<"-"<<ls2d->getLightsources()->size()<<")*2"<<" = "<< favorLessNum<<endl;
 
       //cout <<"max error is: "<<eMax<<endl;
