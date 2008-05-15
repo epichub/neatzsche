@@ -82,6 +82,20 @@ public:
   virtual ~SinusTransfer(){};
   virtual double y(double x){return (sin(sharpness*x)/div)+add;}
 };
+
+class CosineTransfer : public TransferFunction
+{
+private:
+  double sharpness;
+  double add;
+  double div;
+public:
+  CosineTransfer(bool unipolar, double isharpness, double iadd, double idiv)
+  {sharpness=isharpness; add=iadd; div=idiv;ftype="sin";}
+  virtual ~CosineTransfer(){};
+  virtual double y(double x){return (cos(sharpness*x)/div)+add;}
+};
+
 class ParabelTransfer : public TransferFunction
 {
 private:

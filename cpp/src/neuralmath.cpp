@@ -11,8 +11,12 @@ TransferFunctions::TransferFunctions(NEATsettings * s)
   sigmoid = new SigmoidTransfer(unipolar,ss);
   f->push_back(sigmoid);
 
+  if(s->getValue("enable_identity_tfunc")==1.0)
+    f->push_back(ta);
   if(s->getValue("enable_sinus_tfunc")==1.0)
     f->push_back(new SinusTransfer(unipolar,s->getValue("sinus_sharpness"),s->getValue("sinus_add"),s->getValue("sinus_div")));
+  if(s->getValue("enable_cosine_tfunc")==1.0)
+    f->push_back(new CosineTransfer(unipolar,s->getValue("cosine_sharpness"),s->getValue("consine_add"),s->getValue("cosine_div")));
   if(s->getValue("enable_gauss_tfunc")==1.0)
     f->push_back(new GaussTransfer(unipolar,s->getValue("gauss_median"),s->getValue("gauss_std_deviation")));
   if(s->getValue("enable_parabel_tfunc")==1.0)

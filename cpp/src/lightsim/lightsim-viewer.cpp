@@ -21,8 +21,9 @@ ReadTimer::ReadTimer(char *args[])
       ss2<<filename<<"/curgenome";
       filename2 = ss2.str();
       cout <<"Loading..."<<endl<<"settings: "<<ss.str()<<endl<<"genome: "<<ss2.str()<<endl;  
-      }
-    pw=new PaintWindow(atoi(args[4]),atoi(args[5]),atoi(args[6]),atof(args[7]),atoi(args[8]),NULL); 
+      this->cellsize=set->getValue("cellsize");
+    }
+    pw=new PaintWindow(atoi(args[4]),atoi(args[5]),atoi(args[6]),this->cellsize,atoi(args[8]),NULL); 
     ls2d.init(cellsize);
     reload();
     pw->show();
@@ -92,7 +93,7 @@ void ReadTimer::scheduleReload() {
 int main(int argc, char *args[])
 {
   if(argc<9) {
-    cout <<"Usage: lightsim-viewer <mode [0(genome)/1(ls2d)]> <dir path/filename> <min update rate (ms)> <width> <height> <scale> <cellsize> <paint pruned (0/1)>"<<endl;
+    cout <<"Usage: lightsim-viewer <mode [0(genome)/1(ls2d)]> <dir path/filename> <min update rate (ms)> <width> <height> <scale> <cellsize (not used in mode 0)> <paint pruned (0/1)>"<<endl;
     exit(1);
   } 
   QApplication app(argc,args);

@@ -50,6 +50,7 @@ void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned
   ls_distance=ls_dist+1;
   vector<double> tmpin;
   vector<double> tmpout;
+  double tmpdist;
   double tmpstr;
   int tmpwinner;
   int centerX=ls_dist+(xmax/2);
@@ -69,11 +70,20 @@ void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned
 	tmpin.push_back(sqrt(pow(i-(double)centerX,2)+pow(j-(double)centerY,2)));
 	tmpout=f->react(tmpin);
 	tmpstr=0;
+	tmpdist=-1;
 	tmpwinner=0;
+	/*
 	for(unsigned int k=0;k<tmpout.size();k++){
 	  if(tmpout.at(k)>tmpstr&&tmpout.at(k)>0) {
 	    tmpwinner=k+1;
 	    tmpstr=tmpout.at(k);
+	  }
+	}
+	*/
+	for(unsigned int k=0;k<tmpout.size();k++){
+	  if(fabs(tmpout.at(k))>0.15&&(fabs(tmpout.at(k))<tmpdist||tmpdist==-1)) {
+	    tmpwinner=k+1;
+	    tmpdist=fabs(tmpout.at(k));
 	  }
 	}
 	tmpin.clear();
