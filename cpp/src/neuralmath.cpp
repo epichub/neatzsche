@@ -51,7 +51,7 @@ inline int SignumTransfer::sgn(double inp)
 SigmoidTransfer::SigmoidTransfer(bool unipolar, double ik){
   ftype = "so";
   k = ik;
-  con = (unipolar) ? -0.5  : 0;
+  con = (unipolar) ? 0 : -0.5;
 }
 SigmoidTransfer::~SigmoidTransfer(){
 }
