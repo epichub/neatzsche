@@ -321,43 +321,38 @@ void Lightsim2D::pruneBlockedVectors() {
   vector<Lightvector*>::iterator it = lightvectors->begin();
   bool erased=false;
   double tmpLen=0;
-  int tmp=0;
   while(it!=lightvectors->end()){
-    tmp++;
-    cout << "lightvec #"<<tmp<<endl;
+    erased=false;
+    //(*it)->getLSC()->printCell();
     for(unsigned int j=0;j<opaquecells->size();j++) {
       tmpLen=(*it)->getnVector()->orthogonalLength(opaquecells->at(j)->getX(),opaquecells->at(j)->getY());
       if(tmpLen>=0&&tmpLen<cellsize) {
+	//cout << "erasing  because of OPC"<<endl;
 	deletedLightvectors->push_back(*it);
 	lightvectors->erase(it);
        	j = opaquecells->size();
 	erased=true;
       }
-      else { 
-	erased=false; 
-      }
     }
     if(!erased) {
+      //cout <<"antall LSC: "<<LSCs->size()<<endl;
       for(unsigned int j=0;j<LSCs->size();j++) {
-	cout <<LSCs->at(j)<<" og "<<(*it)->getLSC()<<endl;
+	//LSCs->at(j)->printCell();
+	//cout <<LSCs->at(j)<<" og "<<(*it)->getLSC()<<endl;
 	if(LSCs->at(j)!=(*it)->getLSC()) {
 	  tmpLen=(*it)->getnVector()->orthogonalLength(LSCs->at(j)->getX(),LSCs->at(j)->getY());
 	  if(tmpLen>=0&&tmpLen<cellsize) {
+	    //cout << "erasing because of LSC"<<endl;
 	    deletedLightvectors->push_back(*it);
 	    lightvectors->erase(it);
 	    j = LSCs->size();
 	    erased=true;
 	  }
-	  else {
-	    erased=false;
-	  }
 	}
+	//else { cout << "LSC kan ikke blokke seg selv!"<<endl; }
       }
     }
-    if(erased) {
-      //hmm
-    }
-    else {
+    if(!erased) {
       //cout <<"adding hit on lightsource: "<<(*it)->getLightsource()->getX()<<","<<(*it)->getLightsource()->getY()<<endl;
       (*it)->getLSC()->addHit(); 
       //(*it)->getLightsource()->addHit(); 

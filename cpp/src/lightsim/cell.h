@@ -1,6 +1,6 @@
 #ifndef CELL_H_
 #define CELL_H_
-#include <vector>
+#include <iostream>
 #include <vector>
 
 using namespace std;
@@ -30,6 +30,6 @@ public:
   void addCell(Cell* c);
   unsigned int getCellSize() { return cells->size(); };
   Cell* getCell(unsigned int i) { return cells->at(i); };
-
+  void printCell() { cout <<"x: "<<x<<" y: "<<y<<" numHits: "<<numHits<<endl; }
 };
 #endif
