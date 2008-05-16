@@ -8,6 +8,7 @@
 #include <QTimer>
 #include "../settings.h"
 #include <sstream>
+#include "../evaluator.h"
 
 class ReadTimer : public QObject {
 
@@ -16,6 +17,7 @@ Q_OBJECT
 private:
   Lightsim2D ls2d;
   NEATsettings *set;
+  LightsimEvaluator *ls2de;
   string filename2;
   TransferFunctions *tfs;
   Genome *genome;

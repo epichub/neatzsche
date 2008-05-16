@@ -187,6 +187,9 @@ private:
 public:
   LightsimEvaluator(NEATsettings * set, unsigned int xmax, unsigned int ymax, unsigned int lsnum){settings=set; this->xmax=xmax; this->ymax=ymax; this->lsnum=lsnum;};
   virtual double f(Phenotype * f);
+  unsigned int getXmax() { return xmax; }
+  unsigned int getYmax() { return ymax; }
+  double f(Lightsim2D * ls2d);
   virtual void nextGen(){return;} // no need for this here..
 };
 

@@ -45,7 +45,7 @@ Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigne
 
 void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned int ymax, unsigned lsnum, unsigned int ls_dist) {
 
-  init(cellsize);
+  init(cellsize,xmax,ymax);
 
   ls_distance=ls_dist+1;
   vector<double> tmpin;
@@ -80,23 +80,27 @@ void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned
 	  }
 	}
 	*/
+	cout << "output is: ";
 	for(unsigned int k=0;k<tmpout.size();k++){
-	  if(fabs(tmpout.at(k))>0.15&&(fabs(tmpout.at(k))<tmpdist||tmpdist==-1)) {
+	  cout <<tmpout.at(k)<<" ";
+	  if(fabs(tmpout.at(k))<0.15 &&
+	     (fabs(tmpout.at(k))<tmpdist||tmpdist==-1)) {
 	    tmpwinner=k+1;
 	    tmpdist=fabs(tmpout.at(k));
 	  }
 	}
+	cout<<endl;
 	tmpin.clear();
 	
 	if(tmpwinner == ((unsigned int)0)) {
 	  // Do nothing, empty
 	}
 	else if(tmpwinner == ((unsigned int)1)) {
-	  //cout << "found OC at "<<i<<","<<j<<"\n";
+	  cout << "found OC at "<<i<<","<<j<<"\n";
 	  opaquecells->push_back(new Opaquecell(i,j));
 	}
 	else if(tmpwinner == ((unsigned int)2)) {
-	  //cout << "found LSC at "<<i<<","<<j<<"\n";
+	  cout << "found LSC at "<<i<<","<<j<<"\n";
 	  LSCs->push_back(new LSC(i,j));
 	}
 	else {
@@ -149,6 +153,14 @@ void Lightsim2D::clear() {
   delete(LSCs);
 }
 
+void Lightsim2D::init(double cellsize, unsigned int xmax, unsigned int ymax) {
+
+  this->xmax=xmax;
+  this->ymax=ymax;
+  init(cellsize);
+
+}
+
 void Lightsim2D::init(double cellsize) {
   this->cellsize=cellsize;
   lightsources=new vector<Lightsource*>();
@@ -161,6 +173,8 @@ void Lightsim2D::init(double cellsize) {
 
 std::ostream& operator<< (ostream& os, Lightsim2D *ls)
 {
+  os << ls->getXmax() << " " << ls->getYmax() << ls->getLsdist() <<"\n";
+  
   os << ls->getLSCs()->size()<< " ";
   for(unsigned int i=0;i<ls->getLSCs()->size(); i++) {
     os <<ls->getLSCs()->at(i)->getX()<<" "<<ls->getLSCs()->at(i)->getY();
@@ -215,66 +229,72 @@ std::istream& operator>>(std::istream& ins, Lightsim2D& ls)
   int num=0;
   string s;
   unsigned int x,y,x2,y2;
+  ins>>s;
+  ls.setXmax(atoi(s.c_str()));
+  ins>>s;
+  ls.setYmax(atoi(s.c_str()));
+  ins>>s;
+  ls.setLsdist(atoi(s.c_str()));
+  ins>>s;
+  num=atoi(s.c_str());
+  cout << "num er: "<<num;
+  for(unsigned int i=0;i<num;i++) {
     ins>>s;
-    num=atoi(s.c_str());
-    cout << "num er: "<<num;
-    for(unsigned int i=0;i<num;i++) {
-      ins>>s;
-      x=atoi(s.c_str());
-      ins>>s;
-      y=atoi(s.c_str());
-      ls.getLSCs()->push_back(new LSC(x,y));
-    }
-
+    x=atoi(s.c_str());
     ins>>s;
-    num=atoi(s.c_str());
-    for(unsigned int i=0;i<num;i++) {
-      ins>>s;
-      x=atoi(s.c_str());
-      ins>>s;
-      y=atoi(s.c_str());
-      ls.getOpaquecells()->push_back(new Opaquecell(x,y));
-    }
-
+    y=atoi(s.c_str());
+    ls.getLSCs()->push_back(new LSC(x,y));
+  }
+  
+  ins>>s;
+  num=atoi(s.c_str());
+  for(unsigned int i=0;i<num;i++) {
     ins>>s;
-    num=atoi(s.c_str());
-    for(unsigned int i=0;i<num;i++) {
-      ins>>s;
-      x=atoi(s.c_str());
-      ins>>s;
-      y=atoi(s.c_str());
-      ins>>s;
-      x2=atoi(s.c_str());
-      ins>>s;
-      y2=atoi(s.c_str());
-      ls.getLightvectors()->push_back(new Lightvector(x,y,x2,y2));
-    }
-
+    x=atoi(s.c_str());
     ins>>s;
-    num=atoi(s.c_str());
-    for(unsigned int i=0;i<num;i++) {
-      ins>>s;
-      x=atoi(s.c_str());
-      ins>>s;
-      y=atoi(s.c_str());
-      ins>>s;
-      x2=atoi(s.c_str());
-      ins>>s;
-      y2=atoi(s.c_str());
-      ls.getDeletedLightvectors()->push_back(new Lightvector(x,y,x2,y2));
-    }
-
+    y=atoi(s.c_str());
+    ls.getOpaquecells()->push_back(new Opaquecell(x,y));
+  }
+  
+  ins>>s;
+  num=atoi(s.c_str());
+  for(unsigned int i=0;i<num;i++) {
     ins>>s;
-    num=atoi(s.c_str());
-    for(unsigned int i=0;i<num;i++) {
+    x=atoi(s.c_str());
+    ins>>s;
+    y=atoi(s.c_str());
+    ins>>s;
+    x2=atoi(s.c_str());
+    ins>>s;
+    y2=atoi(s.c_str());
+    ls.getLightvectors()->push_back(new Lightvector(x,y,x2,y2));
+  }
+  
+  ins>>s;
+  num=atoi(s.c_str());
+  for(unsigned int i=0;i<num;i++) {
+    ins>>s;
+    x=atoi(s.c_str());
+    ins>>s;
+    y=atoi(s.c_str());
+    ins>>s;
+    x2=atoi(s.c_str());
+    ins>>s;
+    y2=atoi(s.c_str());
+    ls.getDeletedLightvectors()->push_back(new Lightvector(x,y,x2,y2));
+  }
+  
+  ins>>s;
+  num=atoi(s.c_str());
+  for(unsigned int i=0;i<num;i++) {
       ins>>s;
       x=atoi(s.c_str());
       ins>>s;
       y=atoi(s.c_str());
       ls.getLightsources()->push_back(new Lightsource(x,y));
-    }
-
-
+  }
+  
+  
   return ins;
 }
 

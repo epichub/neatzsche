@@ -8,23 +8,33 @@ ReadTimer::ReadTimer(char *args[])
     this->ms=atoi(args[3]); 
     this->filename=args[2];
     this->cellsize=atof(args[7]);
+    ls2d.init(cellsize);
     if(mode == 0) {
-      phenome=new Phenotype();
       stringstream ss;
-      stringstream ss2;
       ss<<filename<<"/settings";
       set=new NEATsettings();
       std::ifstream f(ss.str().c_str());
       f>>set;
       f.close();
+      phenome=new Phenotype();
+      stringstream ss2;
       tfs = new TransferFunctions(set);
       ss2<<filename<<"/curgenome";
       filename2 = ss2.str();
       cout <<"Loading..."<<endl<<"settings: "<<ss.str()<<endl<<"genome: "<<ss2.str()<<endl;  
       this->cellsize=set->getValue("cellsize");
+      ls2de=new LightsimEvaluator(set,set->getValue("xmax"),set->getValue("ymax"),set->getValue("lsnum"));
+    }
+    else {
+      set=new NEATsettings();
+      std::ifstream f(filename);
+      f >> ls2d;
+      f.close();
+      set->setValue("fitness_mode",1);
+      set->setValue("ls_distance",ls2d.getLsdist());
+      ls2de=new LightsimEvaluator(set,ls2d.getXmax(),ls2d.getYmax(),0);
     }
     pw=new PaintWindow(atoi(args[4]),atoi(args[5]),atoi(args[6]),this->cellsize,atoi(args[8]),NULL); 
-    ls2d.init(cellsize);
     reload();
     pw->show();
 
@@ -73,7 +83,7 @@ void ReadTimer::reload() {
     f.close();
   }
   else { cerr << "Illegal mode: "<<mode<<endl; exit(1); }
-  
+  cout << "Fitness: "<< ls2de->f(&ls2d)<<" ";
   ls2d.print();    
   pw->updateLS(&ls2d);
   pw->paintWorld();

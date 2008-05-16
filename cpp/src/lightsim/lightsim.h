@@ -35,8 +35,13 @@ public:
   void clear();
   void reset();
   void init(double cellsize);
+  void init(double cellsize,unsigned int xmax,unsigned int ymax);
   void init(double cellsize, Phenotype *f, unsigned int xmax, unsigned int ymax, unsigned int lsnum, unsigned int ls_dist);
+  void setLsdist(unsigned int ls_dist) { ls_distance=ls_dist;}
+  unsigned int getLsdist() { return ls_distance; }
+  void setXmax(unsigned int xmax) { this->xmax=xmax; }
   unsigned int getXmax() { return xmax; }
+  void setYmax(unsigned int ymax) { this->ymax=ymax; }
   unsigned int getYmax() { return ymax; }
   std::vector<Lightsource*>* getLightsources() { return lightsources; }
   std::vector<Opaquecell*>* getOpaquecells() { return opaquecells; }
