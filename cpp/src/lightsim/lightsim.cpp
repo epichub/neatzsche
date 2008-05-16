@@ -89,18 +89,18 @@ void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned
 	    tmpdist=fabs(tmpout.at(k));
 	  }
 	}
-	cout<<endl;
+	//XScout<<endl;
 	tmpin.clear();
 	
 	if(tmpwinner == ((unsigned int)0)) {
 	  // Do nothing, empty
 	}
 	else if(tmpwinner == ((unsigned int)1)) {
-	  cout << "found OC at "<<i<<","<<j<<"\n";
+	  //	  cout << "found OC at "<<i<<","<<j<<"\n";
 	  opaquecells->push_back(new Opaquecell(i,j));
 	}
 	else if(tmpwinner == ((unsigned int)2)) {
-	  cout << "found LSC at "<<i<<","<<j<<"\n";
+	  //cout << "found LSC at "<<i<<","<<j<<"\n";
 	  LSCs->push_back(new LSC(i,j));
 	}
 	else {
