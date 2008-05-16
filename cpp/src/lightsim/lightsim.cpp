@@ -80,9 +80,9 @@ void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned
 	  }
 	}
 	*/
-	cout << "output is: ";
+	//cerr << "output is: ";
 	for(unsigned int k=0;k<tmpout.size();k++){
-	  cout <<tmpout.at(k)<<" ";
+	  //cerr <<tmpout.at(k)<<" ";
 	  if(fabs(tmpout.at(k))<0.15 &&
 	     (fabs(tmpout.at(k))<tmpdist||tmpdist==-1)) {
 	    tmpwinner=k+1;
