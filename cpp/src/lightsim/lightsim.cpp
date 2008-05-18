@@ -8,7 +8,7 @@ Lightsim2D::Lightsim2D(double cellsize) {
 
 Lightsim2D::Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xmax,unsigned int ymax) {
 
-  init(cellsize);
+  init(cellsize,xmax,ymax);
 
   for(unsigned int i=0; i<xmax;i++)
     {
@@ -51,12 +51,11 @@ void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned
   vector<double> tmpin;
   vector<double> tmpout;
   double tmpdist;
-  double tmpstr;
   int tmpwinner;
   int centerX=xmax/2;
   int centerY=ymax/2;
 
-  for(unsigned int i=ls_distance;i<xmax+ls_distance;i++) {
+  for(unsigned int i=ls_distance;i<(xmax+ls_distance);i++) {
     for(unsigned int j=0;j<ymax;j++) {
       /*
       if(i == 0 &&((j % (unsigned int)(floor((ymax/(double)lsnum)+0.5))) == skewNum)) {
@@ -69,17 +68,9 @@ void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned
 	tmpin.push_back(j);
 	tmpin.push_back(sqrt(pow((i-ls_distance)-(double)centerX,2)+pow(j-(double)centerY,2)));
 	tmpout=f->react(tmpin);
-	tmpstr=0;
 	tmpdist=-1;
 	tmpwinner=0;
-	/*
-	for(unsigned int k=0;k<tmpout.size();k++){
-	  if(tmpout.at(k)>tmpstr&&tmpout.at(k)>0) {
-	    tmpwinner=k+1;
-	    tmpstr=tmpout.at(k);
-	  }
-	}
-	*/
+
 	//cerr << "output is: ";
 	for(unsigned int k=0;k<tmpout.size();k++){
 	  //cerr <<tmpout.at(k)<<" ";
@@ -89,7 +80,7 @@ void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned
 	    tmpdist=fabs(tmpout.at(k));
 	  }
 	}
-	//XScout<<endl;
+	//cout<<endl;
 	tmpin.clear();
 	
 	if(tmpwinner == ((unsigned int)0)) {

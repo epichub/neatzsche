@@ -125,7 +125,7 @@ double LightsimEvaluator::f(Lightsim2D *ls2d) {
       double avgLengthFromCenter=0;
       double maxLengthFromCenter=sqrt(pow(xmax-(centerX-ls_distance),2)+pow(ymax-centerY,2)); 
 
-      cout <<"hOpt: "<< hOpt << " cellNum: " << cellNum <<" emax: "<<eMax<< " LscToLsRatio: "<<LscToLsRatio<< " lsnum: "<< lsnum<<" ls_dist: "<<ls_distance<<" xmax: "<<xmax<<" ymax: "<<ymax<<endl;
+      //cout <<"hOpt: "<< hOpt << " cellNum: " << cellNum <<" emax: "<<eMax<< " LscToLsRatio: "<<LscToLsRatio<< " lsnum: "<< lsnum<<" ls_dist: "<<ls_distance<<" xmax: "<<xmax<<" ymax: "<<ymax<<endl;
 
       double favorLessNum=1-((double)cellNum/((xmax*ymax)*1.5));
       if(favorLessNum>1||favorLessNum<0) { cerr <<"out of bounds favorLessNum: "<<favorLessNum; ls2d->print(); exit(1); }

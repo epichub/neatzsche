@@ -64,7 +64,7 @@ void ReadTimer::reload() {
     phenome=new Phenotype(genome);
     ls2d.reset();
     ls2d.init(cellsize, phenome, set->getValue("xmax"), set->getValue("ymax"), set->getValue("number_of_lightsources"), set->getValue("ls_distance"));
-    cout << "cellsize: "<<set->getValue("cellsize")<<" xmax: "<<set->getValue("xmax")<<" ymax: "<<set->getValue("ymax")<<" lsnum: "<<set->getValue("number_of_lightsources")<<" ls_dist: "<<set->getValue("ls_distance")<<endl;
+    //cout << "cellsize: "<<set->getValue("cellsize")<<" xmax: "<<set->getValue("xmax")<<" ymax: "<<set->getValue("ymax")<<" lsnum: "<<set->getValue("number_of_lightsources")<<" ls_dist: "<<set->getValue("ls_distance")<<endl;
     ls2d.createVectors();
     ls2d.pruneBlockedVectors();
   }
