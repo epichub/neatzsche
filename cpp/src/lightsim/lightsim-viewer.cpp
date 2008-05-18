@@ -23,7 +23,7 @@ ReadTimer::ReadTimer(char *args[])
       filename2 = ss2.str();
       cout <<"Loading..."<<endl<<"settings: "<<ss.str()<<endl<<"genome: "<<ss2.str()<<endl;  
       this->cellsize=set->getValue("cellsize");
-      ls2de=new LightsimEvaluator(set,set->getValue("xmax"),set->getValue("ymax"),set->getValue("lsnum"));
+      ls2de=new LightsimEvaluator(set,set->getValue("xmax"),set->getValue("ymax"),set->getValue("number_of_lightsources"));
     }
     else {
       set=new NEATsettings();
