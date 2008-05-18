@@ -3,6 +3,6 @@ slave-verbosity:        0
 batch-mode:             EOF
 master-output-mode:     EOF
 master-program:         ./neatmaster
-master-arguments:    	0 SETTINGFILE "POP" "sigma 1" NODENUM "eye" "count GENS RUNS" 0
+master-arguments:    	0 SETTINGFILE "POP" "sigma 1" NODENUM "eye SETTINGSFILE" "count GENS RUNS" 0
 slave-program:          ./neatslave
-slave-arguments:	0 SETTINGFILE "eye" GENS
+slave-arguments:	0 SETTINGFILE "eye SETTINGSFILE" GENS

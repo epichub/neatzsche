@@ -67,9 +67,11 @@ int main(int argc, char *args[])
 
   unsigned int lsnum=s->getValue("number_of_lightsources");
   unsigned int ymax=s->getValue("ymax");
-  unsigned int xmax=s->getValue("xmax");;
+  unsigned int xmax=s->getValue("xmax");
+  double cellsize=s->getValue("cellsize");
+  unsigned int ls_dist=s->getValue("ls_distance");
 
-  FitnessEvaluator * ls2de = new LightsimEvaluator(s,xmax,ymax,lsnum);
+  FitnessEvaluator * ls2de = new LightsimEvaluator(s,xmax,ymax,lsnum,cellsize,ls_dist);
   Evaluator * ev = new Evaluator(ls2de); 
   LocalReproducer * rp = new LocalReproducer();
   int gc = 0; double sum=0; double sum2=0; double sum3=0;
@@ -131,19 +133,12 @@ int main(int argc, char *args[])
       ls2de->f(cbest);
       //      cout << "generation " << i << " : ";
 
-      //Writing best ls2d to disk
-      ls2d=new Lightsim2D(s->getValue("cellsize"),cbest,xmax,ymax,lsnum,s->getValue("ls_distance"));
+      ls2d=new Lightsim2D(cellsize,cbest,xmax,ymax,lsnum,ls_dist);
       ls2d->createVectors();
       ls2d->pruneBlockedVectors();
 
       ls2d->print();
       cout <<"Fitness: "<<cbest->getFitness()<<endl;
-      /*
-      pw->updateLS(ls2d);
-      pw->paintWorld();
-      pw->show();
-      app.exec();
-      */
 
       //cout << "skriver til: "<<tmpss2.str().c_str()<<endl;
       ofstream fil(tmpss2.str().c_str()); 

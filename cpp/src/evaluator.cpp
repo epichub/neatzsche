@@ -74,7 +74,7 @@ double LightsimEvaluator::f(Phenotype * f)
   delete[](twodmap);
   */
 
-  ls2d=new Lightsim2D(settings->getValue("cellsize"),f,xmax,ymax,lsnum,settings->getValue("ls_distance"));
+  ls2d=new Lightsim2D(cellsize,f,xmax,ymax,lsnum,ls_distance);
 
   ls2d->createVectors();
 
@@ -116,7 +116,6 @@ double LightsimEvaluator::f(Lightsim2D *ls2d) {
       double LscToLsRatio=lscNum/lsNum;
       //double LsToLscRatio=lsNum/lscNum;
       //LsToLscRatio = (LsToLscRatio != 0) ? LsToLscRatio : 1;
-      unsigned int ls_distance=settings->getValue("ls_distance")+1;
       unsigned int centerX=ls_distance+(xmax/2);
       unsigned int centerY=ymax/2;
       unsigned int hOpt=floor(LscToLsRatio+0.5); //The Ratio rounded to closest. Can be 0...
@@ -124,7 +123,7 @@ double LightsimEvaluator::f(Lightsim2D *ls2d) {
       unsigned int eMax=hOpt < tmpNum ? tmpNum : hOpt; //Find the biggest error,
       unsigned int cellNum=ls2d->getLSCs()->size()+ls2d->getOpaquecells()->size();
       double avgLengthFromCenter=0;
-      double maxLengthFromCenter=sqrt(pow(xmax-centerX,2)+pow(ymax-centerY,2)); 
+      double maxLengthFromCenter=sqrt(pow(xmax-(centerX-ls_distance),2)+pow(ymax-centerY,2)); 
 
       double favorLessNum=1-((double)cellNum/((xmax*ymax)*1.5));
       if(favorLessNum>1||favorLessNum<0) { cerr <<"out of bounds favorLessNum: "<<favorLessNum; ls2d->print(); exit(1); }

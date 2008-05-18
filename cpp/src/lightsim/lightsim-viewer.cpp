@@ -22,8 +22,8 @@ ReadTimer::ReadTimer(char *args[])
       ss2<<filename<<"/curgenome";
       filename2 = ss2.str();
       cout <<"Loading..."<<endl<<"settings: "<<ss.str()<<endl<<"genome: "<<ss2.str()<<endl;  
-      this->cellsize=set->getValue("cellsize");
-      ls2de=new LightsimEvaluator(set,set->getValue("xmax"),set->getValue("ymax"),set->getValue("number_of_lightsources"));
+      cellsize=set->getValue("cellsize");
+      ls2de=new LightsimEvaluator(set,set->getValue("xmax"),set->getValue("ymax"),set->getValue("number_of_lightsources"),cellsize,set->getValue("ls_distance"));
     }
     else {
       set=new NEATsettings();
@@ -32,7 +32,7 @@ ReadTimer::ReadTimer(char *args[])
       f.close();
       set->setValue("fitness_mode",1);
       set->setValue("ls_distance",ls2d.getLsdist());
-      ls2de=new LightsimEvaluator(set,ls2d.getXmax(),ls2d.getYmax(),0);
+      ls2de=new LightsimEvaluator(set,ls2d.getXmax(),ls2d.getYmax(),0,cellsize,ls2d.getLsdist());
     }
     pw=new PaintWindow(atoi(args[4]),atoi(args[5]),atoi(args[6]),this->cellsize,atoi(args[8]),NULL); 
     reload();
@@ -53,17 +53,6 @@ ReadTimer::ReadTimer(char *args[])
     connect(watcher, SIGNAL(fileChanged(const QString &)), this, SLOT(scheduleReload()));
   }
 
-/*
-void ReadTimer::reload() {
-  std::ifstream f(filename);
-  f >> ls2d;
-  f.close();
-  ls2d.print();
-  pw->updateLS(&ls2d);
-  pw->paintWorld();
-  timerActive = false;
-}
-*/
 
 void ReadTimer::reload() {
   if(mode == 0) {
@@ -73,7 +62,7 @@ void ReadTimer::reload() {
     f.close();
     phenome=new Phenotype(genome);
     ls2d.reset();
-    ls2d.init(cellsize, phenome,  set->getValue("xmax"), set->getValue("ymax"), set->getValue("number_of_lightsources"), set->getValue("ls_distance"));
+    ls2d.init(cellsize, phenome, set->getValue("xmax"), set->getValue("ymax"), set->getValue("number_of_lightsources"), set->getValue("ls_distance"));
     ls2d.createVectors();
     ls2d.pruneBlockedVectors();
   }
