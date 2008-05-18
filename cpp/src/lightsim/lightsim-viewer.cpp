@@ -24,6 +24,7 @@ ReadTimer::ReadTimer(char *args[])
       cout <<"Loading..."<<endl<<"settings: "<<ss.str()<<endl<<"genome: "<<ss2.str()<<endl;  
       cellsize=set->getValue("cellsize");
       ls2de=new LightsimEvaluator(set,set->getValue("xmax"),set->getValue("ymax"),set->getValue("number_of_lightsources"),cellsize,set->getValue("ls_distance"));
+      cout << "cellsize: "<<cellsize<<" xmax: "<<set->getValue("xmax")<<" ymax: "<<set->getValue("ymax")<<" lsnum: "<<set->getValue("number_of_lightsources")<<" ls_dist: "<<set->getValue("ls_distance")<<endl;
     }
     else {
       set=new NEATsettings();
@@ -63,6 +64,7 @@ void ReadTimer::reload() {
     phenome=new Phenotype(genome);
     ls2d.reset();
     ls2d.init(cellsize, phenome, set->getValue("xmax"), set->getValue("ymax"), set->getValue("number_of_lightsources"), set->getValue("ls_distance"));
+    cout << "cellsize: "<<set->getValue("cellsize")<<" xmax: "<<set->getValue("xmax")<<" ymax: "<<set->getValue("ymax")<<" lsnum: "<<set->getValue("number_of_lightsources")<<" ls_dist: "<<set->getValue("ls_distance")<<endl;
     ls2d.createVectors();
     ls2d.pruneBlockedVectors();
   }

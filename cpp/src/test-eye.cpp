@@ -130,9 +130,11 @@ int main(int argc, char *args[])
       pop->sortmembers();
       pop->sortspecies();
       cbest = pop->getCopyOfCurrentBest();
+      cout <<"running cbest through eval"<<endl;
       ls2de->f(cbest);
       //      cout << "generation " << i << " : ";
 
+      cout << "cellsize: "<<cellsize<<" xmax: "<<xmax<<" ymax: "<<ymax<<" lsnum: "<<lsnum<<" ls_dist: "<<ls_dist<<endl;
       ls2d=new Lightsim2D(cellsize,cbest,xmax,ymax,lsnum,ls_dist);
       ls2d->createVectors();
       ls2d->pruneBlockedVectors();
