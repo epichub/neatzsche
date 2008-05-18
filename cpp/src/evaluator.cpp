@@ -137,8 +137,8 @@ double LightsimEvaluator::f(Lightsim2D *ls2d) {
 	  //cout << "hopt: "<<hOpt<<" hits: "<<ls2d->getLightsources()->at(i)->getNumHits()<<endl;
 	  e2=0;
 	  for(unsigned int j=0;j<ls2d->getLightsources()->at(i)->getCellSize();j++) {
-	    e2+=(1/(log(10*ls2d->getLightsources()->at(i)->getCell(j)->getNumHits())*(LscToLsRatio)+1.5));
-	    //e2+=(1/(ls2d->getLightsources()->at(i)->getCell(j)->getNumHits()));
+	    //e2+=(1/(log(10*ls2d->getLightsources()->at(i)->getCell(j)->getNumHits())*(LscToLsRatio)+1.5));
+	    e2+=(1/(ls2d->getLightsources()->at(i)->getCell(j)->getNumHits()));
 	  }
 	  e+=(1-(fabs(hOpt-(double)ls2d->getLightsources()->at(i)->getCellSize())/eMax))
 	    *(e2/ls2d->getLightsources()->at(i)->getCellSize());
