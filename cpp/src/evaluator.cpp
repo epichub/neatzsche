@@ -147,7 +147,7 @@ double LightsimEvaluator::f(Lightsim2D *ls2d) {
       }
       numerator=(e/((double)lsNum));
       //cout << numerator;
-      if(numerator>1||numerator < 0) { cerr << "out of bounds num: "<<numerator<<" e2: " << e2 << " e: " << e << endl; exit(1); }
+      if(numerator>1||numerator < 0) { cerr << "out of bounds num: "<<numerator<<" e2: " << e2 << " e: " << e << "emax: "<<eMax<<endl; exit(1); }
       
       for(unsigned int i=0;i<ls2d->getLSCs()->size();i++) {
 	if(ls2d->getLSCs()->at(i)->getNumHits()>0) {

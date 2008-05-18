@@ -30,7 +30,7 @@ keeplink 0
 enable_identity_tfunc 1
 enable_gauss_tfunc 1
 enable_sinus_tfunc 1
-enable_consine_tfunc 1
+enable_cosine_tfunc 1
 enable_parabel_tfunc 1
 newlink_weight_max 5.0
 #transferfunction settings
@@ -61,5 +61,5 @@ fitness_mode 1
 number_of_lightsources 15
 xmax 20
 ymax 20
-cellsize 0.6
+cellsize 0.7
 ls_distance 10
