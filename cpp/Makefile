@@ -12,6 +12,9 @@ dist:
 no-qt:
 	@ cd src ; $(MAKE) no-qt STYLE=OPTIMISED ;
 
+no-qt-debug:
+	@ cd src ; $(MAKE) no-qt STYLE=DEBUG ;
+
 opt:
 	@ cd src ; $(MAKE) STYLE=OPTIMISED ;
 
