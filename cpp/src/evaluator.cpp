@@ -185,7 +185,7 @@ double LightsimEvaluator::f(Lightsim2D *ls2d) {
     fitness=(ls2d->getLightvectors()->size());
   }
   else {
-    cout << "Error: Wrong fitness mode";
+    cerr << "Error: Wrong fitness mode";
     exit(1);
   }
   //cout << "Fitness is: "<<setprecision(4)<<fitness<<"   \t";
