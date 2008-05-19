@@ -61,5 +61,5 @@ fitness_mode 1
 number_of_lightsources 15
 xmax 20
 ymax 20
-cellsize 0.7
+cellsize 0.6
 ls_distance 10

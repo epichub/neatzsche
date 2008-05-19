@@ -110,6 +110,11 @@ int main(int argc, char *args[])
   PaintWindow *pw=new PaintWindow(800,800,100,0.5,NULL)
   */
   Lightsim2D *ls2d;
+  Lightsim2D ls2d2;
+  ls2d2.init(cellsize);
+  Genome *genome;
+  Phenotype *phenome;
+
 
   for(int i2=0;i2<iter;i2++){
     cout <<"Iteration: "<<i2<<"\n";
@@ -141,6 +146,7 @@ int main(int argc, char *args[])
 
       ls2d->print();
       cout <<"Fitness: "<<cbest->getFitness()<<endl;
+      delete ls2d;
 
       //cout << "skriver til: "<<tmpss2.str().c_str()<<endl;
       ofstream fil(tmpss2.str().c_str()); 
@@ -148,7 +154,26 @@ int main(int argc, char *args[])
       fil << cbest->getGenome();
       fil.close();
 
-      delete ls2d;
+
+      genome=new Genome(tfs);
+      std::ifstream f(tmpss2.str().c_str());
+      f >> genome;
+      f.close();
+      phenome=new Phenotype(genome);
+      
+      ls2de->f(phenome);
+
+      ls2d2.reset();
+      ls2d2.init(cellsize, phenome, xmax, ymax, lsnum, ls_dist);
+      //cout << "cellsize: "<<set->getValue("cellsize")<<" xmax: "<<set->getValue("xmax")<<" ymax: "<<set->getValue("ymax")<<" lsnum: "<<set->getValue("number_of_lightsources")<<" ls_dist: "<<set->getValue("ls_distance")<<endl;
+      ls2d2.createVectors();
+      ls2d2.pruneBlockedVectors();
+
+      cout <<"Writing best to disk, and re-reading it"<<endl;
+      ls2d2.print();
+      cout<<"Fitness: "<<phenome->getFitness()<<endl;
+     
+      delete phenome;
 
       if(best==NULL){
 	best = cbest;

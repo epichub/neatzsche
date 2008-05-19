@@ -91,7 +91,7 @@ private:
   double div;
 public:
   CosineTransfer(bool unipolar, double isharpness, double iadd, double idiv)
-  {sharpness=isharpness; add=iadd; div=idiv;ftype="sin";}
+  {sharpness=isharpness; add=iadd; div=idiv;ftype="cos";}
   virtual ~CosineTransfer(){};
   virtual double y(double x){return (cos(sharpness*x)/div)+add;}
 };

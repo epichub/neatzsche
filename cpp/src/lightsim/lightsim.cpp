@@ -2,9 +2,11 @@
 
 Lightsim2D::Lightsim2D() {}
 
+
 Lightsim2D::Lightsim2D(double cellsize) {
   init(cellsize);
 }
+
 
 Lightsim2D::Lightsim2D(double cellsize, unsigned int ** twodmap,unsigned int xmax,unsigned int ymax) {
 
@@ -64,6 +66,7 @@ void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned
       
       else {
       */
+      //TODO: Add more inputs, like xmax and ymax
 	tmpin.push_back(i-ls_distance);
 	tmpin.push_back(j);
 	tmpin.push_back(sqrt(pow((i-ls_distance)-(double)centerX,2)+pow(j-(double)centerY,2)));
@@ -376,7 +379,7 @@ void Lightsim2D::pruneBlockedVectors() {
     if(!erased) {
       //cout <<"adding hit on lightsource: "<<(*it)->getLightsource()->getX()<<","<<(*it)->getLightsource()->getY()<<endl;
       (*it)->getLSC()->addHit(); 
-      //(*it)->getLightsource()->addHit(); 
+      (*it)->getLightsource()->addHit(); 
       (*it)->getLightsource()->addCell((*it)->getLSC());
       ++it; 
     }

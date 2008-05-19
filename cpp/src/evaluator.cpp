@@ -74,6 +74,8 @@ double LightsimEvaluator::f(Phenotype * f)
   delete[](twodmap);
   */
 
+  f->cleanNet();
+
   ls2d=new Lightsim2D(cellsize,f,xmax,ymax,lsnum,ls_distance);
 
   ls2d->createVectors();

@@ -24,7 +24,7 @@ ReadTimer::ReadTimer(char *args[])
       cout <<"Loading..."<<endl<<"settings: "<<ss.str()<<endl<<"genome: "<<ss2.str()<<endl;  
       cellsize=set->getValue("cellsize");
       ls2de=new LightsimEvaluator(set,set->getValue("xmax"),set->getValue("ymax"),set->getValue("number_of_lightsources"),cellsize,set->getValue("ls_distance"));
-      cout << "cellsize: "<<cellsize<<" xmax: "<<set->getValue("xmax")<<" ymax: "<<set->getValue("ymax")<<" lsnum: "<<set->getValue("number_of_lightsources")<<" ls_dist: "<<set->getValue("ls_distance")<<endl;
+      //cout << "cellsize: "<<cellsize<<" xmax: "<<set->getValue("xmax")<<" ymax: "<<set->getValue("ymax")<<" lsnum: "<<set->getValue("number_of_lightsources")<<" ls_dist: "<<set->getValue("ls_distance")<<endl;
     }
     else {
       set=new NEATsettings();
