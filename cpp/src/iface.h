@@ -410,6 +410,14 @@ static inline void xortestUsage(string progname)
        << makepopulationUsage() << flush
        << makeselectorUsage() << flush ; 
 }
+static inline void hyperdatasetUsage(string progname)
+{
+  cerr << "usage: (all the node numbers are for the initial generation) " << endl
+       << progname << " [seed (0 for new)] [settings file] [pop options] [selector option] [maxgenerations] [iterations to run benchmark over] [datasetfile]" << endl
+       << "where:" << endl << flush
+       << makepopulationUsage() << flush
+       << makeselectorUsage() << flush ; 
+}
 static inline void drawtestUsage(string progname)
 {
   cerr << "usage: (all the node numbers are for the initial generation) " << endl

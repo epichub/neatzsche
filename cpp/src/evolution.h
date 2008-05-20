@@ -46,6 +46,10 @@ public:
     g=ig;net = g->genesis();
     init();
   }
+  Phenotype(Network * net){
+    this->net = net;
+    init();
+  }
   Phenotype() { init(); }
   ~Phenotype(){
     delete net;

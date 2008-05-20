@@ -196,14 +196,30 @@ public:
 };
 
 class HyperNEAT : public FitnessEvaluator {
-private:
+protected:
   NEATsettings * settings;
-  vector<unsigned int[2]> * subs;
+  vector<unsigned int *> * dims;
   TransferFunctions * tfs;
+  Network * n;
 public:
-  HyperNEAT(NEATsettings * set, TransferFunctions * tfs, vector<unsigned int[2]> * subs){ this->tfs = tfs; this->subs = subs;};
+  HyperNEAT(NEATsettings * set, TransferFunctions * tfs){ this->tfs = tfs;};
+  void setDims(vector<unsigned int *> * dims){this->dims = dims;}
   virtual double f(Phenotype * f);
   virtual void nextGen(){return;} // no need for this here..
 };
-
+class DatasetHyperNEAT : public HyperNEAT {
+private:
+  DataSet * dataset;
+public:
+  DatasetHyperNEAT(NEATsettings * settings, TransferFunctions * tfs, DataSet * dataset) : HyperNEAT(settings,tfs)
+  { this->dataset = dataset;
+    unsigned int * d1 = new unsigned int[2]; d1[0] = dataset->getParams(); d1[1] = 1;
+    unsigned int * d2 = new unsigned int[2]; d2[0] = dataset->getClasses(); d2[1] = 1;
+    vector< unsigned int * > * subs = new vector< unsigned int * >();
+    subs->push_back(d1);
+    subs->push_back(d2); 
+  };
+  virtual double f(Phenotype * f);
+  virtual void nextGen(){return;} // no need for this here..
+};
 #endif

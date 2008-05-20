@@ -681,8 +681,8 @@ double HyperNEAT::f(Phenotype * f)
   inp.push_back(0); inp.push_back(0); inp.push_back(0); inp.push_back(0);
   
   layers->push_back(new nodeVector());
-  mx = subs->at(0)[0];
-  my = subs->at(0)[0];
+  mx = dims->at(0)[0];
+  my = dims->at(0)[0];
   int id = 0;
 
   for(unsigned int i=0;i<(mx*my);i++)
@@ -690,12 +690,12 @@ double HyperNEAT::f(Phenotype * f)
   NeuralNode * bias = new NeuralNode(tfs->getTA(),id++,NeuralNode::BIAS,0);
   layers->at(0)->push_back(bias);
   double w=0;
-  for(unsigned int i=1;i<subs->size();i += 2){
+  for(unsigned int i=1;i<dims->size();i += 2){
     layers->push_back(new nodeVector());
-    mx = subs->at(i-1)[0];
-    my = subs->at(i-1)[0];
-    mx2 = subs->at(i)[0];
-    my2 = subs->at(i)[0];
+    mx = dims->at(i-1)[0];
+    my = dims->at(i-1)[0];
+    mx2 = dims->at(i)[0];
+    my2 = dims->at(i)[0];
     for(unsigned int i2=0;i2<(mx2*my2);i2++){//create the next layer
       layers->at(i)->push_back(new NeuralNode(tfs->getSigmoid(),id++,NeuralNode::HIDDEN,d));
       //make bias link??
@@ -714,6 +714,21 @@ double HyperNEAT::f(Phenotype * f)
     }
     d++;
   }
+  nodeVector * nv = new nodeVector();
+  for(unsigned int i=0;i<layers->size();i++)
+    for(unsigned int i2=0;i2<layers->at(i)->size();i2++)
+      nv->push_back(layers->at(i)->at(i2));
+  n = new Network(dims->at(0)[0]*dims->at(0)[1],dims->at(dims->size()-1)[0]*dims->at(dims->size()-1)[1]);
+  n->addNodes(nv,false);
   return 0;
   //run the damn thing on a task at hand, woopdedo (i'll let that be a task for my polymorphic children)
+}
+double DatasetHyperNEAT::f(Phenotype * f)
+{
+  HyperNEAT::f(f);
+  DatasetEvaluator d(dataset);
+  Phenotype * p = new Phenotype(n);
+  double fitness = d.f(p);
+  f->setFitness(fitness);
+  return fitness;
 }

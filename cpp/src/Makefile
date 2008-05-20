@@ -21,7 +21,7 @@ ifeq ($(GG), )
   DEFINES=$(QTDEFINES) -DGGSTABLE
 endif
 
-SRCS=test-eye.cpp test-draw.cpp go-consistency.cpp playtwoplayergame.cpp test-or.cpp lightsim/lightsim-test.cpp lightsim/lightsim-viewer.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE) testwrite.cpp lightsim/lightsim.cpp lightsim/cell.cpp lightsim/lightsource.cpp lightsim/lsc.cpp lightsim/lightvector.cpp lightsim/nworld.cpp lightsim/paintwindow.cpp  lightsim/paintarea.cpp image.c
+SRCS=test-eye.cpp test-draw.cpp go-consistency.cpp playtwoplayergame.cpp test-or.cpp test-hyperdataset.cpp lightsim/lightsim-test.cpp lightsim/lightsim-viewer.cpp playgame.cpp test-xor.cpp unit-statechange.cpp puregotest.cpp statechanges.cpp coevolution.cpp neuralmath.cpp ann.cpp gene.cpp genome.cpp genetics.cpp evoops.cpp settings.cpp evolution.cpp evaluator.cpp dataset.cpp neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h iface.h dataset.h runner.h runner.cpp $(GOSOURCE) testwrite.cpp lightsim/lightsim.cpp lightsim/cell.cpp lightsim/lightsource.cpp lightsim/lsc.cpp lightsim/lightvector.cpp lightsim/nworld.cpp lightsim/paintwindow.cpp  lightsim/paintarea.cpp image.c
 TSRCS=tinyxml.cpp tinyxmlparser.cpp tinyxmlerror.cpp tinystr.cpp
 TOBJS := $(addsuffix .o,$(basename ${TSRCS}))
 OBJS=coevolution.o neuralmath.o ann.o gene.o statechanges.o genome.o genetics.o evoops.o settings.o evolution.o evaluator.o $(GOOBJ) dataset.o lightsim/lightsim.o lightsim/nworld.o lightsim/cell.o image.o
@@ -39,6 +39,7 @@ OBJS12=$(OBJS) test-or.o
 OBJS13=$(OBJS) test-eye.o
 OBJS14=$(OBJS) lightsim/lightsim-viewer.o moc_lightsim-viewer.o lightsim/paintwindow.o moc_paintwindow.o lightsim/paintarea.o
 OBJS15=$(OBJS) test-draw.o
+OBJS16=$(OBJS) test-hyperdataset.o
 
 IINCLUDE=$(QTINCLUDE) -I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0 -I/opt/local/include
 BLIBS=-L$(HOME)/local/lib 
@@ -108,7 +109,7 @@ endif
 
 all:	no-qt lightsim-viewer lightsim-test
 
-no-qt:	neatmaster neatslave tags test-xor test-go playgame test-or test-eye
+no-qt:	neatmaster neatslave tags test-xor test-go playgame test-or test-eye test-hyperdataset
 
 dist:
 	@ +make STYLE=RELEASE
@@ -194,6 +195,10 @@ lightsim-viewer: $(OBJS14) lightsim/lightsim-viewer.o lightsim/lightsim-viewer.c
 test-eye: $(OBJS) test-eye.o test-eye.cpp
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS13) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@mv test-eye ../
+
+test-hyperdataset: $(OBJS) test-hyperdataset.o test-hyperdataset.cpp
+	$(CXX) $(BLIBS) $(LIBS) -o $@ test-hyperdataset.o $(OBJS) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
+	@mv test-hyperdataset ../
 
 test-or: $(OBJS) test-or.o test-or.cpp
 	$(CXX) $(BLIBS) $(LIBS) -o $@ test-or.o $(OBJS) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
