@@ -195,4 +195,15 @@ public:
   virtual void nextGen(){return;} // no need for this here..
 };
 
+class HyperNEAT : public FitnessEvaluator {
+private:
+  NEATsettings * settings;
+  vector<unsigned int[2]> * subs;
+  TransferFunctions * tfs;
+public:
+  HyperNEAT(NEATsettings * set, TransferFunctions * tfs, vector<unsigned int[2]> * subs){ this->tfs = tfs; this->subs = subs;};
+  virtual double f(Phenotype * f);
+  virtual void nextGen(){return;} // no need for this here..
+};
+
 #endif

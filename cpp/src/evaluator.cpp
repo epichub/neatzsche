@@ -672,3 +672,48 @@ double PictureEvaluator::f2(Phenotype *f)
   f->setFitness(fi);
   return fi;
 }
+double HyperNEAT::f(Phenotype * f)
+{
+  unsigned int mx,my,mx2,my2;
+  int d = 0;
+  vector<nodeVector*> * layers = new vector<nodeVector*>();
+  vector<double> inp; 
+  inp.push_back(0); inp.push_back(0); inp.push_back(0); inp.push_back(0);
+  
+  layers->push_back(new nodeVector());
+  mx = subs->at(0)[0];
+  my = subs->at(0)[0];
+  int id = 0;
+
+  for(unsigned int i=0;i<(mx*my);i++)
+    layers->at(0)->push_back(new NeuralNode(tfs->getTA(),id++,NeuralNode::INPUT,0));
+  NeuralNode * bias = new NeuralNode(tfs->getTA(),id++,NeuralNode::BIAS,0);
+  layers->at(0)->push_back(bias);
+  double w=0;
+  for(unsigned int i=1;i<subs->size();i += 2){
+    layers->push_back(new nodeVector());
+    mx = subs->at(i-1)[0];
+    my = subs->at(i-1)[0];
+    mx2 = subs->at(i)[0];
+    my2 = subs->at(i)[0];
+    for(unsigned int i2=0;i2<(mx2*my2);i2++){//create the next layer
+      layers->at(i)->push_back(new NeuralNode(tfs->getSigmoid(),id++,NeuralNode::HIDDEN,d));
+      //make bias link??
+      //new Link(false,bias,layers->at(i)->at(i2),1);
+    }
+    for(unsigned int x;x<mx;x++){
+      for(unsigned int y;y<my;y++){
+	for(unsigned int x2;x2<mx2;x2++){
+	  for(unsigned int y2;y2<my2;y2++){
+	    inp.at(0) = x; inp.at(1) = y; inp.at(2) = x2; inp.at(3) = y2;
+	    //	    w = f->react(inp).at(i-1);
+	    new Link(false,layers->at(i-1)->at((x*y)+y),layers->at(i-1)->at((x2*y2)+y2),f->react(inp).at(i-1));
+	  }      	  
+	}      
+      }      
+    }
+    d++;
+  }
+  return 0;
+  //run the damn thing on a task at hand, woopdedo (i'll let that be a task for my polymorphic children)
+}
