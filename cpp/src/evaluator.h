@@ -218,6 +218,7 @@ public:
     dims = new vector< unsigned int * >();
     dims->push_back(d1);
     dims->push_back(d2); 
+    cerr << "dims: " << dims->size() << endl;
   };
   virtual double f(Phenotype * f);
   virtual void nextGen(){return;} // no need for this here..
