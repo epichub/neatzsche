@@ -693,9 +693,10 @@ double HyperNEAT::f(Phenotype * f)
   for(unsigned int i=1;i<dims->size();i += 2){
     layers->push_back(new nodeVector());
     mx = dims->at(i-1)[0];
-    my = dims->at(i-1)[0];
+    my = dims->at(i-1)[1];
     mx2 = dims->at(i)[0];
-    my2 = dims->at(i)[0];
+    my2 = dims->at(i)[1];
+    cerr << "mx2: " << mx2 << " my2: " << my2 << endl;
     for(unsigned int i2=0;i2<(mx2*my2);i2++){//create the next layer
       layers->at(i)->push_back(new NeuralNode(tfs->getSigmoid(),id++,NeuralNode::HIDDEN,d));
       //make bias link??
