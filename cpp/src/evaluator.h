@@ -222,6 +222,7 @@ public:
     cerr << "dims: " << dims->size() << endl;
   };
   virtual double f(Phenotype * f);
+  bool done(Phenotype *f);
   virtual void nextGen(){return;} // no need for this here..
 };
 #endif

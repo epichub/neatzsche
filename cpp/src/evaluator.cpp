@@ -205,6 +205,7 @@ double DatasetEvaluator::f(Phenotype * f)
   vector<double> v;
   for(int i=0;i<ds->getTrainings();i++){
     v = f->react(*ds->getTrain(i));
+    cerr << "vsize: " << v.size() << endl;
     f->cleanNet();
     esum += sqrt(pow(ds->getClass(true,i)-(v.at(0)),2));
   }
@@ -675,7 +676,7 @@ double PictureEvaluator::f2(Phenotype *f)
 double HyperNEAT::f(Phenotype * f)
 {
   unsigned int mx,my,mx2,my2;
-  int d = 0;
+
   vector<nodeVector*> * layers = new vector<nodeVector*>();
   vector<double> inp; 
   inp.push_back(0); inp.push_back(0); inp.push_back(0); inp.push_back(0);
@@ -684,12 +685,14 @@ double HyperNEAT::f(Phenotype * f)
   mx = dims->at(0)[0];
   my = dims->at(0)[1];
   int id = 0;
-
+  cerr << "creating " << (mx*my) << " input nodes" << endl;
   for(unsigned int i=0;i<(mx*my);i++)
     layers->at(0)->push_back(new NeuralNode(tfs->getTA(),id++,NeuralNode::INPUT,0));
   NeuralNode * bias = new NeuralNode(tfs->getTA(),id++,NeuralNode::BIAS,0);
   layers->at(0)->push_back(bias);
   double w=0;
+  int d = 1; 
+  char t;
   for(unsigned int i=1;i<dims->size();i += 2){
     layers->push_back(new nodeVector());
     mx = dims->at(i-1)[0];
@@ -697,8 +700,12 @@ double HyperNEAT::f(Phenotype * f)
     mx2 = dims->at(i)[0];
     my2 = dims->at(i)[1];
     cerr << "mx2: " << mx2 << " my2: " << my2 << endl;
+    if(i==dims->size()-1)
+      t = NeuralNode::OUTPUT;
+    else
+      t = NeuralNode::HIDDEN;
     for(unsigned int i2=0;i2<(mx2*my2);i2++){//create the next layer
-      layers->at(i)->push_back(new NeuralNode(tfs->getSigmoid(),id++,NeuralNode::HIDDEN,d));
+      layers->at(i)->push_back(new NeuralNode(tfs->getSigmoid(),id++,t,d));
       //make bias link??
       //new Link(false,bias,layers->at(i)->at(i2),1);
     }
@@ -719,6 +726,7 @@ double HyperNEAT::f(Phenotype * f)
   for(unsigned int i=0;i<layers->size();i++)
     for(unsigned int i2=0;i2<layers->at(i)->size();i2++)
       nv->push_back(layers->at(i)->at(i2));
+  cerr << "nv size: " << nv->size() << endl;
   n = new Network(dims->at(0)[0]*dims->at(0)[1],dims->at(dims->size()-1)[0]*dims->at(dims->size()-1)[1]);
   n->addNodes(nv,false);
   return 0;
@@ -733,4 +741,13 @@ double DatasetHyperNEAT::f(Phenotype * f)
   f->setFitness(fitness);
   delete p;
   return fitness;
+}
+bool DatasetHyperNEAT::done(Phenotype *f)
+{
+  HyperNEAT::f(f);
+  DatasetEvaluator d(dataset);
+  Phenotype * p = new Phenotype(n);
+  bool done = d.xorDone(p);
+  delete p;
+  return done;
 }
