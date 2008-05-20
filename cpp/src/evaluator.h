@@ -215,9 +215,9 @@ public:
   { this->dataset = dataset;
     unsigned int * d1 = new unsigned int[2]; d1[0] = dataset->getParams(); d1[1] = 1;
     unsigned int * d2 = new unsigned int[2]; d2[0] = dataset->getClasses(); d2[1] = 1;
-    vector< unsigned int * > * subs = new vector< unsigned int * >();
-    subs->push_back(d1);
-    subs->push_back(d2); 
+    dims = new vector< unsigned int * >();
+    dims->push_back(d1);
+    dims->push_back(d2); 
   };
   virtual double f(Phenotype * f);
   virtual void nextGen(){return;} // no need for this here..

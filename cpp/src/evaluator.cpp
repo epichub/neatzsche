@@ -682,7 +682,7 @@ double HyperNEAT::f(Phenotype * f)
   
   layers->push_back(new nodeVector());
   mx = dims->at(0)[0];
-  my = dims->at(0)[0];
+  my = dims->at(0)[1];
   int id = 0;
 
   for(unsigned int i=0;i<(mx*my);i++)
@@ -730,5 +730,6 @@ double DatasetHyperNEAT::f(Phenotype * f)
   Phenotype * p = new Phenotype(n);
   double fitness = d.f(p);
   f->setFitness(fitness);
+  delete p;
   return fitness;
 }
