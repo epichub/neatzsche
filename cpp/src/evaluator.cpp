@@ -80,9 +80,9 @@ double LightsimEvaluator::f(Phenotype * f)
 
   ls2d->createVectors();
 
-  int clo=clock();
+  //  int clo=clock();
   ls2d->pruneBlockedVectors();
-  int clo2=clock();
+  //  int clo2=clock();
 
 
   f->setFitness(LightsimEvaluator::f(ls2d));
