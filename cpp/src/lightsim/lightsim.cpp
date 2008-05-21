@@ -222,7 +222,7 @@ std::ostream& operator<< (ostream& os, Lightsim2D *ls)
 std::istream& operator>>(std::istream& ins, Lightsim2D& ls)
 {
   ls.reset();
-  int num=0;
+  unsigned int num=0;
   string s;
   unsigned int x,y,x2,y2;
   ins>>s;
