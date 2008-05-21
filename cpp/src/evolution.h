@@ -48,6 +48,7 @@ public:
   }
   Phenotype(Network * net){
     this->net = net;
+    g=NULL;
     init();
   }
   Phenotype() { init(); }

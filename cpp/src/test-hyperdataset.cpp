@@ -81,19 +81,19 @@ int main(int argc, char *args[])
     startt = time(0);
     for(int i=0;i<g;i++){
       gc++;
-      cout << "before eval.." << endl;
+//       cout << "before eval.." << endl;
       ev->evaluate(pop->getMembers(),pop->getMembers()->size());
-      cout << "after eval.." << endl;
+//       cout << "after eval.." << endl;
       if((unsigned int)pop->getOriginalSize()!=pop->getMembers()->size())
-	cout << "size not right after eval.." << endl;
+ 	cout << "size not right after eval.." << endl;
       ss=pop->getSpecies()->size();
-      cout << "before pop juggling.." << endl;
+//       cout << "before pop juggling.." << endl;
       pop->updateSpeciesStats();
       pop->sortmembers();
       pop->sortspecies();
       cbest = pop->getCopyOfCurrentBest();
       de->f(cbest);
-      cout << "before best juggling.." << endl;
+//       cout << "before best juggling.." << endl;
       if(best==NULL){
 	best = cbest;
       }else if(cbest->getFitness()>best->getFitness()){
@@ -102,13 +102,15 @@ int main(int argc, char *args[])
       }else{
 	delete cbest;
       }
-      cout << "after best juggling.." << endl;
+//       cout << "after best juggling.." << endl;
+//       cout << "best: " << best->getFitness() << endl;
+//       cout << "worst: " << pop->getMembers()->at(pop->getMembers()->size()-1)->getFitness() << endl;
       if(((DatasetHyperNEAT*)de)->done(best))
 	i = g;
-      cout << "after xor testing.." << endl;
+//       cout << "after xor testing.." << endl;
       sel->select(pop,0);
       rp->reproduce(pop);
-      cout << "after select and reproduce.." << endl;
+//       cout << "after select and reproduce.." << endl;
     }
     if(sbest==NULL)
       sbest = best;
@@ -138,5 +140,5 @@ int main(int argc, char *args[])
 	
     }
   }
-
+  ((DatasetHyperNEAT*)de)->runTest(sbest);
 }

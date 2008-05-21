@@ -1,7 +1,7 @@
 disjoint_coeff 1.0
 excess_coeff 1.5
 mutdiff_coeff 0.4
-weightmutation_rate 1.0
+weightmutation_rate 0.5
 severe_mutation_rate 0.0
 compat_threshold 3.0
 dropoff_age 15

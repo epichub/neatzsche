@@ -205,13 +205,14 @@ double DatasetEvaluator::f(Phenotype * f)
   vector<double> v;
   for(int i=0;i<ds->getTrainings();i++){
     v = f->react(*ds->getTrain(i));
-    cerr << "vsize: " << v.size() << endl;
+//     cerr << "vsize: " << v.size() << endl;
+//     cerr << "ds->getClass(true,i): " << ds->getClass(true,i) << " vat0: " << (v.at(0)) << endl;
     f->cleanNet();
     esum += sqrt(pow(ds->getClass(true,i)-(v.at(0)),2));
   }
   double r = pow(ds->getTrainings()-esum,2.0);
   f->setFitness(r);
-  //   cerr << "pid: " << f->getID() << " new fitness: " << pow(ds->getTrainings()-esum,2.0) 
+//   cout << " esum: "<< esum <<" new fitness: " << pow(ds->getTrainings()-esum,2.0) <<endl;
   //       << " getfitness: " << f->getFitness() << endl;
 //   if(pow(ds->getTrainings()-esum,2.0)==0)
 //     cerr << "pow(ds->getTrainings()-esum,2.0) was zero!!"<<endl;  
@@ -685,16 +686,18 @@ double HyperNEAT::f(Phenotype * f)
   mx = dims->at(0)[0];
   my = dims->at(0)[1];
   int id = 0;
-  cerr << "creating " << (mx*my) << " input nodes" << endl;
+//   cerr << "creating " << (mx*my) << " input nodes" << endl;
   for(unsigned int i=0;i<(mx*my);i++)
     layers->at(0)->push_back(new NeuralNode(tfs->getTA(),id++,NeuralNode::INPUT,0));
   NeuralNode * bias = new NeuralNode(tfs->getTA(),id++,NeuralNode::BIAS,0);
+  int bx = mx; int by = my+1;
   layers->at(0)->push_back(bias);
-  double w=0;
+//   cerr << "dims size: " << dims->size() << endl;
   int d = 1; 
   char t;
   for(unsigned int i=1;i<dims->size();i += 2){
     layers->push_back(new nodeVector());
+
     mx = dims->at(i-1)[0];
     my = dims->at(i-1)[1];
     mx2 = dims->at(i)[0];
@@ -704,18 +707,24 @@ double HyperNEAT::f(Phenotype * f)
       t = NeuralNode::OUTPUT;
     else
       t = NeuralNode::HIDDEN;
-    for(unsigned int i2=0;i2<(mx2*my2);i2++){//create the next layer
-      layers->at(i)->push_back(new NeuralNode(tfs->getSigmoid(),id++,t,d));
-      //make bias link??
-      //new Link(false,bias,layers->at(i)->at(i2),1);
+    for(unsigned int x=0;x<mx2;x++){//create the next layer
+      for(unsigned int y=0;y<my2;y++){
+	layers->at(i)->push_back(new NeuralNode(tfs->getSigmoid(),id++,t,d));
+	//make bias link??
+	inp.at(0) = bx; inp.at(1) = by; inp.at(2) = x; inp.at(3) = y;
+	new Link(false,bias,layers->at(i)->at((x*my2)+y),f->react(inp).at(i-1));
+      }
     }
-    for(unsigned int x;x<mx;x++){
-      for(unsigned int y;y<my;y++){
-	for(unsigned int x2;x2<mx2;x2++){
-	  for(unsigned int y2;y2<my2;y2++){
+    for(unsigned int x=0;x<mx;x++){
+      for(unsigned int y=0;y<my;y++){
+	cout << "from layer i-1" << endl;
+	for(unsigned int x2=0;x2<mx2;x2++){
+	  for(unsigned int y2=0;y2<my2;y2++){
 	    inp.at(0) = x; inp.at(1) = y; inp.at(2) = x2; inp.at(3) = y2;
-	    //	    w = f->react(inp).at(i-1);
-	    new Link(false,layers->at(i-1)->at((x*y)+y),layers->at(i-1)->at((x2*y2)+y2),f->react(inp).at(i-1));
+// 	    cout << "f->react(inp).at(i-1): " << f->react(inp).at(i-1)<<endl;
+	    cout << "x2:"<<x2<<" y2:"<<y2<<" ((x2+1)*y2)+y2: "<<((x2+1)*y2)+y2<<" making link to id: " << layers->at(i)->at(((x2+1)*y2)+y2)->getID() << endl;
+	    cout << "x:" << x << " y: " << y << " (x*y)+y: " <<  (x*y)+y << " making link from id: " << layers->at(i-1)->at((x*y)+y)->getID() << endl;
+	    new Link(false,layers->at(i-1)->at((x*y)+y),layers->at(i)->at(((x2+1)*y2)+y2),f->react(inp).at(i-1));
 	  }      	  
 	}      
       }      
@@ -723,10 +732,16 @@ double HyperNEAT::f(Phenotype * f)
     d++;
   }
   nodeVector * nv = new nodeVector();
-  for(unsigned int i=0;i<layers->size();i++)
-    for(unsigned int i2=0;i2<layers->at(i)->size();i2++)
+  int in = 0;
+  for(unsigned int i=0;i<layers->size();i++){
+    for(unsigned int i2=0;i2<layers->at(i)->size();i2++){
+      cout <<  "type: "<<layers->at(i)->at(i2)->getType() << " id: "<<layers->at(i)->at(i2)->getID()<<" layers->at(i)->at(i2)->getInputLinks()->size(): " << layers->at(i)->at(i2)->getInputLinks()->size() << endl;
+      in += layers->at(i)->at(i2)->getInputLinks()->size();
       nv->push_back(layers->at(i)->at(i2));
-  cerr << "nv size: " << nv->size() << endl;
+    }
+  }
+  
+  cerr << "input links: " << in << endl;
   n = new Network(dims->at(0)[0]*dims->at(0)[1],dims->at(dims->size()-1)[0]*dims->at(dims->size()-1)[1]);
   n->addNodes(nv,false);
   return 0;
@@ -734,20 +749,38 @@ double HyperNEAT::f(Phenotype * f)
 }
 double DatasetHyperNEAT::f(Phenotype * f)
 {
+//   double r = (double)rand()/(double)RAND_MAX;
+//   r = (r==0) ? 10^-5 : r;
+//   f->setFitness(r);
+//   return r;
   HyperNEAT::f(f);
-  DatasetEvaluator d(dataset);
   Phenotype * p = new Phenotype(n);
-  double fitness = d.f(p);
+  double fitness = d->f(p);
   f->setFitness(fitness);
   delete p;
   return fitness;
 }
 bool DatasetHyperNEAT::done(Phenotype *f)
 {
+//   double r = (double)rand()/(double)RAND_MAX;
+//   r = (r==0) ? 10^-5 : r;
+//   f->setFitness(r);
+//   return r;
+
   HyperNEAT::f(f);
-  DatasetEvaluator d(dataset);
   Phenotype * p = new Phenotype(n);
-  bool done = d.xorDone(p);
+  bool done = d->xorDone(p);
   delete p;
   return done;
+}
+void  DatasetHyperNEAT::runTest(Phenotype *f)
+{
+//   double r = (double)rand()/(double)RAND_MAX;
+//   r = (r==0) ? 10^-5 : r;
+//   f->setFitness(r);
+//   return r;
+  HyperNEAT::f(f);
+  Phenotype * p = new Phenotype(n);
+  d->runTest(p);
+  delete p;
 }

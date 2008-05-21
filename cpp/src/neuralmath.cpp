@@ -3,7 +3,7 @@ using namespace std;
 TransferFunctions::TransferFunctions(NEATsettings * s)
 {
   f = new vector<TransferFunction *>();
-  bool unipolar = s->getValue("unpolar")==1.0;
+  bool unipolar = s->getValue("unipolar")==1.0;
   ta = new TransferFunction();
   double ss = s->getValue("sigmoid_sharpness");
   if(ss==0)
@@ -55,7 +55,9 @@ inline int SignumTransfer::sgn(double inp)
 SigmoidTransfer::SigmoidTransfer(bool unipolar, double ik){
   ftype = "so";
   k = ik;
+
   con = (unipolar) ? 0 : -0.5;
+  cout << "unipolar: " << unipolar << " con: " << con << endl;
 }
 SigmoidTransfer::~SigmoidTransfer(){
 }
