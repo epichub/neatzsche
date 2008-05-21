@@ -58,11 +58,13 @@ private:
   bool linksmade;
 public:
   Genome(TransferFunctions * itfs);
+  Genome(TransferFunctions * itfs, Network * n);
   Genome(int iid);
   Genome(const Genome&);
   Genome(int genomeid, Genes * igenes, nodeVector * inodes, int inp, int out,
 	 NEATsettings * settings, Innovations * is, TransferFunctions * itfs);
   Genome(int new_id,int i, int o, int n,int nmax, double r, double linkprob, NEATsettings * settings, Innovations * is, TransferFunctions * itfs);
+
   ~Genome();
   int getID(){return id;}
   nodeVector * getNodes(){return nodes; };
@@ -110,6 +112,8 @@ public:
   Innovations * getInnovations(){return innov;}
   TransferFunction * getTransferFunction(){return nodes->at(0)->getTFunc();}
   Genes * getGenes(){return genes;}
+  //nodeVector * getNodes(){return nodes;}
+  void setTransferFunctions(TransferFunctions * tfs){this->tfs = tfs;}
   int countHidden();
   int extrons();
   friend ostream& operator<< (ostream& os, const Genome *thegenome);

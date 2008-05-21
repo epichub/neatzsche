@@ -70,7 +70,7 @@ int main(int argc, char *args[])
   Phenotype * sbest = NULL;
   Phenotype * best = NULL;
   int osize=pop->getMembers()->size();
-  int rs = 0; int ss=0;
+  int ss=0;
   double ocomp=0;
   time_t startt;
   double timesum = 0;

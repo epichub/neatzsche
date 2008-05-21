@@ -37,6 +37,33 @@ Genome::Genome(TransferFunctions * itfs)
   tfs = itfs;
   linksmade = false;
 }
+Genome::Genome(TransferFunctions * itfs, Network * n)
+{
+  //kommentar..
+  genes = new Genes();
+  nodes = new nodeVector();
+  debug = false;
+  innov = NULL;
+  tfs = itfs;
+  linksmade = false;
+  //  Gene(int markerin, NeuralNode *  fromin, NeuralNode * toin, double wi, Genome *go)
+  vector< nodeVector * > * layers = n->getNet();
+  linkVector * l = NULL; Link * current = NULL;
+  int m=0;
+
+  for(unsigned int i=0;i<layers->size();i++)
+    {
+      for(unsigned int i2=0;i2<layers->at(i)->size();i2++)
+	{
+	  nodes->push_back(layers->at(i)->at(i2));
+	  l = layers->at(i)->at(i2)->getInputLinks();
+	  for(unsigned int i3=0;i3<l->size();i3++){
+	    current = l->at(i3);
+	    genes->push_back(new Gene(m++,current->getFrom(),current->getTo(),current->getWeight(),this));
+	  }
+	}
+    }
+}
 Genome::Genome(int iid)
 {
   genes = new Genes();
@@ -428,7 +455,7 @@ void Genome::addLink(int tries)
 
     np1 = nodes->at(nn1);
     np2 = nodes->at(nn2);
-#ifdef DEBUG
+#ifdef NEATZSCHEDEBUG
     cerr << "firstnoninp: "<<firstnoninp<<" nn1: "<<nn1<<"  nn2: "<<nn2<<" np1id: "<<np1->getID()<<" np2id:" << np1->getID() << endl;
 #endif
     p = randdouble();
@@ -440,26 +467,26 @@ void Genome::addLink(int tries)
 	cerr << "doing checks.." << endl;
       it = genes->begin();
       //search for already existing link.
-#ifdef DEBUG
+#ifdef NEATZSCHEDEBUG
       cerr << "checking link .. "<<(*it);
 #endif
       while((it!=genes->end())&&
 	    (!(((*it)->getFrom()==np1)&&
 	       ((*it)->getTo()==np2)))){
 	++it;
-#ifdef DEBUG
+#ifdef NEATZSCHEDEBUG
  	if(it!=genes->end())
  	  cerr << "checking link .. "<<(*it);
 #endif
       }
 
-#ifdef DEBUG
+#ifdef NEATZSCHEDEBUG
       cerr << "id: "<<id<<" p:"<<p<<" node1id:"<<np1->getID()<<" node2id:"<<np2->getID()
 	   <<" np1->getDepth():"<<np1->getDepth()<<"np2->getDepth()"
 	   <<np2->getDepth()<<endl;
 #endif
       if(it!=genes->end()){//found a existing link
-#ifdef DEBUG
+#ifdef NEATZSCHEDEBUG
 	cerr << "link already there.." << " genes size: " << genes->size() <<endl;
 	cerr << this;
 #endif
@@ -471,11 +498,11 @@ void Genome::addLink(int tries)
 	tryc = tries;
       }
       if(!test){
-#ifdef DEBUG
+#ifdef NEATZSCHEDEBUG
 	cerr << "not adding a link" << endl;
 #endif
       }else{
-#ifdef DEBUG
+#ifdef NEATZSCHEDEBUG
 	cerr << "!!! adding link from id:"<<np1->getID()<<" d:"<<np1->getDepth()<<" id:"<<np2->getID()<<" d:"<<np2->getDepth()<<endl; 
 #endif
 	set->incstructmutcount();

@@ -215,10 +215,12 @@ public:
   DatasetHyperNEAT(NEATsettings * settings, TransferFunctions * tfs, DataSet * dataset) : HyperNEAT(settings,tfs)
   { this->dataset = dataset; d = new DatasetEvaluator(this->dataset);
     unsigned int * d1 = new unsigned int[2]; d1[0] = dataset->getParams(); d1[1] = 1;
-    unsigned int * d2 = new unsigned int[2]; d2[0] = dataset->getClasses(); d2[1] = 1;
+    unsigned int * d2 = new unsigned int[2]; d2[0] = 1; d2[1] = 1;
+    unsigned int * d3 = new unsigned int[2]; d3[0] = dataset->getClasses(); d3[1] = 1;
     dims = new vector< unsigned int * >();
     dims->push_back(d1);
-    dims->push_back(d2); 
+    dims->push_back(d2);
+    dims->push_back(d3); 
     cerr << "params: " << dataset->getParams() << endl;
     cerr << "dims: " << dims->size() << endl;
   };

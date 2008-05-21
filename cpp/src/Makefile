@@ -49,7 +49,10 @@ os-type := $(shell uname)
 p-type := $(shell uname -p)
 
 ifeq ($(STYLE), DEBUG)
-  OPTS = -g -Wall -DDEBUG
+  OPTS = -g -Wall
+endif
+ifeq ($(STYLE), INTERNALDEBUG)
+  OPTS = -g -Wall -DDEBUG -DNEATZSCHEDEBUG
 endif
 ifeq ($(STYLE), PROFILE)
   OPTS = -pg -Wall

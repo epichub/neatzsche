@@ -650,8 +650,8 @@ void PictureEvaluator::runTest(Phenotype * f)
   int ymax = sizes[1];
   for(int x=0;x<sizes[0];x++){
     for(int y=0;y<sizes[1];y++){
-      inp.at(0) = (double)x/(double)sizes[0];
-      inp.at(1) = (double)y/(double)sizes[1];
+      inp.at(0) = (double)x/(double)xmax;
+      inp.at(1) = (double)y/(double)ymax;
 //       inp.at(2) = sqrt((x-(xmax/2))^2 + (y-(ymax/2))^2);
       oimg[(x*sizes[1])+y] = f->react(inp).at(0);
     }
@@ -695,14 +695,16 @@ double HyperNEAT::f(Phenotype * f)
 //   cerr << "dims size: " << dims->size() << endl;
   int d = 1; 
   char t;
-  for(unsigned int i=1;i<dims->size();i += 2){
+  double w=0;
+  for(unsigned int i=1;i<dims->size();i++){
     layers->push_back(new nodeVector());
 
     mx = dims->at(i-1)[0];
     my = dims->at(i-1)[1];
     mx2 = dims->at(i)[0];
     my2 = dims->at(i)[1];
-    cerr << "mx2: " << mx2 << " my2: " << my2 << endl;
+//     cerr << "mx: " << mx << " my: " << my << endl;
+//     cerr << "mx2: " << mx2 << " my2: " << my2 << endl;
     if(i==dims->size()-1)
       t = NeuralNode::OUTPUT;
     else
@@ -717,14 +719,16 @@ double HyperNEAT::f(Phenotype * f)
     }
     for(unsigned int x=0;x<mx;x++){
       for(unsigned int y=0;y<my;y++){
-	cout << "from layer i-1" << endl;
+// 	cout << "from layer i-1" << endl;
+//	cout << "x:" << x << " y: " << y << " (x*my)+y: " <<  (x*my)+y << " making link from id: " << layers->at(i-1)->at((x*my)+y)->getID() << endl;
 	for(unsigned int x2=0;x2<mx2;x2++){
 	  for(unsigned int y2=0;y2<my2;y2++){
 	    inp.at(0) = x; inp.at(1) = y; inp.at(2) = x2; inp.at(3) = y2;
 // 	    cout << "f->react(inp).at(i-1): " << f->react(inp).at(i-1)<<endl;
-	    cout << "x2:"<<x2<<" y2:"<<y2<<" ((x2+1)*y2)+y2: "<<((x2+1)*y2)+y2<<" making link to id: " << layers->at(i)->at(((x2+1)*y2)+y2)->getID() << endl;
-	    cout << "x:" << x << " y: " << y << " (x*y)+y: " <<  (x*y)+y << " making link from id: " << layers->at(i-1)->at((x*y)+y)->getID() << endl;
-	    new Link(false,layers->at(i-1)->at((x*y)+y),layers->at(i)->at(((x2+1)*y2)+y2),f->react(inp).at(i-1));
+//	    cout << "x2:"<<x2<<" y2:"<<y2<<" (x2*my2)+y2: "<<(x2*my2)+y2<<" making link to id: " << layers->at(i)->at((x2*my2)+y2)->getID() << endl;
+	    w = f->react(inp).at(i-1);
+	    if(fabs(w)>0.2)
+	      new Link(false,layers->at(i-1)->at((x*(my))+y),layers->at(i)->at((x2*(my2))+y2),w);
 	  }      	  
 	}      
       }      
@@ -732,18 +736,21 @@ double HyperNEAT::f(Phenotype * f)
     d++;
   }
   nodeVector * nv = new nodeVector();
-  int in = 0;
+//   int in = 0;
   for(unsigned int i=0;i<layers->size();i++){
     for(unsigned int i2=0;i2<layers->at(i)->size();i2++){
-      cout <<  "type: "<<layers->at(i)->at(i2)->getType() << " id: "<<layers->at(i)->at(i2)->getID()<<" layers->at(i)->at(i2)->getInputLinks()->size(): " << layers->at(i)->at(i2)->getInputLinks()->size() << endl;
-      in += layers->at(i)->at(i2)->getInputLinks()->size();
+//       cout <<  "type: "<<layers->at(i)->at(i2)->getType() << " id: "<<layers->at(i)->at(i2)->getID()<<" layers->at(i)->at(i2)->getInputLinks()->size(): " << layers->at(i)->at(i2)->getInputLinks()->size() << endl;
+//       in += layers->at(i)->at(i2)->getInputLinks()->size();
       nv->push_back(layers->at(i)->at(i2));
     }
   }
   
-  cerr << "input links: " << in << endl;
+//   cerr << "input links: " << in << endl;
   n = new Network(dims->at(0)[0]*dims->at(0)[1],dims->at(dims->size()-1)[0]*dims->at(dims->size()-1)[1]);
+
   n->addNodes(nv,false);
+//   cout << (new Genome(tfs,n));
+//   exit(0);
   return 0;
   //run the damn thing on a task at hand, woopdedo (i'll let that be a task for my polymorphic children)
 }

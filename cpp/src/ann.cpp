@@ -133,12 +133,11 @@ void Network::addNodes(nodeVector * nodes, bool debug)
     // 	cerr << "node that did have the highest lvl: " << nodes->at(i2);
     //       if(nodes->at(i2)->getDepth()<0 || nodes->at(i2)->getDepth() >= net->size())
     // 	cerr << "depth er utenfor net size scope; netsize: " << net->size() << " node depth: " << nodes->at(i2)->getDepth() << endl;
+//     cout << "adding node at depth: " << nodes->at(i2)->getDepth() << endl;
     net->at(nodes->at(i2)->getDepth())->push_back(nodes->at(i2));
     //      }
   }
-    
-  //  }
-  //sortBIAS(net->at(0));
+
   output = new nodeVector();
   nodeVector * lastlayer = net->at(net->size()-1);
   for(unsigned int i=0;i<lastlayer->size();i++)
