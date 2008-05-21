@@ -57,7 +57,7 @@ SigmoidTransfer::SigmoidTransfer(bool unipolar, double ik){
   k = ik;
 
   con = (unipolar) ? 0 : -0.5;
-  cout << "unipolar: " << unipolar << " con: " << con << endl;
+  //cout << "unipolar: " << unipolar << " con: " << con << endl;
 }
 SigmoidTransfer::~SigmoidTransfer(){
 }
