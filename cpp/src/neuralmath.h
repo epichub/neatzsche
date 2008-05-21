@@ -106,7 +106,7 @@ public:
   ParabelTransfer(bool unipolar, double isharpness, double iadd)
   {sharpness=isharpness; add=iadd;ftype="par";};
   virtual ~ParabelTransfer(){};
-  virtual double y(double x){return -(pow((sharpness*x),2))+add;}
+  virtual double y(double x){return (pow((sharpness*x),2))+add;}
 };
 class GaussTransfer : public TransferFunction
 {

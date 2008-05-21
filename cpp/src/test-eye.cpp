@@ -173,6 +173,8 @@ int main(int argc, char *args[])
       ls2d2.print();
       cout<<"Fitness: "<<phenome->getFitness()<<endl;
      
+      
+
       delete phenome;
 
       if(best==NULL){
