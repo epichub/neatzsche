@@ -283,11 +283,6 @@ void Genome::addNode(int &cnodeid)
 	     ||(it!=genes->end()&&randdouble()<0.3))
 	++it;
 
-      //       while (((it!=genes->end())&&
-      // 	      (randdouble()<0.3))||
-      // 	     ((it!=genes->end())
-      // 	      &&((*it)->getFrom()->getType()==NeuralNode::BIAS)))
-      // 	++it;
       if(it!=genes->end())
 	g = *it;
 
@@ -300,7 +295,8 @@ void Genome::addNode(int &cnodeid)
     }
   }else{
     tryc = 0;
-    while(tryc<20&&!test){
+    int trymax = (int)(totalgenes*0.9);
+    while(tryc<trymax&&!test){
       genen = randint(0,totalgenes);
 
       g = genes->at(genen);
@@ -325,16 +321,17 @@ void Genome::addNode(int &cnodeid)
   int high = (from->getDepth()<=to->getDepth()) ? to->getDepth(): from->getDepth();
   int low = (from->getDepth()>to->getDepth()) ? to->getDepth() : from->getDepth();
   bool rearrange = false;
+
   //setting up possibility for more than one transferfunction.
-  bool sin = (set->getValue("enable_sinus_tfunc")==1);
-  bool gauss = (set->getValue("enable_gauss_tfunc")==1);
-  int tf=1;
-  double ur;
-  if(sin)
-    tf++;
-  if(gauss)
-    tf++;
-  ur = 1.0/(double)tf;
+//   bool sin = (set->getValue("enable_sinus_tfunc")==1);
+//   bool gauss = (set->getValue("enable_gauss_tfunc")==1);
+//   int tf=1;
+//   double ur;
+//   if(sin)
+//     tf++;
+//   if(gauss)
+//     tf++;
+//   ur = 1.0/(double)tf;
 
   if(high==0){
     cerr << "wtf should not be a node added to depth 0" << endl;
