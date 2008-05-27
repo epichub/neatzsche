@@ -100,7 +100,7 @@ public:
   }
   ~SpecGraph()
   {
-    delete run;
+    //delete run;
   }
   inline void update(Population * p)
   {

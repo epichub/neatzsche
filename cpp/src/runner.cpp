@@ -89,15 +89,18 @@ void NEATRunner::runLoop()
 //     cerr << "running cluster code.." << endl;
   writeRunfile(false,basefile,infoline,pid);
   pop->fe = icb->fe;
-  stringstream sgfc; sgfc << sgf.str() << "-run-" << countruns << ".xml";
+  stringstream sgfc; sgfc << sgf.str() << "-" << countruns << ".xml";
   sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
-  stringstream sCurrentGenomeFilec; sCurrentGenomeFilec << sCurrentGenomeFile.str() << "-run-" << countruns;
-  stringstream sCurrentXMLGenomeFilec; sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-run-" << countruns << ".xml";
-  stringstream sCurrentGraphFilec; sCurrentGraphFilec << sCurrentGraphFile.str() << "-run-" << countruns;
+  stringstream sCurrentGenomeFilesuffixless; sCurrentGenomeFilesuffixless << sCurrentGenomeFile.str();
+  
+  stringstream sCurrentGenomeFilec; sCurrentGenomeFilec << sCurrentGenomeFile.str() << "-" << countruns;
+  stringstream sCurrentXMLGenomeFilec; sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-" << countruns << ".xml";
+  stringstream sCurrentGraphFilec; sCurrentGraphFilec << sCurrentGraphFile.str() << "-" << countruns;
   if(currentgraphf==NULL){
     currentgraphf = new ofstream(sCurrentGraphFile.str().c_str());
   }
   ofstream ofs(sCurrentGenomeFilec.str().c_str());
+  ofstream ofs2(sCurrentGenomeFilesuffixless.str().c_str());
 
 //   cerr << "===============\ncoevostartgen:" << coevo->getStartGeneration()+1
 //        << "generations: " << generations <<  "===============\n" << endl;
@@ -131,6 +134,7 @@ void NEATRunner::runLoop()
 //     GoTest(best,icb->fe);   
     ofs.open(sCurrentGenomeFilec.str().c_str());
     ofs << best->getGenome();
+    ofs2 << best->getGenome();
     ofs.close();
 
     if(pop->getGeneration()%2==0){
@@ -200,17 +204,13 @@ void NEATRunner::runLoop()
 	}
 	sg->writetofile();
 	delete sg;
-	cerr <<  "before file stuff"  << endl;
-	sgfc.str(""); sgfc << sgf.str() << "-run" << countruns << ".xml";
-	cerr <<  "before new sg"  << endl;
+	sgfc.str(""); sgfc << sgf.str() << "-" << countruns << ".xml";
 	sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
-	cerr <<  "before more file stuff"  << endl;
-	sCurrentGenomeFilec.str(""); sCurrentGenomeFilec << sCurrentGenomeFile.str() << "-run-" << countruns;
-	sCurrentXMLGenomeFilec.str(""); sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-run-" << countruns << ".xml";
-	sCurrentGraphFilec.str(""); sCurrentGraphFilec << sCurrentGraphFile.str() << "-run-" << countruns;
-	cerr <<  "before currentgraf ofstream reset"  << endl;
+	sCurrentGenomeFilec.str(""); sCurrentGenomeFilec << sCurrentGenomeFile.str() << "-" << countruns;
+	sCurrentXMLGenomeFilec.str(""); sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-" << countruns << ".xml";
+	sCurrentGraphFilec.str(""); sCurrentGraphFilec << sCurrentGraphFile.str() << "-" << countruns;
 	delete currentgraphf; currentgraphf = new ofstream(sCurrentGraphFilec.str().c_str());
-	cerr <<  "done"  << endl;
+
       }
     }
   }
