@@ -16,6 +16,7 @@ private:
 public:
   Cell(int x, int y);
   ~Cell() {
+    delete cells;
     /*
     for(int i=0;i<cells->size();i++) {
       delete cells->at(i);
