@@ -209,7 +209,7 @@ void NEATRunner::runLoop()
 	sCurrentXMLGenomeFilec.str(""); sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-run-" << countruns << ".xml";
 	sCurrentGraphFilec.str(""); sCurrentGraphFilec << sCurrentGraphFile.str() << "-run-" << countruns;
 	cerr <<  "before currentgraf ofstream reset"  << endl;
-	delete currentgraphf; currentgraphf = new ofstream(sCurrentGraphFilec.str());
+	delete currentgraphf; currentgraphf = new ofstream(sCurrentGraphFilec.str().c_str());
 	cerr <<  "done"  << endl;
       }
     }
