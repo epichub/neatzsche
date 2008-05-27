@@ -141,6 +141,7 @@ void NEATRunner::runLoop()
     sg->update(pop);
 
     //writing stats to file
+
     *currentgraphf << getStatString(pop,avgf);
     currentgraphf->flush();
 
@@ -199,11 +200,17 @@ void NEATRunner::runLoop()
 	}
 	sg->writetofile();
 	delete sg;
+	cerr <<  "before file stuff"  << endl;
 	sgfc.str(""); sgfc << sgf.str() << "-run" << countruns << ".xml";
+	cerr <<  "before new sg"  << endl;
 	sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
+	cerr <<  "before more file stuff"  << endl;
 	sCurrentGenomeFilec.str(""); sCurrentGenomeFilec << sCurrentGenomeFile.str() << "-run-" << countruns;
 	sCurrentXMLGenomeFilec.str(""); sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-run-" << countruns << ".xml";
 	sCurrentGraphFilec.str(""); sCurrentGraphFilec << sCurrentGraphFile.str() << "-run-" << countruns;
+	cerr <<  "before currentgraf ofstream reset"  << endl;
+	delete currentgraphf; currentgraphf = new ofstream(sCurrentGraphFilec.str());
+	cerr <<  "done"  << endl;
       }
     }
   }
