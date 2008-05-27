@@ -116,13 +116,13 @@ int main(int argc,char *args[]){
   //files  
   stringstream ssCurrentFile; ssCurrentFile << "results/" << getPureTimeString() << "-" << pid << "/" ;
   mkdir(ssCurrentFile.str().c_str(),0777);
-  stringstream sCurrentGraphFile; sCurrentGraphFile << ssCurrentFile << "graph";
-  stringstream sCurrentGenomeFile; sCurrentGenomeFile << ssCurrentFile << "curgenome";
+  stringstream sCurrentGraphFile; sCurrentGraphFile << ssCurrentFile.str() << "graph";
+  stringstream sCurrentGenomeFile; sCurrentGenomeFile << ssCurrentFile.str() << "curgenome";
   string sSettingsFile = ssCurrentFile.str() + "settings";
-  stringstream sCurrentXMLGenomeFile; sCurrentXMLGenomeFile << ssCurrentFile << "curgenome";
+  stringstream sCurrentXMLGenomeFile; sCurrentXMLGenomeFile << ssCurrentFile.str() << "curgenome";
   string sFinalGenomeFile = ssCurrentFile.str() + "finalgenome";
   string finalgraphfile = ssCurrentFile.str() + "finalgraph";
-  stringstream specgraphfile; specgraphfile << ssCurrentFile << "specgraph";
+  stringstream specgraphfile; specgraphfile << ssCurrentFile.str() << "specgraph";
 
   //making a copy of settings
   ofstream sfile(sSettingsFile.c_str());
