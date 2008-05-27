@@ -81,13 +81,21 @@ int main(int argc,char *args[]){
   LocalReproducer * rep = new LocalReproducer();
 
   //files  
-  stringstream ssCurrentFile; ssCurrentFile << "results/test-go" << getPureTimeString() << "-" << getpid();
-  string sCurrentGraphFile = ssCurrentFile.str() + ".graph";
-  string sCurrentGenomeFile = ssCurrentFile.str() + "-cur.genome";
-  string sCurrentXMLGenomeFile = ssCurrentFile.str() + "-cur.xmlgenome";
-  string sFinalGenomeFile = ssCurrentFile.str() + "-final.genome";
-  string finalgraphfile = ssCurrentFile.str() + "-final.graph";
-  string specgraphfile = ssCurrentFile.str() + "-spec.xmlgraph";
+  int pid = getpid();
+  //files  
+  stringstream ssCurrentFile; ssCurrentFile << "results/" << getPureTimeString() << "-" << pid << "/" ;
+  mkdir(ssCurrentFile.str().c_str(),0777);
+  stringstream sCurrentGraphFile; sCurrentGraphFile << ssCurrentFile << "graph";
+  stringstream sCurrentGenomeFile; sCurrentGenomeFile << ssCurrentFile << "curgenome";
+  string sSettingsFile = ssCurrentFile.str() + "settings";
+  stringstream sCurrentXMLGenomeFile; sCurrentXMLGenomeFile << ssCurrentFile << "curgenome";
+  string sFinalGenomeFile = ssCurrentFile.str() + "finalgenome";
+  string finalgraphfile = ssCurrentFile.str() + "finalgraph";
+  stringstream specgraphfile; specgraphfile << ssCurrentFile << "specgraph";
+
+  ofstream sfile(sSettingsFile.c_str());
+  sfile << set;
+  sfile.close();
 
   icb->fe = fe;
 
@@ -95,16 +103,17 @@ int main(int argc,char *args[]){
 
   int nodes = 0;
 
-  run->pop = pop; run->sel = sel; run->sCurrentGenomeFile = sCurrentGenomeFile;
-  run->sCurrentGraphFile = sCurrentGraphFile;
-  run->sCurrentXMLGenomeFile = sCurrentXMLGenomeFile; 
+  run->pop = pop; run->sel = sel; 
+  run->sCurrentGenomeFile.str(sCurrentGenomeFile.str());
+  run->sCurrentGraphFile.str(sCurrentGraphFile.str());
+  run->sCurrentXMLGenomeFile.str(sCurrentXMLGenomeFile.str()); 
   run->sFinalGenomeFile = sFinalGenomeFile; run->finalgraphfile = finalgraphfile;
   run->rep = rep; run->coevo = coevo; run->nodes = nodes; run->icb = icb; run->set = set; run->tfs = tfs;
   run->ev = ev;
   run->signalhandler = signalhandler;
   run->basefile = ssCurrentFile.str();
   run->pid = getpid();
-  run->sgf = specgraphfile;
+  run->sgf.str(specgraphfile.str());
   icb->run = run;
 
   addToAllSignals(signalhandler);

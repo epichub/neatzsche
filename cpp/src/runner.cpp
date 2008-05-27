@@ -70,11 +70,11 @@ void NEATRunner::runLoop()
 //
   time_t startt,tmpt;long totaltime=0;
   //  cerr << "humhum" << endl;
-  if(currentgraphf==NULL)
-    currentgraphf = new ofstream(sCurrentGraphFile.c_str());
+  int countruns=0;
+
   
   //  cerr << "humhum2" << endl;
-  int countruns=0;
+
 //   int oelitism=0;
 //   Genome * oseed=NULL;
 //   int osize=pop->getMembers()->size();
@@ -89,7 +89,16 @@ void NEATRunner::runLoop()
 //     cerr << "running cluster code.." << endl;
   writeRunfile(false,basefile,infoline,pid);
   pop->fe = icb->fe;
-  sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgf);
+  stringstream sgfc; sgfc << sgf << "-run" << countruns << ".xml";
+  sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
+  stringstream sCurrentGenomeFilec; sCurrentGenomeFilec << sCurrentGenomeFile << "-run" << countruns;
+  stringstream sCurrentXMLGenomeFilec; sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile << "-run" << countruns << ".xml";
+  stringstream sCurrentGraphFilec; sCurrentGraphFilec << sCurrentGraphFile << "-run" << countruns;
+  if(currentgraphf==NULL){
+    currentgraphf = new ofstream(sCurrentGraphFile.str().c_str());
+  }
+  ofstream ofs(sCurrentGenomeFilec.str().c_str());
+
 //   cerr << "===============\ncoevostartgen:" << coevo->getStartGeneration()+1
 //        << "generations: " << generations <<  "===============\n" << endl;
   while(!stop){
@@ -120,7 +129,7 @@ void NEATRunner::runLoop()
     gbest = pop->getCopyOfCurrentBest();
     setChamp(best,gbest); 
 //     GoTest(best,icb->fe);   
-    ofstream ofs(sCurrentGenomeFile.c_str());
+    ofs.open(sCurrentGenomeFilec.str().c_str());
     ofs << best->getGenome();
     ofs.close();
 
@@ -128,7 +137,7 @@ void NEATRunner::runLoop()
       cerr << icb->fe->show(best);
     }
     icb->best = best;
-    writenetwork(best,sCurrentXMLGenomeFile);
+    writenetwork(best,sCurrentXMLGenomeFilec.str());
     sg->update(pop);
 
     //writing stats to file
@@ -188,13 +197,20 @@ void NEATRunner::runLoop()
 	  ev = bak;
 	  bak = NULL;
 	}
+	sg->writetofile();
+	delete sg;
+	sgfc.str(""); sgfc << sgf << "-run" << countruns << ".xml";
+	sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
+	sCurrentGenomeFilec.str(""); sCurrentGenomeFilec << sCurrentGenomeFile << "-run" << countruns;
+	sCurrentXMLGenomeFilec.str(""); sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile << "-run" << countruns << ".xml";
+	sCurrentGraphFilec.str(""); sCurrentGraphFilec << sCurrentGraphFile << "-run" << countruns;
       }
     }
   }
-  sg->writetofile();
-  ofstream ofs(sFinalGenomeFile.c_str());
-  ofs << sbest->getGenome();
-  ofs.close();
+//   sg->writetofile();
+  ofstream ofsuper(sFinalGenomeFile.c_str());
+  ofsuper << sbest->getGenome();
+  ofsuper.close();
   cerr << "final best fitness" << sbest->getFitness() << endl;
 //   cerr << "done writing finalgenome file " << endl;
 //   cerr << "writing smoothed final graph file generations: " << generations

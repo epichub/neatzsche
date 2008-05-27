@@ -116,13 +116,13 @@ int main(int argc,char *args[]){
   //files  
   stringstream ssCurrentFile; ssCurrentFile << "results/" << getPureTimeString() << "-" << pid << "/" ;
   mkdir(ssCurrentFile.str().c_str(),0777);
-  string sCurrentGraphFile = ssCurrentFile.str() + "graph";
-  string sCurrentGenomeFile = ssCurrentFile.str() + "curgenome";
+  stringstream sCurrentGraphFile; sCurrentGraphFile << ssCurrentFile << "graph";
+  stringstream sCurrentGenomeFile; sCurrentGenomeFile << ssCurrentFile << "curgenome";
   string sSettingsFile = ssCurrentFile.str() + "settings";
-  string sCurrentXMLGenomeFile = ssCurrentFile.str() + "curgenome.xml";
+  stringstream sCurrentXMLGenomeFile; sCurrentXMLGenomeFile << ssCurrentFile << "curgenome";
   string sFinalGenomeFile = ssCurrentFile.str() + "finalgenome";
   string finalgraphfile = ssCurrentFile.str() + "finalgraph";
-  string specgraphfile = ssCurrentFile.str() + "specgraph.xml";
+  stringstream specgraphfile; specgraphfile << ssCurrentFile << "specgraph";
 
   //making a copy of settings
   ofstream sfile(sSettingsFile.c_str());
@@ -139,9 +139,10 @@ int main(int argc,char *args[]){
   
   //the running loop itself
   NEATRunner * run = new NEATRunner(generations,runs);
-  run->pop = pop; run->sel = sel; run->sCurrentGenomeFile = sCurrentGenomeFile;
-  run->sCurrentGraphFile = sCurrentGraphFile;
-  run->sCurrentXMLGenomeFile = sCurrentXMLGenomeFile; 
+  run->pop = pop; run->sel = sel; 
+  run->sCurrentGenomeFile.str(sCurrentGenomeFile.str());
+  run->sCurrentGraphFile.str(sCurrentGraphFile.str());
+  run->sCurrentXMLGenomeFile.str(sCurrentXMLGenomeFile.str()); 
   run->sFinalGenomeFile = sFinalGenomeFile; run->finalgraphfile = finalgraphfile;
   run->rep = rep; run->coevo = coevo; run->nodes = nodes; run->icb = icb; run->set = set;run->tfs = tfs;
   run->ev = ev;
@@ -150,7 +151,7 @@ int main(int argc,char *args[]){
   run->pipeio = !pipeio;
   run->basefile = ssCurrentFile.str();
   run->pid = pid;
-  run->sgf = specgraphfile;
+  run->sgf.str(specgraphfile.str());
   icb->run = run;
 
   //make the infoline..

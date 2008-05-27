@@ -127,11 +127,13 @@ private:
   vector<TransferFunction *> * f;
   TransferFunction * ta;
   TransferFunction * sigmoid;
+  TransferFunction * sine;
 public:
   TransferFunctions(NEATsettings * s);
   ~TransferFunctions();
   TransferFunction * getTA(){return ta;}
   TransferFunction * getSigmoid(){return sigmoid;}
+  TransferFunction * getSine(){return sine;}
   string prettyprint(){stringstream ss; ss << "tfs size: " << f->size() << endl; return ss.str();}
   TransferFunction * getRandom(){
     if(f->size()==1)

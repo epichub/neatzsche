@@ -103,8 +103,7 @@ int main(int argc, char *args[])
 	delete cbest;
       }
 //       cout << "after best juggling.." << endl;
-//       cout << "best: " << best->getFitness() << endl;
-//       cout << "worst: " << pop->getMembers()->at(pop->getMembers()->size()-1)->getFitness() << endl;
+      cout << "gen: "<<i<<" best: " << best->getFitness() << "worst: " << pop->getMembers()->at(pop->getMembers()->size()-1)->getFitness() << endl;
       if(((DatasetHyperNEAT*)de)->done(best))
 	i = g;
 //       cout << "after xor testing.." << endl;

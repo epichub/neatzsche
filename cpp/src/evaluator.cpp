@@ -16,7 +16,7 @@
   along with NEATzsche; if not, write to the Free Software Foundation,
   Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
- */
+*/
 
 #include "evaluator.h"
 #include <iomanip>
@@ -25,53 +25,53 @@
 double LightsimEvaluator::f(Phenotype * f)
 {
   /*
-  unsigned int ** twodmap;
-  double tmpstrength=0;
-  int tmpwinner=0;
-  vector <double> tmpin;
-  vector <double> tmpout;
-  twodmap=new unsigned int*[xmax];
-  for(unsigned int i=0;i<xmax;i++) {
+    unsigned int ** twodmap;
+    double tmpstrength=0;
+    int tmpwinner=0;
+    vector <double> tmpin;
+    vector <double> tmpout;
+    twodmap=new unsigned int*[xmax];
+    for(unsigned int i=0;i<xmax;i++) {
     twodmap[i]=new unsigned int[ymax];
     for(unsigned int j=0;j<ymax;j++) {
-      tmpin.push_back(i);
-      tmpin.push_back(j);
-      tmpout=f->react(tmpin);
-      tmpstrength=0;
-      tmpwinner=0;
-      for(unsigned int k=0;k<tmpout.size();k++){
-	if(tmpout.at(k)>tmpstrength&&tmpout.at(k)>0.3) {
-	  tmpwinner=k+2;
-	  tmpstrength=tmpout.at(k);
-	}
-      }
-      tmpin.clear();
-      //cout << "winner of "<<i<<","<<j<<" is "<<tmpwinner<<"\n";
-      twodmap[i][j]=tmpwinner;
+    tmpin.push_back(i);
+    tmpin.push_back(j);
+    tmpout=f->react(tmpin);
+    tmpstrength=0;
+    tmpwinner=0;
+    for(unsigned int k=0;k<tmpout.size();k++){
+    if(tmpout.at(k)>tmpstrength&&tmpout.at(k)>0.3) {
+    tmpwinner=k+2;
+    tmpstrength=tmpout.at(k);
+    }
+    }
+    tmpin.clear();
+    //cout << "winner of "<<i<<","<<j<<" is "<<tmpwinner<<"\n";
+    twodmap[i][j]=tmpwinner;
     }
     //      cout <<"done with "<<i<<"\n";
-  }
-  //    cout << "one phenotype done!\n";
+    }
+    //    cout << "one phenotype done!\n";
 
-  for(unsigned int i=0;i<ymax;i+=((int)(ymax/lsnum))) {
+    for(unsigned int i=0;i<ymax;i+=((int)(ymax/lsnum))) {
     twodmap[0][i]=1;
     //    cout << "creating a new LS at 0,"<<i<<"\n";
-  }
+    }
 
-  Lightsim2D *ls2d=new Lightsim2D(0.5,twodmap,xmax,ymax);
+    Lightsim2D *ls2d=new Lightsim2D(0.5,twodmap,xmax,ymax);
   */
 
   //  time_t t1=time(NULL);
   //  time_t t2=time(NULL);
 
   /*
-  for(unsigned int i=0;i<xmax;i++) {
+    for(unsigned int i=0;i<xmax;i++) {
     for(unsigned int j=0;j<ymax;j++) {
-      //free(twodmap[i][j]);
+    //free(twodmap[i][j]);
     }
     delete[](twodmap[i]);
-  }
-  delete[](twodmap);
+    }
+    delete[](twodmap);
   */
 
   f->cleanNet();
@@ -205,28 +205,28 @@ double DatasetEvaluator::f(Phenotype * f)
   vector<double> v;
   for(int i=0;i<ds->getTrainings();i++){
     v = f->react(*ds->getTrain(i));
-//     cerr << "vsize: " << v.size() << endl;
-//     cerr << "ds->getClass(true,i): " << ds->getClass(true,i) << " vat0: " << (v.at(0)) << endl;
+    //     cerr << "vsize: " << v.size() << endl;
+    //     cerr << "ds->getClass(true,i): " << ds->getClass(true,i) << " vat0: " << (v.at(0)) << endl;
     f->cleanNet();
-    esum += sqrt(pow(ds->getClass(true,i)-(v.at(0)),2));
+    esum += fabs(ds->getClass(true,i)-(v.at(0)));
   }
-  double r = pow(ds->getTrainings()-esum,2.0);
-  f->setFitness(r);
-//   cout << " esum: "<< esum <<" new fitness: " << pow(ds->getTrainings()-esum,2.0) <<endl;
+//   double r = pow(ds->getTrainings()-esum,2.0);
+  f->setFitness(ds->getTrainings()-esum);
+  //   cout << " esum: "<< esum <<" new fitness: " << pow(ds->getTrainings()-esum,2.0) <<endl;
   //       << " getfitness: " << f->getFitness() << endl;
-//   if(pow(ds->getTrainings()-esum,2.0)==0)
-//     cerr << "pow(ds->getTrainings()-esum,2.0) was zero!!"<<endl;  
-//   if(pow(ds->getTrainings()-esum,2.0)>20){
-//     cerr << "esum: " << esum << endl;
-//     cerr << "v0: " << v.at(0) << endl;
-//     // cerr << "phenotype outputftype: " << f->outputFType() << endl;
-//     cerr << "pow(ds->getTrainings()-esum,2.0) was over 20!!"<<endl;  
-//     cerr << "genome: " << f->getGenome() << endl;
-//     cerr << "state: " << printvector(f->getState()) << endl;
-//     f->cleanNet();
-//     cerr << "state: " << printvector(f->getState()) << endl;
-//   }
-  return r;
+  //   if(pow(ds->getTrainings()-esum,2.0)==0)
+  //     cerr << "pow(ds->getTrainings()-esum,2.0) was zero!!"<<endl;  
+  //   if(pow(ds->getTrainings()-esum,2.0)>20){
+  //     cerr << "esum: " << esum << endl;
+  //     cerr << "v0: " << v.at(0) << endl;
+  //     // cerr << "phenotype outputftype: " << f->outputFType() << endl;
+  //     cerr << "pow(ds->getTrainings()-esum,2.0) was over 20!!"<<endl;  
+  //     cerr << "genome: " << f->getGenome() << endl;
+  //     cerr << "state: " << printvector(f->getState()) << endl;
+  //     f->cleanNet();
+  //     cerr << "state: " << printvector(f->getState()) << endl;
+  //   }
+  return ds->getTrainings()-esum;
 }
 void DatasetEvaluator::runTest(Phenotype * f)
 {
@@ -276,8 +276,8 @@ double GoEvaluator::f(Phenotype * f)
   }
 
   g->reset();
-//   cerr << "before game puts: " << g->getPuts() << endl;
-//   cerr << "f: " << f << endl;
+  //   cerr << "before game puts: " << g->getPuts() << endl;
+  //   cerr << "f: " << f << endl;
   if(st==0||(st==1&&f!=NULL))
     f->cleanNet();
   if(st==1&&last!=NULL)
@@ -293,13 +293,13 @@ double GoEvaluator::f(Phenotype * f)
   c = players[0];
   count=0; first = true;
   sense = g->getSensoryInput(first);
-//    int tmpputs=0;
+  //    int tmpputs=0;
   while(!g->done()){
-//     tmpputs = g->getPuts();
+    //     tmpputs = g->getPuts();
     if(c){
       while(!g->doThis(first,c->react(sense))){
-// 	if(g->shoulda&&tmpputs==g->getPuts())//should have put but didnt
-// 	  exit(0);
+	// 	if(g->shoulda&&tmpputs==g->getPuts())//should have put but didnt
+	// 	  exit(0);
 	sense = g->getSensoryInput(first);
       }
       g->resetRound(c);
@@ -330,7 +330,7 @@ double GoEvaluator::f(Phenotype * f)
     fmin = ftmp;
   if(ftmp > fmax)
     fmax = ftmp;
-//   ftmp = 100-g->score();
+  //   ftmp = 100-g->score();
   ftmp = g->score(true);
 
   if(g->getPuts()==0)
@@ -346,7 +346,7 @@ double GoEvaluator::f(Phenotype * f)
     
     f->setFitness(ftmp);
   }if(st==1){
-//     cerr << "setting last("<< last->getID()<<") to stmp" << stmp << endl;
+    //     cerr << "setting last("<< last->getID()<<") to stmp" << stmp << endl;
     last->setFitness(stmp);
   }
 
@@ -354,93 +354,93 @@ double GoEvaluator::f(Phenotype * f)
     last = NULL;
   }
   if(ftmp>0.5){
-//     cerr << "fitness over 0.5: " << ftmp << endl;
-//     cerr << "board:\n " << g->getLocalBoardAscii();
+    //     cerr << "fitness over 0.5: " << ftmp << endl;
+    //     cerr << "board:\n " << g->getLocalBoardAscii();
   }
-//   }else
-//     cerr << "<id: " << f->getID()  << " " << ftmp << "> " << flush;
+  //   }else
+  //     cerr << "<id: " << f->getID()  << " " << ftmp << "> " << flush;
   return ftmp;
 }
 double GoEvaluator::debugeval(Phenotype * f)
 {
-//   bool secondnull = false;
-//   if(st==1&&last==NULL){
-//     last = f;
-//     return 0;
-//   }else if(st==1&&last!=NULL&&f==NULL){
-//     secondnull = true;
-//   }
+  //   bool secondnull = false;
+  //   if(st==1&&last==NULL){
+  //     last = f;
+  //     return 0;
+  //   }else if(st==1&&last!=NULL&&f==NULL){
+  //     secondnull = true;
+  //   }
 
-//   g->reset();
-//   if(st==0||(st==1&&f!=NULL))
-//     f->cleanNet();
-//   if(st==1&&last!=NULL)
-//     last->cleanNet();
+  //   g->reset();
+  //   if(st==0||(st==1&&f!=NULL))
+  //     f->cleanNet();
+  //   if(st==1&&last!=NULL)
+  //     last->cleanNet();
 
-//   double tsum = 0;
-//   vector<double> sense;
-//   vector<double> reaction;
-//   Phenotype ** players = new Phenotype * [2];
-//   if(st==1&&!secondnull){ players[0] = f; players[1] = last;}
-//   if(secondnull) { players[0] = last; players[1] = NULL;}
-//   else { players[0] = f; players[1] = NULL;}
-//   Phenotype * c = players[0];
-//   int count=0, moves=0; bool first = true;
-//   sense = g->getSensoryInput(first);
-//   reaction = c->react(sense);
-//   g->fakeThis(first,reaction);
-//   double hmm=0;
-//   while(!g->done()){
-// //     rounds++;
-//     if(c){
+  //   double tsum = 0;
+  //   vector<double> sense;
+  //   vector<double> reaction;
+  //   Phenotype ** players = new Phenotype * [2];
+  //   if(st==1&&!secondnull){ players[0] = f; players[1] = last;}
+  //   if(secondnull) { players[0] = last; players[1] = NULL;}
+  //   else { players[0] = f; players[1] = NULL;}
+  //   Phenotype * c = players[0];
+  //   int count=0, moves=0; bool first = true;
+  //   sense = g->getSensoryInput(first);
+  //   reaction = c->react(sense);
+  //   g->fakeThis(first,reaction);
+  //   double hmm=0;
+  //   while(!g->done()){
+  // //     rounds++;
+  //     if(c){
 
-//       while(!g->doThis(first,reaction)){
-// 	cerr << "sense: " << printvector(sense);
-// 	if(hmm!=sumvector(reaction))
-// 	  cerr << "!!! whoot whoot reaction changed: " << hmm/sumvector(reaction) << endl;
-// 	cerr << "reaction: " << printvector(reaction);
-// 	sense = g->getSensoryInput(first);
-// 	hmm = sumvector(reaction);
-// 	reaction = c->react(sense);
-// 	g->fakeThis(first,reaction);
-//       }
-//       g->resetRound(c);
-//     }else{
-//       g->gw_genmove(first);
-//     }
-//     if(moves<g->getMoves()){
-//       cerr << g->getLocalBoardAscii(); 
-//       moves=g->getMoves();
-//       tsum += g->score();
-//       cerr << "tsum: " << tsum<<endl;
-//     }
-//     first = !first;
-//     c = players[++count%2];
+  //       while(!g->doThis(first,reaction)){
+  // 	cerr << "sense: " << printvector(sense);
+  // 	if(hmm!=sumvector(reaction))
+  // 	  cerr << "!!! whoot whoot reaction changed: " << hmm/sumvector(reaction) << endl;
+  // 	cerr << "reaction: " << printvector(reaction);
+  // 	sense = g->getSensoryInput(first);
+  // 	hmm = sumvector(reaction);
+  // 	reaction = c->react(sense);
+  // 	g->fakeThis(first,reaction);
+  //       }
+  //       g->resetRound(c);
+  //     }else{
+  //       g->gw_genmove(first);
+  //     }
+  //     if(moves<g->getMoves()){
+  //       cerr << g->getLocalBoardAscii(); 
+  //       moves=g->getMoves();
+  //       tsum += g->score();
+  //       cerr << "tsum: " << tsum<<endl;
+  //     }
+  //     first = !first;
+  //     c = players[++count%2];
 
 
-//   }
-//   if(moves==0)
-//     moves = 1;
-//   updateStats();
-//   cerr << "tsum before ftmp: " << tsum<<endl;
-//   double finalscore = g->score();
-//   double ftmp = 100-(((tsum*2.0)/(double)moves)+finalscore);
-//   double stmp = (((tsum*2.0)/(double)moves)+finalscore);
-//   cerr << "ftmp: " << ftmp << endl;
-//   if(ftmp<=0)
-//     ftmp = 0.0001;
-//   if(stmp<=0)
-//     stmp = 0.0001;
-//   if(!secondnull)
-//     f->setFitness(ftmp);
-//   if(st==1)
-//     last->setFitness(stmp);
-//   delete[] players;
-//   if(st==1 && last!=f){
-//     last = NULL;
-//   }
-//   cerr << "fmax: "<< fmax << " fmin: " << fmin << endl;
-//   return ftmp;
+  //   }
+  //   if(moves==0)
+  //     moves = 1;
+  //   updateStats();
+  //   cerr << "tsum before ftmp: " << tsum<<endl;
+  //   double finalscore = g->score();
+  //   double ftmp = 100-(((tsum*2.0)/(double)moves)+finalscore);
+  //   double stmp = (((tsum*2.0)/(double)moves)+finalscore);
+  //   cerr << "ftmp: " << ftmp << endl;
+  //   if(ftmp<=0)
+  //     ftmp = 0.0001;
+  //   if(stmp<=0)
+  //     stmp = 0.0001;
+  //   if(!secondnull)
+  //     f->setFitness(ftmp);
+  //   if(st==1)
+  //     last->setFitness(stmp);
+  //   delete[] players;
+  //   if(st==1 && last!=f){
+  //     last = NULL;
+  //   }
+  //   cerr << "fmax: "<< fmax << " fmin: " << fmin << endl;
+  //   return ftmp;
   return 0;
 }
 string GoEvaluator::getFinishedBoard(Phenotype * p)
@@ -493,7 +493,7 @@ double EasyGoEvaluator::f(Phenotype * f)
   // 	 <<(double)g->easyCount()<<") outputter brettet:" << endl
   // 	 << g->getLocalBoardAscii();
   updateStats();
-//   cerr << "goset sin size: " << s->getValue("size") << endl;
+  //   cerr << "goset sin size: " << s->getValue("size") << endl;
   if(m==4){
     f->setFitness(1.0+s);
     return 1.0+s;
@@ -530,25 +530,25 @@ void GoEvaluator::interact(Phenotype * f)
   string sCMD;
   char c; int i=0,j=0;double score = 0;
   while(!g->done()){
-      while(!g->doThis(true,f->react(sense))){
-	sense = g->getSensoryInput(true);
-      }
-      g->updateFromGnuGo();
-      cerr << g->getLocalBoardAscii();
-      cerr << "input coord, e.g. \"C4\", q to quit: ";
-      cin >> sCMD;
-      if(sCMD=="q")
-	break;
-      c = sCMD[0];
-      j = ((int)c)-65;
-      i = atoi(sCMD.substr(1,sCMD.length()-1).c_str());
-      i = g->bsize-i;
-      g->mput(i,j,gg::WHITE);
-      g->updateFromGnuGo();
-      cerr << g->getLocalBoardAscii();
-      score = g->score();
-      cerr << "score: w: " << score 
-	   << " b(100-w): " << (100-score) << endl;
+    while(!g->doThis(true,f->react(sense))){
+      sense = g->getSensoryInput(true);
+    }
+    g->updateFromGnuGo();
+    cerr << g->getLocalBoardAscii();
+    cerr << "input coord, e.g. \"C4\", q to quit: ";
+    cin >> sCMD;
+    if(sCMD=="q")
+      break;
+    c = sCMD[0];
+    j = ((int)c)-65;
+    i = atoi(sCMD.substr(1,sCMD.length()-1).c_str());
+    i = g->bsize-i;
+    g->mput(i,j,gg::WHITE);
+    g->updateFromGnuGo();
+    cerr << g->getLocalBoardAscii();
+    score = g->score();
+    cerr << "score: w: " << score 
+	 << " b(100-w): " << (100-score) << endl;
   }
   
 }
@@ -623,7 +623,7 @@ double PictureEvaluator::f(Phenotype *f)
   double wrong=0;
   vector<double> reaction;
   vector<double> inp;inp.push_back(0);inp.push_back(0);inp.push_back(0);
-//   cout<<"inp size: " << inp.size() << endl;
+  //   cout<<"inp size: " << inp.size() << endl;
   int xmax = sizes[0];
   int ymax = sizes[1];
   for(int x=0;x<xmax;x++){
@@ -652,7 +652,7 @@ void PictureEvaluator::runTest(Phenotype * f)
     for(int y=0;y<sizes[1];y++){
       inp.at(0) = (double)x/(double)xmax;
       inp.at(1) = (double)y/(double)ymax;
-//       inp.at(2) = sqrt((x-(xmax/2))^2 + (y-(ymax/2))^2);
+      //       inp.at(2) = sqrt((x-(xmax/2))^2 + (y-(ymax/2))^2);
       oimg[(x*sizes[1])+y] = f->react(inp).at(0);
     }
   }
@@ -676,6 +676,7 @@ double PictureEvaluator::f2(Phenotype *f)
 }
 double HyperNEAT::f(Phenotype * f)
 {
+  f->cleanNet();
   unsigned int mx,my,mx2,my2;
 
   vector<nodeVector*> * layers = new vector<nodeVector*>();
@@ -686,13 +687,13 @@ double HyperNEAT::f(Phenotype * f)
   mx = dims->at(0)[0];
   my = dims->at(0)[1];
   int id = 0;
-//   cerr << "creating " << (mx*my) << " input nodes" << endl;
+  //   cerr << "creating " << (mx*my) << " input nodes" << endl;
   for(unsigned int i=0;i<(mx*my);i++)
     layers->at(0)->push_back(new NeuralNode(tfs->getTA(),id++,NeuralNode::INPUT,0));
   NeuralNode * bias = new NeuralNode(tfs->getTA(),id++,NeuralNode::BIAS,0);
   int bx = mx; int by = my+1;
   layers->at(0)->push_back(bias);
-//   cerr << "dims size: " << dims->size() << endl;
+  //   cerr << "dims size: " << dims->size() << endl;
   int d = 1; 
   char t;
   double w=0;
@@ -703,8 +704,8 @@ double HyperNEAT::f(Phenotype * f)
     my = dims->at(i-1)[1];
     mx2 = dims->at(i)[0];
     my2 = dims->at(i)[1];
-//     cerr << "mx: " << mx << " my: " << my << endl;
-//     cerr << "mx2: " << mx2 << " my2: " << my2 << endl;
+    //     cerr << "mx: " << mx << " my: " << my << endl;
+    //     cerr << "mx2: " << mx2 << " my2: " << my2 << endl;
     if(i==dims->size()-1)
       t = NeuralNode::OUTPUT;
     else
@@ -714,29 +715,74 @@ double HyperNEAT::f(Phenotype * f)
 	layers->at(i)->push_back(new NeuralNode(tfs->getSigmoid(),id++,t,d));
 	//make bias link??
 	inp.at(0) = bx; inp.at(1) = by; inp.at(2) = x; inp.at(3) = y;
-	new Link(false,bias,layers->at(i)->at((x*my2)+y),f->react(inp).at(i-1));
+	w = f->react(inp).at(i-1);
+	if(fabs(w)>0.2){
+	  if(w>0.0)
+	    w = ((w-0.2)/0.8)*3.0;
+	  else
+	    w = ((w+0.2)/0.8)*3.0;
+// 	  cout << "w: " << w << endl;
+
+	  new Link(false,bias,layers->at(i)->at((x*my2)+y),w);
+	}
       }
     }
-    for(unsigned int x=0;x<mx;x++){
-      for(unsigned int y=0;y<my;y++){
-// 	cout << "from layer i-1" << endl;
-//	cout << "x:" << x << " y: " << y << " (x*my)+y: " <<  (x*my)+y << " making link from id: " << layers->at(i-1)->at((x*my)+y)->getID() << endl;
-	for(unsigned int x2=0;x2<mx2;x2++){
-	  for(unsigned int y2=0;y2<my2;y2++){
-	    inp.at(0) = x; inp.at(1) = y; inp.at(2) = x2; inp.at(3) = y2;
-// 	    cout << "f->react(inp).at(i-1): " << f->react(inp).at(i-1)<<endl;
-//	    cout << "x2:"<<x2<<" y2:"<<y2<<" (x2*my2)+y2: "<<(x2*my2)+y2<<" making link to id: " << layers->at(i)->at((x2*my2)+y2)->getID() << endl;
-	    w = f->react(inp).at(i-1);
-	    if(fabs(w)>0.2)
-	      new Link(false,layers->at(i-1)->at((x*(my))+y),layers->at(i)->at((x2*(my2))+y2),w);
-	  }      	  
-	}      
-      }      
-    }
+
     d++;
   }
+  double x1n,y1n,x2n,y2n;
+
+  for(unsigned int i=0;i<dims->size()-1;i++){
+    for(unsigned int i2=i+1;i2<dims->size();i2++){
+      mx = dims->at(i)[0];
+      my = dims->at(i)[1];
+      mx2 = dims->at(i2)[0];
+      my2 = dims->at(i2)[1];
+      x1n = -(double)(mx-1.0)/2.0;
+      y1n = -(double)(my-1.0)/2.0;
+      x2n = -(double)(mx2-1.0)/2.0;
+      y2n = -(double)(my2-1.0)/2.0;
+      for(unsigned int x=0;x<mx;x++){
+	for(unsigned int y=0;y<my;y++){
+	  // 	cout << "from layer i-1" << endl;
+	  //	cout << "x:" << x << " y: " << y << " (x*my)+y: " <<  (x*my)+y << " making link from id: " << layers->at(i-1)->at((x*my)+y)->getID() << endl;
+	  for(unsigned int x2=0;x2<mx2;x2++){
+	    for(unsigned int y2=0;y2<my2;y2++){
+// 	      cout << "x: " << x << " y: " << y << " x2: " << x2 << " y2: " << y2 << endl;
+// 	      cout << "x1n: " << x1n << " mx: " << mx << endl;
+// 	      cout << "y1n: " << y1n << " my: " << my << endl;
+// 	      cout << "x2n: " << x2n << " mx2: " << mx2 << endl;
+// 	      cout << "y2n: " << y2n << " my2: " << my2 << endl;
+// 	      cout << "((double)x+x1n)/(double)mx: " << ((double)x+x1n)/(double)mx << endl;
+// 	      cout << "((double)y+y1n)/(double)my: " << ((double)y+y1n)/(double)my << endl;
+// 	      cout << "((double)x2+x2n)/(double)mx2: " << ((double)x2+x2n)/(double)mx2 << endl;
+// 	      cout << "((double)y2+y2n)/(double)my2: " << ((double)y2+y2n)/(double)my2 << endl;
+	      inp.at(0) = ((double)x+x1n)/(double)mx;
+	      inp.at(1) = ((double)y+y1n)/(double)my;
+	      inp.at(2) = ((double)x2+x2n)/(double)mx2;
+	      inp.at(3) = ((double)y2+y2n)/(double)my2;
+
+
+	      f->cleanNet();
+	    // 	    cout << "f->react(inp).at(i-1): " << f->react(inp).at(i-1)<<endl;
+	    //	    cout << "x2:"<<x2<<" y2:"<<y2<<" (x2*my2)+y2: "<<(x2*my2)+y2<<" making link to id: " << layers->at(i)->at((x2*my2)+y2)->getID() << endl;
+	      w = f->react(inp).at(i2);
+	      if(fabs(w)>0.2){
+		if(w>0.0)
+		  w = ((w-0.2)/0.8)*3.0;
+		else
+		  w = ((w+0.2)/0.8)*3.0;
+		// 	      cout << "w: " << w << endl;
+		new Link(false,layers->at(i)->at((x*(my))+y),layers->at(i2)->at((x2*(my2))+y2),w);
+	      }
+	    }      	  
+	  }      
+	}
+      }
+    }
+  }
   nodeVector * nv = new nodeVector();
-//   int in = 0;
+  int in = 0;
   for(unsigned int i=0;i<layers->size();i++){
     for(unsigned int i2=0;i2<layers->at(i)->size();i2++){
 //       cout <<  "type: "<<layers->at(i)->at(i2)->getType() << " id: "<<layers->at(i)->at(i2)->getID()<<" layers->at(i)->at(i2)->getInputLinks()->size(): " << layers->at(i)->at(i2)->getInputLinks()->size() << endl;
@@ -749,30 +795,43 @@ double HyperNEAT::f(Phenotype * f)
   n = new Network(dims->at(0)[0]*dims->at(0)[1],dims->at(dims->size()-1)[0]*dims->at(dims->size()-1)[1]);
 
   n->addNodes(nv,false);
-//   cout << (new Genome(tfs,n));
-//   exit(0);
+#ifdef NEATZSCHEDEBUG
+  cout << (new Genome(tfs,n));
+#endif
+//     exit(0);
   return 0;
   //run the damn thing on a task at hand, woopdedo (i'll let that be a task for my polymorphic children)
 }
 double DatasetHyperNEAT::f(Phenotype * f)
 {
-//   double r = (double)rand()/(double)RAND_MAX;
-//   r = (r==0) ? 10^-5 : r;
-//   f->setFitness(r);
-//   return r;
+  //   double r = (double)rand()/(double)RAND_MAX;
+  //   r = (r==0) ? 10^-5 : r;
+  //   f->setFitness(r);
+  //   return r;
   HyperNEAT::f(f);
   Phenotype * p = new Phenotype(n);
   double fitness = d->f(p);
+
+  if(fitness <= 0.0)
+    fitness = 10^-4;
   f->setFitness(fitness);
+
+//   exit(0);
   delete p;
+#ifdef NEATZSCHEDEBUG
+  runTest(f);
+  cout << "fitness: " << fitness << endl;
+  exit(0);
+#endif
+
   return fitness;
 }
 bool DatasetHyperNEAT::done(Phenotype *f)
 {
-//   double r = (double)rand()/(double)RAND_MAX;
-//   r = (r==0) ? 10^-5 : r;
-//   f->setFitness(r);
-//   return r;
+  //   double r = (double)rand()/(double)RAND_MAX;
+  //   r = (r==0) ? 10^-5 : r;
+  //   f->setFitness(r);
+  //   return r;
 
   HyperNEAT::f(f);
   Phenotype * p = new Phenotype(n);
@@ -782,10 +841,10 @@ bool DatasetHyperNEAT::done(Phenotype *f)
 }
 void  DatasetHyperNEAT::runTest(Phenotype *f)
 {
-//   double r = (double)rand()/(double)RAND_MAX;
-//   r = (r==0) ? 10^-5 : r;
-//   f->setFitness(r);
-//   return r;
+  //   double r = (double)rand()/(double)RAND_MAX;
+  //   r = (r==0) ? 10^-5 : r;
+  //   f->setFitness(r);
+  //   return r;
   HyperNEAT::f(f);
   Phenotype * p = new Phenotype(n);
   d->runTest(p);

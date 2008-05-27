@@ -39,6 +39,7 @@
 #include "coevolution.h"
 #include "xmlconvert.h"
 
+
 using namespace std;
 
 class Interruptcallback;
@@ -53,16 +54,16 @@ public:
   {smoothdata = new double * [igens]; 
     for(int i=0;i<igens;i++) {smoothdata[i] = new double[3];smoothdata[i][0] = 0;smoothdata[i][1] = 0;smoothdata[i][2] = 0;}
    generations=igens; runs=iiter;stop=false;
-   currentgraphf=NULL;sbest=NULL; best=NULL; gbest=NULL; sgf = "defaultspecgraphfile.xmlgraph";}
+   currentgraphf=NULL;sbest=NULL; best=NULL; gbest=NULL;}
   ofstream * currentgraphf;
   Population * pop;
   Selector * sel;
   Phenotype * sbest;
   Phenotype * best;
   Phenotype * gbest;
-  string sCurrentGenomeFile;
-  string sCurrentGraphFile;
-  string sCurrentXMLGenomeFile;
+  stringstream sCurrentGenomeFile;
+  stringstream sCurrentGraphFile;
+  stringstream sCurrentXMLGenomeFile;
   string sFinalGenomeFile;
   string finalgraphfile;
   bool output;
@@ -81,7 +82,7 @@ public:
   NEATsettings * set;
   TransferFunctions * tfs;
   Evaluator * ev;
-  string sgf;
+  stringstream sgf;
   void (*signalhandler)(int sig);
   void runLoop();
 };

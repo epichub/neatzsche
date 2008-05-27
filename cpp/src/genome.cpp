@@ -837,8 +837,14 @@ void Genome::randomize(int inpn, int outn,
   }
 
   if(hid>0)
-    layn++;  
-  func = tfs->getSigmoid();//TODO: check if output should always be sigmoid??
+    layn++;
+  bool cppn = (set->getValue("cppn_output") == 1);
+//   cerr << "set->getValue(cppn_output): " << set->getValue("cppn_output") << " cppn: " << cppn << endl;
+  if(cppn)
+    func = tfs->getSine();//TODO: check if output should always be sigmoid??
+  else
+    func = tfs->getSigmoid();//TODO: check if output should always be sigmoid??
+//   cerr << "func ftype: " << func->ftype << endl;
   for(int i=0;i<outn;i++)
     nodes->push_back(new NeuralNode(func,(inpn+hid+i+2),NeuralNode::OUTPUT,layn));
   innov->setNodeNum(nodes->size()+1);

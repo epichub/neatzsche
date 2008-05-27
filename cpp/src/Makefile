@@ -111,7 +111,10 @@ ifeq ($(os-type), Darwin)
 endif
 
 all:	no-qt lightsim-viewer lightsim-test
-
+internaldebug:
+	$(MAKE) STYLE=INTERNALDEBUG
+debug:
+	$(MAKE) STYLE=DEBUG
 no-qt:	neatmaster neatslave tags test-xor test-go playgame test-or test-eye test-hyperdataset
 
 dist:

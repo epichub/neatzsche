@@ -98,6 +98,10 @@ public:
     sp->LinkEndChild( tmp ); 
     gc = 0;
   }
+  ~SpecGraph()
+  {
+    delete run;
+  }
   inline void update(Population * p)
   {
     double max = p->getMembers()->at(0)->getOrigFitness();
