@@ -134,8 +134,11 @@ void NEATRunner::runLoop()
 //     GoTest(best,icb->fe);   
     ofs.open(sCurrentGenomeFilec.str().c_str());
     ofs << best->getGenome();
-    ofs2 << best->getGenome();
     ofs.close();
+    ofs2.open(sCurrentGenomeFilesuffixless.str().c_str());
+    ofs2 << best->getGenome();
+    ofs2.close();
+
 
     if(pop->getGeneration()%2==0){
       cerr << icb->fe->show(best);
