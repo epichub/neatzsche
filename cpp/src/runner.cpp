@@ -89,11 +89,11 @@ void NEATRunner::runLoop()
 //     cerr << "running cluster code.." << endl;
   writeRunfile(false,basefile,infoline,pid);
   pop->fe = icb->fe;
-  stringstream sgfc; sgfc << sgf << "-run" << countruns << ".xml";
+  stringstream sgfc; sgfc << sgf.str() << "-run" << countruns << ".xml";
   sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
-  stringstream sCurrentGenomeFilec; sCurrentGenomeFilec << sCurrentGenomeFile << "-run" << countruns;
-  stringstream sCurrentXMLGenomeFilec; sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile << "-run" << countruns << ".xml";
-  stringstream sCurrentGraphFilec; sCurrentGraphFilec << sCurrentGraphFile << "-run" << countruns;
+  stringstream sCurrentGenomeFilec; sCurrentGenomeFilec << sCurrentGenomeFile.str() << "-run" << countruns;
+  stringstream sCurrentXMLGenomeFilec; sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-run" << countruns << ".xml";
+  stringstream sCurrentGraphFilec; sCurrentGraphFilec << sCurrentGraphFile.str() << "-run" << countruns;
   if(currentgraphf==NULL){
     currentgraphf = new ofstream(sCurrentGraphFile.str().c_str());
   }
@@ -199,11 +199,11 @@ void NEATRunner::runLoop()
 	}
 	sg->writetofile();
 	delete sg;
-	sgfc.str(""); sgfc << sgf << "-run" << countruns << ".xml";
+	sgfc.str(""); sgfc << sgf.str() << "-run" << countruns << ".xml";
 	sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
-	sCurrentGenomeFilec.str(""); sCurrentGenomeFilec << sCurrentGenomeFile << "-run" << countruns;
-	sCurrentXMLGenomeFilec.str(""); sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile << "-run" << countruns << ".xml";
-	sCurrentGraphFilec.str(""); sCurrentGraphFilec << sCurrentGraphFile << "-run" << countruns;
+	sCurrentGenomeFilec.str(""); sCurrentGenomeFilec << sCurrentGenomeFile.str() << "-run" << countruns;
+	sCurrentXMLGenomeFilec.str(""); sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-run" << countruns << ".xml";
+	sCurrentGraphFilec.str(""); sCurrentGraphFilec << sCurrentGraphFile.str() << "-run" << countruns;
       }
     }
   }
