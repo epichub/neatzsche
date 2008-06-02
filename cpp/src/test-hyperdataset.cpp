@@ -104,8 +104,11 @@ int main(int argc, char *args[])
       }
 //       cout << "after best juggling.." << endl;
       cout << "gen: "<<i<<" best: " << best->getFitness() << "worst: " << pop->getMembers()->at(pop->getMembers()->size()-1)->getFitness() << endl;
-      if(((DatasetHyperNEAT*)de)->done(best))
+      if(((DatasetHyperNEAT*)de)->done(best)){
 	i = g;
+// 	cout << best;
+	((DatasetHyperNEAT*)de)->runTest(best);
+      }
 //       cout << "after xor testing.." << endl;
       sel->select(pop,0);
       rp->reproduce(pop);
@@ -140,4 +143,5 @@ int main(int argc, char *args[])
     }
   }
   ((DatasetHyperNEAT*)de)->runTest(sbest);
+  cout << ((DatasetHyperNEAT*)de)->output(sbest);
 }

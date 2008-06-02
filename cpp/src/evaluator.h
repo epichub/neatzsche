@@ -207,6 +207,7 @@ public:
   void setDims(vector<unsigned int *> * dims){this->dims = dims;}
   virtual double f(Phenotype * f);
   virtual void nextGen(){return;} // no need for this here..
+  virtual string output(Phenotype * f);
 };
 class DatasetHyperNEAT : public HyperNEAT {
 private:

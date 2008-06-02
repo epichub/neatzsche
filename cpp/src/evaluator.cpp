@@ -204,10 +204,10 @@ double DatasetEvaluator::f(Phenotype * f)
   double esum = 0;
   vector<double> v;
   for(int i=0;i<ds->getTrainings();i++){
+    f->cleanNet();
     v = f->react(*ds->getTrain(i));
     //     cerr << "vsize: " << v.size() << endl;
     //     cerr << "ds->getClass(true,i): " << ds->getClass(true,i) << " vat0: " << (v.at(0)) << endl;
-    f->cleanNet();
     esum += fabs(ds->getClass(true,i)-(v.at(0)));
   }
 //   double r = pow(ds->getTrainings()-esum,2.0);
@@ -237,7 +237,8 @@ void DatasetEvaluator::runTest(Phenotype * f)
     f->cleanNet();
     cerr << "input: " << printvector(*ds->getTrain(i))
 	 << " output: " << v.at(0) 
-	 << " should have been: " << ds->getClass(true,i) << endl;
+	 << " should have been: " << ds->getClass(true,i) 
+	 << " diff: " << fabs(ds->getClass(true,i) - v.at(0)) << endl;
   }
   //  f->cleanup();
 }
@@ -249,10 +250,12 @@ bool DatasetEvaluator::xorDone(Phenotype * f)
   for(int i=0;i<ds->getTrainings();i++){
     f->cleanNet();
     v = f->react(*ds->getTrain(i));
-    if(ds->getClass(true,i) == 0.9 && v.at(0)>0.5) c++; 
-    if(ds->getClass(true,i) == 0.1 && v.at(0)<0.5) c++;
+//     fabs(ds->getClass(true,i) - v.at(0))
+    if(fabs(ds->getClass(true,i) - v.at(0))<0.4) c++; 
+//     if(fabs(ds->getClass(true,i) - v.at(0))<0.4) c++;
   }
   //  f->cleanup();
+//   cout << "c:" << c << endl;
   return c==4;
 }
 void GoEvaluator::nextGen()
@@ -715,7 +718,7 @@ double HyperNEAT::f(Phenotype * f)
 	layers->at(i)->push_back(new NeuralNode(tfs->getSigmoid(),id++,t,d));
 	//make bias link??
 	inp.at(0) = bx; inp.at(1) = by; inp.at(2) = x; inp.at(3) = y;
-	w = f->react(inp).at(i-1);
+	w = f->react(inp).at(0);
 	if(fabs(w)>0.2){
 	  if(w>0.0)
 	    w = ((w-0.2)/0.8)*3.0;
@@ -766,7 +769,7 @@ double HyperNEAT::f(Phenotype * f)
 	      f->cleanNet();
 	    // 	    cout << "f->react(inp).at(i-1): " << f->react(inp).at(i-1)<<endl;
 	    //	    cout << "x2:"<<x2<<" y2:"<<y2<<" (x2*my2)+y2: "<<(x2*my2)+y2<<" making link to id: " << layers->at(i)->at((x2*my2)+y2)->getID() << endl;
-	      w = f->react(inp).at(i2);
+	      w = f->react(inp).at(0);
 	      if(fabs(w)>0.2){
 		if(w>0.0)
 		  w = ((w-0.2)/0.8)*3.0;
@@ -801,6 +804,13 @@ double HyperNEAT::f(Phenotype * f)
 //     exit(0);
   return 0;
   //run the damn thing on a task at hand, woopdedo (i'll let that be a task for my polymorphic children)
+}
+string HyperNEAT::output(Phenotype * ph)
+{
+  f(ph);
+  stringstream ss;
+  ss << (new Genome(tfs,n));
+  return ss.str();
 }
 double DatasetHyperNEAT::f(Phenotype * f)
 {

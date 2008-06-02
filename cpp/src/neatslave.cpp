@@ -73,7 +73,9 @@ int main(int argc,char *args[]){
   while(cont){ // the drive loop of the slaves, read 
                // in cmd(coevo/std), where coevo expects two genomes
     gen++;
-    readPopulation(p,c,tfs,gen);
+    cont = readPopulation(p,c,tfs,gen);
+    if(!cont)
+      break;
     if(!coevo && gen==(c->getStartGeneration()+1)){
       coevo = true;
     }
@@ -93,6 +95,7 @@ int main(int argc,char *args[]){
     cleanupPopulation(p);
 
   }
+  cerr << "in slave exit" << endl;
   delete f;
   delete p;
   delete e;

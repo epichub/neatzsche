@@ -114,7 +114,7 @@ void NEATRunner::runLoop()
     if(localFE){
       ev->evaluate(pop->getMembers(),pop->getMembers()->size());
     }else{
-      outputPopulation(pop,nodes,coevo,mc,pipeio); //stream the population out to nodes for evaluation	
+      outputPopulation(pop,nodes,coevo,mc,pipeio,false); //stream the population out to nodes for evaluation	
       ev->evaluate(pop->getMembers(),mc);//sweet..
       readFitness(pop,mc); //read the corresponding returned fitness values
     }
@@ -227,15 +227,20 @@ void NEATRunner::runLoop()
 //        << "smoothdata size:" << sizeof(smoothdata)/sizeof(smoothdata[0]) << endl;
   ofstream finalgraphf(finalgraphfile.c_str());
   for(int i=0;i<generations-1;i++)
-    finalgraphf << smoothdata[i][0] << " " 
-		<< smoothdata[i][1] << " " 
-		<< smoothdata[i][2] << endl;
+    finalgraphf << smoothdata[i][0]/(double)runs << " " 
+		<< smoothdata[i][1]/(double)runs << " " 
+		<< smoothdata[i][2]/(double)runs << endl;
   cerr << "done writing smoothed final graph file to " << finalgraphfile << endl;
 //   cerr << "!!! total time divided by number of evals: " << (double)totaltime/((double)(generations*countruns*osize))<<endl ;
   //close graph files..
   finalgraphf.close();
+  cerr << "done closing finalgraphf" << endl;
   currentgraphf->close();
+  cerr << "done closing currentgraphf" << endl;
 //   cerr << "before writerunfile" << endl;
   writeRunfile(true,basefile,infoline,pid);  
-//   cerr << "after writerunfile" << endl;
+
+  cerr << "after writerunfile" << endl;
+  if(!localFE)
+    outputPopulation(pop,nodes,coevo,mc,pipeio,true);
 }

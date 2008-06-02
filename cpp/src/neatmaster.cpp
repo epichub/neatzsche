@@ -166,16 +166,26 @@ int main(int argc,char *args[]){
 
 
   //clean up memory
+  cerr << "before delete pop"<<endl;
   delete pop;
+  cerr << "after delete pop"<<endl;
   delete sel;
+  cerr << "after delete sel"<<endl;
   delete set;
+  cerr << "after delete set"<<endl;
   delete tfs;
+  cerr << "after delete tfs"<<endl;
   delete ev;
+  cerr << "after delete ev"<<endl;
   delete coevo;
+  cerr << "after delete coevo"<<endl;
   delete fe;
+  cerr << "after delete fe"<<endl;
   delete rep;
+  cerr << "after delete rep"<<endl;
   delete stopv;
-
+  cerr << "after delete stopv"<<endl;
+//   cout << "SHUTDOWN_MASTER" << endl;
   exit(0);//exit with success
 }
 

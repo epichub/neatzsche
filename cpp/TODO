@@ -1,1 +1,6 @@
-* test negative sigmoid function!
+Current:
+* Rewrite to MPI and OpenMP
+* Make crossover "packets" that contain two paired genomes for crossover, send out through MPI/OpenMP
+* Clean up build process
+Later:
+* Make NEATzsche a library to link against.

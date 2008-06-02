@@ -278,7 +278,7 @@ static inline void readFitness(Population * p, unsigned int i)
       cin.read(&c, 1);
     }
 }
-static inline void outputPopulation(Population * p, int nodes,  Coevolution * c, unsigned int i, bool pipeio)
+static inline void outputPopulation(Population * p, int nodes,  Coevolution * c, unsigned int i, bool pipeio, bool stop)
 {
   unsigned int s = p->getMembers()->size();
   unsigned int n = (s-i)/nodes;
@@ -288,6 +288,11 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
 
   while(i < s) {
     cout << "NODES" << endl;
+    if(stop)
+      cout << "STOP" << endl;
+    else
+      cout << "CONTINUE" << endl;
+
     cout << c;
     if(uneven && (s-i)<(2*n)){
       n = (s-i);
@@ -304,13 +309,22 @@ static inline void outputPopulation(Population * p, int nodes,  Coevolution * c,
   if(pipeio)
     cout << "POPULATION\n" ;
 }
-static inline void readPopulation(Phenotypes * p, Coevolution * c, TransferFunctions * tfs, int & gencount)
+static inline bool  readPopulation(Phenotypes * p, Coevolution * c, TransferFunctions * tfs, int & gencount)
 {
   string s;
   cin >> s;
   stringstream tmpbuf;
+  cin >> s;
+  bool returbool;
+  if(s.find("STOP") != string::npos)
+    return false;
+  //  cerr << "s: " << s << endl;
+//   cin >> s;
+//   cerr << "s: " << s << endl;
   Genome * g = NULL;
+
   cin >> c; // read in the coevo stuff..
+
   cin >> s;
 
   int c2 = 0;
@@ -321,6 +335,8 @@ static inline void readPopulation(Phenotypes * p, Coevolution * c, TransferFunct
     p->push_back(new Phenotype(g));
     cin >> s;
   }
+//   cerr << "done reading genomes..: psize" << p->size()<< endl;
+  return true;
 }
 static inline void outputFitness(Phenotypes * p)
 {
@@ -375,9 +391,9 @@ static inline void updateSmoothData(double ** d, Population *p, double avg, int 
 {
   Phenotypes * ph = p->getMembers();
   int gen = p ->getGeneration();
-  d[gen][0] = (d[gen][0]+ph->at(0)->getFitness())/(double)runs;
-  d[gen][1] = (d[gen][1]+avg)/(double)runs;
-  d[gen][2] = (d[gen][2]+ph->at(ph->size()-1)->getFitness())/(double)runs;
+  d[gen][0] = (d[gen][0]+ph->at(0)->getFitness());
+  d[gen][1] = (d[gen][1]+avg);
+  d[gen][2] = (d[gen][2]+ph->at(ph->size()-1)->getFitness());
 }
 static inline void writeRunfile(bool ended, string basefile, string infoline, int pid)
 {
