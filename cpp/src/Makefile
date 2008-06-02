@@ -60,10 +60,11 @@ endif
 ifeq ($(STYLE), RELEASE)
   OPTS = -O3 -Wall
 endif
+
 ifeq ($(STYLE), OPTIMISED)
   ifeq ($(os-type), Linux)
     ifeq ($(p-type), AMD Athlon(tm) 64 X2 Dual Core Processor 4200+)
-      OPTS = -march=k8 -O3 -pipe -fomit-frame-pointer -funroll-loops -ftree-vectorize -ftracer -ffast-math
+      OPTS += -march=k8 -O3 -pipe -fomit-frame-pointer -funroll-loops -ftree-vectorize -ftracer -ffast-math
     endif
     ifeq ($(p-type), AMD Athlon(tm) 64 X2 Dual Core Processor 4600+)
       OPTS = -march=k8 -O3 -pipe -fomit-frame-pointer -funroll-loops -ftree-vectorize -ftracer -ffast-math
@@ -85,6 +86,15 @@ ifeq ($(STYLE), OPTIMISED)
     ifeq ($(p-type), powerpc)	
       OPTS = -mtune=powerpc -maltivec -mabi=altivec -mcpu=7400 -O3 -pipe -fomit-frame-pointer -funroll-loops -ftree-vectorize -ftracer -ffast-math
     endif
+  endif
+endif
+ifeq ($(OPENMP), 1)
+  OPTS += -DNEATZSCHEOPENMP
+  ifeq ($(os-type), Darwin)
+    OPTS += -fopenmp
+  endif
+  ifeq ($(os-type), Linux)
+    OPTS += -openmp
   endif
 endif
 ifeq ($(STYLE), NOOPT)

@@ -30,6 +30,9 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <time.h>
+#ifdef NEATZSCHEOPENMP
+#include <omp.h>
+#endif
 
 using namespace std;
 
@@ -141,6 +144,7 @@ public:
   virtual double f(Phenotype * f){double r = randdouble(); f->setFitness(r); return r;}//muhahaha
   virtual void nextGen(){return;}
 };
+#ifndef NEATZSCHEOPENMP
 class Evaluator {
 private:
   FitnessEvaluator * fe;
@@ -157,7 +161,44 @@ public:
   }
   virtual FitnessEvaluator * getFitnessEvaluator(){return fe;}
 };
+#endif
+#ifdef NEATZSCHEOPENMP
+class Evaluator {
+private:
+  FitnessEvaluator * fe;
+public:
+  Evaluator(FitnessEvaluator * f){fe=f;}
+  virtual ~Evaluator(){};
+  virtual Phenotypes * evaluate(Phenotypes * ps, unsigned int m)
+  {
+    int i=0,tid,nthreads,chunk;
+//     cerr << "in omp eval" << endl;
+#define N m
+#define CHUNKSIZE N/10
+    chunk = CHUNKSIZE;
+#pragma omp parallel shared(m,ps,nthreads,chunk) private(i,tid)
+    {
+      tid = omp_get_thread_num();
+      if (tid == 0)
+	{
+	  nthreads = omp_get_num_threads();
+// 	  cerr << "Number of threads = " << nthreads 
+// 	       << "chunksize: " << CHUNKSIZE << "N" << N <<endl;
+	}
+//       cerr << "Thread "<<tid<<"  starting..." << endl;
+#pragma omp for schedule(dynamic,chunk)
+      for(i=0;i<N;i++)
+	{
+	  fe->f(ps->at(i));
+	  ps->at(i)->transferFitness();
+	}
 
+    }
+    return ps;
+  }
+  virtual FitnessEvaluator * getFitnessEvaluator(){return fe;}
+};
+#endif
 class DistributedEvaluator : public Evaluator {
 public:
   DistributedEvaluator(FitnessEvaluator * f) : Evaluator(f) {}

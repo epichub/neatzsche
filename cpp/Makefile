@@ -18,6 +18,9 @@ no-qt-debug:
 opt:
 	@ cd src ; $(MAKE) STYLE=OPTIMISED ;
 
+openmp:
+	@ cd src ; $(MAKE) STYLE=OPTIMISED OPENMP=1 ;
+
 profile:
 	@ cd src ; $(MAKE) STYLE=PROFILE ;
 
