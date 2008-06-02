@@ -36,26 +36,39 @@ ostream& operator<< (ostream& os, const Gene *g)
 }
 istream& operator>> (istream& is, Gene *g)
 {
-  int id =0;
+  int fid =0, tid=0,marker=0;
+  double w; bool enabld;
   string s;
   is >> s;
-  id = atoi(s.c_str());
-  g->from = g->g->getNode(id);
+  fid = atoi(s.c_str());
+  //  g->from = g->g->getNode(fid);
   is >> s;
-  id = atoi(s.c_str());
-  g->to = g->g->getNode(id);
+  tid = atoi(s.c_str());
+  //  g->to = g->g->getNode(tid);
   is >> s; 
-  g->w = atof(s.c_str());
-  g->mutation=g->w;
+  //g->w = atof(s.c_str());
+  w = atof(s.c_str());
+  //g->mutation=g->w;
   is >> s; 
-  g->marker = atoi(s.c_str());
+  //g->marker = atoi(s.c_str());
+  marker = atoi(s.c_str());
   is >> s;
-  if(s.find("0")!=string::npos)
-    g->enabled = false;
-  else
-    g->enabled = true;
+  enabld = s.find("0")!=string::npos;
+  g->fromData(fid,tid,w,marker,enabld);
+//   if(s.find("0")!=string::npos)
+//     g->enabled = false;
+//   else
+//     g->enabled = true;
   //  cerr << "s: "<<s<<" read in gene: " << g;
   return is;
+}
+void Gene::fromData(int fid, int tid, double w, int marker, bool enbld)
+{
+  from = g->getNode(fid);
+  to = g->getNode(tid);
+  this->w = w;
+  mutation = w;
+  enabled = enbld;  
 }
 bool Gene::equal(Gene * g)
 {

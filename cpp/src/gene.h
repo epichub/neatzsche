@@ -44,6 +44,7 @@ public:
   {
     enabled = true; marker = markerin; from = fromin; to = toin; w = wi; g = go; mutation=w;
   }
+  void fromData(int fid, int tid, double w, int marker, bool enbld);
   Gene * duplicate(Genome * g);
   void disable(){ enabled = false; }
   void enable(){ enabled = true; }
