@@ -22,6 +22,14 @@
 #include "ann.h"
 
 using namespace std;
+
+typdef struct {
+  int fid;
+  int tid;
+  int marker;
+  double w;
+}  GeneSmall;
+
 class Genome;
 class Gene {
 private:
@@ -46,6 +54,9 @@ public:
   }
   void fromData(int fid, int tid, double w, int marker, bool enbld);
   Gene * duplicate(Genome * g);
+  GeneSmall * getSmall()
+  {GeneSmall * gs = new GeneSmall(); gs->fid = from->getID(); 
+    gs->tid = to->getID(); gs->marker = marker; gs->w = w; return gs;}
   void disable(){ enabled = false; }
   void enable(){ enabled = true; }
   NeuralNode * getFrom(){ return from; }
@@ -64,5 +75,6 @@ public:
   friend ostream& operator<< (ostream& os, const Gene *g);
   friend istream& operator>> (istream& is, Gene *g);
 };
+
 inline bool genemarkercomp(Gene * g1, Gene * g2){return g1->getMarker() < g2->getMarker();}
 #endif //_GENE_H_

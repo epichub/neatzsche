@@ -278,7 +278,8 @@ static inline void readFitness(Population * p, unsigned int i)
       cin.read(&c, 1);
     }
 }
-static inline void outputPopulation(Population * p, int nodes,  Coevolution * c, unsigned int i, bool pipeio, bool stop)
+static inline void outputPopulation(Population * p, int nodes,  Coevolution * c, 
+				    unsigned int i, bool pipeio, bool stop)
 {
   unsigned int s = p->getMembers()->size();
   unsigned int n = (s-i)/nodes;

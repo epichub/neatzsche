@@ -29,6 +29,13 @@ class NeuralNode;
 typedef vector< Link * > linkVector;
 typedef vector< NeuralNode * > nodeVector;
 
+typdef struct {
+  int id;
+  char * type;
+  int depth;
+  string ftype;
+}  NeuralNodeSmall;
+
 class Network
 {
 private:
@@ -55,7 +62,6 @@ private:
   int id;
   linkVector * links;
   TransferFunction * tFunc;
-
   double cache;
   bool bias;
   char type;
@@ -74,6 +80,10 @@ public:
     tfs=itfs;outputset=false;};
   NeuralNode(TransferFunction * func, int iid, char t, int d);
   virtual ~NeuralNode();
+  NeuralNodeSmall * getSmall()
+  {NeuralNodeSmall nns = new NeuralNodeSmall(); 
+    nns->id = id; nns->type=type; nns->depth = depth; 
+    nns->ftype=tFunc->ftype; return nns;}
   NeuralNode * duplicate(){NeuralNode * ret = new NeuralNode(this); ret->links= new linkVector();if(outputset) ret->setOutput(cache); return ret;}
   bool outputset;
   void setInput(double inp){input = inp;}
@@ -162,5 +172,7 @@ public:
   void setDeletable(){deletable = true;}
   bool getDeletable(){return deletable;}
 };
+
+
 
 #endif //_NEURALNET_H_
