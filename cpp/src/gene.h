@@ -23,11 +23,12 @@
 
 using namespace std;
 
-typdef struct {
+typedef struct {
   int fid;
   int tid;
   int marker;
   double w;
+  bool enabled;
 }  GeneSmall;
 
 class Genome;
@@ -52,11 +53,13 @@ public:
   {
     enabled = true; marker = markerin; from = fromin; to = toin; w = wi; g = go; mutation=w;
   }
+
   void fromData(int fid, int tid, double w, int marker, bool enbld);
   Gene * duplicate(Genome * g);
   GeneSmall * getSmall()
   {GeneSmall * gs = new GeneSmall(); gs->fid = from->getID(); 
-    gs->tid = to->getID(); gs->marker = marker; gs->w = w; return gs;}
+    gs->tid = to->getID(); gs->marker = marker; gs->w = w; gs->enabled = enabled; return gs;}
+  void fromSmall(GeneSmall * gs, Genome * genome);
   void disable(){ enabled = false; }
   void enable(){ enabled = true; }
   NeuralNode * getFrom(){ return from; }
@@ -77,4 +80,5 @@ public:
 };
 
 inline bool genemarkercomp(Gene * g1, Gene * g2){return g1->getMarker() < g2->getMarker();}
+
 #endif //_GENE_H_

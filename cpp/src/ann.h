@@ -29,9 +29,9 @@ class NeuralNode;
 typedef vector< Link * > linkVector;
 typedef vector< NeuralNode * > nodeVector;
 
-typdef struct {
+typedef struct {
   int id;
-  char * type;
+  char type;
   int depth;
   string ftype;
 }  NeuralNodeSmall;
@@ -81,9 +81,10 @@ public:
   NeuralNode(TransferFunction * func, int iid, char t, int d);
   virtual ~NeuralNode();
   NeuralNodeSmall * getSmall()
-  {NeuralNodeSmall nns = new NeuralNodeSmall(); 
+  {NeuralNodeSmall * nns = new NeuralNodeSmall(); 
     nns->id = id; nns->type=type; nns->depth = depth; 
     nns->ftype=tFunc->ftype; return nns;}
+  void fromSmall(NeuralNodeSmall * ns);
   NeuralNode * duplicate(){NeuralNode * ret = new NeuralNode(this); ret->links= new linkVector();if(outputset) ret->setOutput(cache); return ret;}
   bool outputset;
   void setInput(double inp){input = inp;}

@@ -19,6 +19,7 @@
  */
 #include "gene.h"
 #include "genome.h"
+
 Gene * Gene::duplicate(Genome * g)
 {
   Gene * ret = new Gene(this);
@@ -99,4 +100,8 @@ bool Gene::equal(Gene * g)
     return false;
   }
   return true;
+}
+void Gene::fromSmall(GeneSmall * gs, Genome * genome){
+  g=genome;
+  from = g->getNode(gs->fid); to = g->getNode(gs->tid); w = gs->w; mutation = gs->w; enabled = gs->enabled;
 }

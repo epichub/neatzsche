@@ -721,7 +721,7 @@ Genome * Genome::crossover(Genome * g, bool avg,
   delete o;
   Gene * nfirst = newgenes->at(0);
   if(nfirst->getFrom()->getID()!=ofirst->getFrom()->getID()&&nfirst->getFrom()->getType()==NeuralNode::BIAS)
-    cerr << "ofirstgetfromid != nfirstgetfromid ntype: bias otype:" << ofirst->getFrom()->getType() << endl;
+    cerr << "ofirstgetfxromid != nfirstgetfromid ntype: bias otype:" << ofirst->getFrom()->getType() << endl;
   return new Genome(genomeid,newgenes,newnodes,input,output,set,innov,tfs);
 }
 
@@ -919,10 +919,8 @@ istream& operator>> (istream& is, Genome *g)
     g->genes->push_back(n);
     s="";
     is >> s;
-//     if(g->id==10){
-//       cerr << "read gene nr " << ++c2 << " s: " << s <<endl;
-//     }
   }
+
   if(g->debug)
   cerr << "after gene readin.." << endl;
   if(g->innov){
@@ -952,6 +950,40 @@ ostream& operator<< (ostream& os, const Genome *g)
   os << "genomeend" << endl;
   return os;
 }
+void Genome::toSmall(NeuralNodeSmall * ns, GeneSmall * gs, int & nodec, int & genec)
+{
+  nodec = nodes->size();
+  genec = genes->size();
+  ns = (NeuralNodeSmall*)malloc(sizeof(NeuralNodeSmall)*nodec);
+  gs = (GeneSmall*)malloc(sizeof(GeneSmall)*genec);
+  for(unsigned int i=0;i<nodec;i++)
+    {
+      nodes->at(i)->fromSmall(&ns[i]);
+    }
+  for(unsigned int i=0;i<genec;i++)
+    {
+      genes->at(i)->fromSmall(&gs[i],this);
+    }
+  
+}
+void Genome::fromSmall(int nodec, NeuralNodeSmall * ns, int genec, GeneSmall * gs)
+{
+  for(unsigned int i=0;i<nodec;i++){
+    NeuralNode * n = new NeuralNode(tfs);
+    n->fromSmall(&ns[i]);
+    nodes->push_back(n);
+  }
+  for(unsigned int i=0;i<genec;i++){
+    Gene * g = new Gene();
+    g->fromSmall(&gs[i],this);
+    genes->push_back(g);
+  }
+  if(innov){
+    innov->setInitNum(genes->size()+1);
+    innov->setNodeNum(nodes->size()+1);
+  }
+}
+
 string Genome::print()
 {
   stringstream ss;

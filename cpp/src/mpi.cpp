@@ -6,6 +6,7 @@ void Build_gene_type(GeneSmall * gs,
   int * tid = &(gs->tid);
   int * marker = &(gs->marker);
   double * w = &(gs->w);
+  bool enabled = &(gs->enabled);
   
   int block_lengths[5];
   MPI_Aint displacements[5];
@@ -28,7 +29,7 @@ void Build_gene_type(GeneSmall * gs,
   displacements[2] = address - start_address;
   MPI_Address(w, &address);
   displacements[3] = address - start_address;
-  MPI_Address(enbld, &address);
+  MPI_Address(enabled, &address);
   displacements[4] = address - start_address;
   MPI_Type_sctruct(5,block_lengths,displacements,typelist,mpi_t_ptr);
   MPI_Type_commit(mpi_t_ptr);

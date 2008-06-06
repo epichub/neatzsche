@@ -259,30 +259,40 @@ ostream& operator<< (ostream& os, const NeuralNode *n)
 istream& operator>> (istream& is, NeuralNode *n)
 {
   //  cerr << "in nnode >> operator " << endl;
-  int id = 0; char type; int d; string ftype = "";
+  //int id = 0; char type; int d; string ftype = "";
+  NeuralNodeSmall * ns = new NeuralNodeSmall();
   string s;
   is >> s;
   // cerr << "id: " << s << endl;
-  id = atoi(s.c_str());
+  ns->id = atoi(s.c_str());
   is >> s;
   //  cerr << "type: " << s << endl;
-  type = s[0];
+  ns->type = s[0];
   is >> s;
   //  cerr << "d: " << s << endl;
-  d = atoi(s.c_str());
+  ns->depth = atoi(s.c_str());
   is >> s;
   //  cerr << "ftype: " << s << endl;
-  ftype = s;
+  ns->ftype = s;
+
   //is >> s;cerr << " id: " << s;  is >> type; is >> d; is >> ftype;
   //cerr << "id: " << id << " type: " << type << " d: " << d << " ftype : " << ftype << endl;
-  n->id = id; n->type = type; n->depth=d;
-  n->initTFunc(ftype);
+  //n->id = id; n->type = type; n->depth=d;
   //   cerr << "i >> operator for node id: " << id << endl;
+
+  n->fromSmall(ns);
+  delete ns;
+
   if(n->type==NeuralNode::BIAS){
     n->setOutput(1);
-    //     cerr << "la til bias node" << endl;
   }
   return is;
+}
+void NeuralNode::fromSmall(NeuralNodeSmall * ns)
+{
+  id = ns->id; type = ns->type;
+  depth = ns->depth;
+  initTFunc(ns->ftype);
 }
 void NeuralNode::initTFunc(string ftype)//helper function for >> operator
 {

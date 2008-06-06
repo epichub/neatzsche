@@ -22,11 +22,41 @@ public:
   ~Neatzsche_MPI(){}
   static unsigned int MPI_Cont = 0;
   static unsigned int MPI_Stop = 0;
-  Phenoetypes * receive(Phenoetypes * p)
+  Phenoetypes * receive(Phenoetypes * p, TransferFunctions * tfs)
   {
     // int MPI_Recv( void *buf, int count, MPI_Datatype datatype, int source, 
     //               int tag, MPI_Comm comm, MPI_Status *status )
+    Genome * g = new Genome(tfs);
+//     MPI_DataType * dt;
+//     Build_node_type(g,&dt);
+//     MPI_Recv ( , message_size, MPI_CHAR, neighbor, 0, MPI_COMM_WORLD, &status );
+    MPI_Status status;
+    MPI_DataType dt;
+    int genomes,genes,nodes;
+    MPI_Rec(&genomes,1,MPI_INT,0,0,MPI_COMM_WORLD);//Receive the number of genome
+    NeuralNodeSmall * nns;
+    GeneSmall * gs; 
+    nodeVector * nv = NULL; Genes * genev = NULL; vector<Genome *> v = new vector<Genome *>();
+    Genome * genome = NULL;
+    for(unsigned int i=0;i<genomes;i++){
 
+      MPI_Rec(&nodes,1,MPI_INT,0,0,MPI_COMM_WORLD);
+      MPI_Rec(&genes,1,MPI_INT,0,0,MPI_COMM_WORLD);
+
+//       for(unsigned int i2=0;i2<nodes;i2++){
+      nns = malloc(sizeof(NeuralNodeSmall)*nodes);
+      gs = malloc(sizeof(NeuralNodeSmall)*nodes);
+
+      Build_node_type(&nns,&dt);
+      MPI_Rec(nns,nodes,dt,0,0,MPI_COMM_WORLD);
+      //       }
+//       for(unsigned int i2=0;i2<genes;i2++){
+      Build_gene_type(&gs,&dt);
+      MPI_Rec(gs,genes,dt,0,0,MPI_COMM_WORLD);
+//       }
+      genome = new Genome(tfs);
+      genome->fromSmall(nodes,nns,genes,gs);
+    }
     //     MPI_Recv ( , message_size, MPI_CHAR, neighbor, 0, MPI_COMM_WORLD, &status );
   }
   void send(Population * p, unsigned int nodes unsigned int i)
@@ -34,9 +64,15 @@ public:
     unsigned int s = p->getMembers()->size();
     unsigned int n = (s-i)/nodes;
     bool uneven = (floor((s-i)/(double)n)!=(s-i)/(double)n);
-    MPI_DataType * dt;
+    MPI_DataType * genetype;
+    MPI_DataType * nodetype;
     MPI_DataType * stt;
-    Build_genome_type(phenotypes->getMembers()->at(i),&stt);	
+    GeneSmall gs;
+    GeneSmall ns;
+    Build_node_type(&ns,nodetype);
+    Build_node_type(&gs,genetype);
+
+    //Build_genome_type(phenotypes->getMembers()->at(i),&stt);	
     int sc=0;
     while(i < s) {
       if(uneven && (s-i)<(2*n)){
@@ -48,7 +84,7 @@ public:
       for(size_t i2 = 0; i2 < n && i < s; i2++, i++) {
 	//	Genome ** g = new Genome * [];
 	Build_genome_type(phenotypes->getMembers()->at(i),&dt);	
-	MPI_Send(phenotypes->getMembers()->at(i),1,dt,sc,MPI_Cont,MPI_COMM_WORLD);
+	MPI_Send(phenotypes->getMembers()->at(i)->getSmall(),1,dt,sc,MPI_Cont,MPI_COMM_WORLD);
 //       MPI_Send ( dummy, message_size, MPI_CHAR, neighbor, 0, MPI_COMM_WORLD );
 //       MPI_Recv ( dummy, message_size, MPI_CHAR, neighbor, 0, MPI_COMM_WORLD, &status );
       }
