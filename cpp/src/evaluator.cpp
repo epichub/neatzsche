@@ -788,13 +788,13 @@ double HyperNEAT::f(Phenotype * f)
   int in = 0;
   for(unsigned int i=0;i<layers->size();i++){
     for(unsigned int i2=0;i2<layers->at(i)->size();i2++){
-//       cout <<  "type: "<<layers->at(i)->at(i2)->getType() << " id: "<<layers->at(i)->at(i2)->getID()<<" layers->at(i)->at(i2)->getInputLinks()->size(): " << layers->at(i)->at(i2)->getInputLinks()->size() << endl;
-//       in += layers->at(i)->at(i2)->getInputLinks()->size();
+      cout <<  "type: "<<layers->at(i)->at(i2)->getType() << " id: "<<layers->at(i)->at(i2)->getID()<<" layers->at(i)->at(i2)->getInputLinks()->size(): " << layers->at(i)->at(i2)->getInputLinks()->size() << endl;
+      in += layers->at(i)->at(i2)->getInputLinks()->size();
       nv->push_back(layers->at(i)->at(i2));
     }
   }
   
-//   cerr << "input links: " << in << endl;
+  cerr << "input links: " << in << endl;
   n = new Network(dims->at(0)[0]*dims->at(0)[1],dims->at(dims->size()-1)[0]*dims->at(dims->size()-1)[1]);
 
   n->addNodes(nv,false);
