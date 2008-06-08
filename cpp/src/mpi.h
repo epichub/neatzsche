@@ -71,8 +71,11 @@ public:
     GeneSmall ns;
     Build_node_type(&ns,nodetype);
     Build_node_type(&gs,genetype);
-
+    GeneSmall * gsv = NULL;
+    NeuralNodeSmall * nsv = NULL;
+    Genome * genome = NULL; int genes = 0; int nodes = 0;
     //Build_genome_type(phenotypes->getMembers()->at(i),&stt);	
+    MPI_Tag sendtag;
     int sc=0;
     while(i < s) {
       if(uneven && (s-i)<(2*n)){
@@ -81,12 +84,27 @@ public:
       // 	Phenotypes*[] = new Phenotypes * [];
       
       sc++;
+      MPI_Send(n,1,MPI_INT,sc,sendtag,MPI_COMM_WORLD);//send number of genomes incoming
       for(size_t i2 = 0; i2 < n && i < s; i2++, i++) {
 	//	Genome ** g = new Genome * [];
-	Build_genome_type(phenotypes->getMembers()->at(i),&dt);	
-	MPI_Send(phenotypes->getMembers()->at(i)->getSmall(),1,dt,sc,MPI_Cont,MPI_COMM_WORLD);
+	genome = phenotypes->getMembers()->at(i)->getGenome();
+	genome->toSmall(nsv,gsv,&nodes,&genes);
+// 	for(unsigned int i=0;i<genome->size()
+// 	Build_genome_type(phenotypes->getMembers()->at(i),&dt);	
+	if(i2<(n-1))
+	  sendtag = MPI_Cont;
+	else
+	  sendtag = MPI_Stop;
+
+	MPI_Send(nodes,1,MPI_INT,sc,sendtag,MPI_COMM_WORLD);//send number of nodes
+	MPI_Send(genes,1,MPI_INT,sc,sendtag,MPI_COMM_WORLD);//send number of genes
+
+	MPI_Send(nsv,nodes,nodetype,sc,sendtag,MPI_COMM_WORLD);//send node vector
+	MPI_Send(gsv,genes,genetype,sc,sendtag,MPI_COMM_WORLD);//send gene vector
+
 //       MPI_Send ( dummy, message_size, MPI_CHAR, neighbor, 0, MPI_COMM_WORLD );
 //       MPI_Recv ( dummy, message_size, MPI_CHAR, neighbor, 0, MPI_COMM_WORLD, &status );
+
       }
       MPI_Send(phenotypes->getMembers()->at(0),1,stt,sc,MPI_Stop,MPI_COMM_WORLD);
     }

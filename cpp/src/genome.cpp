@@ -950,7 +950,7 @@ ostream& operator<< (ostream& os, const Genome *g)
   os << "genomeend" << endl;
   return os;
 }
-void Genome::toSmall(NeuralNodeSmall * ns, GeneSmall * gs, int & nodec, int & genec)
+void Genome::toSmall(NeuralNodeSmall * ns, GeneSmall * gs, int * nodec, int * genec)
 {
   nodec = nodes->size();
   genec = genes->size();
