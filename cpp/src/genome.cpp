@@ -952,15 +952,15 @@ ostream& operator<< (ostream& os, const Genome *g)
 }
 void Genome::toSmall(NeuralNodeSmall * ns, GeneSmall * gs, int * nodec, int * genec)
 {
-  nodec = nodes->size();
-  genec = genes->size();
-  ns = (NeuralNodeSmall*)malloc(sizeof(NeuralNodeSmall)*nodec);
-  gs = (GeneSmall*)malloc(sizeof(GeneSmall)*genec);
-  for(unsigned int i=0;i<nodec;i++)
+  *nodec = nodes->size();
+  *genec = genes->size();
+  ns = (NeuralNodeSmall*)malloc(sizeof(NeuralNodeSmall)*(*nodec));
+  gs = (GeneSmall*)malloc(sizeof(GeneSmall)*(*genec));
+  for(unsigned int i=0;i<*nodec;i++)
     {
       nodes->at(i)->fromSmall(&ns[i]);
     }
-  for(unsigned int i=0;i<genec;i++)
+  for(unsigned int i=0;i<*genec;i++)
     {
       genes->at(i)->fromSmall(&gs[i],this);
     }
