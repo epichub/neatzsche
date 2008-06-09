@@ -138,9 +138,9 @@ int main(int argc, char *args[])
 	pop->genesis(oseed,osize,oelitism);
       }else{
 	pop->resetSpawn();
-      }
-	
+      }	
     }
+
   }
   ((DatasetHyperNEAT*)de)->runTest(sbest);
   cout << ((DatasetHyperNEAT*)de)->output(sbest);
