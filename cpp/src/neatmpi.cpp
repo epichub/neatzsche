@@ -6,7 +6,7 @@ void Build_gene_type(GeneSmall * gs,
   int * tid = &(gs->tid);
   int * marker = &(gs->marker);
   double * w = &(gs->w);
-  bool enabled = &(gs->enabled);
+  bool * enabled = &(gs->enabled);
   
   int block_lengths[5];
   MPI::Aint displacements[5];
@@ -29,41 +29,41 @@ void Build_gene_type(GeneSmall * gs,
   displacements[2] = address - start_address;
   address = MPI::Get_address(w);
   displacements[3] = address - start_address;
-  address = MPI::Get_address((void*)enabled);
+  address = MPI::Get_address(enabled);
   displacements[4] = address - start_address;
   *mpi_t_ptr = MPI::Datatype::Create_struct(5,block_lengths,displacements,typelist);
   mpi_t_ptr->Commit();
   //  MPI::Datatype::Commit(mpi_t_ptr);
 }
-void Build_neuralnode_type(NeuralNodeSmall * ns,
-		     MPI::Datatype *mpi_t_ptr)
+MPI::Datatype Build_neuralnode_type(NeuralNodeSmall * ns)
 {
-  int * id = &(ns->id);
-  char * type = &(ns->type);
-  int * depth = &(ns->depth);
-  string * ftype = &(ns->ftype);
-  int block_lengths[5];
-  MPI::Aint displacements[5];
-  MPI::Datatype typelist[5];
+//   int * id = &();
+//   char * type = &(ns->type);
+//   int * depth = &(ns->depth);
+  //string * ftype = &(ns->ftype);
+  int block_lengths[3];
+  MPI::Aint displacements[3];
+  MPI::Datatype typelist[3];
   MPI::Aint start_address;
   MPI::Aint address;
   
   typelist[0] = MPI::INT;
   typelist[1] = MPI::CHAR;
   typelist[2] = MPI::INT;
-  typelist[3] = MPI::STRING;
+  //  typelist[3] = MPI::STRING;
 
-  block_length[0] = block_length[1] = block_length[2] = 1;
+  block_lengths[0] = block_lengths[1] = block_lengths[2] = 1;
   displacements[0] = 0;
-  start_address = MPI::Get_address(id);
-  address = MPI::Get_address(type);
+  start_address = MPI::Get_address((void*)ns->id);
+  address = MPI::Get_address((void*)ns->type);
   displacements[1] = address - start_address;
-  address = MPI::Get_address(depth);
+  address = MPI::Get_address((void*)ns->depth);
   displacements[2] = address - start_address;
-  address = MPI::Get_address(ftype);
-  displacements[3] = address - start_address;
-  MPI::Type_struct(4,block_lengths,displacements,typelist,mpi_t_ptr);
-  MPI::Type_commit(mpi_t_ptr);
+//   address = MPI::Get_address(ftype);
+//   displacements[3] = address - start_address;
+  MPI::Datatype mpi_t_ptr =  MPI::Datatype::Create_struct(3,block_lengths,displacements,typelist);
+  mpi_t_ptr.Commit();
+  return mpi_t_ptr;
 }
 
 // void Build_genome_type(Genome * g,

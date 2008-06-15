@@ -153,7 +153,7 @@ $(SRCS):
 image.o:
 	$(CXX) $(BINCLUDE) $(BLIBS) -c image.c -ltiff
 
-mpitest.o:
+mpitest.o: mpitest.cpp neatmpi.h neatmpi.cpp neuralmath.h neuralmath.cpp
 	$(MPICXX) -c mpitest.cpp -ltiff
 
 neatmaster.cpp: $(OBJS) runner.h
@@ -226,7 +226,7 @@ test-hyperdataset: $(OBJS) test-hyperdataset.o test-hyperdataset.cpp
 
 mpitest: $(OBJS17) mpitest.o mpitest.cpp
 	@echo $(MPICXX)
-	$(MPICXX) $(BLIBS) $(LIBS) -o $@ mpitest.o $(OBJS17) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
+	$(MPICXX) $(BLIBS) $(LIBS) -o $@ $(OBJS17) -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
 	@mv mpitest ../
 
 test-or: $(OBJS) test-or.o test-or.cpp

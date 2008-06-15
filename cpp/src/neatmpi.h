@@ -8,8 +8,9 @@
 
 void Build_gene_type(GeneSmall * gs,
 			MPI::Datatype *mpi_p_ptr);
-void Build_neuralnode_type(NeuralNodeSmall * nns,
-		     MPI::Datatype *mpi_t_ptr);
+MPI::Datatype Build_neuralnode_type(NeuralNodeSmall * ns);
+// void Build_neuralnode_type(NeuralNodeSmall * nns,
+// 		     MPI::Datatype *mpi_t_ptr);
 void Build_genome_type(Genome * g,
 		     MPI::Datatype *mpi_t_ptr);
 using namespace std;
@@ -27,7 +28,7 @@ public:
     size = MPI::COMM_WORLD.Get_size();
     NeuralNodeSmall ns;
     GeneSmall gs;
-    Build_neuralnode_type(&ns,&nodetype);
+    nodetype = Build_neuralnode_type(&ns);
     Build_gene_type(&gs,&genetype);
   }
   ~Neatzsche_MPI(){}
@@ -51,26 +52,52 @@ public:
     GeneSmall * gs; 
     nodeVector * nv = NULL; Genes * genev = NULL; vector<Genome *> * v = new vector<Genome *>();
     Genome * genome = NULL;
-
+    int stringc=0; char *strbuf;vector<string> * ftypes = NULL;
     for(unsigned int i=0;i<genomes;i++){
+      ftypes = new vector<string>();
 
       MPI::COMM_WORLD.Recv(&nodes,1,MPI_INT,0,0);
       MPI::COMM_WORLD.Recv(&genes,1,MPI_INT,0,0);
 
-//       for(unsigned int i2=0;i2<nodes;i2++){
       nns = (NeuralNodeSmall*)malloc(sizeof(NeuralNodeSmall)*nodes);
       gs = (GeneSmall*)malloc(sizeof(GeneSmall)*nodes);
+      cout << "allocation done, starting reception.." << endl;
+      for(int i=0;i<nodes;i++){
+	MPI::COMM_WORLD.Recv(&(nns[i]),1,nodetype,0,0);
+	cout << "received i: " << i << " id: " << nns[i].id << " type: " 
+	     << nns[i].type << " depth: " << nns[i].depth << endl;
+      }
+//       MPI::COMM_WORLD.Recv(&(nns[0]),nodes,nodetype,0,0);
+//       for(int i=0;i<nodes;i++){
 
-
-      MPI::COMM_WORLD.Recv(nns,nodes,nodetype,0,0);
-      //       }
-//       for(unsigned int i2=0;i2<genes;i2++){
-
-      MPI::COMM_WORLD.Recv(gs,genes,genetype,0,0);
 //       }
+      cout << "receiving nodes: " << nodes << endl;
+      for(int i=0;i<nodes;i++){//blargh, 1 int would be more usefull in this case:P
+	MPI::COMM_WORLD.Probe(0, MPI_Cont, status);
+	stringc = status.Get_count(MPI_CHAR);
+	strbuf = (char*) malloc(sizeof(char)*stringc);
+	MPI::COMM_WORLD.Recv(strbuf,stringc,MPI::CHAR,0,MPI_Cont);//receive the ftype of the node
+// 	strbuf[stringc] = '\0';
+	cout << "stringc: " << stringc << " sizeof(strbuf): "<<sizeof(strbuf) 
+	     <<"  recv ftype: \"" << strbuf << "\" substred: \""
+	     << string(strbuf).substr(0,stringc) << "\"" << endl;
+	ftypes->push_back(string(strbuf).substr(0,stringc));
+	free(strbuf);
+      }
+      cout << "receiving a gs " << endl;
+      MPI::COMM_WORLD.Recv(gs,genes,genetype,0,0);
+      cout << "done receiving a gs " << endl;
+
+      cout << "going to make genome and insert! :P " << endl;
       genome = new Genome(tfs);
-      genome->fromSmall(nodes,nns,genes,gs);
+      cout << "after new genome" << endl;
+      genome->fromSmall(nodes,nns,genes,gs,ftypes);
+      cout << "after from small" << endl;
+      cout << genome << endl;
+      delete ftypes;
+      cout << "after delet ftype" << endl;
       p->push_back(new Phenotype(genome));
+      cout << "done trying to make genome and insert! " << endl;
     }
     //     MPI::COMM_WORLD.Recvv ( , message_size, MPI_CHAR, neighbor, 0, MPI_COMM_WORLD, &status );
   }
@@ -88,6 +115,7 @@ public:
     Genome * genome = NULL; int genes = 0; int nnodes = 0;
     //Build_genome_type(phenotypes->getMembers()->at(i),&stt);	
     int sendtag = Neatzsche_MPI::MPI_Cont;
+    string sftype;
     int sc=0;
     while(i < s) {
       if(uneven && (s-i)<(2*n)){
@@ -95,11 +123,16 @@ public:
       }
       // 	Phenotypes*[] = new Phenotypes * [];
       
-      sc++;
+      sc = ((sc+1) % (size-1))+1;
+//       cout << "sending to sc: "<<sc<<" : " << n << " genomes " << endl;
       MPI::COMM_WORLD.Send(&n,1,MPI_INT,sc,sendtag);//send number of genomes incoming
       for(size_t i2 = 0; i2 < n && i < s; i2++, i++) {
 	//	Genome ** g = new Genome * [];
+
 	genome = pop->getMembers()->at(i)->getGenome();
+// 	cout << "sending genome " << genome->getID() 
+// 	     << " nodes: " << genome->getNodes()->size()
+// 	     << " genes: " << genome->getGenes()->size() << endl;
 	genome->toSmall(nsv,gsv,&nnodes,&genes);
 // 	for(unsigned int i=0;i<genome->size()
 // 	Build_genome_type(phenotypes->getMembers()->at(i),&dt);	
@@ -109,10 +142,24 @@ public:
 	  sendtag = MPI_Stop;
 // 	nnodes = genome->getNodes()->size();
 // 	genes = genome->geGenes()->size();
+// 	cout << "sending " << nnodes << " nodes " << endl;
 	MPI::COMM_WORLD.Send(&nnodes,1,MPI_INT,sc,sendtag);//send number of nodes
+// 	cout << "sending " << genes << " genes " << endl;
 	MPI::COMM_WORLD.Send(&genes,1,MPI_INT,sc,sendtag);//send number of genes
-
-	MPI::COMM_WORLD.Send(nsv,nnodes,nodetype,sc,sendtag);//send node vector
+	cout << "sending nsv " << endl;
+	for(int i=0;i<nodes;i++){
+	  nodetype = Build_neuralnode_type(&nsv[i]);
+	  MPI::COMM_WORLD.Send(&nsv[i],1,nodetype,sc,sendtag);//send node vector
+	}
+	//	MPI::COMM_WORLD.Send(&nsv,nnodes,nodetype,sc,sendtag);//send node vector
+	cout << "after sending nsv " << endl;
+	for(int i=0;i<nnodes;i++){
+	  sftype = "";
+	  sftype = genome->getNodes()->at(i)->getTFunc()->ftype;
+// 	  cout << "length: "<<sftype.length()<<" sending ftype: \"" << sftype.c_str() << "\"" << endl;
+	  MPI::COMM_WORLD.Send(sftype.c_str(),sftype.length(),MPI::CHAR,sc,sendtag);//send gene vector
+	}
+// 	cout << "sending gsv " << endl;
 	MPI::COMM_WORLD.Send(gsv,genes,genetype,sc,sendtag);//send gene vector
 
       }

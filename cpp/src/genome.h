@@ -76,7 +76,7 @@ public:
   void mutatereenable();
   void mutateaddlink(int tries);
   void mutateaddnode(int &cnodeid);
-  void fromSmall(int nodes, NeuralNodeSmall * ns, int genes, GeneSmall * gs);
+  void fromSmall(int nodec, NeuralNodeSmall * ns, int genec, GeneSmall * gs, vector<string> * v);
   void toSmall(NeuralNodeSmall * ns, GeneSmall * gs, int * nodes, int * genes);
   Genome * crossover(Genome * g, bool avg, double f1, double f2, int genomeid, bool sp);
   int getLastInnov(){if(genes->size()==0) return 0; 

@@ -445,6 +445,13 @@ static inline void drawtestUsage(string progname)
        << makepopulationUsage() << flush
        << makeselectorUsage() << flush ; 
 }
+static inline void mpitestusage(string progname)
+{
+  cerr << "usage: (all the node numbers are for the initial generation) " << endl
+       << progname << " [seed (0 for new)] [settings file] [pop options]" << endl
+       << "where:" << endl << flush
+       << makepopulationUsage() << flush ; 
+}
 static inline void eyetestUsage(string progname)
 {
   cerr << "usage: (all the node numbers are for the initial generation) " << endl

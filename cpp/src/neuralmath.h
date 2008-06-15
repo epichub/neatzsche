@@ -154,7 +154,7 @@ public:
       }
 
     }
-    cerr << "returning null!?" << endl;
+    cerr << "returning null!? ftype: \"" << ftype << "\""<< endl;
     return NULL;
   }
 };

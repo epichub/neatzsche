@@ -273,14 +273,14 @@ istream& operator>> (istream& is, NeuralNode *n)
   ns->depth = atoi(s.c_str());
   is >> s;
   //  cerr << "ftype: " << s << endl;
-  ns->ftype = s;
+//   ns->ftype = s;
 
   //is >> s;cerr << " id: " << s;  is >> type; is >> d; is >> ftype;
   //cerr << "id: " << id << " type: " << type << " d: " << d << " ftype : " << ftype << endl;
   //n->id = id; n->type = type; n->depth=d;
   //   cerr << "i >> operator for node id: " << id << endl;
 
-  n->fromSmall(ns);
+  n->fromSmall(ns,s);
   delete ns;
 
   if(n->type==NeuralNode::BIAS){
@@ -288,11 +288,11 @@ istream& operator>> (istream& is, NeuralNode *n)
   }
   return is;
 }
-void NeuralNode::fromSmall(NeuralNodeSmall * ns)
+void NeuralNode::fromSmall(NeuralNodeSmall * ns, string inftype)
 {
   id = ns->id; type = ns->type;
   depth = ns->depth;
-  initTFunc(ns->ftype);
+  initTFunc(inftype);
 }
 void NeuralNode::initTFunc(string ftype)//helper function for >> operator
 {

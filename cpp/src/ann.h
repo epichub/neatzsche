@@ -33,7 +33,7 @@ typedef struct {
   int id;
   char type;
   int depth;
-  string ftype;
+  //  string ftype;
 }  NeuralNodeSmall;
 
 class Network
@@ -83,8 +83,9 @@ public:
   NeuralNodeSmall * getSmall()
   {NeuralNodeSmall * nns = new NeuralNodeSmall(); 
     nns->id = id; nns->type=type; nns->depth = depth; 
-    nns->ftype=tFunc->ftype; return nns;}
-  void fromSmall(NeuralNodeSmall * ns);
+    //nns->ftype=tFunc->ftype; 
+    return nns;}
+  void fromSmall(NeuralNodeSmall * ns, string inftype);
   NeuralNode * duplicate(){NeuralNode * ret = new NeuralNode(this); ret->links= new linkVector();if(outputset) ret->setOutput(cache); return ret;}
   bool outputset;
   void setInput(double inp){input = inp;}

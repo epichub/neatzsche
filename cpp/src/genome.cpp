@@ -111,18 +111,22 @@ Genome::Genome(int new_id,int i, int o, int n,int nmax,
   randomize(i,o,n,nmax,r,linkprob);
 }
 /*
-  a simple method to create a running network from the gene, able to
+  a simple method to create a running network from the genome, able to
   take input and create output
 */
 Network * Genome::genesis()
 {
   if(!linksmade){
     //setting up links..
-    for(unsigned int i=0;i<genes->size();i++)
-      if(genes->at(i)->isEnabled())
+    for(unsigned int i=0;i<genes->size();i++){
+      if(genes->at(i)->isEnabled()){
+	cout << "from: " << genes->at(i)->getTo()->getID()
+	     << " to: " << genes->at(i)->getFrom()->getID() << endl;
 	new Link(false,genes->at(i)->getFrom(),
 		 genes->at(i)->getTo(),
 		 genes->at(i)->getWeight());
+      }
+    }
     linksmade = true;
   }
 
@@ -131,7 +135,7 @@ Network * Genome::genesis()
   ret->addNodes(nodes,true);
   return ret;
 }
-//delete all pointer and allocate memory
+//delete all pointers and free allocated memory
 Genome::~Genome()
 {
 //   cerr << "deleing genome " << id << endl;
@@ -953,26 +957,31 @@ ostream& operator<< (ostream& os, const Genome *g)
 void Genome::toSmall(NeuralNodeSmall * ns, GeneSmall * gs, int * nodec, int * genec)
 {
   *nodec = nodes->size();
+//   cout << "nodes->size: " << nodes->size() << " nodec: " << *nodec <<endl;
   *genec = genes->size();
+//   cout << "genes->size: " << genes->size() << " genec: " << *genec <<endl;
   ns = (NeuralNodeSmall*)malloc(sizeof(NeuralNodeSmall)*(*nodec));
   gs = (GeneSmall*)malloc(sizeof(GeneSmall)*(*genec));
   for(unsigned int i=0;i<*nodec;i++)
     {
-      nodes->at(i)->fromSmall(&ns[i]);
+      ns[i] = *nodes->at(i)->getSmall();
     }
   for(unsigned int i=0;i<*genec;i++)
     {
-      genes->at(i)->fromSmall(&gs[i],this);
+      gs[i] = *genes->at(i)->getSmall();
     }
   
 }
-void Genome::fromSmall(int nodec, NeuralNodeSmall * ns, int genec, GeneSmall * gs)
+void Genome::fromSmall(int nodec, NeuralNodeSmall * ns, int genec, GeneSmall * gs, vector<string> * v)
 {
+  cout << "before new nodes vsize: " << v->size() << " nodec: " << nodec << endl;
   for(unsigned int i=0;i<nodec;i++){
+    cout << "new nodes i:" << i << " vati: " << v->at(i) << endl;
     NeuralNode * n = new NeuralNode(tfs);
-    n->fromSmall(&ns[i]);
+    n->fromSmall(&ns[i],v->at(i));
     nodes->push_back(n);
   }
+  cout << "after new nodes" << endl;
   for(unsigned int i=0;i<genec;i++){
     Gene * g = new Gene();
     g->fromSmall(&gs[i],this);
