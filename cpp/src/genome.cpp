@@ -964,7 +964,7 @@ ostream& operator<< (ostream& os, const Genome *g)
   os << "genomeend" << endl;
   return os;
 }
-void Genome::toSmall(NeuralNodeSmall * ns, GeneSmall * gs, int * nodec, int * genec)
+void Genome::toSmall(NeuralNodeSmall *& ns, GeneSmall *& gs, int * nodec, int * genec)
 {
   *nodec = nodes->size();
 //   cout << "nodes->size: " << nodes->size() << " nodec: " << *nodec <<endl;
@@ -974,7 +974,9 @@ void Genome::toSmall(NeuralNodeSmall * ns, GeneSmall * gs, int * nodec, int * ge
   gs = (GeneSmall*)malloc(sizeof(GeneSmall)*(*genec));
   for(unsigned int i=0;i<*nodec;i++)
     {
+      cout << "mekker ny node i nsv:" << nodes->at(i)->getSmall()->id << " " << nodes->at(i)->getSmall()->type << " " << nodes->at(i)->getSmall()->depth << endl;
       ns[i] = *nodes->at(i)->getSmall();
+      cout << "id til nsi: " << ns[i].id << endl;
     }
   for(unsigned int i=0;i<*genec;i++)
     {

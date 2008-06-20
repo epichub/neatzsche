@@ -35,34 +35,41 @@ void Build_gene_type(GeneSmall * gs,
   mpi_t_ptr->Commit();
   //  MPI::Datatype::Commit(mpi_t_ptr);
 }
-MPI::Datatype Build_neuralnode_type(int* id, char* type, int* depth)
+MPI::Datatype Build_neuralnode_type(NeuralNodeSmall * ns)//int* id, char* type, int* depth)
 {
+//   cout << "in build neuralnodetype" << endl;
 //   int * id = &();
 //   char * type = &(ns->type);
 //   int * depth = &(ns->depth);
   //string * ftype = &(ns->ftype);
-  int block_lengths[3];
-  MPI::Aint displacements[3];
-  MPI::Datatype typelist[3];
+  int block_lengths[4] = {1,1,1,1};
+  MPI::Aint displacements[4];
+  MPI::Datatype typelist[4] = {MPI::INT,MPI::CHAR,MPI::INT,MPI::UB};
   MPI::Aint start_address;
   MPI::Aint address;
   
-  typelist[0] = MPI::INT;
-  typelist[1] = MPI::CHAR;
-  typelist[2] = MPI::INT;
-  //  typelist[3] = MPI::STRING;
+//   displacements[0] = 0;
+//   start_address = MPI::Get_address(id);
+// //   cout << "before getaddress type" << endl;
+//   address = MPI::Get_address(type);
 
-  block_lengths[0] = block_lengths[1] = block_lengths[2] = 1;
-  displacements[0] = 0;
-  start_address = MPI::Get_address(id);
-  address = MPI::Get_address(type);
-  displacements[1] = address - start_address;
-  address = MPI::Get_address(depth);
-  displacements[2] = address - start_address;
-//   address = MPI::Get_address(ftype);
-//   displacements[3] = address - start_address;
-  MPI::Datatype mpi_t_ptr =  MPI::Datatype::Create_struct(3,block_lengths,displacements,typelist);
+//   displacements[1] = address - start_address;
+// //   cout << "before getaddress depth" << endl;
+//   address = MPI::Get_address(depth);
+//   displacements[2] = address - start_address;
+// //   address = MPI::Get_address(ftype);
+// //   displacements[3] = address - start_address;
+  displacements = MPI::Get_address(ns);
+  displacements+1 = MPI::Get_address(&(ns.type));
+  displacements+2 = MPI::Get_address(&(ns.depth));
+  displacements+3 = MPI::Get_address(ns+1);
+  int base = displacements[0];
+  for(int i=0;i<4;i++) displacements[i] -= base;
+  MPI::Datatype mpi_t_ptr =  MPI::Datatype::Create_struct(4,block_lengths,displacements,typelist);
+
+//   cout << "before type commit" << endl;
   mpi_t_ptr.Commit();
+//   cout << "before return" << endl;
   return mpi_t_ptr;
 }
 
