@@ -120,8 +120,8 @@ Network * Genome::genesis()
     //setting up links..
     for(unsigned int i=0;i<genes->size();i++){
       if(genes->at(i)->isEnabled()){
-	cout << "from: " << genes->at(i)->getTo()->getID()
-	     << " to: " << genes->at(i)->getFrom()->getID() << endl;
+// 	cout << "from: " << genes->at(i)->getTo()->getID()
+// 	     << " to: " << genes->at(i)->getFrom()->getID() << endl;
 	new Link(false,genes->at(i)->getFrom(),
 		 genes->at(i)->getTo(),
 		 genes->at(i)->getWeight());
@@ -151,7 +151,7 @@ Genome * Genome::duplicate(int id)
 {
   Genome * ret = new Genome(id);
 //   cerr << "gene size is: " << genes->size();
-  int tf = genes->at(0)->getFrom()->getID();
+//   int tf = genes->at(0)->getFrom()->getID();
   nodeVector * retn = ret->nodes;
   for(unsigned int i=0;i<nodes->size();i++)
     retn->push_back(nodes->at(i)->duplicate());
@@ -166,9 +166,9 @@ Genome * Genome::duplicate(int id)
   //     cerr << "heh tfs null" << endl;
   //   cerr << "heh tfs:" << tfs << endl;
   ret->tfs = tfs;
-  int af = ret->genes->at(0)->getFrom()->getID();
-  if(tf!=af)
-    cerr << "if ikke lik af i genome duplicate" << endl;
+//   int af = ret->genes->at(0)->getFrom()->getID();
+//   if(tf!=af)
+//     cerr << "if ikke lik af i genome duplicate" << endl;
   return ret;
 }
 /*
@@ -568,7 +568,13 @@ Genome * Genome::crossover(Genome * g, bool avg,
 			   int genomeid, bool sp)
 {
   Genes::iterator it1 = genes->begin();
-  Gene * ofirst = genes->at(0);
+//   if(genes->size()==0)
+//     {
+//       cerr << "gene size: 0" << endl;
+//       cerr << this<<endl;
+//       exit(0);
+//     }
+//   Gene * ofirst = genes->at(0);
   Genes::iterator it2 = g->genes->begin();
   Genes::iterator it3;
   bool skip = false, p1best=false, p2best=false, cont=true;
@@ -723,9 +729,13 @@ Genome * Genome::crossover(Genome * g, bool avg,
   //TODO do i need to do this??
   sort(newnodes->begin(),newnodes->end(),nodedepthcomp);
   delete o;
-  Gene * nfirst = newgenes->at(0);
-  if(nfirst->getFrom()->getID()!=ofirst->getFrom()->getID()&&nfirst->getFrom()->getType()==NeuralNode::BIAS)
-    cerr << "ofirstgetfxromid != nfirstgetfromid ntype: bias otype:" << ofirst->getFrom()->getType() << endl;
+//   Gene * nfirst = newgenes->at(0);
+//   if(nfirst->getFrom()->getID()!=ofirst->getFrom()->getID()&&nfirst->getFrom()->getType()==NeuralNode::BIAS){
+//     cerr << "ofirstgetfxromid != nfirstgetfromid ntype: bias otype:" << ofirst->getFrom()->getType() << endl;
+//     cerr << new Genome(genomeid,newgenes,newnodes,input,output,set,innov,tfs);
+//     cerr << this;
+//     exit(0);
+//   }
   return new Genome(genomeid,newgenes,newnodes,input,output,set,innov,tfs);
 }
 

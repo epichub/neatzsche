@@ -296,6 +296,7 @@ double GoEvaluator::f(Phenotype * f)
   c = players[0];
   count=0; first = true;
   sense = g->getSensoryInput(first);
+  cerr << "sense size:" << sense.size() << endl;
   //    int tmpputs=0;
   while(!g->done()){
     //     tmpputs = g->getPuts();
@@ -304,6 +305,7 @@ double GoEvaluator::f(Phenotype * f)
 	// 	if(g->shoulda&&tmpputs==g->getPuts())//should have put but didnt
 	// 	  exit(0);
 	sense = g->getSensoryInput(first);
+
       }
       g->resetRound(c);
     }else{

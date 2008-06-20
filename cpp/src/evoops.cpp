@@ -53,9 +53,10 @@ int Selector::suswheel(int n, Species * s, int elitism, bool debug)
 
       if(i2==members->size())
 	i2--;
-
-      members->at(i2)->incEOffspring();
-      taken++;
+//       if(members->at(i2)->getGenome()->getGenes()->size()>0){
+	members->at(i2)->incEOffspring();
+	taken++;
+//       }
     }
     if((taken+n2)>n)
       n2 = n-taken;

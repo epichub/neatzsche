@@ -327,7 +327,7 @@ void Species::reproduce()
   double mutateaddlinkprob = set->getValue("mutate_link_weights_prob");
   bool coldg = false;
   while(members->at(0)->getPopulationChampClones()>0){
-    int tf = members->at(0)->getGenome()->getGenes()->at(0)->getFrom()->getID();
+//     int tf = members->at(0)->getGenome()->getGenes()->at(0)->getFrom()->getID();
     newgenome = members->at(0)->getGenome()->duplicate(p->getAndIncID());
     if(members->at(0)->getPopulationChampClones()>1){
       if((randdouble()<0.8)||
@@ -338,10 +338,10 @@ void Species::reproduce()
 	newgenome->addLink((int)set->getValue("newlink_tries"));
       }
     }
-    int af = newgenome->getGenes()->at(0)->getFrom()->getID();
-    if(tf!=af){
-      cerr << "af og if ikke lik i popchampclone\n";
-    }
+//     int af = newgenome->getGenes()->at(0)->getFrom()->getID();
+//     if(tf!=af){
+//       cerr << "af og if ikke lik i popchampclone\n";
+//     }
     newgeneration->push_back(new Phenotype(newgenome));
     members->at(0)->decPopulationChampClones();
   }
@@ -407,6 +407,7 @@ void Species::reproduce()
 	mutate(newgenome,set,p->getInnovations()->curnodenum);
       }
     }
+
     //add to appropriate species..
     //remove the expected offspring from individual..
 

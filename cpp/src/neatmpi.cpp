@@ -35,7 +35,7 @@ void Build_gene_type(GeneSmall * gs,
   mpi_t_ptr->Commit();
   //  MPI::Datatype::Commit(mpi_t_ptr);
 }
-MPI::Datatype Build_neuralnode_type(NeuralNodeSmall * ns)
+MPI::Datatype Build_neuralnode_type(int* id, char* type, int* depth)
 {
 //   int * id = &();
 //   char * type = &(ns->type);
@@ -54,10 +54,10 @@ MPI::Datatype Build_neuralnode_type(NeuralNodeSmall * ns)
 
   block_lengths[0] = block_lengths[1] = block_lengths[2] = 1;
   displacements[0] = 0;
-  start_address = MPI::Get_address((void*)ns->id);
-  address = MPI::Get_address((void*)ns->type);
+  start_address = MPI::Get_address(id);
+  address = MPI::Get_address(type);
   displacements[1] = address - start_address;
-  address = MPI::Get_address((void*)ns->depth);
+  address = MPI::Get_address(depth);
   displacements[2] = address - start_address;
 //   address = MPI::Get_address(ftype);
 //   displacements[3] = address - start_address;

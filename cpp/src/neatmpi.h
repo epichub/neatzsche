@@ -8,7 +8,7 @@
 
 void Build_gene_type(GeneSmall * gs,
 			MPI::Datatype *mpi_p_ptr);
-MPI::Datatype Build_neuralnode_type(NeuralNodeSmall * ns);
+MPI::Datatype Build_neuralnode_type(int* id, char* type, int* depth);
 // void Build_neuralnode_type(NeuralNodeSmall * nns,
 // 		     MPI::Datatype *mpi_t_ptr);
 void Build_genome_type(Genome * g,
@@ -28,8 +28,8 @@ public:
     size = MPI::COMM_WORLD.Get_size();
     NeuralNodeSmall ns;
     GeneSmall gs;
-    nodetype = Build_neuralnode_type(&ns);
-    Build_gene_type(&gs,&genetype);
+//     nodetype = Build_neuralnode_type(&ns);
+//     Build_gene_type(&gs,&genetype);
   }
   ~Neatzsche_MPI(){}
   int getRank(){return rank;}
@@ -63,6 +63,7 @@ public:
       gs = (GeneSmall*)malloc(sizeof(GeneSmall)*nodes);
       cout << "allocation done, starting reception.." << endl;
       for(int i=0;i<nodes;i++){
+	nodetype = Build_neuralnode_type(&(nns[i].id),&(nns[i].type),&(nns[i].depth));
 	MPI::COMM_WORLD.Recv(&(nns[i]),1,nodetype,0,0);
 	cout << "received i: " << i << " id: " << nns[i].id << " type: " 
 	     << nns[i].type << " depth: " << nns[i].depth << endl;
@@ -148,7 +149,7 @@ public:
 	MPI::COMM_WORLD.Send(&genes,1,MPI_INT,sc,sendtag);//send number of genes
 	cout << "sending nsv " << endl;
 	for(int i=0;i<nodes;i++){
-	  nodetype = Build_neuralnode_type(&nsv[i]);
+	  nodetype = Build_neuralnode_type(&(nsv[i].id),&(nsv[i].type),&(nsv[i].depth));
 	  MPI::COMM_WORLD.Send(&nsv[i],1,nodetype,sc,sendtag);//send node vector
 	}
 	//	MPI::COMM_WORLD.Send(&nsv,nnodes,nodetype,sc,sendtag);//send node vector
