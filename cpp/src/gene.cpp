@@ -31,6 +31,11 @@ Gene * Gene::duplicate(Genome * g)
 ostream& operator<< (ostream& os, const Gene *g)
 {
   os.precision(20);
+//   cout << "in operator << for gene " << endl;
+//   if(g->from == NULL)
+//     cout << "from pointer is null " << endl;
+//   if(g->to == NULL)
+//     cout << "to pointer is null " << endl;
   os << "gene" << " " << g->from->getID() << " " << g->to->getID() << " "
      << g->w << " " << g->marker << " " << g->enabled << endl;
   return os;
@@ -103,5 +108,13 @@ bool Gene::equal(Gene * g)
 }
 void Gene::fromSmall(GeneSmall * gs, Genome * genome){
   g=genome;
-  from = g->getNode(gs->fid); to = g->getNode(gs->tid); w = gs->w; mutation = gs->w; enabled = gs->enabled;
+  from = g->getNode(gs->fid);
+  if(from==NULL)
+    cout << "in gene fromsmall and from pointer is null gs->fid: " << gs->fid << endl;  
+  to = g->getNode(gs->tid);
+  if(to==NULL)
+    cout << "in gene fromsmall and to pointer is null gs->tid: " << gs->tid << endl;
+  w = gs->w; mutation = gs->w;
+  enabled = gs->enabled;
+  
 }
