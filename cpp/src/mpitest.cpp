@@ -47,7 +47,7 @@ int main(int argc, char *args[])
   cout << "myrank: " << nmpi->getRank() << endl;
   if(nmpi->getRank()==0){
     cout << "before sending " << endl;
-    nmpi->send(pop,nmpi->getSize(),0);
+    nmpi->send(pop,nmpi->getSize()-1,0,true);
     cout << "after sending " << endl;
     MPI_Finalize();
     exit(EXIT_SUCCESS);

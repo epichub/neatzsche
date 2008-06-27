@@ -54,7 +54,7 @@ avgh_coef 0.5
 conn_coeff 0.2
 #percentage of genomes evaluated at master while
 #slaves are evaluating a bigger batch, each slave gets 1.0
-masterratio 0.8
+masterratio 0.0
 firethreshold 0.4
 #which fitness method to use (0 = f measure, 1 = my own fitnesss, 2 = simple energy (more links is better)
 fitness_mode 1

@@ -955,7 +955,7 @@ ostream& operator<< (ostream& os, const Genome *g)
     os << nodes->at(i);
 //     os.flush();
   }
-  cout << "in operator << for genome" << endl;
+
   Genes * genes = g->genes;
   for(unsigned int i=0;i<genes->size();i++){
     os << genes->at(i);
@@ -968,33 +968,26 @@ ostream& operator<< (ostream& os, const Genome *g)
 void Genome::toSmall(NeuralNodeSmall *& ns, GeneSmall *& gs, int * nodec, int * genec)
 {
   *nodec = nodes->size();
-//   cout << "nodes->size: " << nodes->size() << " nodec: " << *nodec <<endl;
   *genec = genes->size();
-//   cout << "genes->size: " << genes->size() << " genec: " << *genec <<endl;
+
   ns = (NeuralNodeSmall*)malloc(sizeof(NeuralNodeSmall)*(*nodec));
   gs = (GeneSmall*)malloc(sizeof(GeneSmall)*(*genec));
   for(unsigned int i=0;i<*nodec;i++)
-    {
-//       cout << "mekker ny node i nsv:" << nodes->at(i)->getSmall()->id << " " << nodes->at(i)->getSmall()->type << " " << nodes->at(i)->getSmall()->depth << endl;
       ns[i] = *nodes->at(i)->getSmall();
-//       cout << "id til nsi: " << ns[i].id << endl;
-    }
+
   for(unsigned int i=0;i<*genec;i++)
-    {
       gs[i] = *genes->at(i)->getSmall();
-    }
+
   
 }
-void Genome::fromSmall(int nodec, NeuralNodeSmall * ns, int genec, GeneSmall * gs, vector<string> * v)
+void Genome::fromSmall(int iid, int nodec, NeuralNodeSmall * ns, int genec, GeneSmall * gs, vector<string> * v)
 {
-//   cout << "before new nodes vsize: " << v->size() << " nodec: " << nodec << endl;
+  id = iid;
   for(unsigned int i=0;i<nodec;i++){
-//     cout << "new nodes i:" << i << " vati: " << v->at(i) << endl;
     NeuralNode * n = new NeuralNode(tfs);
     n->fromSmall(&ns[i],v->at(i));
     nodes->push_back(n);
   }
-//   cout << "after new nodes" << endl;
   for(unsigned int i=0;i<genec;i++){
     Gene * g = new Gene();
     g->fromSmall(&gs[i],this);
