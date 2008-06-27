@@ -67,6 +67,7 @@ public:
 //       for(int i=0;i<nodes;i++){
       nodetype = Build_neuralnode_type(&nns[0]);
       MPI::COMM_WORLD.Recv(&(nns[i].id),nodes,nodetype,0,0);
+      cout << "last node in: " << nns[nodes-1].id << endl;
 // 	cout << "received i: " << i << " id: " << nns[i].id << " type: " 
 // 	     << nns[i].type << " depth: " << nns[i].depth << endl;
 //       }
@@ -100,6 +101,10 @@ public:
 //       cout << "receiving a gs " << endl;
       genetype = Build_gene_type(&gs[0]);
       MPI::COMM_WORLD.Recv(gs,genes,genetype,0,0);
+      for(int i=0;i<genes;i++){
+	cout << "fid: " << gs[i].fid << " tid: " << gs[i].tid << " marker: " 
+	     << gs[i].marker << " w: " << gs[i].w << " enabled: " << gs[i].enabled << endl;
+      }
 //       cout << "done receiving a gs " << endl;
 
 //       cout << "going to make genome and insert! :P " << endl;
@@ -169,6 +174,10 @@ public:
 	nodetype = Build_neuralnode_type(&nsv[0]);
 	// 	  cout << "etter buildneuralnodetype" << endl;
 	MPI::COMM_WORLD.Send(nsv,nnodes,nodetype,sc,sendtag);//send node vector
+	for(int i=0;i<nnodes;i++){
+	  cout << "##SENDING node id: " << nsv[i].fid << " tid: " << gsv[i].tid << " marker: " 
+	       << gsv[i].marker << " w: " << gsv[i].w << " enabled: " << gsv[i].enabled << endl;
+	}
 	  //	}
 // 	nodetype = Build_neuralnode_type(&(nsv[0].id),&(nsv[0].type),&(nsv[0].depth));
 // 	MPI::Datatype nodetypev = nodetype.Create_hvector(nnodes,1,1+sizeof(NeuralNodeSmall)-(sizeof(int)+sizeof(char)+sizeof(int)));
@@ -182,7 +191,13 @@ public:
 	}
 	genetype = Build_gene_type(&gsv[0]);
 	MPI::COMM_WORLD.Send(gsv,genes,genetype,sc,sendtag);//send gene vector
+	for(int i=0;i<genes;i++){
+	  cout << "##SENDING gene fid: " << gsv[i].fid << " tid: " << gsv[i].tid << " marker: " 
+	       << gsv[i].marker << " w: " << gsv[i].w << " enabled: " << gsv[i].enabled << endl;
+	}
 	delete nsv; delete gsv;
+	if(i==1)
+	  exit(0);
       }
 //       MPI_Send(pop->getMembers()->at(0),1,stt,sc,MPI_Stop,MPI_COMM_WORLD);
     }
