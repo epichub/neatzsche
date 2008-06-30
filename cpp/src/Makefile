@@ -160,7 +160,7 @@ mpitest.o: mpitest.cpp neatmpi.h neatmpi.cpp neuralmath.h neuralmath.cpp
 neatmaster.cpp: $(OBJS) runner.h
 	$(CXX) $(BLIBS) -c neatmaster.cpp
 
-neatzsche.cpp: $(OBJS) runner.h neatmpi.h
+neatzsche.cpp: $(OBJS) runner.h
 	$(MPICXX) $(BLIBS) -c neatmaster.cpp
 
 neatslave.cpp: $(OBJS2) iface.h

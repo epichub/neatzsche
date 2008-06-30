@@ -207,7 +207,6 @@ void slave(char ** argv, int argc, Neatzsche_MPI * comm,
   bool cont = true,coevo = false;
   int gen=0;
   Phenotypes * p = new Phenotypes();
-  cout << "trying to output startgen for coevo... " << endl;
   if(c == NULL){
     cout << "wtf c er null" << endl;
     exit(1);
