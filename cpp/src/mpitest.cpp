@@ -44,21 +44,18 @@ int main(int argc, char *args[])
   Genome * g = new Genome(tfs);
   
   Population * pop = makePopulation(args[3],s,tfs);
-  cout << "myrank: " << nmpi->getRank() << endl;
   if(nmpi->getRank()==0){
-    cout << "before sending " << endl;
-    nmpi->send(pop,nmpi->getSize()-1,0,true);
-    cout << "after sending " << endl;
+    nmpi->outputPopulation(pop,nmpi->getSize()-1,NULL,0,true);
+    nmpi->readFitness(pop,0);
     MPI_Finalize();
     exit(EXIT_SUCCESS);
   }else{
     Phenotypes * p = new Phenotypes();
-    cout << "before recv " << endl;
-    nmpi->receive(p,tfs);
-    cout << "after recv " << endl;
+    nmpi->readPopulation(p,NULL,tfs);
     for(int i=0;i<p->size();i++){
       p->at(i)->setFitness(randdouble());
     }
+    nmpi->outputFitness(p);
     //send the fitnesses back..
     MPI_Finalize();
     exit(EXIT_SUCCESS);

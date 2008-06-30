@@ -27,6 +27,7 @@
 #include <vector>
 #include "neuralmath.h"
 #include "coevolution.h"
+#include "neatmpi.h"
 //#include "runner.h"
 
 static inline vector<string> * split(char * args, string delim)
@@ -197,6 +198,7 @@ static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *
     bool first = (sv->at(2).find("1")!=string::npos) ? true : false ;
     double p = atof(sv->at(3).c_str());
     ret  = new DatasetEvaluator(new DataSet(first,file.c_str(),p));
+    coevo = new Halloffame(0,0,1000000,ret);
   }else{
     cerr << "wrong fitness evaluator arguments" << endl;
   }
@@ -251,101 +253,32 @@ static inline Selector * makeSelector(char * args)
   return ret;
 
 }
+static inline string makecommunicatorUsage(){
+  string s =  "\t[communicator options] = \"mpi\"\n";
+  s += "\t[communicator options2] = \"boye\"\n";
+  return s;
+}
+static inline Neatzsche_Comm * makeCommunicator(char * args, char **argv, int argc)
+{
+  vector<string> * sv = split(args," ");
+  Neatzsche_Comm * ret = NULL;
+  if(sv->at(0).find("mpi")!=string::npos){
+    if(sv->size()!=1){
+      cerr << "wrong number of arguments to mpi communicator setup method" << endl;
+      exit(1);
+    }
+    ret = new Neatzsche_MPI(argc,argv);
+  }else { //boye
+    if(sv->size()!=1){
+      cerr << "wrong number of arguments to boye communicator setup method" << endl;
+      exit(1);
+    }
+    ret = new Neatzsche_Boye();
+  }
+  return ret;
+}
 // input: "<id> <fitness>"
-static inline void readFitness(Population * p, unsigned int i)
-{
-  for(;i<p->getMembers()->size();i++){
-    int nID;
-    float fFitn;
-    cin >> nID >> fFitn;
-    Phenotype * ph = p->getByID(nID);
-    if(fFitn>0.5){
-    }
-    ph->setFitness(fFitn);
-    ph->transferFitness();
 
-  }
-  string s;
-  getline(cin, s); // chomp off final newline
-  int a = -1;
-  if (++a)
-    {
-      if (cin.eof())
-	cerr << "eof";
-      else
-	cerr << "noeo";
-      char c;
-      cin.read(&c, 1);
-    }
-}
-static inline void outputPopulation(Population * p, int nodes,  Coevolution * c, 
-				    unsigned int i, bool pipeio, bool stop)
-{
-  unsigned int s = p->getMembers()->size();
-  unsigned int n = (s-i)/nodes;
-  bool uneven = (floor((s-i)/(double)n)!=(s-i)/(double)n);
-  if(pipeio)
-    cout << "POPULATION\n";
-
-  while(i < s) {
-    cout << "NODES" << endl;
-    if(stop)
-      cout << "STOP" << endl;
-    else
-      cout << "CONTINUE" << endl;
-
-    cout << c;
-    if(uneven && (s-i)<(2*n)){
-      n = (s-i);
-    }
-    for(size_t i2 = 0; i2 < n && i < s; i2++, i++) {
-      //the endline at the end here is to make the >> operator of
-      //genome stop for each genome, the genome tag is for the nodes
-      //parsing..
-      cout << "genome" << endl << p->getMembers()->at(i)->getGenome() << endl;
-    }
-    cout << "NODES" << endl;
-  }
-
-  if(pipeio)
-    cout << "POPULATION\n" ;
-}
-static inline bool  readPopulation(Phenotypes * p, Coevolution * c, TransferFunctions * tfs, int & gencount)
-{
-  string s;
-  cin >> s;
-  stringstream tmpbuf;
-  cin >> s;
-  bool returbool;
-  if(s.find("STOP") != string::npos)
-    return false;
-  //  cerr << "s: " << s << endl;
-//   cin >> s;
-//   cerr << "s: " << s << endl;
-  Genome * g = NULL;
-
-  cin >> c; // read in the coevo stuff..
-
-  cin >> s;
-
-  int c2 = 0;
-  while(s.find("NODESTOP")==string::npos&&s.find("genome")!=string::npos){
-    g = new Genome(tfs);
-    cin >> g;
-    c2++;
-    p->push_back(new Phenotype(g));
-    cin >> s;
-  }
-//   cerr << "done reading genomes..: psize" << p->size()<< endl;
-  return true;
-}
-static inline void outputFitness(Phenotypes * p)
-{
-  for(unsigned int i=0;i<p->size();i++){
-    cout << p->at(i)->getID() << "\t" << p->at(i)->getFitness() << "\t";
-  }
-  cout << endl << flush;
-}
 static inline void sendExitToken(bool exit){
   string cmd = (exit) ? "EXIT" : "NOEXIT" ;
   cout << cmd << endl ;
@@ -391,7 +324,7 @@ static inline string getStatString(Population * p, double avg)
 static inline void updateSmoothData(double ** d, Population *p, double avg, int runs)
 {
   Phenotypes * ph = p->getMembers();
-  int gen = p ->getGeneration();
+  int gen = p->getGeneration();
   d[gen][0] = (d[gen][0]+ph->at(0)->getFitness());
   d[gen][1] = (d[gen][1]+avg);
   d[gen][2] = (d[gen][2]+ph->at(ph->size()-1)->getFitness());
@@ -403,6 +336,18 @@ static inline void writeRunfile(bool ended, string basefile, string infoline, in
   rfile << basefile << endl << (ended ? "ended" : "notended") << endl << infoline;
   rfile.close();
 }
+static inline void neatzscheUsage(string progname)
+{
+  cerr << "usage: (all the node numbers are for the initial generation) " << endl
+       << progname << " [seed (0 for new)] [settings file] [pop options] [selector option] [phenotype eval] [communicator] [stopcondition]" << endl
+       << "where:" << endl << flush
+       << makepopulationUsage() << flush
+       << makeselectorUsage() << flush
+       << makefitnessevaluatorUsage() << flush
+       << makecommunicatorUsage() << flush
+       << "\t[stop condition1] = \"count [generations] [runs]\""<<endl << flush
+       << "\t[stop condition2] = \"key\""<<endl;
+}
 static inline void masterUsage(string progname)
 {
   cerr << "usage: (all the node numbers are for the initial generation) " << endl
@@ -411,6 +356,7 @@ static inline void masterUsage(string progname)
        << makepopulationUsage() << flush
        << makeselectorUsage() << flush
        << makefitnessevaluatorUsage() << flush
+       << makecommunicatorUsage() << flush
        << "\t[stop condition1] = \"count [generations] [runs]\""<<endl << flush
        << "\t[stop condition2] = \"key\""<<endl;
 }
@@ -419,7 +365,8 @@ static inline void slaveUsage(string progname)
   cerr << "usage: " << endl
        << progname << " [seed (0 for new)] [settings] [phenotype eval options] [generations]" << endl
        << "where:" << endl
-       << makefitnessevaluatorUsage() << flush;
+       << makefitnessevaluatorUsage() << endl
+       << makecommunicatorUsage() << flush;
 }
 static inline void xortestUsage(string progname)
 {

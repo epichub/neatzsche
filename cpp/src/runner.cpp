@@ -86,7 +86,7 @@ void NEATRunner::runLoop()
 //     cerr << "nodes is 0, setting up for local runs.." << endl;
     localFE=true;
   }// else
-//     cerr << "running cluster code.." << endl;
+  cerr << "running cluster code.." << endl;
   writeRunfile(false,basefile,infoline,pid);
   pop->fe = icb->fe;
   stringstream sgfc; sgfc << sgf.str() << "-" << countruns << ".xml";
@@ -114,14 +114,21 @@ void NEATRunner::runLoop()
     if(localFE){
       ev->evaluate(pop->getMembers(),pop->getMembers()->size());
     }else{
-      outputPopulation(pop,nodes,coevo,mc,pipeio,false); //stream the population out to nodes for evaluation	
+      comm->outputPopulation(pop,nodes,coevo,mc,false); //stream the population out to nodes for evaluation	
       ev->evaluate(pop->getMembers(),mc);//sweet..
-      readFitness(pop,mc); //read the corresponding returned fitness values
+      comm->readFitness(pop,mc); //read the corresponding returned fitness values
+//       for(unsigned int i=0;i<pop->getMembers()->size();i++)
+// 	{
+// 	  pop->getMembers()->at(i)->cleanNet();
+// 	  cout << "genome " << pop->getMembers()->at(i)->getID() 
+// 	       << " origf: " << pop->getMembers()->at(i)->getOrigFitness()
+// 	       << " f: "<<pop->getMembers()->at(i)->getFitness()
+// 	       <<" new f: " <<pop->fe->f(pop->getMembers()->at(i)) << endl;
+// 	}
     }
 
     //checking and updating for the overall best phenotype.
     //do population/species sorting and stat updating
-//     cerr << "sorting and updating...";
     pop->updateSpeciesStats();
     pop->sortmembers();
     pop->sortspecies();
@@ -131,7 +138,6 @@ void NEATRunner::runLoop()
     //keeping a copy of generation champ:
     gbest = pop->getCopyOfCurrentBest();
     setChamp(best,gbest); 
-//     GoTest(best,icb->fe);   
     ofs.open(sCurrentGenomeFilec.str().c_str());
     ofs << best->getGenome();
     ofs.close();
@@ -139,22 +145,18 @@ void NEATRunner::runLoop()
     ofs2 << best->getGenome();
     ofs2.close();
 
-
     if(pop->getGeneration()%2==0){
       cerr << icb->fe->show(best);
     }
     icb->best = best;
     writenetwork(best,sCurrentXMLGenomeFilec.str());
     sg->update(pop);
-
     //writing stats to file
 
     *currentgraphf << getStatString(pop,avgf);
     currentgraphf->flush();
-
     //updating smoothed graph data..
     updateSmoothData(smoothdata,pop,avgf,countruns+1);
-//     cerr << "coevo er: "<< coevo << endl;
     if(coevo!=NULL)
       coevo->update(pop); // update the coevolution data..
 
@@ -162,7 +164,7 @@ void NEATRunner::runLoop()
     totaltime += tmpt;
 
     cerr << (pop->getGeneration()+1) << ":"
-	 << " curmax: " << pop->getMembers()->at(0)->getFitness()
+	 << " curmaxid: "<<pop->getMembers()->at(0)->getID()<<" curmax: " << pop->getMembers()->at(0)->getFitness()
 	 << " bestid: "<<best->getID()<<" bestfitness: "<< best->getFitness()
 	 << " maxfitness: " << pop->getHighestFitness() 
 	 << " curmin: " << pop->getMembers()->at(pop->getMembers()->size()-1)->getFitness()
@@ -170,6 +172,11 @@ void NEATRunner::runLoop()
 	 << " size: " << pop->getMembers()->size() 
 	 << " time: " << tmpt 
 	 << " time/size: " << (double)tmpt/(double)pop->getMembers()->size() << endl;
+//     if(pop->getMembers()->at(0)->getFitness()<best->getFitness()){
+//       cout << "fitness has gone down!!! exiting" << endl; 
+//       cout << "printing fitness of id 655..: " << pop->getByID(655)->getFitness() <<  endl;
+//       exit(1);
+//     }
 //     cerr.flush();
     //run the code that adjusts fitness according to species age and size..
     //select the lucky ones for reprocicration..
@@ -242,5 +249,5 @@ void NEATRunner::runLoop()
 
   cerr << "after writerunfile" << endl;
   if(!localFE)
-    outputPopulation(pop,nodes,coevo,mc,pipeio,true);
+    comm->outputPopulation(pop,nodes,coevo,mc,true);
 }

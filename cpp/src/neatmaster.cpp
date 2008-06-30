@@ -53,7 +53,7 @@ int main(int argc,char *args[]){
   //neatmaster code!
 
   //check argument count..
-  int n = 9;
+  int n = 10;
   if(argc!=n){
     masterUsage(args[0]);
     exit(1);
@@ -89,10 +89,13 @@ int main(int argc,char *args[]){
   FitnessEvaluator * fe = makeFitnessEvaluator(args[6],coevo);
   Evaluator * ev = new Evaluator(fe); 
 
-  //6. stopping condition (usually generation counter, should support
+  //6.
+  Neatzsche_Comm * comm = makeCommunicator(args[7],args,argc);
+
+  //7. stopping condition (usually generation counter, should support
   //   key interrupt)
-  vector<string> * stopv = split(args[7]," ");
-  bool pipeio = atoi(args[8])==1;
+  vector<string> * stopv = split(args[8]," ");
+  bool pipeio = atoi(args[9])==1;
   int generations = 0;
   int runs = 0;
   if(stopv->at(0).find("count")!=string::npos){

@@ -283,14 +283,16 @@ istream& operator>> (istream& is, NeuralNode *n)
   n->fromSmall(ns,s);
   delete ns;
 
-  if(n->type==NeuralNode::BIAS){
-    n->setOutput(1);
-  }
+//   if(n->type==NeuralNode::BIAS){
+//     n->setOutput(1);
+//   }
   return is;
 }
 void NeuralNode::fromSmall(NeuralNodeSmall * ns, string inftype)
 {
   id = ns->id; type = ns->type;
+  if(type == NeuralNode::BIAS)
+    setOutput(1);
   depth = ns->depth;
   initTFunc(inftype);
 }
@@ -324,18 +326,19 @@ void NeuralNode::update(){
   //   cerr << "id: " << id << " vof foer update: " << valueFromOther << endl;
   double tmpf=0;
   for(unsigned int i=0;i<links->size();i++){
-    //     if(links->at(i)->getOtherNode(this)!=NULL)
-    //       cerr << "updating from node "<<links->at(i)->getOtherNode(this)->getID()
-    // 	   <<"  with func: " << links->at(i)->getOtherNode(this)->tFunc->ftype 
-    // 	   <<"  with func(0): " << links->at(i)->getOtherNode(this)->tFunc->y(0) 
-    // 	   <<"  with inputLinks: " << links->at(i)->getOtherNode(this)->getInputLinks()->size() << endl;
+//         if(links->at(i)->getOtherNode(this)!=NULL)
+//           cerr << "updating from node "<<links->at(i)->getOtherNode(this)->getID()
+// 	       <<"  with func: " << links->at(i)->getOtherNode(this)->tFunc->ftype 
+// 	       <<"  with value: " << links->at(i)->getOtherNode(this)->getValue()
+// 	       <<"  with func(0): " << links->at(i)->getOtherNode(this)->tFunc->y(0) 
+// 	       <<"  with inputLinks: " << links->at(i)->getOtherNode(this)->getInputLinks()->size() << endl;
     //     else
     //       cerr << "getother ga 0..." << endl;
     tmpf += links->at(i)->getOther(this);
   }
   //valueFromOther = tmpV;
   valueFromOther=tmpf;
-  //   cerr << " id: " << id  <<" valueFromOther: " << valueFromOther << endl;
+//     cerr << " id: " << id  <<" valueFromOther: " << valueFromOther << endl;
   //   if(type==OUTPUT&&valueFromOther!=0)
   //     cerr << " id: " << id  << " ikke lik nul...: " << valueFromOther << endl;
   //   if(valueFromOther!=0)

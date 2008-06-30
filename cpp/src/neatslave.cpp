@@ -34,7 +34,7 @@ using namespace std;
 
 
 int main(int argc,char *args[]){
-  int n = 5;
+  int n = 6;
   if(argc!=n){
     slaveUsage(args[0]);
     exit(1);
@@ -63,6 +63,9 @@ int main(int argc,char *args[]){
   Evaluator * e = new Evaluator(f);
   
   TransferFunctions * tfs = new TransferFunctions(set);
+
+  Neatzsche_Comm * comm = makeCommunicator(args[3],args,argc);
+
   c->setTfs(tfs);
   bool coevo = false;
   string s;
@@ -73,7 +76,7 @@ int main(int argc,char *args[]){
   while(cont){ // the drive loop of the slaves, read 
                // in cmd(coevo/std), where coevo expects two genomes
     gen++;
-    cont = readPopulation(p,c,tfs,gen);
+    cont = comm->readPopulation(p,c,tfs,gen);
     if(!cont)
       break;
     if(!coevo && gen==(c->getStartGeneration()+1)){
@@ -91,7 +94,7 @@ int main(int argc,char *args[]){
     else
       e->evaluate(p,p->size());
 
-    outputFitness(p);
+    comm->outputFitness(p);
     cleanupPopulation(p);
 
   }

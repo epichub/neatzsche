@@ -114,7 +114,7 @@ void Gene::fromSmall(GeneSmall * gs, Genome * genome){
   to = g->getNode(gs->tid);
   if(to==NULL)
     cout << "in gene fromsmall and to pointer is null gs->tid: " << gs->tid << endl;
-  w = gs->w; mutation = gs->w;
+  w = gs->w; mutation = gs->w; marker = gs->marker;
   enabled = gs->enabled;
   
 }

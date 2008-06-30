@@ -41,6 +41,7 @@ OBJS14=$(OBJS) lightsim/lightsim-viewer.o moc_lightsim-viewer.o lightsim/paintwi
 OBJS15=$(OBJS) test-draw.o
 OBJS16=$(OBJS) test-hyperdataset.o
 OBJS17=$(OBJS) mpitest.o neatmpi.o
+OBJS18=$(OBJS) neatmpi.o
 
 IINCLUDE=$(QTINCLUDE) -I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0 -I/opt/local/include
 BLIBS=-L$(HOME)/local/lib 
@@ -159,9 +160,15 @@ mpitest.o: mpitest.cpp neatmpi.h neatmpi.cpp neuralmath.h neuralmath.cpp
 neatmaster.cpp: $(OBJS) runner.h
 	$(CXX) $(BLIBS) -c neatmaster.cpp
 
+neatzsche.cpp: $(OBJS) runner.h neatmpi.h
+	$(MPICXX) $(BLIBS) -c neatmaster.cpp
+
 neatslave.cpp: $(OBJS2) iface.h
 	$(CXX) $(BLIBS) -c neatslave.cpp
 
+neatzsche: $(OBJS18) $(TOBJS) neatzsche.o runner.o statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) dataset.h tinyxml.h tinystr.h  iface.h
+	$(MPICXX) $(BLIBS) $(LIBS) -o $@ $(OBJS18) $(TOBJS) runner.o neatzsche.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff
+	@ mv neatzsche ../
 
 neatmaster: $(OBJS) $(TOBJS) neatmaster.o runner.o statechanges.h coevolution.h neuralmath.h ann.h gene.h genome.h genetics.h evoops.h settings.h evolution.h evaluator.h $(GOSOURCE) dataset.h tinyxml.h tinystr.h  iface.h
 	$(CXX) $(BLIBS) $(LIBS) -o $@ $(OBJS) $(TOBJS) runner.o neatmaster.o  -lpthread -lboard -lengine -lutils -lsgf -lpatterns -lncurses -ltiff

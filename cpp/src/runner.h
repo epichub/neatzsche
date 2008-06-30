@@ -38,7 +38,7 @@
 #include "gowrapper.h"
 #include "coevolution.h"
 #include "xmlconvert.h"
-
+#include "neatmpi.h"
 
 using namespace std;
 
@@ -51,7 +51,8 @@ private:
   SpecGraph * sg;
 public:
   NEATRunner(int igens, int iiter)
-  {smoothdata = new double * [igens]; 
+  {
+    smoothdata = new double * [igens]; 
     for(int i=0;i<igens;i++) {smoothdata[i] = new double[3];smoothdata[i][0] = 0;smoothdata[i][1] = 0;smoothdata[i][2] = 0;}
    generations=igens; runs=iiter;stop=false;
    currentgraphf=NULL;sbest=NULL; best=NULL; gbest=NULL;}
@@ -83,6 +84,7 @@ public:
   TransferFunctions * tfs;
   Evaluator * ev;
   stringstream sgf;
+  Neatzsche_Comm * comm;
   void (*signalhandler)(int sig);
   void runLoop();
 };
