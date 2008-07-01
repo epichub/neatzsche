@@ -15,7 +15,7 @@ then
 fi
 
 
-SEEED=$1
+SEED=$1
 SETTINGS=$2
 POPOPT=$3
 SELECTOPT=$4
