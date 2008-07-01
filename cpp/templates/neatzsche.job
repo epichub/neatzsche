@@ -1,0 +1,10 @@
+#! /bin/bash -l
+#PBS -N neatzsche
+#PBS -l nodes=18
+#PBS -j oe
+#PBS -q optimist
+
+cd ${PBS_O_WORKDIR}
+
+mpirun ./neatzsche 1214827174 settings/settings-eye "spawn 5 2 0 0.6 200" "sigma 0" "eye settings/settings-eye" "count 200 1"
+
