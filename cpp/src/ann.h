@@ -123,6 +123,7 @@ public:
   }
   void setOutput(double v){cache = v;outputset=true;}
   double getCachedValue(){return cache;}
+  void removeLink(Link * l);
   Link * getLinkTo(NeuralNode * node);
   linkVector * getInputLinks();
   linkVector * getLinks(){return links;}

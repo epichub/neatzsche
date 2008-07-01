@@ -367,6 +367,15 @@ void NeuralNode::deletelinks()
     else if(samedepthcheck(links->at(i),this,false))
       links->at(i)->setDeletable();
   }
+//   for(unsigned int i=0;i<links->size();i++){
+//     if(links->at(i)->isTo(this)&&links->at(i)->isFrom(this))//self recurrence
+//       delete links->at(i);
+//     else if(links->at(i)->isTo(this)){
+//       links->at(i)->getOtherNode(this)->removeLink(links->at(i));//remove other references to this link
+//       delete links->at(i);
+//     }
+      
+//   }
 }
 void NeuralNode::addLink(Link * link){
   // cerr << "this:" << this << " links:" << links << 
@@ -386,7 +395,12 @@ Link * NeuralNode::getLinkTo(NeuralNode * node){
       return links->at(i);
   return 0;
 }
-
+void NeuralNode::removeLink(Link * l){
+  linkVector::iterator it = links->begin();
+  while(it!=links->end() && &(*it)!= &l)
+    it++;
+  links->erase(it);
+}
 
 Link::Link(bool unDir, NeuralNode * first, NeuralNode * second, double w)
 {
@@ -402,7 +416,6 @@ Link::Link(bool unDir, NeuralNode * first, NeuralNode * second, double w)
 
 Link::~Link()
 {
-
 }
 
 double Link::getOther(NeuralNode * calling){

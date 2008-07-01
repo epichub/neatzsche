@@ -74,7 +74,7 @@ bool Neatzsche_MPI::readPopulation(Phenotypes * p, Coevolution * c, TransferFunc
     genome->fromSmall(id,nodes,nns,genes,gs,ftypes);
     delete ftypes;
     p->push_back(new Phenotype(genome));
-    delete nns; delete gs;
+    delete[] nns; delete[] gs;
   }
   unsigned int cont;
   MPI::COMM_WORLD.Recv(&cont,1,MPI::INT,0,0);//continue or stop?
@@ -125,7 +125,7 @@ void Neatzsche_MPI::outputPopulation(Population * pop, unsigned int nodes,  Coev
       genetype = Build_gene_type(&gsv[0]);
       MPI::COMM_WORLD.Send(gsv,genes,genetype,sc,0);//send gene vector
 
-      delete nsv; delete gsv;
+      delete[] nsv; delete[] gsv;
     }
     if(lastgen)
       sendtag = MPI_Stop;

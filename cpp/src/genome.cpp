@@ -972,12 +972,19 @@ void Genome::toSmall(NeuralNodeSmall *& ns, GeneSmall *& gs, int * nodec, int * 
 
   ns = (NeuralNodeSmall*)malloc(sizeof(NeuralNodeSmall)*(*nodec));
   gs = (GeneSmall*)malloc(sizeof(GeneSmall)*(*genec));
-  for(unsigned int i=0;i<*nodec;i++)
-      ns[i] = *nodes->at(i)->getSmall();
-
-  for(unsigned int i=0;i<*genec;i++)
-      gs[i] = *genes->at(i)->getSmall();
-
+  //TODO: make this pointer go all the way through to the mpi send...
+  NeuralNodeSmall * cnns = NULL;
+  for(unsigned int i=0;i<*nodec;i++){
+    cnns = nodes->at(i)->getSmall();
+    ns[i] = *cnns;
+    delete cnns;
+  }
+  GeneSmall * cgs = NULL;
+  for(unsigned int i=0;i<*genec;i++){
+    cgs = genes->at(i)->getSmall();
+    gs[i] = *cgs;
+    delete cgs;
+  }
   
 }
 void Genome::fromSmall(int iid, int nodec, NeuralNodeSmall * ns, int genec, GeneSmall * gs, vector<string> * v)

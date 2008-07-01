@@ -7,7 +7,7 @@ LDFLAGS= -lpthread -ltiff
 #QTINCLUDE       = -I/usr/include/qt4 -I/usr/include/qt4/QtCore
 
 QTDEFINES       = -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_SHARED
-QTINCLUDE       = -I/usr/local/Qt4.3/mkspecs/macx-g++ -I. -I/Library/Frameworks/QtCore.framework/Versions/4/Headers -I/usr/include/QtCore -I/Library/Frameworks/QtNetwork.framework/Versions/4/Headers -I/usr/include/QtNetwork -I/Library/Frameworks/QtGui.framework/Versions/4/Headers -I/usr/include/QtGui -I/usr/include -I. -Iwrapper -I. -I. -F/Library/Frameworks -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtCore
+QTINCLUDE       = -I/usr/local/Qt4.3/mkspecs/macx-g++ -I/usr/share/qt4/mkspecs/linux-g++-64 -I. -I/Library/Frameworks/QtCore.framework/Versions/4/Headers -I/usr/include/QtCore -I/Library/Frameworks/QtNetwork.framework/Versions/4/Headers -I/usr/include/QtNetwork -I/Library/Frameworks/QtGui.framework/Versions/4/Headers -I/usr/include/QtGui -I/usr/include -I. -Iwrapper -I. -I. -F/Library/Frameworks -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtCore
 QTLIBSMAC          = $(SUBLIBS) -F/usr/lib64/qt4 -F/Library/Frameworks -L/usr/lib64/qt4 -L/Library/Frameworks -framework QtGui -framework Carbon -framework AppKit -framework QtNetwork -framework QtCore -lz -lm -liconv -framework ApplicationServices
 QTLIBSLINUX     = $(SUBLIBS)  -L/usr/lib64/qt4  -lQtCore -lQtGui -ltiff
 

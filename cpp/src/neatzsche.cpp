@@ -235,5 +235,4 @@ void slave(char ** argv, int argc, Neatzsche_MPI * comm,
     comm->outputFitness(p);
     cleanupPopulation(p);
   }
-  delete p;
 }
