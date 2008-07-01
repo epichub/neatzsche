@@ -103,14 +103,12 @@ void Neatzsche_MPI::outputPopulation(Population * pop, unsigned int nodes,  Coev
     }
       
     sc = (sc % (size-1))+1;
-    cout << "sending to node: " << sc << endl;
+
     MPI::COMM_WORLD.Send(&n,1,MPI_INT,sc,0);//send number of genomes incoming
     for(size_t i2 = 0; i2 < n && i < s; i2++, i++) {
 
       genome = pop->getMembers()->at(i)->getGenome();
       genome->toSmall(nsv,gsv,&nnodes,&genes);
-      //      id = genome->getID();
-//       cout << "converting genome " << genome->getID() << " to " << i << endl;
 	
       MPI::COMM_WORLD.Send(&i,1,MPI_INT,sc,0);//send genome id..
       MPI::COMM_WORLD.Send(&nnodes,1,MPI_INT,sc,0);//send number of nodes
