@@ -43,8 +43,8 @@ OBJS16=$(OBJS) test-hyperdataset.o
 OBJS17=$(OBJS) mpitest.o neatmpi.o
 OBJS18=$(OBJS) neatmpi.o
 
-IINCLUDE=$(QTINCLUDE) -I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0 -I/opt/local/include
-BLIBS=-L$(HOME)/local/lib 
+IINCLUDE=$(QTINCLUDE) -I$(HOME)/local/include -I$(HOME)/local/include/c++/4.3.0 -I/opt/local/include -I/opt/openmpi/include/ -I/opt/openmpi/include/openmpi/
+BLIBS=-L$(HOME)/local/lib -L/opt/openmpi/lib/
 OPTS = -g -Wall
 
 os-type := $(shell uname)
@@ -108,11 +108,11 @@ ifeq ($(CC),)
 endif
 CXX=g++ $(OPTS) $(DEFINES) $(BINCLUDE)
 MPICXX=mpic++ $(OPTS) $(DEFINES) $(BINCLUDE)
-LIBS=-L/opt/local/lib -ltiff 
+LIBS=-L/opt/local/lib -ltiff
 
 
 ifeq ($(os-type), Linux)
-  LIBS=-L$(HOME)/local/lib -Wl,--rpath,$(HOME)/local/lib
+  LIBS=-L/opt/openmpi/lib/ -L$(HOME)/local/lib -Wl,--rpath,$(HOME)/local/lib
   QTLIBS=$(QTLIBSLINUX)
   BLIBS=
   BINCLUDE = $(IINCLUDE)
