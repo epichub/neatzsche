@@ -26,10 +26,10 @@ QUEUE=$8
 INTER=$9
 JOBTITLE="Neatzsche"+$NODES
 
-cat "templates/neatzsche.job.template" | sed -e "s/SEED/${SEED}/g" -e "s/SETTINGS/${SETTINGS}/" \
-    -e "s/POPOPT/${POPOPT}/" -e "s/SELECTOPT/${SELECTOPT}/" -e "s/EVALOPT/${EVALOPT}/" \
-    -e "s/STOPOPT/${STOPOPT}/" -e "s/NODES/${NODES}/" -e "s/QUEUE/${QUEUE}/" \
-    -e "s/JOBTITLE/${JOBTITLE}/" > neatzsche.job
+cat "templates/neatzsche.job.template" | sed -e "s!SEED!${SEED}!g" -e "s!SETTINGS!${SETTINGS}!" \
+    -e "s!POPOPT!${POPOPT}!" -e "s!SELECTOPT!${SELECTOPT}!" -e "s!EVALOPT!${EVALOPT}!" \
+    -e "s!STOPOPT!${STOPOPT}!" -e "s!NODES!${NODES}!" -e "s!QUEUE!${QUEUE}!" \
+    -e "s!JOBTITLE!${JOBTITLE}!" > neatzsche.job
 
 if [[ ${INTER} != "0" ]]
 then
