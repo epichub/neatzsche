@@ -31,7 +31,6 @@ TransferFunctions::~TransferFunctions()
   for(unsigned int i=0;i<f->size();i++)
     delete f->at(i);
   delete f;
-  //  delete ta;
 }
 TransferFunction::TransferFunction()
 {

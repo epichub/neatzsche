@@ -104,7 +104,6 @@ int main(int argc,char *args[]){
     }
     generations = atoi(stopv->at(1).c_str());
     runs = atoi(stopv->at(2).c_str());
-    cerr << "running for " << generations << " generations over " << runs << " runs " << endl;
   }else if(stopv->at(0).find("key")!=string::npos){
     cout << "heh, key!?" << endl;
   }else{
@@ -164,6 +163,7 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
   int nodes = comm->getSize()-1;
   int nom = pop->getMembers()->size()/((unsigned int)nodes+1);
   unsigned int mc = (unsigned int)((double)nom*mr);
+  cerr << "running for " << generations << " generations over " << runs << " runs " << endl;
   cerr << "running " << mc << " evals on master and " <<  (pop->getMembers()->size()-mc)/nodes << " on the each of the slaves." << endl;
   
   //the running loop itself
