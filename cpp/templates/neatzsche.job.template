@@ -10,5 +10,5 @@ export GEM_HOME=/home/bjornmm/local/gems
 cd ../ruby
 ruby plotdaemon.rb
 cd ../cpp
-mpirun ./neatzsche SEEED SETTINGS POPOPT SELECTOPT EVALOPT STOPOPT
+mpirun ./neatzsche SEED SETTINGS POPOPT SELECTOPT EVALOPT STOPOPT
 
