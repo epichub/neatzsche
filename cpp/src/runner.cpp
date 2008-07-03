@@ -114,7 +114,7 @@ void NEATRunner::runLoop()
     if(localFE){
       ev->evaluate(pop->getMembers(),pop->getMembers()->size());
     }else{
-      if(generations>0&&(pop->getGeneration()+1)==generations&&runs==(countruns+1)){
+      if(generations>0&&(pop->getGeneration()+2)==generations&&runs==(countruns+1)){
 	cout << "setter slavestop.." << endl;
 	slaveStop = true;
       }
@@ -193,6 +193,9 @@ void NEATRunner::runLoop()
     if(generations>0&&(pop->getGeneration()+1)==generations&&runs==(countruns+1)){ // stopconditions
       setChamp(sbest,best);
       stop = true;
+      sg->writetofile();
+      delete sg;
+      delete currentgraphf;
     }else{
       if(generations>0&&(pop->getGeneration()+1)==generations){
 //  	cerr << "going run reset" << endl;
