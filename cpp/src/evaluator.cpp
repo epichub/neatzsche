@@ -296,7 +296,7 @@ double GoEvaluator::f(Phenotype * f)
   c = players[0];
   count=0; first = true;
   sense = g->getSensoryInput(first);
-  cerr << "sense size:" << sense.size() << endl;
+//   cerr << "sense size:" << sense.size() << endl;
   //    int tmpputs=0;
   while(!g->done()){
     //     tmpputs = g->getPuts();
