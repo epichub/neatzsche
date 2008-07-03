@@ -101,7 +101,7 @@ void NEATRunner::runLoop()
   }
   ofstream ofs(sCurrentGenomeFilec.str().c_str());
   ofstream ofs2(sCurrentGenomeFilesuffixless.str().c_str());
-
+  bool slaveStop = false;
 //   cerr << "===============\ncoevostartgen:" << coevo->getStartGeneration()+1
 //        << "generations: " << generations <<  "===============\n" << endl;
   while(!stop){
@@ -114,7 +114,11 @@ void NEATRunner::runLoop()
     if(localFE){
       ev->evaluate(pop->getMembers(),pop->getMembers()->size());
     }else{
-      comm->outputPopulation(pop,nodes,coevo,mc,false); //stream the population out to nodes for evaluation	
+      if(generations>0&&(pop->getGeneration()+1)==generations&&runs==(countruns+1)){
+	cout << "setter slavestop.." << endl;
+	slaveStop = true;
+      }
+      comm->outputPopulation(pop,nodes,coevo,mc,slaveStop); //stream the population out to nodes for evaluation	
       ev->evaluate(pop->getMembers(),mc);//sweet..
       comm->readFitness(pop,mc); //read the corresponding returned fitness values
 //       for(unsigned int i=0;i<pop->getMembers()->size();i++)
@@ -249,7 +253,7 @@ void NEATRunner::runLoop()
   writeRunfile(true,basefile,infoline,pid);  
 
   cerr << "after writerunfile" << endl;
-  if(!localFE)
-    comm->outputPopulation(pop,nodes,coevo,mc,true);
+//   if(!localFE)
+//     comm->outputPopulation(pop,nodes,coevo,mc,true);
   
 }

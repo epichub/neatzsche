@@ -215,9 +215,9 @@ void slave(char ** argv, int argc, Neatzsche_MPI * comm,
                // in cmd(coevo/std), where coevo expects two genomes
     gen++;
     cont = comm->readPopulation(p,c,tfs);
-    if(!cont){
-      break;
-    }
+//     if(!cont){
+//       break;
+//     }
     if(!coevo && gen==(c->getStartGeneration()+1)){
       coevo = true;
     }
