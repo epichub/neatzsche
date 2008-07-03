@@ -118,6 +118,7 @@ int main(int argc,char *args[]){
   else
     slave(args,argc,nmpi,tfs,coevo,fe,ev,generations);
   delete set; delete tfs; delete coevo; delete fe; delete stopv;
+  delete nmpi;
   exit(0);//exit with success
 }
 void master(char ** args, int argc, Neatzsche_MPI * comm,

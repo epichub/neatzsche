@@ -195,7 +195,7 @@ void NEATRunner::runLoop()
       stop = true;
       sg->writetofile();
       delete sg;
-      delete currentgraphf;
+//       delete currentgraphf;
     }else{
       if(generations>0&&(pop->getGeneration()+1)==generations){
 //  	cerr << "going run reset" << endl;
@@ -251,6 +251,7 @@ void NEATRunner::runLoop()
   finalgraphf.close();
   cerr << "done closing finalgraphf" << endl;
   currentgraphf->close();
+  delete currentgraphf;
   cerr << "done closing currentgraphf" << endl;
 //   cerr << "before writerunfile" << endl;
   writeRunfile(true,basefile,infoline,pid);  

@@ -265,6 +265,14 @@ void Population::postepoch()
   if(debug)
     cerr << "postepoch stop: curgen:"<<curgen<<" members size: " << members->size() << " species size : " << species->size() << endl;
 }
+void Population::deletespecies()
+{ 
+  if(!species)
+    return;
+  for(unsigned int i=0;i<species->size();i++)
+    delete species->at(i);
+  delete species;
+}
 void Population::populationCleanup()
 {
   deletespecies();
@@ -272,9 +280,15 @@ void Population::populationCleanup()
     delete members->at(i);
   delete members;
   delete in;
-  deletespecies();
+//   deletespecies();
   setvars();
   resetVars();
+}
+void Population::resetSpawn(){
+  int tsize = members->size();
+  populationCleanup();
+  resetVars();
+  randomSpawn(tsize,inodes,onodes,hnodes,hnodes,lprob,rprob);
 }
 Population::~Population()
 {
@@ -479,12 +493,6 @@ void Population::genesis(Genome * g, int isize, int initialelitism)
   in->setInitNum(g->getLastInnov());
   speciate();
 }
-void Population::resetSpawn(){
-  int tsize = members->size();
-  populationCleanup();
-  resetVars();
-  randomSpawn(tsize,inodes,onodes,hnodes,hnodes,lprob,rprob);
-}
 void Population::randomSpawn(int pops, int i, int o, int n,int nmax, double linkprob, 
 			     double r)
 {
@@ -506,15 +514,7 @@ void Population::randomSpawn(int pops, int i, int o, int n,int nmax, double link
   speciate();
   curgenome = cid;
 }
-void Population::deletespecies()
-{ 
-  if(!species)
-    return;
-  for(unsigned int i=0;i<species->size();i++)
-    delete species->at(i);
-  delete species;
-  species = NULL;
-}
+
 void Population::speciate()
 {
   speciesVector::iterator it;
