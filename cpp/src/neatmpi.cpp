@@ -97,6 +97,10 @@ void Neatzsche_MPI::outputPopulation(Population * pop, unsigned int nodes,  Coev
   int sendtag = Neatzsche_MPI::MPI_Cont;
   string sftype;
   int sc=0;
+  if(lastgen)
+    sendtag = MPI_Stop;
+  else
+    sendtag = MPI_Cont;
   while(i < s) {
     if(uneven && (s-i)<(2*n)){
       n = (s-i);
@@ -127,10 +131,6 @@ void Neatzsche_MPI::outputPopulation(Population * pop, unsigned int nodes,  Coev
 
       delete[] nsv; delete[] gsv;
     }
-    if(lastgen)
-      sendtag = MPI_Stop;
-    else
-      sendtag = MPI_Cont;
     MPI::COMM_WORLD.Send(&sendtag,1,MPI::INT,sc,0);//send stop or not
   }
 

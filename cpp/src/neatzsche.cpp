@@ -118,7 +118,7 @@ int main(int argc,char *args[]){
   else
     slave(args,argc,nmpi,tfs,coevo,fe,ev,generations);
   delete set; delete tfs; delete coevo; delete fe; delete stopv;
-  delete nmpi;
+  delete nmpi; delete ev;
   exit(0);//exit with success
 }
 void master(char ** args, int argc, Neatzsche_MPI * comm,
@@ -195,7 +195,7 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
 
   //starting the loop
   run->runLoop();
-
+  delete runner;
   //clean up memory
 
   delete pop;

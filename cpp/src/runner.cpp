@@ -245,6 +245,9 @@ void NEATRunner::runLoop()
     finalgraphf << smoothdata[i][0]/(double)runs << " " 
 		<< smoothdata[i][1]/(double)runs << " " 
 		<< smoothdata[i][2]/(double)runs << endl;
+  for(int i=0;i<generations-1;i++)
+    delete[] smoothdata[i];
+  delete[] smoothdata;
   cerr << "done writing smoothed final graph file to " << finalgraphfile << endl;
 //   cerr << "!!! total time divided by number of evals: " << (double)totaltime/((double)(generations*countruns*osize))<<endl ;
   //close graph files..
