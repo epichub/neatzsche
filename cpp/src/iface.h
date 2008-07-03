@@ -187,6 +187,7 @@ static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *
     double cellsize=set->getValue("cellsize");
     ret = new LightsimEvaluator(set,xmax,ymax,lsnum,cellsize,ls_dist);
     coevo = new Halloffame(0,0,1000000,ret);
+    
   }else if(sv->at(0).find("random")!=string::npos)
         ret = new RandomEvaluator();
   else if(sv->at(0).find("dataset")!=string::npos){

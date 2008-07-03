@@ -69,18 +69,19 @@ static inline void writenetwork(Phenotype * pheno, string file)
 }
 class SpecGraph {
 private:
-  TiXmlDocument doc;
+  TiXmlDocument * doc;
   int gc;
   string file;
   TiXmlElement * run;
 public:
   SpecGraph(int pops, int gens, string ifile){
     file = ifile;
+    doc = new TiXmlDocument();
     TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );  
-    doc.LinkEndChild( decl );  
+    doc->LinkEndChild( decl );  
 
     run = new TiXmlElement( "run" );  
-    doc.LinkEndChild( run ); 
+    doc->LinkEndChild( run ); 
  
     TiXmlElement * sp = new TiXmlElement( "search-parameters" );  
     run->LinkEndChild( sp ); 
@@ -100,7 +101,7 @@ public:
   }
   ~SpecGraph()
   {
-    delete run;
+    delete doc;
   }
   inline void update(Population * p)
   {
