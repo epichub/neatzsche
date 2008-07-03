@@ -35,6 +35,7 @@
 #include "gowrapper.h"
 #include "coevolution.h"
 #include "runner.h"
+#include "boye.h"
 
 using namespace std;
 
@@ -90,7 +91,7 @@ int main(int argc,char *args[]){
   Evaluator * ev = new Evaluator(fe); 
 
   //6.
-  Neatzsche_Comm * comm = makeCommunicator(args[7],args,argc);
+  Neatzsche_Comm * comm = new Neatzsche_Boye();
 
   //7. stopping condition (usually generation counter, should support
   //   key interrupt)

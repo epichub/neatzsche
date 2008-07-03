@@ -30,6 +30,7 @@
 #include <sstream>
 #include "iface.h"
 #include "gowrapper.h"
+#include "boye.h"
 using namespace std;
 
 
@@ -64,7 +65,7 @@ int main(int argc,char *args[]){
   
   TransferFunctions * tfs = new TransferFunctions(set);
 
-  Neatzsche_Comm * comm = makeCommunicator(args[3],args,argc);
+  Neatzsche_Comm * comm =  new Neatzsche_Boye();
 
   c->setTfs(tfs);
   bool coevo = false;

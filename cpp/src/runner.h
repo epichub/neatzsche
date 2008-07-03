@@ -38,7 +38,7 @@
 #include "gowrapper.h"
 #include "coevolution.h"
 #include "xmlconvert.h"
-#include "neatmpi.h"
+#include "boye.h"
 
 using namespace std;
 

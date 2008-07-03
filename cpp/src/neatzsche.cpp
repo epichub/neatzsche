@@ -35,6 +35,7 @@
 #include "gowrapper.h"
 #include "coevolution.h"
 #include "runner.h"
+#include "neatmpi.h"
 
 using namespace std;
 void master(char ** args, int argc, Neatzsche_MPI * comm,

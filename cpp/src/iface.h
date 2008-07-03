@@ -27,7 +27,7 @@
 #include <vector>
 #include "neuralmath.h"
 #include "coevolution.h"
-#include "neatmpi.h"
+//#include "neatmpi.h"
 //#include "runner.h"
 
 static inline vector<string> * split(char * args, string delim)
@@ -254,30 +254,30 @@ static inline Selector * makeSelector(char * args)
   return ret;
 
 }
-static inline string makecommunicatorUsage(){
-  string s =  "\t[communicator options] = \"mpi\"\n";
-  s += "\t[communicator options2] = \"boye\"\n";
-  return s;
-}
-static inline Neatzsche_Comm * makeCommunicator(char * args, char **argv, int argc)
-{
-  vector<string> * sv = split(args," ");
-  Neatzsche_Comm * ret = NULL;
-  if(sv->at(0).find("mpi")!=string::npos){
-    if(sv->size()!=1){
-      cerr << "wrong number of arguments to mpi communicator setup method" << endl;
-      exit(1);
-    }
-    ret = new Neatzsche_MPI(argc,argv);
-  }else { //boye
-    if(sv->size()!=1){
-      cerr << "wrong number of arguments to boye communicator setup method" << endl;
-      exit(1);
-    }
-    ret = new Neatzsche_Boye();
-  }
-  return ret;
-}
+// static inline string makecommunicatorUsage(){
+//   string s =  "\t[communicator options] = \"mpi\"\n";
+//   s += "\t[communicator options2] = \"boye\"\n";
+//   return s;
+// }
+// static inline Neatzsche_Comm * makeCommunicator(char * args, char **argv, int argc)
+// {
+//   vector<string> * sv = split(args," ");
+//   Neatzsche_Comm * ret = NULL;
+//   if(sv->at(0).find("mpi")!=string::npos){
+//     if(sv->size()!=1){
+//       cerr << "wrong number of arguments to mpi communicator setup method" << endl;
+//       exit(1);
+//     }
+//     ret = new Neatzsche_MPI(argc,argv);
+//   }else { //boye
+//     if(sv->size()!=1){
+//       cerr << "wrong number of arguments to boye communicator setup method" << endl;
+//       exit(1);
+//     }
+//     ret = new Neatzsche_Boye();
+//   }
+//   return ret;
+// }
 // input: "<id> <fitness>"
 
 static inline void sendExitToken(bool exit){
@@ -344,7 +344,6 @@ static inline void neatzscheUsage(string progname)
        << makepopulationUsage() << flush
        << makeselectorUsage() << flush
        << makefitnessevaluatorUsage() << flush
-       << makecommunicatorUsage() << flush
        << "\t[stop condition1] = \"count [generations] [runs]\""<<endl << flush
        << "\t[stop condition2] = \"key\""<<endl;
 }
@@ -356,7 +355,6 @@ static inline void masterUsage(string progname)
        << makepopulationUsage() << flush
        << makeselectorUsage() << flush
        << makefitnessevaluatorUsage() << flush
-       << makecommunicatorUsage() << flush
        << "\t[stop condition1] = \"count [generations] [runs]\""<<endl << flush
        << "\t[stop condition2] = \"key\""<<endl;
 }
@@ -365,8 +363,7 @@ static inline void slaveUsage(string progname)
   cerr << "usage: " << endl
        << progname << " [seed (0 for new)] [settings] [phenotype eval options] [generations]" << endl
        << "where:" << endl
-       << makefitnessevaluatorUsage() << endl
-       << makecommunicatorUsage() << flush;
+       << makefitnessevaluatorUsage() << endl;
 }
 static inline void xortestUsage(string progname)
 {
