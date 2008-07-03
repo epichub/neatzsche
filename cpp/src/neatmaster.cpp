@@ -155,6 +155,7 @@ int main(int argc,char *args[]){
   run->basefile = ssCurrentFile.str();
   run->pid = pid;
   run->sgf.str(specgraphfile.str());
+  run->comm = comm;
   icb->run = run;
 
   //make the infoline..

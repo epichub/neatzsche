@@ -18,6 +18,7 @@ using namespace std;
 class Neatzsche_Comm {
 public:
   Neatzsche_Comm(){};
+  virtual ~Neatzsche_Comm(){};
   virtual void outputPopulation(Population * p, unsigned int nodes,  Coevolution * c, 
 				unsigned int i, bool stop){};
   virtual bool readPopulation(Phenotypes * p, Coevolution * c, TransferFunctions * tfs, int & gencount){return true;};
@@ -38,10 +39,10 @@ public:
     size = MPI::COMM_WORLD.Get_size();
     NeuralNodeSmall ns;
     GeneSmall gs;
-    //     nodetype = Build_neuralnode_type(&ns);
-    //     Build_gene_type(&gs,&genetype);
+    nodetype = Build_neuralnode_type(&ns);
+    genetype = Build_gene_type(&gs);
   }
-  ~Neatzsche_MPI(){}
+  virtual ~Neatzsche_MPI(){}
   int getRank(){return rank;}
   int getSize(){return size;}
   static const unsigned int MPI_Cont = 0;
@@ -64,7 +65,7 @@ public:
   virtual void readFitness(Population * p, unsigned int i)
   {
     int id,n; double f; Phenotypes *members = p->getMembers();
-    for(unsigned int i=1;i<size;i++){
+    for(int i=1;i<size;i++){
       MPI::COMM_WORLD.Recv(&n,1,MPI::INT,i,0);      
       for(int i2=0;i2<n;i2++){
 	MPI::COMM_WORLD.Recv(&id,1,MPI::INT,i,0);
@@ -81,6 +82,7 @@ public:
 class Neatzsche_Boye : public Neatzsche_Comm {
 public:
   Neatzsche_Boye(){};
+  virtual ~Neatzsche_Boye(){};
   virtual void outputPopulation(Population * p, int nodes,  Coevolution * c, 
 				unsigned int i, bool pipeio, bool stop)
   {
@@ -119,7 +121,7 @@ public:
     cin >> s;
     stringstream tmpbuf;
     cin >> s;
-    bool returbool;
+
     if(s.find("STOP") != string::npos)
       return false;
     //  cerr << "s: " << s << endl;
