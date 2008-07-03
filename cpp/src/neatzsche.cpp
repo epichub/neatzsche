@@ -195,7 +195,7 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
 
   //starting the loop
   run->runLoop();
-  delete runner;
+  delete run;
   //clean up memory
 
   delete pop;
