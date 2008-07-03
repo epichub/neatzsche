@@ -176,7 +176,7 @@ public:
   }
   void writetofile(){
     cerr << "writing specgraph to: " << file << endl;
-    doc.SaveFile( file.c_str() );  
+    doc->SaveFile( file.c_str() );  
   }
 };
 
