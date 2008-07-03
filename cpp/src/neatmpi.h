@@ -37,10 +37,10 @@ public:
     MPI::Init ( argc, args );
     rank = MPI::COMM_WORLD.Get_rank();
     size = MPI::COMM_WORLD.Get_size();
-    NeuralNodeSmall ns;
-    GeneSmall gs;
-    nodetype = Build_neuralnode_type(&ns);
-    genetype = Build_gene_type(&gs);
+//     NeuralNodeSmall ns;
+//     GeneSmall gs;
+//     nodetype = Build_neuralnode_type(&ns);
+//     genetype = Build_gene_type(&gs);
   }
   virtual ~Neatzsche_MPI(){}
   int getRank(){return rank;}

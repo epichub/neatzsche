@@ -55,7 +55,7 @@ bool Neatzsche_MPI::readPopulation(Phenotypes * p, Coevolution * c, TransferFunc
     nns = (NeuralNodeSmall*)malloc(sizeof(NeuralNodeSmall)*nodes);
     gs = (GeneSmall*)malloc(sizeof(GeneSmall)*genes);
 
-//     nodetype = Build_neuralnode_type(&nns[0]);
+    nodetype = Build_neuralnode_type(&nns[0]);
     MPI::COMM_WORLD.Recv(nns,nodes,nodetype,0,0);
     for(int i=0;i<nodes;i++){//blargh, 1 int would be more usefull in this case:P
       MPI::COMM_WORLD.Probe(0, MPI_Cont, status);
@@ -65,7 +65,7 @@ bool Neatzsche_MPI::readPopulation(Phenotypes * p, Coevolution * c, TransferFunc
       ftypes->push_back(string(strbuf).substr(0,stringc));
       free(strbuf);
     }
-//     genetype = Build_gene_type(&gs[0]);
+    genetype = Build_gene_type(&gs[0]);
     MPI::COMM_WORLD.Recv(gs,genes,genetype,0,0);
 
     genome = new Genome(tfs);
@@ -113,7 +113,7 @@ void Neatzsche_MPI::outputPopulation(Population * pop, unsigned int nodes,  Coev
       MPI::COMM_WORLD.Send(&nnodes,1,MPI_INT,sc,0);//send number of nodes
       MPI::COMM_WORLD.Send(&genes,1,MPI_INT,sc,0);//send number of genes
 
-//       nodetype = Build_neuralnode_type(&nsv[0]);
+      nodetype = Build_neuralnode_type(&nsv[0]);
 
       MPI::COMM_WORLD.Send(nsv,nnodes,nodetype,sc,0);//send node vector
       for(int i=0;i<nnodes;i++){
@@ -121,7 +121,7 @@ void Neatzsche_MPI::outputPopulation(Population * pop, unsigned int nodes,  Coev
 	sftype = genome->getNodes()->at(i)->getTFunc()->ftype;
 	MPI::COMM_WORLD.Send(sftype.c_str(),sftype.length(),MPI::CHAR,sc,0);//send gene vector
       }
-//       genetype = Build_gene_type(&gsv[0]);
+      genetype = Build_gene_type(&gsv[0]);
       MPI::COMM_WORLD.Send(gsv,genes,genetype,sc,0);//send gene vector
 
       delete[] nsv; delete[] gsv;
