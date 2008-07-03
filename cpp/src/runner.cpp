@@ -229,6 +229,7 @@ void NEATRunner::runLoop()
   ofsuper << sbest->getGenome();
   ofsuper.close();
   cerr << "final best fitness" << sbest->getFitness() << endl;
+  delete sbest;
 //   cerr << "done writing finalgenome file " << endl;
 //   cerr << "writing smoothed final graph file generations: " << generations
 //        << "smoothdata size:" << sizeof(smoothdata)/sizeof(smoothdata[0]) << endl;
@@ -250,4 +251,5 @@ void NEATRunner::runLoop()
   cerr << "after writerunfile" << endl;
   if(!localFE)
     comm->outputPopulation(pop,nodes,coevo,mc,true);
+  
 }
