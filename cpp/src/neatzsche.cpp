@@ -234,5 +234,7 @@ void slave(char ** argv, int argc, Neatzsche_MPI * comm,
       e->evaluate(p,p->size());
     comm->outputFitness(p);
     cleanupPopulation(p);
+    p = new Phenotypes();
   }
+  cleanupPopulation(p);  
 }

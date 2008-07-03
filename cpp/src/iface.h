@@ -295,7 +295,6 @@ static inline void cleanupPopulation(Phenotypes * p)
   for(unsigned int i=0;i<p->size();i++)
     delete p->at(i);
   delete p;
-  p = new Phenotypes();
 }
 static inline void setChamp(Phenotype *& oldchamp, Phenotype * challenger)
 {
