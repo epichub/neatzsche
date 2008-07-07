@@ -52,8 +52,10 @@ bool Neatzsche_MPI::readPopulation(Phenotypes * p, Coevolution * c, TransferFunc
     MPI::COMM_WORLD.Recv(&id,1,MPI_INT,0,0);
     MPI::COMM_WORLD.Recv(&nodes,1,MPI_INT,0,0);
     MPI::COMM_WORLD.Recv(&genes,1,MPI_INT,0,0);
-    nns = (NeuralNodeSmall*)malloc(sizeof(NeuralNodeSmall)*nodes);
-    gs = (GeneSmall*)malloc(sizeof(GeneSmall)*genes);
+//     nns = (NeuralNodeSmall*)malloc(sizeof(NeuralNodeSmall)*nodes);
+//     gs = (GeneSmall*)malloc(sizeof(GeneSmall)*genes);
+    nns = new NeuralNodeSmall [nodes];
+    gs = new GeneSmall[genes];
 
     nodetype = Build_neuralnode_type(&nns[0]);
     MPI::COMM_WORLD.Recv(nns,nodes,nodetype,0,0);
