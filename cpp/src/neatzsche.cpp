@@ -46,7 +46,9 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
 void slave(char ** argv, int argc, Neatzsche_MPI * comm,
 	   TransferFunctions * tfs, Coevolution * c, 
 	   FitnessEvaluator * fe, Evaluator * e, int maxgen);
+
 Interruptcallback * icb = new Interruptcallback();
+
 void signalhandler(int sig) {
   addToAllSignals(signalhandler);
   icb->operator()(sig);
@@ -120,7 +122,10 @@ int main(int argc,char *args[]){
     slave(args,argc,nmpi,tfs,coevo,fe,ev,generations);
   delete set; delete tfs; delete coevo; delete fe; delete stopv;
   delete nmpi; delete ev;
+  delete icb;
+
   exit(0);//exit with success
+
 }
 void master(char ** args, int argc, Neatzsche_MPI * comm,
 	    NEATsettings * set, TransferFunctions * tfs,
