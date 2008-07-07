@@ -72,7 +72,10 @@ bool Neatzsche_MPI::readPopulation(Phenotypes * p, Coevolution * c, TransferFunc
     genome->fromSmall(id,nodes,nns,genes,gs,ftypes);
     delete ftypes;
     p->push_back(new Phenotype(genome));
-    delete[] nns; delete[] gs;
+    if(nodes>0)
+      delete[] nns; 
+    if(genes>0)
+      delete[] gs;
   }
   unsigned int cont;
   MPI::COMM_WORLD.Recv(&cont,1,MPI::INT,0,0);//continue or stop?
