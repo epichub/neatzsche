@@ -76,8 +76,7 @@ private:
   virtual void read(std::istream& i) const ;
 public:
   Halloffame(int num, int igames, int isg, FitnessEvaluator * ife) : Coevolution(igames) 
-  {halloffame = new Phenotypes(); n = num;first=true; perm = new Phenotypes(); sg = isg; fe = ife;
-    cout << "num er: " << num << endl;}
+  {halloffame = new Phenotypes(); n = num;first=true; perm = new Phenotypes(); sg = isg; fe = ife;}
   ~Halloffame(){delete halloffame; delete perm;}
   virtual void update(Population * p);
   virtual double evaluate(Phenotype * p);
