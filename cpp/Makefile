@@ -34,7 +34,7 @@ internaldebug:
 	@ cd src ; $(MAKE) STYLE=INTERNALDEBUG ;
 
 clean: 
-	@ rm neatmaster neatslave test-xor test-go lightsim-viewer lightsim-test test-eye; cd src; rm *.o TAGS; cd lightsim; rm *.o;
+	@ rm neatzsche neatmaster neatslave test-xor test-go lightsim-viewer lightsim-test test-eye; cd src; rm *.o TAGS; cd lightsim; rm *.o;
 
 neatzsche:
 	@cd src; $(MAKE) STYLE=OPTIMISED neatzsche;
