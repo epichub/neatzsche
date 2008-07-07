@@ -122,12 +122,12 @@ ifeq ($(os-type), Darwin)
   BINCLUDE = $(IINCLUDE) -I/opt/local/include
 endif
 
-all:	no-qt lightsim-viewer lightsim-test
+all:	no-qt 
 internaldebug:
 	$(MAKE) STYLE=INTERNALDEBUG
 debug:
 	$(MAKE) STYLE=DEBUG
-no-qt:	neatmaster neatslave tags test-xor test-go playgame test-or test-eye test-hyperdataset
+no-qt:	neatmaster neatslave tags neatzsche
 
 dist:
 	@ +make STYLE=RELEASE
