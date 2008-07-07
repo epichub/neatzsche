@@ -155,9 +155,14 @@ static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *
     int pg = atoi(sv->at(1).c_str());
     double r = atof(sv->at(2).c_str());
     int cogames = atoi(sv->at(3).c_str());
-    int gnugogames = 1;//atleast one game per round against gnugo.
+    int gnugogames = 0;//atleast one game per round against gnugo.
     gnugogames += (int)(r*cogames);
+    if(gnugogames<=0)
+      gnugogames = 1;
     cogames -= gnugogames;
+    if(cogames<=0)
+      cogames = 0;
+
     bool easy = atoi(sv->at(4).c_str()) == 1;
 
 
