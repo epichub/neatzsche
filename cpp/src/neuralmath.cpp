@@ -28,8 +28,11 @@ TransferFunctions::TransferFunctions(NEATsettings * s)
 }
 TransferFunctions::~TransferFunctions()
 {
-  for(unsigned int i=0;i<f->size();i++)
-    delete f->at(i);
+  for(unsigned int i=0;i<f->size();i++){
+    if(f->at(i)!=ta)
+      delete f->at(i);
+  }
+  delete ta;
   delete f;
 }
 TransferFunction::TransferFunction()

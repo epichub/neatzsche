@@ -289,7 +289,6 @@ void Population::populationCleanup()
 void Population::resetSpawn(){
   int tsize = members->size();
   populationCleanup();
-  resetVars();
   randomSpawn(tsize,inodes,onodes,hnodes,hnodes,lprob,rprob);
 }
 Population::~Population()
