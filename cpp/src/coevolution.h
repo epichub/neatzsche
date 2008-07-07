@@ -94,7 +94,10 @@ private:
   virtual void read(std::ostream& i) const {};
 public:
   Pareto(int num, int igames) : Coevolution(igames) {halloffame = new Phenotypes(); n = num;}
-  ~Pareto(){delete halloffame;}
+  ~Pareto(){
+    for(unsigned int i=0;i<halloffame->size();i++)
+      delete halloffame->at(i);
+    delete halloffame;}
   virtual void update(Population * p){};
   virtual double evaluate(Phenotype * p){p->setFitness(0); return 0;}
   virtual int size(){return halloffame->size();};
