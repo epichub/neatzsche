@@ -123,8 +123,10 @@ void Neatzsche_MPI::outputPopulation(Population * pop, unsigned int nodes,  Coev
       }
       genetype = Build_gene_type(&gsv[0]);
       MPI::COMM_WORLD.Send(gsv,genes,genetype,sc,0);//send gene vector
-
-      delete[] nsv; delete[] gsv;
+      if(nnodes>0)
+	delete[] nsv; 
+      if(genes>0)
+	delete[] gsv;
     }
     MPI::COMM_WORLD.Send(&sendtag,1,MPI::INT,sc,0);//send stop or not
   }
