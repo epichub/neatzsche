@@ -323,10 +323,10 @@ double GoEvaluator::f(Phenotype * f)
   if(moves==0)
     moves = 1;
   updateStats();
-  ftmp = g->score(true);
-  stmp = g->score(false);
-  //ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
-  //stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
+//   ftmp = g->score(true);
+//   stmp = g->score(false);
+  ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
+  stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
 
   if(g->getPuts()==0)
     ftmp -= 0.1;
