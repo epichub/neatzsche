@@ -1,6 +1,6 @@
 PROJECT(NEATZSCHE)
 cmake_minimum_required(VERSION 2.6)
-
+SET(MPI_COMPILER mpicxx)
 INCLUDE(FindMPI)
 INCLUDE(FindBoost)
 
