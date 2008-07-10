@@ -6,9 +6,9 @@
 #include <QApplication>
 #include <QObject>
 #include <QTimer>
-#include "../settings.h"
+#include "settings.h"
 #include <sstream>
-#include "../evaluator.h"
+#include "eval.h"
 
 class ReadTimer : public QObject {
 

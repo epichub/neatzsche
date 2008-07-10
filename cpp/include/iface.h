@@ -109,108 +109,38 @@ static inline Population * makePopulation(char * args, NEATsettings * s, Transfe
   eller
        random
  */
-static inline string makefitnessevaluatorUsage(){
-  string s = "\t[phenotype eval options] = \"go [pure gnugo-gens] [ratio of gnugo] [coevoopponents] [easygo 0/1] [caching support 0/1] [cache size] [cache queue size] [resign allowed 0/1]\" (PS: needs the gosettings file)\n";
-  s += "\t[phenotype eval options2] = \"dataset [datasetfile] [class at first] [percentage of test]\"\n";
-  s += "\t[phenotype eval options2] = \"random\"\n";
-  return s;
-}
-static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *& coevo)
-{
-  FitnessEvaluator * ret = NULL;
-  vector<string> * sv = split(args," ");
-  if(sv->size()<1){
-    cerr << "wrong number of arguments to fitness evalator setup method" << endl;
-    exit(1);
-  }
-  if(sv->at(0).find("go")!=string::npos){
-    if(sv->size()!=9){
-      cerr << "wrong number of arguments to go evalator setup method, got " << sv->size() << " need 9 " << endl;
-      exit(1);
-    }
-    NEATsettings * set = new NEATsettings();
-    ifstream ifs("settings/settings-gnugo",ios::in);
-    ifs >> set;
-    ifs.close();
-    int size = (int)set->getValue("size");
-    double outsidev = set->getValue("outsidevalue");
-    double komi = set->getValue("komi");
-    int mem = (int)set->getValue("mem");
-    int level = (int)set->getValue("level");
-    int eyesize = (int)set->getValue("eyesize");
-    int maxlooksteps = (int)set->getValue("maxlooksteps");
-    bool caching = atoi(sv->at(5).c_str()) == 1;
-    int csize = atoi(sv->at(6).c_str());
-    int cqsize = atoi(sv->at(7).c_str());
-    bool resign = atoi(sv->at(8).c_str()) == 1;
-    gw::GoWrapper * gw = NULL;
-    if(caching){
-      gw = new gw::CachingGoWrapper(size,true,outsidev,
-				komi,level,eyesize,maxlooksteps,mem,csize,cqsize);
-    }else{
-      gw = new gw::GoWrapper(size,true,outsidev,
-			 komi,level,eyesize,maxlooksteps,mem);
-    }
-    gw->setResignAllowed(resign);
-    int pg = atoi(sv->at(1).c_str());
-    double r = atof(sv->at(2).c_str());
-    int cogames = atoi(sv->at(3).c_str());
-    int gnugogames = 0;//atleast one game per round against gnugo.
-    gnugogames += (int)(r*cogames);
-    if(gnugogames<=0)
-      gnugogames = 1;
-    cogames -= gnugogames;
-    if(cogames<=0)
-      cogames = 0;
-
-    bool easy = atoi(sv->at(4).c_str()) == 1;
-
-
-    if(!easy){
-      ret = new GoEvaluator(gw,0,pg,r,set);
-    }else{
-      cerr << "making easygoeval!" << endl;
-      ret = new EasyGoEvaluator(gw,0,pg,r,set);
-    }
-    coevo = new Halloffame(cogames,cogames,pg,ret);
-    for(int i=0;i<gnugogames;i++){
-      ((Halloffame*)coevo)->addPermantent(NULL);//adding NULL as permanent member, defaults to gnugo in this fitness 
-    }
-  }else if(sv->at(0).find("eye")!=string::npos) {
-    if(sv->size()!=2){
-      cerr <<  "wrong number of arguments to eye evalator setup method" << endl;
-      exit(1);
-    }
-    NEATsettings * set = new NEATsettings();
-    ifstream ifs(sv->at(1).c_str(),ios::in);
-    ifs >> set;
-    ifs.close();
-    unsigned int lsnum=set->getValue("number_of_lightsources");
-    unsigned int ymax=set->getValue("ymax");
-    unsigned int xmax=set->getValue("xmax");
-    unsigned int ls_dist=set->getValue("ls_distance");
-    double cellsize=set->getValue("cellsize");
-    ret = new LightsimEvaluator(set,xmax,ymax,lsnum,cellsize,ls_dist);
-    coevo = new Halloffame(0,0,1000000,ret);
-    
-  }else if(sv->at(0).find("random")!=string::npos)
-        ret = new RandomEvaluator();
-  else if(sv->at(0).find("dataset")!=string::npos){
-    if(sv->size()!=4){
-      cerr << "wrong number of arguments to dataset evalator setup method" << endl;
-      exit(1);
-    }
-    string file = sv->at(1);
-    bool first = (sv->at(2).find("1")!=string::npos) ? true : false ;
-    double p = atof(sv->at(3).c_str());
-    ret  = new DatasetEvaluator(new DataSet(first,file.c_str(),p));
-    coevo = new Halloffame(0,0,1000000,ret);
-  }else{
-    cerr << "wrong fitness evaluator arguments" << endl;
-  }
-  delete sv;
-  return ret;
-}
+// static inline string makefitnessevaluatorUsage(){
+//   string s = "\t[phenotype eval options] = \"go [pure gnugo-gens] [ratio of gnugo] [coevoopponents] [easygo 0/1] [caching support 0/1] [cache size] [cache queue size] [resign allowed 0/1]\" (PS: needs the gosettings file)\n";
+//   s += "\t[phenotype eval options2] = \"dataset [datasetfile] [class at first] [percentage of test]\"\n";
+//   s += "\t[phenotype eval options2] = \"random\"\n";
+//   return s;
+// }
+// static inline FitnessEvaluator * makeFitnessEvaluator(char * args, Coevolution *& coevo)
+// {
+//   FitnessEvaluator * ret = NULL;
+//   vector<string> * sv = split(args," ");
+//   if(sv->size()<1){
+//     cerr << "wrong number of arguments to fitness evalator setup method" << endl;
+//     exit(1);
+//   }
+//   else if(sv->at(0).find("random")!=string::npos)
+//         ret = new RandomEvaluator();
+//   else if(sv->at(0).find("dataset")!=string::npos){
+//     if(sv->size()!=4){
+//       cerr << "wrong number of arguments to dataset evalator setup method" << endl;
+//       exit(1);
+//     }
+//     string file = sv->at(1);
+//     bool first = (sv->at(2).find("1")!=string::npos) ? true : false ;
+//     double p = atof(sv->at(3).c_str());
+//     ret  = new DatasetEvaluator(new DataSet(first,file.c_str(),p));
+//     coevo = new Halloffame(0,0,1000000,ret);
+//   }else{
+//     cerr << "wrong fitness evaluator arguments" << endl;
+//   }
+//   delete sv;
+//   return ret;
+// }
 
 /*
   input:
@@ -344,32 +274,14 @@ static inline void writeRunfile(bool ended, string basefile, string infoline, in
 static inline void neatzscheUsage(string progname)
 {
   cerr << "usage: (all the node numbers are for the initial generation) " << endl
-       << progname << " [seed (0 for new)] [settings file] [pop options] [selector option] [phenotype eval] [communicator] [stopcondition]" << endl
+       << progname << " [seed (0 for new)] [settings file] [pop options] [selector option] [phenotype eval sofile] [phenotype eval options] [stopcondition] [mpi run(0/1)] [speciationgraph (0/1)]" << endl
        << "where:" << endl << flush
        << makepopulationUsage() << flush
        << makeselectorUsage() << flush
-       << makefitnessevaluatorUsage() << flush
        << "\t[stop condition1] = \"count [generations] [runs]\""<<endl << flush
        << "\t[stop condition2] = \"key\""<<endl;
 }
-static inline void masterUsage(string progname)
-{
-  cerr << "usage: (all the node numbers are for the initial generation) " << endl
-       << progname << " [seed (0 for new)] [settings file] [pop options] [selector option] [nodes] [phenotype eval] [stopcondition] [pipeiomode (0/1)]" << endl
-       << "where:" << endl << flush
-       << makepopulationUsage() << flush
-       << makeselectorUsage() << flush
-       << makefitnessevaluatorUsage() << flush
-       << "\t[stop condition1] = \"count [generations] [runs]\""<<endl << flush
-       << "\t[stop condition2] = \"key\""<<endl;
-}
-static inline void slaveUsage(string progname)
-{
-  cerr << "usage: " << endl
-       << progname << " [seed (0 for new)] [settings] [phenotype eval options] [generations]" << endl
-       << "where:" << endl
-       << makefitnessevaluatorUsage() << endl;
-}
+
 static inline void xortestUsage(string progname)
 {
   cerr << "usage: (all the node numbers are for the initial generation) " << endl
@@ -415,8 +327,7 @@ static inline void gotestUsage(string progname)
        << progname << " [seed (0 for new)] [settings file] [pop options] [selector option] [phenotype eval options] [maxgenerations] [iterations..]" << endl
        << "where:" << endl << flush
        << makepopulationUsage() << flush
-       << makeselectorUsage() << flush 
-       << makefitnessevaluatorUsage() << flush ; 
+       << makeselectorUsage() << flush;
 }
 static inline void playgameUsage(string progname)
 {

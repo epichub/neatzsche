@@ -25,6 +25,10 @@
 #include <unistd.h>
 #include <sstream>
 #include <sys/stat.h>
+#include <dlfcn.h>
+#include <vector>
+#include <list>
+#include <map>
 
 #include "genome.h"
 #include "neuralmath.h"
@@ -32,7 +36,7 @@
 #include "evolution.h"
 #include "evoops.h"
 #include "dataset.h"
-#include "gowrapper.h"
+// #include "gowrapper.h"
 #include "coevolution.h"
 #include "runner.h"
 #include "neatmpi.h"
@@ -41,13 +45,16 @@ using namespace std;
 void master(char ** args, int argc, Neatzsche_MPI * comm,
 	    NEATsettings * set, TransferFunctions * tfs,
 	    Coevolution * coevo, FitnessEvaluator * fe, Evaluator * ev, 
-	    int generations, int runs);
+	    int generations, int runs, bool speciation);
 
 void slave(char ** argv, int argc, Neatzsche_MPI * comm,
 	   TransferFunctions * tfs, Coevolution * c, 
 	   FitnessEvaluator * fe, Evaluator * e, int maxgen);
 
 Interruptcallback * icb = new Interruptcallback();
+
+
+// map<string, maker_t *, less<string> > factory;
 
 void signalhandler(int sig) {
   addToAllSignals(signalhandler);
@@ -63,7 +70,7 @@ int main(int argc,char *args[]){
   //neatmaster code!
 
   //check argument count..
-  int n = 7;
+  int n = 10;
   if(argc!=n){
     neatzscheUsage(args[0]);
     exit(1);
@@ -84,25 +91,31 @@ int main(int argc,char *args[]){
   ifs>>set;
   ifs.close();
 
-  Neatzsche_MPI * nmpi = new Neatzsche_MPI(argc,args);
-
   //2. generate the pop
   TransferFunctions * tfs = new TransferFunctions(set);
 
-  //5. 
-  Coevolution * coevo = NULL;
-  FitnessEvaluator * fe = makeFitnessEvaluator(args[5],coevo);
+  //5. Load the Fitness function plugin from shared library
+  void * sofile = dlopen(args[5], RTLD_NOW);
+  if (sofile == NULL)
+    {
+      cerr <<  "Failed to open shared library: " << dlerror() <<endl;
+      exit(EXIT_FAILURE);
+    }
+  void * mkr = dlsym(sofile, "maker");
+
+  FitnessEvaluator * fe = ((FitnessEvaluator*(*)(char * str))(mkr))(args[6]);
+  Coevolution * coevo = new Halloffame(0,0,1000000,fe); // TODO make it more parametrized...(settings file?)
   Evaluator * ev = new Evaluator(fe); 
 
   //7. stopping condition (usually generation counter, should support
   //   key interrupt)
-  vector<string> * stopv = split(args[6]," ");
+  vector<string> * stopv = split(args[7]," ");
   int generations = 0;
   int runs = 0;
   if(stopv->at(0).find("count")!=string::npos){
     if(stopv->size()!=3){
       cerr << "not enough arguments for generation stopper" << endl;
-      masterUsage(args[0]);
+      neatzscheUsage(args[0]);
       exit(1);
     }
     generations = atoi(stopv->at(1).c_str());
@@ -113,13 +126,16 @@ int main(int argc,char *args[]){
     cout << "no stop condition exiting" << endl;
     exit(1);
   }
-    
-
-
-  if(nmpi->getRank()==0)
-    master(args,argc,nmpi,set,tfs,coevo,fe,ev,generations,runs);
-  else
-    slave(args,argc,nmpi,tfs,coevo,fe,ev,generations);
+  Neatzsche_MPI * nmpi = NULL;
+  if(atoi(args[8])==1)
+    nmpi = new Neatzsche_MPI(argc,args);
+  if(nmpi!=NULL){
+    if(nmpi->getRank()==0)
+      master(args,argc,nmpi,set,tfs,coevo,fe,ev,generations,runs,(atoi(args[9]) == 1));
+    else
+      slave(args,argc,nmpi,tfs,coevo,fe,ev,generations);
+  }else
+      master(args,argc,nmpi,set,tfs,coevo,fe,ev,generations,runs,(atoi(args[9]) == 1));
   delete set; delete tfs; delete coevo; delete fe; delete stopv;
   delete nmpi; delete ev;
   delete icb;
@@ -130,18 +146,11 @@ int main(int argc,char *args[]){
 void master(char ** args, int argc, Neatzsche_MPI * comm,
 	    NEATsettings * set, TransferFunctions * tfs,
 	    Coevolution * coevo, FitnessEvaluator * fe, Evaluator * ev, 
-	    int generations, int runs){
+	    int generations, int runs, bool speciation){
   Population * pop = makePopulation(args[3],set,tfs);
 
   //3. then the selector
   Selector * sel = makeSelector(args[4]);
-
-//   cout << "checking communicator.." << endl;
-//   if(string(args[6]).find("mpi")!=string::npos){
-//     cout << "no mpi communicator ending program" << endl;
-//     exit(1);
-//   }else
-//     cout << "comm was right" << endl;
 
   LocalReproducer * rep = new LocalReproducer();
 
@@ -164,15 +173,20 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
   sfile.close();
 
   icb->fe = fe;
+
   //calculate how many genomes to eval at the master while slaves are
   //evaluating a slightly bigger batch of genomes
   double mr = set->getValue("masterratio");
-  int nodes = comm->getSize()-1;
+  int nodes = 0;
+  if(comm!=NULL)
+    nodes = comm->getSize()-1;
   int nom = pop->getMembers()->size()/((unsigned int)nodes+1);
   unsigned int mc = (unsigned int)((double)nom*mr);
-  cerr << "running for " << generations << " generations over " << runs << " runs " << endl;
-  cerr << "running " << mc << " evals on master and " <<  (pop->getMembers()->size()-mc)/nodes << " on the each of the slaves." << endl;
-  
+  if(comm!=NULL){
+    cerr << "running for " << generations << " generations over " << runs << " runs " << endl;
+    cerr << "running " << mc << " evals on master and " <<  (pop->getMembers()->size()-mc)/nodes << " on the each of the slaves." << endl;
+  }else
+    cout << "running locally" << endl;
   //the running loop itself
   NEATRunner * run = new NEATRunner(generations,runs);
   run->pop = pop; run->sel = sel; 
@@ -189,6 +203,8 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
   run->pid = pid;
   run->sgf.str(specgraphfile.str());
   run->comm = comm;
+  if(comm == NULL)
+    run->localFE = true;
   icb->run = run;
 
   //make the infoline..
@@ -218,6 +234,7 @@ void slave(char ** argv, int argc, Neatzsche_MPI * comm,
     cout << "wtf c er null" << endl;
     exit(1);
   }
+
   while(cont){ // the drive loop of the slaves, read 
                // in cmd(coevo/std), where coevo expects two genomes
     gen++;

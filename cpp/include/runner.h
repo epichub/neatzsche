@@ -35,7 +35,7 @@
 #include "evoops.h"
 #include "dataset.h"
 #include "iface.h"
-#include "gowrapper.h"
+// #include "gowrapper.h"
 #include "coevolution.h"
 #include "xmlconvert.h"
 #include "boye.h"
@@ -55,7 +55,7 @@ public:
     smoothdata = new double * [igens]; 
     for(int i=0;i<igens;i++) {smoothdata[i] = new double[3];smoothdata[i][0] = 0;smoothdata[i][1] = 0;smoothdata[i][2] = 0;}
    generations=igens; runs=iiter;stop=false;
-   currentgraphf=NULL;sbest=NULL; best=NULL; gbest=NULL;}
+   currentgraphf=NULL;sbest=NULL; best=NULL; gbest=NULL; localFE=false; speciationGraph=false;}
   ofstream * currentgraphf;
   Population * pop;
   Selector * sel;
@@ -85,6 +85,8 @@ public:
   Evaluator * ev;
   stringstream sgf;
   Neatzsche_Comm * comm;
+  bool localFE;
+  bool speciationGraph;
   void (*signalhandler)(int sig);
   void runLoop();
 };

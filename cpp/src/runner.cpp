@@ -16,7 +16,7 @@
   along with NEATzsche; if not, write to the Free Software Foundation,
   Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
- */
+*/
 #include "runner.h"
 
 void Interruptcallback::operator()(int sig){
@@ -44,55 +44,31 @@ void Interruptcallback::operator()(int sig){
   cin >> sINP; iINP = atoi(sINP.c_str());
   if(iINP==1)
     exit(0);
-//   else
-//     run->runLoop();
 }
-static inline void GoTest(Phenotype * p, FitnessEvaluator * fe)
-{
-  cerr << "in gotest" << endl;
-  if(p->getFitness()<0.5){
-    cerr << "p's orignfitness to low: " << p->getFitness() << endl;
-    return;
-  }
-  cerr << "found phenotype with over 0.5 fitness: " << p->getFitness() 
-       << " testing.. "<< endl;
-  for(int i=0;i<20;i++){
-    cerr << fe->f(p) << endl;
-  }
 
-}
 void NEATRunner::runLoop()
 {
   //setting up signal handlers
-//   (void)signal(SIGINT,signalhandler);
-//   (void)signal(SIGTERM,signalhandler);
-//   (void)signal(SIGKILL,signalhandler);
-//
+  //   (void)signal(SIGINT,signalhandler);
+  //   (void)signal(SIGTERM,signalhandler);
+  //   (void)signal(SIGKILL,signalhandler);
+  //
   time_t startt,tmpt;long totaltime=0;
-  //  cerr << "humhum" << endl;
   int countruns=0;
 
-  
-  //  cerr << "humhum2" << endl;
-
-//   int oelitism=0;
-//   Genome * oseed=NULL;
-//   int osize=pop->getMembers()->size();
-  bool localFE=false;
   vector<double> beststate;
   generations++;
   Evaluator * bak = NULL;
-  if(nodes==0){
-//     cerr << "nodes is 0, setting up for local runs.." << endl;
+  if(nodes==0&&localFE==false){
     localFE=true;
-  }// else
-  cerr << "running cluster code.." << endl;
+  }else if(!localFE)
+    cerr << "running cluster code.." << endl;
   writeRunfile(false,basefile,infoline,pid);
   pop->fe = icb->fe;
   stringstream sgfc; sgfc << sgf.str() << "-" << countruns << ".xml";
-  sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
+  if(speciationGraph)
+    sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
   stringstream sCurrentGenomeFilesuffixless; sCurrentGenomeFilesuffixless << sCurrentGenomeFile.str();
-  
   stringstream sCurrentGenomeFilec; sCurrentGenomeFilec << sCurrentGenomeFile.str() << "-" << countruns;
   stringstream sCurrentXMLGenomeFilec; sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-" << countruns << ".xml";
   stringstream sCurrentGraphFilec; sCurrentGraphFilec << sCurrentGraphFile.str() << "-" << countruns;
@@ -102,11 +78,10 @@ void NEATRunner::runLoop()
   ofstream ofs(sCurrentGenomeFilec.str().c_str());
   ofstream ofs2(sCurrentGenomeFilesuffixless.str().c_str());
   bool slaveStop = false;
-//   cerr << "===============\ncoevostartgen:" << coevo->getStartGeneration()+1
-//        << "generations: " << generations <<  "===============\n" << endl;
+
   while(!stop){
     if(coevo != NULL && pop->getGeneration() == (coevo->getStartGeneration()+1)){
-//       cerr << "!!!!!!!!!!!!! runner: doing coevo popgen: " << pop->getGeneration() << " c start" << (coevo->getStartGeneration()+1) << endl;
+      cout << "doing coevo!?" << endl;
       bak = ev;
       ev = coevo;
     }
@@ -121,14 +96,6 @@ void NEATRunner::runLoop()
       comm->outputPopulation(pop,nodes,coevo,mc,slaveStop); //stream the population out to nodes for evaluation	
       ev->evaluate(pop->getMembers(),mc);//sweet..
       comm->readFitness(pop,mc); //read the corresponding returned fitness values
-//       for(unsigned int i=0;i<pop->getMembers()->size();i++)
-// 	{
-// 	  pop->getMembers()->at(i)->cleanNet();
-// 	  cout << "genome " << pop->getMembers()->at(i)->getID() 
-// 	       << " origf: " << pop->getMembers()->at(i)->getOrigFitness()
-// 	       << " f: "<<pop->getMembers()->at(i)->getFitness()
-// 	       <<" new f: " <<pop->fe->f(pop->getMembers()->at(i)) << endl;
-// 	}
     }
 
     //checking and updating for the overall best phenotype.
@@ -149,12 +116,14 @@ void NEATRunner::runLoop()
     ofs2 << best->getGenome();
     ofs2.close();
 
-    if(pop->getGeneration()%2==0){
-      cerr << icb->fe->show(best);
-    }
+    //     if(pop->getGeneration()%2==0){
+    //       cerr << icb->fe->show(best);
+    //     }
+
     icb->best = best;
     writenetwork(best,sCurrentXMLGenomeFilec.str());
-    sg->update(pop);
+    if(speciationGraph)
+      sg->update(pop);
     //writing stats to file
 
     *currentgraphf << getStatString(pop,avgf);
@@ -176,29 +145,22 @@ void NEATRunner::runLoop()
 	 << " size: " << pop->getMembers()->size() 
 	 << " time: " << tmpt 
 	 << " time/size: " << (double)tmpt/(double)pop->getMembers()->size() << endl;
-//     if(pop->getMembers()->at(0)->getFitness()<best->getFitness()){
-//       cout << "fitness has gone down!!! exiting" << endl; 
-//       cout << "printing fitness of id 655..: " << pop->getByID(655)->getFitness() <<  endl;
-//       exit(1);
-//     }
-//     cerr.flush();
+
     //run the code that adjusts fitness according to species age and size..
     //select the lucky ones for reprocicration..
-//     cerr << "selecting...";
-//     cerr.flush();
+
     sel->select(pop,0);
-    //do the mating
-//     cerr << "reproducing...";
+    //do the mating    
     rep->reproduce(pop);
     if(generations>0&&(pop->getGeneration()+1)==generations&&runs==(countruns+1)){ // stopconditions
       setChamp(sbest,best);
       stop = true;
-      sg->writetofile();
-      delete sg;
-//       delete currentgraphf;
+      if(speciationGraph){
+	sg->writetofile();
+	delete sg;
+      }
     }else{
       if(generations>0&&(pop->getGeneration()+1)==generations){
-//  	cerr << "going run reset" << endl;
 	//generation run is over lets go on to the next run..
 	countruns++;
 	//keep superchamp across runs..
@@ -206,11 +168,6 @@ void NEATRunner::runLoop()
 	best = NULL;
 	setChamp(sbest,tmp);
 	//reset population...
-// 	oseed = pop->getOriginalSeed();
-// 	oelitism = pop->getOriginalInitialElitism();
-// 	delete pop;
-// 	pop = new Population(set,tfs);
-// 	pop->genesis(oseed,osize,oelitism);
 	if(pop->spawn)
 	  pop->resetSpawn();
 	else
@@ -220,9 +177,11 @@ void NEATRunner::runLoop()
 	  bak = NULL;
 	}
 	sg->writetofile();
-	delete sg;
-	sgfc.str(""); sgfc << sgf.str() << "-" << countruns << ".xml";
-	sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
+	if(speciationGraph){
+	  delete sg;
+	  sgfc.str(""); sgfc << sgf.str() << "-" << countruns << ".xml";
+	  sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
+	}
 	sCurrentGenomeFilec.str(""); sCurrentGenomeFilec << sCurrentGenomeFile.str() << "-" << countruns;
 	sCurrentXMLGenomeFilec.str(""); sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-" << countruns << ".xml";
 	sCurrentGraphFilec.str(""); sCurrentGraphFilec << sCurrentGraphFile.str() << "-" << countruns;
@@ -231,15 +190,11 @@ void NEATRunner::runLoop()
       }
     }
   }
-//   sg->writetofile();
   ofstream ofsuper(sFinalGenomeFile.c_str());
   ofsuper << sbest->getGenome();
   ofsuper.close();
-  cerr << "final best fitness" << sbest->getFitness() << endl;
+  cout << "final best fitness" << sbest->getFitness() << endl;
   delete sbest;
-//   cerr << "done writing finalgenome file " << endl;
-//   cerr << "writing smoothed final graph file generations: " << generations
-//        << "smoothdata size:" << sizeof(smoothdata)/sizeof(smoothdata[0]) << endl;
   ofstream finalgraphf(finalgraphfile.c_str());
   for(int i=0;i<generations-1;i++)
     finalgraphf << smoothdata[i][0]/(double)runs << " " 
@@ -248,19 +203,11 @@ void NEATRunner::runLoop()
   for(int i=0;i<generations-1;i++)
     delete[] smoothdata[i];
   delete[] smoothdata;
-  cerr << "done writing smoothed final graph file to " << finalgraphfile << endl;
-//   cerr << "!!! total time divided by number of evals: " << (double)totaltime/((double)(generations*countruns*osize))<<endl ;
+
   //close graph files..
   finalgraphf.close();
-  cerr << "done closing finalgraphf" << endl;
   currentgraphf->close();
   delete currentgraphf;
-  cerr << "done closing currentgraphf" << endl;
-//   cerr << "before writerunfile" << endl;
   writeRunfile(true,basefile,infoline,pid);  
-
-  cerr << "after writerunfile" << endl;
-//   if(!localFE)
-//     comm->outputPopulation(pop,nodes,coevo,mc,true);
   
 }

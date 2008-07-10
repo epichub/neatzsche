@@ -1,5 +1,8 @@
+#ifndef EYEEVAL_H_
+#define EYEEVAL_H_
 #include "evaluator.h"
-
+#include "lightsim.h"
+#include "iface.h"
 class LightsimEvaluator : public FitnessEvaluator {
 private:
   NEATsettings * settings;
@@ -18,3 +21,4 @@ public:
   double f(Lightsim2D * ls2d);
   virtual void nextGen(){return;} // no need for this here..
 };
+#endif

@@ -288,13 +288,15 @@ namespace gw{
 //     }
     if(first){
       if(fcount>=thinksteps){
-// 	cerr << "fcount cache moves++" << endl;
+// 	cerr << "setter first til pass.." << endl;
 	moves++;
 // 	defaultPut(first);
  	setPass(first);
 	return true;
-      }else 
+      }else {
 	fcount++;
+// 	cout << "fcount++: " << fcount<<endl;
+      }
     }
     if(!first){
       if(scount>=thinksteps){
@@ -524,11 +526,13 @@ namespace gw{
   GoWrapper::GoWrapper(int bs, bool isp, double iovalue, 
 		       double ikomi, int ilvl, int ieyesize, int tsteps, int mem)
   {
+
     resignallowed = true;
     dbg = false;
     fheading = new int; sheading = new int;
     *fheading = 0; *sheading=0;
     thinksteps = tsteps;
+    cout << "tsteps er " << thinksteps << endl;
     eyesize = ieyesize;
     ovalue = iovalue;
     pos1 = new int[2];
@@ -586,6 +590,8 @@ namespace gw{
 	     << " ONBOARD2: " << ON_BOARD2(i, j) << endl;
       return;
     }
+//     cerr << "genmove found moves..  move: " << move 
+// 	 << " ONBOARD2: " << ON_BOARD2(i, j) << endl;
     gg::play_move(move, to_move);
 #endif
 

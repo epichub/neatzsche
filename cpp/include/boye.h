@@ -1,5 +1,8 @@
 #ifndef BOYE_H_
 #define BOYE_H_
+#include "evolution.h"
+#include "coevolution.h"
+
 class Neatzsche_Comm {
 public:
   Neatzsche_Comm(){};
