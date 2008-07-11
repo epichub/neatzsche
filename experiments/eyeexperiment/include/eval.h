@@ -19,6 +19,7 @@ public:
   unsigned int getXmax() { return xmax; }
   unsigned int getYmax() { return ymax; }
   double f(Lightsim2D * ls2d);
+  virtual string show(Phenotype * p){return "mekk no fett no her a..";}
   virtual void nextGen(){return;} // no need for this here..
 };
 #endif

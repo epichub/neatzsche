@@ -49,9 +49,9 @@ void Interruptcallback::operator()(int sig){
 void NEATRunner::runLoop()
 {
   //setting up signal handlers
-  //   (void)signal(SIGINT,signalhandler);
-  //   (void)signal(SIGTERM,signalhandler);
-  //   (void)signal(SIGKILL,signalhandler);
+  (void)signal(SIGINT,signalhandler);
+  (void)signal(SIGTERM,signalhandler);
+  (void)signal(SIGKILL,signalhandler);
   //
   time_t startt,tmpt;long totaltime=0;
   int countruns=0;

@@ -48,7 +48,7 @@ public:
   virtual ~FitnessEvaluator(){};
   virtual void nexGen(){}; //generational tickers for the evaluators that need this.
   virtual void interact(Phenotype * p){};
-  virtual string show(Phenotype * p){return "";};
+  virtual string show(Phenotype * p) = 0;
   virtual void setStatus(int ist){cerr<<"i status set ist:" << ist << endl;st=ist;}
   virtual int getStatus(){return st;}
 
