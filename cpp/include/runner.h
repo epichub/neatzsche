@@ -27,7 +27,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <sstream>
-
+#include <signal.h
 #include "genome.h"
 #include "neuralmath.h"
 #include "settings.h"
