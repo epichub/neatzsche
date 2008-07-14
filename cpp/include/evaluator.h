@@ -42,7 +42,7 @@ protected:
 public:
   FitnessEvaluator(){st=0;};
   virtual FitnessEvaluator * makeFitnessEvaluator(vector<string> * sv){return NULL;};
-  virtual string help(){}
+  virtual string help(){ return "";}
   virtual double f(Phenotype * f){return 0;}
   virtual double debugeval(Phenotype * f){return 0;}
   virtual ~FitnessEvaluator(){};
@@ -62,7 +62,7 @@ public:
   DatasetEvaluator(DataSet * s){ds=s;};
   virtual ~DatasetEvaluator(){};
   virtual FitnessEvaluator *  makeFitnessEvaluator(vector<string> * sv){return NULL;};
-  virtual string help(){}
+  virtual string help(){return "";}
   virtual double f(Phenotype * f);
   virtual void nextGen(){return;} // no need for this here..
   void runTest(Phenotype * f);
@@ -74,7 +74,7 @@ public:
   RandomEvaluator(){}
   virtual ~RandomEvaluator(){};
   virtual FitnessEvaluator *  makeFitnessEvaluator(vector<string> * sv){return NULL;};
-  virtual string help(){}
+  virtual string help(){return "";}
   virtual double f(Phenotype * f){double r = randdouble(); f->setFitness(r); return r;}//muhahaha
   virtual void nextGen(){return;}
 };
