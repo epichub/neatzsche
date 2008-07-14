@@ -22,7 +22,7 @@ TransferFunctions::TransferFunctions(NEATsettings * s)
   if(s->getValue("enable_gauss_tfunc")==1.0)
     f->push_back(new GaussTransfer(unipolar,s->getValue("gauss_median"),s->getValue("gauss_std_deviation")));
   if(s->getValue("enable_stochastic_tfunc")==1.0)
-    f->push_back(new StochasticTransfer(unipolar,s->getValue("stoch_std_deviation"),(int)s->getValue("stoc_table_size")));
+    f->push_back(new StochasticTransfer(unipolar,s->getValue("stoch_std_deviation"),(int)s->getValue("stoch_table_size")));
   if(s->getValue("enable_parabel_tfunc")==1.0)
     f->push_back(new ParabelTransfer(unipolar,s->getValue("parabel_sharpness"),s->getValue("parabel_add")));
 
