@@ -65,7 +65,7 @@ ADD_EXECUTABLE(neatzsched src/neatzsche.cpp)
 SET_TARGET_PROPERTIES(neatzsched PROPERTIES COMPILE_FLAGS "-Wall -g")
 
 TARGET_LINK_LIBRARIES(neatzsche neatzschelib ${MPI_LIBRARIES} dl)
-
+TARGET_LINK_LIBRARIES(neatzsched neatzschelib ${MPI_LIBRARIES} dl)
 # FindMPI(MPI_VARIABLE)
 # FindBoost(BOOST_LIB)
 
