@@ -92,7 +92,7 @@ public:
   void addLink(Link * link);
   void update();
   void setTransferFunctions(TransferFunctions * itfs){tfs = itfs;}
-  void cleanup(){input=valueFromOther=0;}
+  void cleanup(){input=valueFromOther=0;tFunc->reset();}
   TransferFunction * getTFunc(){return tFunc;}
   void deletelinks();
   void setDepth(int d){depth=d;}

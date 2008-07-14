@@ -79,10 +79,21 @@ int main(int argc,char *args[]){
   //setup the random seed, load from console or seed fresh from time
   int rands = 0;
   rands = atoi(args[1]);
+
+  Neatzsche_MPI * nmpi = NULL;
+  if(atoi(args[8])==1)
+    nmpi = new Neatzsche_MPI(argc,args);
+
   if(rands!=0)
     srand(rands);
   else{
     rands = time(0);
+    if(nmpi!=NULL){//just in case cluster time skew..
+      if(nmpi->getRank()==0)
+	nmpi->sendSeed(rands);
+      else
+	rands = nmpi->receiveSeed();
+    }
     srand(rands);
     cerr << "ny seed: " << rands << endl;
   }
@@ -127,9 +138,7 @@ int main(int argc,char *args[]){
     cout << "no stop condition exiting" << endl;
     exit(1);
   }
-  Neatzsche_MPI * nmpi = NULL;
-  if(atoi(args[8])==1)
-    nmpi = new Neatzsche_MPI(argc,args);
+
   if(nmpi!=NULL){
     if(nmpi->getRank()==0)
       master(args,argc,nmpi,set,tfs,coevo,fe,ev,generations,runs,(atoi(args[9]) == 1));

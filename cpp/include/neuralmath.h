@@ -49,6 +49,7 @@ public:
   TransferFunction();
   virtual ~TransferFunction();
   virtual double y(double x){return x;};
+  virtual void reset(){};
   string ftype;
 };
 class SignumTransfer : public TransferFunction
@@ -135,6 +136,7 @@ public:
   virtual double y(double x);
   virtual double g(double x)
   {return (1/(d*sqrt(2*PI)))*exp(-((pow(x-m,2))/(2*pow(d,2))));}
+  virtual void reset(){rc=0;}
 };
 class TransferFunctions
 {

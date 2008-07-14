@@ -43,6 +43,17 @@ public:
   virtual bool readPopulation(Phenotypes * p, Coevolution * c, TransferFunctions * tfs);
   virtual void outputPopulation(Population * pop, unsigned int nodes,  Coevolution * c, 
 				unsigned int i, bool lastgen);
+  virtual void sendSeed(int seed)
+  {
+    for(int i=1;i<size;i++)
+      MPI::COMM_WORLD.Send(&seed,1,MPI::INT,i,0);
+  }
+  virtual int receiveSeed()
+  {
+    int ret;
+    MPI::COMM_WORLD.Recv(&ret,1,MPI::INT,0,0);
+    return ret;
+  }
   virtual void outputFitness(Phenotypes * p)
   {
     int size, id; double f;
@@ -59,7 +70,7 @@ public:
   {
     int id,n; double f; Phenotypes *members = p->getMembers();
     for(int i=1;i<size;i++){
-      MPI::COMM_WORLD.Recv(&n,1,MPI::INT,i,0);      
+      MPI::COMM_WORLD.Recv(&n,1,MPI::INT,i,0);    
       for(int i2=0;i2<n;i2++){
 	MPI::COMM_WORLD.Recv(&id,1,MPI::INT,i,0);
 	MPI::COMM_WORLD.Recv(&f,1,MPI::DOUBLE,i,0);
