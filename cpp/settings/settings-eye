@@ -32,11 +32,14 @@ enable_gauss_tfunc 1
 enable_sinus_tfunc 1
 enable_cosine_tfunc 1
 enable_parabel_tfunc 1
+enable_stochastic_tfunc 1
 newlink_weight_max 5.0
 #transferfunction settings
 unipolar 0
 gauss_median 0.5
-gauss_std_deviation 0.35
+gauss_std_deviation 0.5
+stoch_std_deviation 0.5
+stoch_table_size 800
 sigmoid_sharpness -1.0
 parabel_sharpness 0.9
 parabel_add 1.0
