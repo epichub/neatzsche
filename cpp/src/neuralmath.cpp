@@ -75,6 +75,7 @@ inline double SigmoidTransfer::sgm(double inp)
 StochasticTransfer::StochasticTransfer(bool unipolar, double id, int its)
 {
   d = id; ts = its;
+  
   rc = 0; ftype = "sto";
   t = new double [ts];
   cout << "t size: " << ts << " calc: " << sizeof(t)/sizeof(t[0]) << endl;
@@ -84,7 +85,7 @@ StochasticTransfer::StochasticTransfer(bool unipolar, double id, int its)
 }
 double StochasticTransfer::y(double x)
 {
-  return x+t[(rc++)%ts];
+  return x+t[(++rc)%ts];
 }
 bool Dummy::isIn(int ** arr,int length, int x, int y){
   for(int i=0;i<length;i++)
