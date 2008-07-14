@@ -61,6 +61,9 @@ SET_TARGET_PROPERTIES(neatzschelib PROPERTIES LINK_FLAGS "-rdynamic")
 TARGET_LINK_LIBRARIES(neatzschelib ${MPI_LIBRARIES} dl)
 ADD_EXECUTABLE(neatzsche src/neatzsche.cpp)
 
+ADD_EXECUTABLE(neatzsched src/neatzsche.cpp)
+SET_TARGET_PROPERTIES(neatzsched PROPERTIES COMPILE_FLAGS "-Wall -g")
+
 TARGET_LINK_LIBRARIES(neatzsche neatzschelib ${MPI_LIBRARIES} dl)
 
 # FindMPI(MPI_VARIABLE)
