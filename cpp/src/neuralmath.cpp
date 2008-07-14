@@ -83,7 +83,7 @@ StochasticTransfer::StochasticTransfer(bool unipolar, double id, int its)
 }
 double StochasticTransfer::y(double x)
 {
-  return x+t[rc++%ts];
+  return x+t[(rc++)%ts];
 }
 bool Dummy::isIn(int ** arr,int length, int x, int y){
   for(int i=0;i<length;i++)
