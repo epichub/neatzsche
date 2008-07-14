@@ -121,6 +121,21 @@ public:
   {return (1/(d*sqrt(2*PI)))*exp(-((pow(x-m,2))/(2*pow(d,2))));}
 };
 
+class StochasticTransfer : public TransferFunction
+{
+private:
+  double m;
+  double d;
+  double *t;
+  int rc;
+  int ts;
+public:
+  StochasticTransfer(bool unipolar, double id, int ts);
+  virtual ~StochasticTransfer(){};
+  virtual double y(double x);
+  virtual double g(double x)
+  {return (1/(d*sqrt(2*PI)))*exp(-((pow(x-m,2))/(2*pow(d,2))));}
+};
 class TransferFunctions
 {
 private:

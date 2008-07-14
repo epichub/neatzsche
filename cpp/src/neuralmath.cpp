@@ -21,6 +21,8 @@ TransferFunctions::TransferFunctions(NEATsettings * s)
     f->push_back(new CosineTransfer(unipolar,s->getValue("cosine_sharpness"),s->getValue("consine_add"),s->getValue("cosine_div")));
   if(s->getValue("enable_gauss_tfunc")==1.0)
     f->push_back(new GaussTransfer(unipolar,s->getValue("gauss_median"),s->getValue("gauss_std_deviation")));
+  if(s->getValue("enable_stochastic_tfunc")==1.0)
+    f->push_back(new GaussTransfer(unipolar,s->getValue("stoch_std_deviation"),(int)s->getValue("stoc_table_size")));
   if(s->getValue("enable_parabel_tfunc")==1.0)
     f->push_back(new ParabelTransfer(unipolar,s->getValue("parabel_sharpness"),s->getValue("parabel_add")));
 
@@ -69,6 +71,19 @@ inline double SigmoidTransfer::sgm(double inp)
 {
   return ((double)1.0/
 	  ((double)1.0+exp(k*inp)))+con;
+}
+StochasticTransfer::StochasticTransfer(bool unipolar, double id, int its)
+{
+  d = id; ts = its;
+  rc = 0; ftype = "sto";
+  t = new double [ts];
+  for(unsigned int i=0;i<ts;i++){
+    t[i] = randsign()*randdouble()*d;
+  }
+}
+double StochasticTransfer::y(double x)
+{
+  return x+t[rc++%ts];
 }
 bool Dummy::isIn(int ** arr,int length, int x, int y){
   for(int i=0;i<length;i++)
