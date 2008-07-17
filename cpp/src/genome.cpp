@@ -910,6 +910,11 @@ istream& operator>> (istream& is, Genome *g)
   string s;
   is >> g->id;
   is >> s;
+  if(s.find("seed")!=string::npos){
+    is >> s;
+    g->seed = atoi(s.c_str());
+    is >> s;
+  }
   int c=-1;
   string ls;
 
@@ -951,6 +956,7 @@ ostream& operator<< (ostream& os, const Genome *g)
   nodeVector * nodes = g->nodes;
 //   os.flush();
   os << g->id<<endl;
+  os << "seed " << g->seed<<endl;
   for(unsigned int i=0;i<nodes->size();i++){
     os << nodes->at(i);
 //     os.flush();

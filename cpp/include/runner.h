@@ -78,6 +78,7 @@ public:
   int generations;
   int runs;
   int pid;
+  int rands;
   string basefile;
   string infoline;
   NEATsettings * set;

@@ -109,6 +109,7 @@ void NEATRunner::runLoop()
     //keeping a copy of generation champ:
     gbest = pop->getCopyOfCurrentBest();
     setChamp(best,gbest); 
+    best->getGenome()->setSeed(rands);
     ofs.open(sCurrentGenomeFilec.str().c_str());
     ofs << best->getGenome();
     ofs.close();

@@ -45,7 +45,7 @@ using namespace std;
 void master(char ** args, int argc, Neatzsche_MPI * comm,
 	    NEATsettings * set, TransferFunctions * tfs,
 	    Coevolution * coevo, FitnessEvaluator * fe, Evaluator * ev, 
-	    int generations, int runs, bool speciation);
+	    int generations, int runs, bool speciation, int rands);
 
 void slave(char ** argv, int argc, Neatzsche_MPI * comm,
 	   TransferFunctions * tfs, Coevolution * c, 
@@ -141,11 +141,11 @@ int main(int argc,char *args[]){
 
   if(nmpi!=NULL){
     if(nmpi->getRank()==0)
-      master(args,argc,nmpi,set,tfs,coevo,fe,ev,generations,runs,(atoi(args[9]) == 1));
+      master(args,argc,nmpi,set,tfs,coevo,fe,ev,generations,runs,(atoi(args[9]) == 1),rands);
     else
       slave(args,argc,nmpi,tfs,coevo,fe,ev,generations);
   }else
-      master(args,argc,nmpi,set,tfs,coevo,fe,ev,generations,runs,(atoi(args[9]) == 1));
+    master(args,argc,nmpi,set,tfs,coevo,fe,ev,generations,runs,(atoi(args[9]) == 1),rands);
   delete set; delete tfs; delete coevo; delete fe; delete stopv;
   delete nmpi; delete ev;
   delete icb;
@@ -156,7 +156,7 @@ int main(int argc,char *args[]){
 void master(char ** args, int argc, Neatzsche_MPI * comm,
 	    NEATsettings * set, TransferFunctions * tfs,
 	    Coevolution * coevo, FitnessEvaluator * fe, Evaluator * ev, 
-	    int generations, int runs, bool speciation){
+	    int generations, int runs, bool speciation, int rands){
   Population * pop = makePopulation(args[3],set,tfs);
 
   //3. then the selector
@@ -213,6 +213,7 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
   run->pid = pid;
   run->sgf.str(specgraphfile.str());
   run->comm = comm;
+  run->rands = rands;
   if(comm == NULL)
     run->localFE = true;
   icb->run = run;
@@ -221,7 +222,7 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
   stringstream iss;
   for(int i=0;i<argc;i++)
     iss << args[i] << " ";
-
+  iss << " seed: " << rands;
   run->infoline = iss.str();
   addToAllSignals(runfilesignalhandler);//spesific to cluterrunning
 

@@ -56,6 +56,7 @@ private:
   bool debug;
   TransferFunctions * tfs;
   bool linksmade;
+  int seed;
 public:
   Genome(TransferFunctions * itfs);
   Genome(TransferFunctions * itfs, Network * n);
@@ -88,14 +89,6 @@ public:
   void setdebug(){debug=true;}
   void setSettings(NEATsettings * iset){set=iset;}
   void setInnovations(Innovations * iinnov){innov=iinnov;}
-//   void setTfs(TransferFunctions * itfs)
-//   {
-//     tfs=itfs;
-//     for(unsigned int i=0;i<nodes->size();i++){
-//       nodes->at(i)->setTransferFunctions(tfs);
-//       nodes->at(i)->initTFunc();
-//     }
-//   }
   void addNode(int &cnodeid);
   void augmentNodes(NeuralNode * n, bool rearrange);
   void addLink(int tries);
@@ -114,10 +107,10 @@ public:
   Innovations * getInnovations(){return innov;}
   TransferFunction * getTransferFunction(){return nodes->at(0)->getTFunc();}
   Genes * getGenes(){return genes;}
-  //nodeVector * getNodes(){return nodes;}
   void setTransferFunctions(TransferFunctions * tfs){this->tfs = tfs;}
   int countHidden();
   int extrons();
+  void setSeed(int iseed){seed = iseed;}
   friend ostream& operator<< (ostream& os, const Genome *thegenome);
   friend istream& operator>> (istream& is, Genome *thegenome);
 };

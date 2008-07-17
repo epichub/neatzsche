@@ -59,7 +59,8 @@ istream& operator>> (istream& is, Gene *g)
   //g->marker = atoi(s.c_str());
   marker = atoi(s.c_str());
   is >> s;
-  enabld = s.find("0")!=string::npos;
+  enabld = s.find("0")==string::npos;
+//   cout << "enabled: " << enabld << " s: " << s << endl;
   g->fromData(fid,tid,w,marker,enabld);
 //   if(s.find("0")!=string::npos)
 //     g->enabled = false;
