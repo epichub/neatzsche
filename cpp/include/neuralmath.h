@@ -132,7 +132,7 @@ private:
   int ts;
 public:
   StochasticTransfer(bool unipolar, double id, int ts);
-  virtual ~StochasticTransfer(){};
+  virtual ~StochasticTransfer(){delete[] t;};
   virtual double y(double x);
   virtual double g(double x)
   {return (1/(d*sqrt(2*PI)))*exp(-((pow(x-m,2))/(2*pow(d,2))));}
