@@ -29,6 +29,8 @@
 #include "coevolution.h"
 //#include "neatmpi.h"
 //#include "runner.h"
+#include <signal.h>
+#include <unistd.h>
 
 static inline vector<string> * split(char * args, string delim)
 {
