@@ -913,6 +913,7 @@ istream& operator>> (istream& is, Genome *g)
   if(s.find("seed")!=string::npos){
     is >> s;
     g->seed = atoi(s.c_str());
+    srand(g->seed);
     is >> s;
   }
   int c=-1;

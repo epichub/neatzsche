@@ -26,7 +26,7 @@ spawn_recur_prob 0.05
 coldgaussian_weight_mutate 0
 recurrent_conn_prob 0.075
 number_of_innovations 500000
-keeplink 0
+keeplink 1
 enable_identity_tfunc 1
 enable_gauss_tfunc 1
 enable_sinus_tfunc 1
@@ -36,18 +36,18 @@ enable_stochastic_tfunc 1
 newlink_weight_max 5.0
 #transferfunction settings
 unipolar 0
-gauss_median 0.5
+gauss_median 0
 gauss_std_deviation 0.5
 stoch_std_deviation 0.5
 stoch_table_size 800
-sigmoid_sharpness -1.0
+sigmoid_sharpness -2.0
 parabel_sharpness 0.9
-parabel_add 1.0
+parabel_add -0.5
 sinus_sharpness 1.2
-sinus_add 0.5
+sinus_add 0
 sinus_div 2
 cosine_sharpness 1.2
-cosine_add 0.5
+cosine_add 0
 cosine_div 2
 #here comes some settings for calculating the best settings :p
 #setting gc coeff high as that is multiplied by (1/gc)
