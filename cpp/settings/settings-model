@@ -1,3 +1,6 @@
 twopointcorrelation 1
 twopointcorrelation_weight 1
 twopointcorrelation_steplength 1
+twopointcorrelation_z 1
+twopointcorrelation_x 1
+twopointcorrelation_y 1
