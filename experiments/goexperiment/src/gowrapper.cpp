@@ -131,8 +131,8 @@ namespace gw{
     aw = ah = 0;
 
     for(int i=0;i<eyesize;i++){
+      ah = pos[0]+i-sqd;
       for(int i2=0;i2<eyesize;i2++){
-	ah = pos[0]+i-sqd;
 	aw = pos[1]+i2-sqd;
       
 	if( ah<0 || aw<0 || ah>=bsize || aw>=bsize)

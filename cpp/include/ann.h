@@ -41,6 +41,7 @@ class Network
 private:
   vector< nodeVector * > * net;
   nodeVector * output;
+  vector<double> ret;
   int inp;
   int out;
 public:

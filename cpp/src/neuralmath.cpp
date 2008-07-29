@@ -78,7 +78,6 @@ StochasticTransfer::StochasticTransfer(bool unipolar, double id, int its)
   
   rc = 0; ftype = "sto";
   t = new double [ts];
-  cout << "t size: " << ts << " calc: " << sizeof(t)/sizeof(t[0]) << endl;
   for(unsigned int i=0;i<ts;i++){
     t[i] = randsign()*randdouble()*d;
   }

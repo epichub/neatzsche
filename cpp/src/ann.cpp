@@ -144,6 +144,8 @@ void Network::addNodes(nodeVector * nodes, bool debug)
     if(lastlayer->at(i)->getType()==NeuralNode::OUTPUT)
       output->push_back(lastlayer->at(i));
 
+  ret.insert(ret.begin(),output->size(),0);
+
   //   cerr << "input layer: " << net->at(0)->size() << endl;
   //   cerr << "middle layer: " << net->at(1)->size() << endl;
   //   cerr << "output layer: " << net->at(2)->size() << endl;
@@ -167,45 +169,25 @@ void printnodes(nodeVector * nodes)
 //TODO: change this to be a sorted update with respects to the ID
 vector<double> Network::runnet(vector<double> inp)
 {
-  //  cerr << "output in phenotype: " << anncheckforoutput(net) << endl;
-  //   cerr << "in runnnet... netat0size: "<<net->at(0)->size()<<" inpsize: " << inp.size() << endl;
-  //   cerr << "inp: " << printvector(inp) << endl;
-  if(inp.size()!=net->at(0)->size()-1)
-    {
-      cerr << "inp("<<inp.size()<<") wasnt aligned with net("<<net->at(0)->size()-1<<").." << endl;
-      printnodes(net->at(0));
-      return vector<double>();
-    }
+//   if(inp.size()!=net->at(0)->size()-1)
+//     {
+//       cerr << "inp("<<inp.size()<<") wasnt aligned with net("<<net->at(0)->size()-1<<").." << endl;
+//       printnodes(net->at(0));
+//       return vector<double>();
+//     }
 
   for(unsigned int i=0;i<inp.size();i++){
     if(net->at(0)->at(i)->getType()==NeuralNode::BIAS)
       cerr << "input node was bias.." << endl;
     net->at(0)->at(i)->setInput(inp.at(i));
-    //     cerr << net->at(0)->at(i)->getID() << " : " << net->at(0)->at(i)->getValue() << " ("<<inp.at(i)<<")";
-    //     if(inp.at(i)!=0)
-    //       cerr << "ikke 0 inp: "<< inp.at(i)
-    // 	   <<" .. nodeid: " << net->at(0)->at(i)->getID() 
-    // 	   <<" nodetype: " << net->at(0)->at(i)->getType() 
-    // 	   <<" node links: " << net->at(0)->at(i)->getLinks()->size() << endl;
   }
-  //   cerr << endl;
-  //   cerr << "updating net..\n";
-  for(unsigned int i=1;i<net->size();i++){
-    for(unsigned int i2=0;i2<net->at(i)->size();i2++){
+
+  for(unsigned int i=1;i<net->size();i++)
+    for(unsigned int i2=0;i2<net->at(i)->size();i2++)
       net->at(i)->at(i2)->update();
-      //       cerr << net->at(i)->at(i2)->getID() << " ";
-    }
-    //     cerr << endl;
-  }
-  vector<double> ret;
-  //nodeVector * output = net->at(net->size()-1);
-  
-  //  if(output->at(0)->getFType().find("so")==string::npos);
-  //   cerr << "size of net: "<<net->size() <<" outputsize: " << output->size() 
-  //        << " size at one lvl further back " << net->at(net->size()-2)->size() <<endl;
-  //   cerr << "links to last output node: " << output->at(output->size()-1)->getInputLinks()->size()<<endl;
+
   for(unsigned int i=0;i<output->size();i++)
-    ret.push_back(output->at(i)->getValue());
+    ret[i] = output->at(i)->getValue();
   return ret;
 }
 //should go through and delete the links(only thing not connected to the

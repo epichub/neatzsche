@@ -4,3 +4,8 @@ twopointcorrelation_steplength 1
 twopointcorrelation_z 1
 twopointcorrelation_x 1
 twopointcorrelation_y 1
+#drawer: 1: simple coordinate input 2: coordinate and environmental(z-1) input, 3: coordinates and 3-d enviroment input
+#2.1 and 3.1 are cppn versions of 2 and 3(the nets are drawn by the cppn)
+drawer 2
+#this size is the sqare root size of the square that is the enviroment input(also used for 3-d env input)
+envdrawer_envsize 8
