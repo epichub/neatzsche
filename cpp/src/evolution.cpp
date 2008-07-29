@@ -38,14 +38,17 @@ void Population::preepoch()
   double skim = 0;
   double sum = 0;
   unsigned int total_expected = 0;
-  double comp = set->getValue("compat_threshold");
+  //  double comp = set->getValue("compat_threshold");
 
   if(spectarget!=0&&curgen>1){
     //do stuff to adjust species towards the target..
     if(species->size()<spectarget)
-      set->setValue("compat_threshold",comp-compmod);
+      comp -= (compmod*(spectarget-species->size()));
+      //      set->setValue("compat_threshold",comp-compmod);
     else if(species->size()>spectarget)
-      set->setValue("compat_threshold",comp+compmod);
+      comp += (compmod*(species->size()-spectarget));
+//      set->setValue("compat_threshold",comp+compmod);
+      
   }
 
   for(unsigned int i=0;i<species->size();i++){
@@ -438,7 +441,7 @@ void Species::reproduce()
   if(p->getDebug()==1)
     cerr << "newgensize: " << newgeneration->size() << endl;
   for(unsigned int i=0;i<newgeneration->size();i++){
-    addToSpeciesCollection(p->getSpecies(),newgeneration->at(i),p,set,(p->getDebug()>0) ? true : false);
+    addToSpeciesCollection(p->getSpecies(),newgeneration->at(i),p,set,p->getComp());
 
   }
   delete newgeneration;

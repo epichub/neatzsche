@@ -195,13 +195,16 @@ private:
   int hnodes;
   double lprob;
   double rprob;
+  double comp;
 
-  void setvars(){spectarget = (int)set->getValue("species_target_size");
+  void setvars(){
+    spectarget = (int)set->getValue("species_target_size");
     dropoffage = (int)set->getValue("dropoff_age");
     steal = (int)set->getValue("steal");
     if(ocomp==-1)
       ocomp = set->getValue("compat_threshold");
     compmod = ocomp/10.0;
+    comp = set->getValue("compat_threshold");
   }
 public:
   Population(NEATsettings * iset, TransferFunctions * itfs)
@@ -239,6 +242,7 @@ public:
   void sortspecies();
   void sortmembers();
   void preepoch();
+  double getComp(){return comp;}
   void postepoch();
   void setDebug(int id){debug = id;}
   bool getDebug(){return debug;}
@@ -293,10 +297,9 @@ static inline Genome * mutate(Genome * g, NEATsettings * set, int & cnodeid){
   return g;
 }
 static inline speciesVector * addToSpeciesCollection(speciesVector * v, Phenotype * p, 
-						     Population *pop, NEATsettings * set, bool debug)
+						     Population *pop, NEATsettings * set, double comp)
 {
   Genome * compmember = 0;
-  double comp = set->getValue("compat_threshold");
   double tcomp = 0;
   bool found = false;
   int si = 0;double bestcomp=comp;

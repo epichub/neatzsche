@@ -7,7 +7,7 @@ compat_threshold 3.0
 dropoff_age 50
 age_significanse 1.0
 survival_thresh 0.1
-species_target_size 30
+species_target_size 10
 #species_target
 mutate_only_prob 0.25
 mutate_link_weights_prob 0.85
