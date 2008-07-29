@@ -253,7 +253,7 @@ public:
 		  double r);
   Phenotypes * getMembers(){return members;}
   Phenotype * getBest(){return bestmember;}
-  Phenotype * getCopyOfCurrentBest(){Phenotype * ret = new Phenotype(members->at(0)->getGenome()->duplicate(members->at(0)->getGenome()->getID())); ret->setFitness(members->at(0)->getOrigFitness()); return ret;}
+  Phenotype * getCopyOfCurrentBest(){Phenotype * ret = new Phenotype(members->at(0)->getGenome()->duplicate(members->at(0)->getGenome()->getID())); ret->setFitness(members->at(0)->getOrigFitness()); ret->setSpecies(members->at(0)->getSpecies()); return ret;}
   speciesVector * getSpecies(){return species;}
   double getHighestFitness(){return highestf;}
   Phenotype * getByID(int id);

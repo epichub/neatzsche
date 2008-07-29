@@ -78,7 +78,7 @@ void NEATRunner::runLoop()
   ofstream ofs(sCurrentGenomeFilec.str().c_str());
   ofstream ofs2(sCurrentGenomeFilesuffixless.str().c_str());
   bool slaveStop = false;
-
+  int * bestspecid = new int;
   while(!stop){
     if(coevo != NULL && pop->getGeneration() == (coevo->getStartGeneration()+1)){
       cout << "doing coevo!?" << endl;
@@ -107,7 +107,8 @@ void NEATRunner::runLoop()
 
     //keeping a copy of generation champ:
     gbest = pop->getCopyOfCurrentBest();
-    setChamp(best,gbest); 
+    setChamp(best,gbest,bestspecid); 
+
     best->getGenome()->setSeed(rands);
     ofs.open(sCurrentGenomeFilec.str().c_str());
     ofs << best->getGenome();
@@ -121,6 +122,7 @@ void NEATRunner::runLoop()
     //     }
 
     icb->best = best;
+    
     writenetwork(best,sCurrentXMLGenomeFilec.str());
     if(speciationGraph)
       sg->update(pop);
@@ -137,8 +139,12 @@ void NEATRunner::runLoop()
     totaltime += tmpt;
 
     cerr << (pop->getGeneration()+1) << ":"
-	 << " curmaxid: "<<pop->getMembers()->at(0)->getID()<<" curmax: " << pop->getMembers()->at(0)->getFitness()
-	 << " bestid: "<<best->getID()<<" bestfitness: "<< best->getFitness()
+	 << " curmaxid: "<<pop->getMembers()->at(0)->getID()
+	 << "(" << pop->getMembers()->at(0)->getSpecies()->getID() << ")"
+	 << " curmax: " << pop->getMembers()->at(0)->getFitness()
+	 << " bestid: "<< best->getID() 
+      	 << "(" << *bestspecid << ")"
+	 << " bestfitness: "<< best->getFitness()
 	 << " maxfitness: " << pop->getHighestFitness() 
 	 << " curmin: " << pop->getMembers()->at(pop->getMembers()->size()-1)->getFitness()
 	 << " species: " << pop->getSpecies()->size() 
@@ -153,7 +159,7 @@ void NEATRunner::runLoop()
     //do the mating    
     rep->reproduce(pop);
     if(generations>0&&(pop->getGeneration()+1)==generations&&runs==(countruns+1)){ // stopconditions
-      setChamp(sbest,best);
+      setChamp(sbest,best,bestspecid);
       stop = true;
       if(speciationGraph){
 	sg->writetofile();
@@ -166,7 +172,7 @@ void NEATRunner::runLoop()
 	//keep superchamp across runs..
 	Phenotype * tmp = best;
 	best = NULL;
-	setChamp(sbest,tmp);
+	setChamp(sbest,tmp,bestspecid);
 	//reset population...
 	if(pop->spawn)
 	  pop->resetSpawn();

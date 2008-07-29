@@ -234,7 +234,7 @@ static inline void cleanupPopulation(Phenotypes * p)
     delete p->at(i);
   delete p;
 }
-static inline void setChamp(Phenotype *& oldchamp, Phenotype * challenger)
+static inline void setChamp(Phenotype *& oldchamp, Phenotype * challenger, int *& bestspecid)
 {
   if((&oldchamp == &challenger) || (oldchamp!=NULL && (oldchamp->getID()==challenger->getID() && oldchamp->getFitness() == challenger->getFitness()))){
     delete challenger;
@@ -242,9 +242,11 @@ static inline void setChamp(Phenotype *& oldchamp, Phenotype * challenger)
   }
   if(oldchamp==NULL){
     oldchamp = challenger;
+    *bestspecid = challenger->getSpecies()->getID();
   }else if(oldchamp->getFitness()<challenger->getFitness()){
     delete oldchamp;
     oldchamp = challenger;
+    *bestspecid = challenger->getSpecies()->getID();
   }else{
     delete challenger;
   }
