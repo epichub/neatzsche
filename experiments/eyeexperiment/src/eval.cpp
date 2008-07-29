@@ -6,7 +6,7 @@ extern "C" {
     vector<string> * sv = split(str," ");
     if(sv->at(0).find("eye")!=string::npos) {
       if(sv->size()!=2){
-	cerr <<  "wrong number of arguments to eye evalator setup method" << endl;
+      cout << "wrong arguments to eye eval should be: \"eye <settingsfile>\"" << endl;
 	exit(1);
       }
       NEATsettings * set = new NEATsettings();
@@ -21,7 +21,7 @@ extern "C" {
       ret = new LightsimEvaluator(set,xmax,ymax,lsnum,cellsize,ls_dist);
       return ret;
     }else
-      cout << "wrong arguments to eye eval(TODO ANDERS INPUT NOE HER..)(OG OVER SER DU)" << endl;
+      cout << "wrong arguments to eye eval should be: \"eye <settingsfile>\"" << endl;
   }
 }
 double LightsimEvaluator::f(Phenotype * f)
