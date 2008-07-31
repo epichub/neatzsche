@@ -40,7 +40,7 @@ inline unsigned int randint(unsigned int floor, unsigned int roof)
   int r = rand();
   int diff = roof - floor;
   int tmp = r%diff;
-  if((unsigned int)(tmp+floor)+1 == 3221220696) cout<< "WTFWTFWTF " << endl;
+//   if((unsigned int)(tmp+floor)+1 == 3221220696) cout<< "WTFWTFWTF " << endl;
   return (unsigned int)(tmp+floor)+1;
 }
 
