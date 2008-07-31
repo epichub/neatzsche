@@ -1,5 +1,6 @@
 linetest 1
 linetest_lines 40
+linetest_weight 1
 twopointcorrelation 1
 twopointcorrelation_weight 1
 twopointcorrelation_steplength 1
