@@ -913,9 +913,11 @@ istream& operator>> (istream& is, Genome *g)
   if(s.find("seed")!=string::npos){
     is >> s;
     g->seed = atoi(s.c_str());
+    cout << "fant seed i genome fil: " << g->seed << endl;
     srand(g->seed);
     is >> s;
-  }
+  }else
+    cout << "fant ingen seed!!" << endl;
   int c=-1;
   string ls;
 
