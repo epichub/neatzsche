@@ -70,7 +70,7 @@ void NEATRunner::runLoop()
     sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
   stringstream sCurrentGenomeFilesuffixless; sCurrentGenomeFilesuffixless << sCurrentGenomeFile.str();
   stringstream sCurrentGenomeFilec; sCurrentGenomeFilec << sCurrentGenomeFile.str() << "-" << countruns;
-  stringstream SCurrentGenGenomeFilec = sCurrentGenomeFilec;
+  stringstream sCurrentGenGenomeFilec; sCurrentGenGenomeFilec << sCurrentGenomeFilec.str();
   stringstream sCurrentXMLGenomeFilec; sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-" << countruns << ".xml";
   stringstream sCurrentGraphFilec; sCurrentGraphFilec << sCurrentGraphFile.str() << "-" << countruns;
   if(currentgraphf==NULL){
@@ -112,7 +112,7 @@ void NEATRunner::runLoop()
 
     best->getGenome()->setSeed(rands);
     sCurrentGenGenomeFilec.str("");
-    sCurrentGenGenomeFilec = sCurrentGenomeFilec;
+    sCurrentGenGenomeFilec << sCurrentGenomeFilec.str();
     sCurrentGenGenomeFilec << "-" << pop->getGeneration();
     ofs.open(sCurrentGenomeFilec.str().c_str());
     ofs << best->getGenome();
