@@ -70,6 +70,7 @@ void NEATRunner::runLoop()
     sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
   stringstream sCurrentGenomeFilesuffixless; sCurrentGenomeFilesuffixless << sCurrentGenomeFile.str();
   stringstream sCurrentGenomeFilec; sCurrentGenomeFilec << sCurrentGenomeFile.str() << "-" << countruns;
+  stringstream SCurrentGenGenomeFilec = sCurrentGenomeFilec;
   stringstream sCurrentXMLGenomeFilec; sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-" << countruns << ".xml";
   stringstream sCurrentGraphFilec; sCurrentGraphFilec << sCurrentGraphFile.str() << "-" << countruns;
   if(currentgraphf==NULL){
@@ -110,13 +111,18 @@ void NEATRunner::runLoop()
     setChamp(best,gbest,bestspecid); 
 
     best->getGenome()->setSeed(rands);
+    sCurrentGenGenomeFilec.str("");
+    sCurrentGenGenomeFilec = sCurrentGenomeFilec;
+    sCurrentGenGenomeFilec << "-" << pop->getGeneration();
     ofs.open(sCurrentGenomeFilec.str().c_str());
     ofs << best->getGenome();
     ofs.close();
     ofs2.open(sCurrentGenomeFilesuffixless.str().c_str());
     ofs2 << best->getGenome();
     ofs2.close();
-
+    ofstream ofs3(sCurrentGenGenomeFilec.str().c_str());
+    ofs3 << best->getGenome();
+    ofs3.close();
     //     if(pop->getGeneration()%2==0){
     //       cerr << icb->fe->show(best);
     //     }

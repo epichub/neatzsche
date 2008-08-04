@@ -1,3 +1,7 @@
+burntest 1
+burntest_weight 1
+burntest_planes 10
+burntest_misspenalty 10
 linetest 1
 linetest_lines 40
 linetest_weight 1
