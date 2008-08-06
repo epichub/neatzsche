@@ -71,6 +71,8 @@ TARGET_LINK_LIBRARIES(neatzsche neatzschelib ${MPI_LIBRARIES} dl)
 TARGET_LINK_LIBRARIES(neatzsched neatzschelib ${MPI_LIBRARIES} dl)
 # FindMPI(MPI_VARIABLE)
 # FindBoost(BOOST_LIB)
+
+
 #message("system cpu: \"${CMAKE_SYSTEM_PROCESSOR}\"")
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   message("in apple system, setting makefile accordingly")

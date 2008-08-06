@@ -26,7 +26,7 @@ require "cgi"
 require "socket"
 
 
-class GenerationSFTP
+class MySFTP
   def init(host,user, dir)
     @session = Net::SSH.start(host,user , {:paranoid => false})
     @dir = dir
