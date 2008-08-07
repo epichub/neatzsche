@@ -69,9 +69,10 @@ ADD_LIBRARY(libneatzsche STATIC ${NEATZSCHE_SOURCES})
 
 install(TARGETS ${_target_NAME} LIBRARY DESTINATION lib RUNTIME DESTINATION bin ARCHIVE DESTINATION lib)
 # install(FILES ../cmake_modules/FindNEATZSCHE.cmake DESTINATION ${CMAKE_ROOT}/Modules)
-INSTALL(TARGETS 
-  libneatzsche
-  ARCHIVE DESTINATION lib)
+
+# INSTALL(TARGETS 
+#   libneatzsche
+#   RUNTIM DESTINATION bin)
 SET_TARGET_PROPERTIES(libneatzsche PROPERTIES COMPILE_FLAGS "-fPIC")
 
 
@@ -79,7 +80,9 @@ SET_TARGET_PROPERTIES(libneatzsche PROPERTIES LINK_FLAGS "-rdynamic")
 SET_TARGET_PROPERTIES(libneatzsche PROPERTIES OUTPUT_NAME "neatzsche")
 TARGET_LINK_LIBRARIES(libneatzsche ${MPI_LIBRARIES} dl)
 ADD_EXECUTABLE(neatzsche src/neatzsche.cpp)
-
+INSTALL(TARGETS libneatzsche neatzsche
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin)
 TARGET_LINK_LIBRARIES(neatzsche libneatzsche ${MPI_LIBRARIES} dl)
 
 #message("system cpu: \"${CMAKE_SYSTEM_PROCESSOR}\"")

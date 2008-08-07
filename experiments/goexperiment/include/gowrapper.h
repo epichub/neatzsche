@@ -33,8 +33,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/wait.h>
-#include <misc_utils.h>
-#include <syncutils.h>
 #include "neuralmath.h"
 #include "statechanges.h"
 #include "evolution.h"
