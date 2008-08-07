@@ -1,4 +1,22 @@
 #include "eval.h"
+#include "iface.h"
+#include "image.h"
+extern "C" {
+  FitnessEvaluator *maker(char * str)
+  {
+    FitnessEvaluator * ret;
+    vector<string> * sv = split(str," ");
+    if(sv->at(0).find("cppnpicture")!=string::npos) {
+      if(sv->size()!=2){
+      cerr << "wrong arguments to eye eval should be: \"cppnpicture <picturefile>\"" << endl;
+	exit(1);
+      }
+      ret = new PictureEvaluator(sv->at(1));
+      return ret;
+    }else
+      cerr << "wrong arguments to eye eval should be: \"cppnpicture <picturefile>\"" << endl;
+  }
+}
 
 PictureEvaluator::PictureEvaluator(std::string filename)
 {

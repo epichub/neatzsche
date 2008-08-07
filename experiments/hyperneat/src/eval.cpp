@@ -1,4 +1,29 @@
 #include "eval.h"
+#include "iface.h"
+extern "C" {
+  FitnessEvaluator *maker(char * str)
+  {
+    FitnessEvaluator * ret;
+    vector<string> * sv = split(str," ");
+    if(sv->at(0).find("hyperdataset")!=string::npos) {
+      if(sv->size()!=4){
+      cerr << "wrong arguments to eye eval should be: \"hyperdataset <settingsfile> <datasetfile> [classification at start[0/1]] [testration]\"" << endl;
+	exit(1);
+      }
+      bool classAtStart = (atoi(sv->at(3).c_str()) == 1) ? true : false;
+      double testratio = atof(sv->at(4).c_str());
+      NEATsettings * set = new NEATsettings(); 
+      ifstream ifs(sv->at(1).c_str());
+      ifs>>set;
+      ifs.close();
+      TransferFunctions * tfs = new TransferFunctions(set);
+      DataSet * ds = new DataSet(classAtStart,sv->at(2),testratio);
+      ret = new DatasetHyperNEAT(set,tfs,ds);
+      return ret;
+    }else
+      cerr << "wrong arguments to eye eval should be: \"dataset <datasetfile> [classification at start[0/1]] [testration]\"" << endl;
+  }
+}
 
 double HyperNEAT::f(Phenotype * f)
 {

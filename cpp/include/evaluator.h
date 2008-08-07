@@ -52,17 +52,6 @@ public:
   virtual int getStatus(){return st;}
 };
 
-
-
-class RandomEvaluator : public FitnessEvaluator {
-public:
-  RandomEvaluator(){}
-  virtual ~RandomEvaluator(){};
-  virtual FitnessEvaluator *  makeFitnessEvaluator(vector<string> * sv){return NULL;};
-  virtual string help(){return "";}
-  virtual double f(Phenotype * f){double r = randdouble(); f->setFitness(r); return r;}//muhahaha
-  virtual void nextGen(){return;}
-};
 #ifndef NEATZSCHEOPENMP
 class Evaluator {
 private:
@@ -118,15 +107,7 @@ public:
   virtual FitnessEvaluator * getFitnessEvaluator(){return fe;}
 };
 #endif
-//FitnessEvaluator *maker();
-
-//typedef
 FitnessEvaluator *maker_t(char *str);
 
-// our global factory
-// extern map<string, maker_t *, less<string> > factory;
-
-//    return new hexapod;
-// }
 
 #endif

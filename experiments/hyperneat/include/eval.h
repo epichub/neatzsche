@@ -1,3 +1,10 @@
+#ifndef HYPEREVAL_H_
+#define HYPEREVAL_H_
+
+#include "evaluator.h"
+#include "dataset.h"
+#include "dataseteval.h"
+
 class HyperNEAT : public FitnessEvaluator {
 protected:
   NEATsettings * settings;
@@ -29,7 +36,9 @@ public:
     cerr << "dims: " << dims->size() << endl;
   };
   virtual double f(Phenotype * f);
+  virtual string show(Phenotype * f){return "";}
   bool done(Phenotype *f);
   void runTest(Phenotype *f);
   virtual void nextGen(){return;} // no need for this here..
 };
+#endif

@@ -1,13 +1,11 @@
-PROJECT(datasetfitness)
+PROJECT(randomfitness)
 cmake_minimum_required(VERSION 2.6)
 
 INCLUDE(FindBoost)
 
 SET(FITNESS_SOURCES
-src/dataset.cpp
 src/eval.cpp
 
-include/dataset.h
 include/eval.h
 )
 
@@ -22,10 +20,10 @@ $ENV{HOME}/local/lib
 )
 
 
-ADD_LIBRARY(datasetfitness SHARED ${FITNESS_SOURCES})
-SET_TARGET_PROPERTIES(datasetfitness PROPERTIES LINK_FLAGS "-shared -Wl -dylib")
+ADD_LIBRARY(randomfitness SHARED ${FITNESS_SOURCES})
+SET_TARGET_PROPERTIES(randomfitness PROPERTIES LINK_FLAGS "-shared -Wl -dylib")
 # ADD_EXECUTABLE(neatzsche src/neatzsche.cpp)
 
-TARGET_LINK_LIBRARIES(datasetfitness neatzschelib)
+TARGET_LINK_LIBRARIES(randomfitness neatzschelib)
 
 
