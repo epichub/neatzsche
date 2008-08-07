@@ -38,12 +38,11 @@ INCLUDE_DIRECTORIES(
 include
 ${Boost_INCLUDE_DIRS}
 ${Qt_INCLUDE_DIR}
-../../cpp/include
-../../../../../local/include
+$ENV{HOME}/local/include
 )
 
 LINK_DIRECTORIES(
-../../cpp/ #hvor du tror libneatzschelib.a ligger..
+$ENV{HOME}/local/lib
 )
 
 ADD_LIBRARY(eyefitness SHARED ${FITNESS_SOURCES})
@@ -64,5 +63,3 @@ elseif(QT4_FOUND)
 endif(QT4_FOUND)
 
 TARGET_LINK_LIBRARIES(eyefitness neatzschelib)
-
-
