@@ -1,29 +1,23 @@
 PROJECT(randomfitness)
 cmake_minimum_required(VERSION 2.6)
-
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../cmake_modules/")
+INCLUDE(FindNEATZSCHE)
 INCLUDE(FindBoost)
 
 SET(FITNESS_SOURCES
 src/eval.cpp
-
 include/eval.h
 )
 
 INCLUDE_DIRECTORIES(
 include
 ${Boost_INCLUDE_DIRS}
-$ENV{HOME}/local/include
+${NEATZSCHE_INCLUDE_DIR}
 )
-
-LINK_DIRECTORIES(
-$ENV{HOME}/local/lib
-)
-
 
 ADD_LIBRARY(randomfitness SHARED ${FITNESS_SOURCES})
 SET_TARGET_PROPERTIES(randomfitness PROPERTIES LINK_FLAGS "-shared -Wl -dylib")
-# ADD_EXECUTABLE(neatzsche src/neatzsche.cpp)
 
-TARGET_LINK_LIBRARIES(randomfitness neatzschelib)
+TARGET_LINK_LIBRARIES(randomfitness ${NEATZSCHE_LIBRARY})
 
 

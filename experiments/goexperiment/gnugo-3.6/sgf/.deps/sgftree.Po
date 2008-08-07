@@ -1,0 +1,42 @@
+sgftree.o: sgftree.c /usr/include/assert.h /usr/include/sys/cdefs.h \
+  ../utils/gg_utils.h \
+  /usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdarg.h ../config.h \
+  /usr/include/sys/time.h /usr/include/sys/_types.h \
+  /usr/include/machine/_types.h /usr/include/i386/_types.h \
+  /usr/include/sys/_structs.h /usr/include/time.h /usr/include/_types.h \
+  /usr/include/_structs.h /usr/include/sys/_select.h sgftree.h \
+  /usr/include/stdio.h sgf_properties.h
+
+/usr/include/assert.h:
+
+/usr/include/sys/cdefs.h:
+
+../utils/gg_utils.h:
+
+/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdarg.h:
+
+../config.h:
+
+/usr/include/sys/time.h:
+
+/usr/include/sys/_types.h:
+
+/usr/include/machine/_types.h:
+
+/usr/include/i386/_types.h:
+
+/usr/include/sys/_structs.h:
+
+/usr/include/time.h:
+
+/usr/include/_types.h:
+
+/usr/include/_structs.h:
+
+/usr/include/sys/_select.h:
+
+sgftree.h:
+
+/usr/include/stdio.h:
+
+sgf_properties.h:

@@ -1,6 +1,8 @@
 PROJECT(datasetfitness)
 cmake_minimum_required(VERSION 2.6)
 
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../cmake_modules/")
+INCLUDE(FindNEATZSCHE)
 INCLUDE(FindBoost)
 
 SET(FITNESS_SOURCES
@@ -14,7 +16,7 @@ include/eval.h
 INCLUDE_DIRECTORIES(
 include
 ${Boost_INCLUDE_DIRS}
-$ENV{HOME}/local/include
+${NEATZSCHE_INCLUDE_DIR}
 )
 
 LINK_DIRECTORIES(
@@ -26,6 +28,6 @@ ADD_LIBRARY(datasetfitness SHARED ${FITNESS_SOURCES})
 SET_TARGET_PROPERTIES(datasetfitness PROPERTIES LINK_FLAGS "-shared -Wl -dylib")
 # ADD_EXECUTABLE(neatzsche src/neatzsche.cpp)
 
-TARGET_LINK_LIBRARIES(datasetfitness neatzschelib)
+TARGET_LINK_LIBRARIES(datasetfitness ${NEATZSCHE_LIBRARY})
 
 

@@ -1,6 +1,7 @@
 PROJECT(eyefitness)
 cmake_minimum_required(VERSION 2.6)
-
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../cmake_modules/")
+INCLUDE(FindNEATZSCHE)
 INCLUDE(FindBoost)
 INCLUDE(FindQt4)
 
@@ -38,12 +39,13 @@ INCLUDE_DIRECTORIES(
 include
 ${Boost_INCLUDE_DIRS}
 ${Qt_INCLUDE_DIR}
-$ENV{HOME}/local/include
+${NEATZSCHE_INCLUDE_DIR} 
+#$ENV{HOME}/local/include
 )
 
-LINK_DIRECTORIES(
-$ENV{HOME}/local/lib
-)
+# LINK_DIRECTORIES(
+# $ENV{HOME}/local/lib
+# )
 
 ADD_LIBRARY(eyefitness SHARED ${FITNESS_SOURCES})
 SET_TARGET_PROPERTIES(eyefitness PROPERTIES LINK_FLAGS "-shared -Wl -dylib")
@@ -56,10 +58,10 @@ if(QT4_FOUND)
 
 #   ADD_EXECUTABLE(lightsim-test src/lightsim-test.cpp ${EYE_QT})
   
-  TARGET_LINK_LIBRARIES(lightsim-viewer neatzschelib ${QT_LIBRARIES} eyefitness)
+  TARGET_LINK_LIBRARIES(lightsim-viewer ${NEATZSCHE_LIBRARY} ${QT_LIBRARIES} eyefitness)
 
 elseif(QT4_FOUND)
   message("woot ikke noe Qt4 så blikke no printing pårei")
 endif(QT4_FOUND)
 
-TARGET_LINK_LIBRARIES(eyefitness neatzschelib)
+TARGET_LINK_LIBRARIES(eyefitness ${NEATZSCHE_LIBRARY})

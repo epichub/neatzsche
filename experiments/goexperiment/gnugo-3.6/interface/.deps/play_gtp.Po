@@ -1,0 +1,96 @@
+play_gtp.o: play_gtp.c ../engine/gnugo.h ../engine/board.h \
+  ../sgf/sgftree.h /usr/include/stdio.h /usr/include/_types.h \
+  /usr/include/sys/_types.h /usr/include/sys/cdefs.h \
+  /usr/include/machine/_types.h /usr/include/i386/_types.h \
+  ../sgf/sgf_properties.h ../config.h \
+  /usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdarg.h \
+  ../engine/clock.h ../engine/gnugo.h /usr/include/sys/time.h \
+  /usr/include/sys/_structs.h /usr/include/time.h /usr/include/_structs.h \
+  /usr/include/sys/_select.h /usr/include/assert.h /usr/include/ctype.h \
+  /usr/include/runetype.h /usr/include/string.h /usr/include/math.h \
+  /usr/include/architecture/i386/math.h interface.h ../engine/liberty.h \
+  ../engine/board.h ../engine/hash.h \
+  /usr/lib/gcc/i686-apple-darwin9/4.0.1/include/limits.h \
+  /usr/lib/gcc/i686-apple-darwin9/4.0.1/include/syslimits.h \
+  /usr/include/limits.h /usr/include/machine/limits.h \
+  /usr/include/i386/limits.h /usr/include/i386/_limits.h \
+  /usr/include/sys/syslimits.h ../engine/gnugo.h gtp.h \
+  ../utils/gg_utils.h
+
+../engine/gnugo.h:
+
+../engine/board.h:
+
+../sgf/sgftree.h:
+
+/usr/include/stdio.h:
+
+/usr/include/_types.h:
+
+/usr/include/sys/_types.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/machine/_types.h:
+
+/usr/include/i386/_types.h:
+
+../sgf/sgf_properties.h:
+
+../config.h:
+
+/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdarg.h:
+
+../engine/clock.h:
+
+../engine/gnugo.h:
+
+/usr/include/sys/time.h:
+
+/usr/include/sys/_structs.h:
+
+/usr/include/time.h:
+
+/usr/include/_structs.h:
+
+/usr/include/sys/_select.h:
+
+/usr/include/assert.h:
+
+/usr/include/ctype.h:
+
+/usr/include/runetype.h:
+
+/usr/include/string.h:
+
+/usr/include/math.h:
+
+/usr/include/architecture/i386/math.h:
+
+interface.h:
+
+../engine/liberty.h:
+
+../engine/board.h:
+
+../engine/hash.h:
+
+/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/limits.h:
+
+/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/syslimits.h:
+
+/usr/include/limits.h:
+
+/usr/include/machine/limits.h:
+
+/usr/include/i386/limits.h:
+
+/usr/include/i386/_limits.h:
+
+/usr/include/sys/syslimits.h:
+
+../engine/gnugo.h:
+
+gtp.h:
+
+../utils/gg_utils.h:

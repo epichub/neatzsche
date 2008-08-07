@@ -1,6 +1,7 @@
 PROJECT(cppnfitness)
 cmake_minimum_required(VERSION 2.6)
-
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../cmake_modules/")
+INCLUDE(FindNEATZSCHE)
 INCLUDE(FindBoost)
 INCLUDE(FindTIFF)
 
@@ -16,11 +17,11 @@ INCLUDE_DIRECTORIES(
 include
 ${Boost_INCLUDE_DIRS}
 ${TIFF_INCLUDE_DIR}
-$ENV{HOME}/local/include
+${NEATZSCHE_INCLUDE_DIR}
 )
 
 LINK_DIRECTORIES(
-$ENV{HOME}/local/lib
+#$ENV{HOME}/local/lib
 ${TIFF_LIBRARY}/../
 )
 
@@ -28,6 +29,6 @@ SET_SOURCE_FILES_PROPERTIES(src/image.c include/image.h PROPERTIES LANGUAGE "CXX
 ADD_LIBRARY(cppnfitness SHARED ${FITNESS_SOURCES})
 SET_TARGET_PROPERTIES(cppnfitness PROPERTIES LINK_FLAGS "-shared -Wl -dylib")
 
-TARGET_LINK_LIBRARIES(cppnfitness neatzschelib tiff)
+TARGET_LINK_LIBRARIES(cppnfitness ${NEATZSCHE_LIBRARY} ${TIFF_LIBRARY})
 
 
