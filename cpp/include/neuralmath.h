@@ -152,6 +152,8 @@ public:
   TransferFunction * getTA(){return ta;}
   TransferFunction * getSigmoid(){return sigmoid;}
   TransferFunction * getSine(){return sine;}
+  int size(){return f->size();}
+  TransferFunction * getTransferFunctions(unsigned int i){return f->at(i);}
   string prettyprint(){stringstream ss; ss << "tfs size: " << f->size() << endl; return ss.str();}
   TransferFunction * getRandom(){
     if(f->size()==1)
