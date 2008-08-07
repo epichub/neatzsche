@@ -1,4 +1,4 @@
-PROJECT(gofitness)
+PROJECT(cppnfitness)
 cmake_minimum_required(VERSION 2.6)
 
 INCLUDE(FindBoost)
@@ -25,10 +25,9 @@ ${TIFF_LIBRARY}/../
 )
 
 SET_SOURCE_FILES_PROPERTIES(src/image.c include/image.h PROPERTIES LANGUAGE "CXX")
-ADD_LIBRARY(datasetfitness SHARED ${FITNESS_SOURCES})
-SET_TARGET_PROPERTIES(datasetfitness PROPERTIES LINK_FLAGS "-shared -Wl -dylib")
-# ADD_EXECUTABLE(neatzsche src/neatzsche.cpp)
+ADD_LIBRARY(cppnfitness SHARED ${FITNESS_SOURCES})
+SET_TARGET_PROPERTIES(cppnfitness PROPERTIES LINK_FLAGS "-shared -Wl -dylib")
 
-TARGET_LINK_LIBRARIES(datasetfitness neatzschelib tiff)
+TARGET_LINK_LIBRARIES(cppnfitness neatzschelib tiff)
 
 
