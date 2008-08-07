@@ -35,8 +35,6 @@
 #include "settings.h"
 #include "evolution.h"
 #include "evoops.h"
-#include "dataset.h"
-// #include "gowrapper.h"
 #include "coevolution.h"
 #include "runner.h"
 #include "neatmpi.h"

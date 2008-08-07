@@ -14,6 +14,7 @@ include/genetics.h
 include/evoops.h
 include/settings.h 
 include/evolution.h
+include/coevolution.h
 include/evaluator.h 
 include/iface.h
 include/runner.h 
@@ -32,8 +33,8 @@ src/genetics.cpp
 src/evoops.cpp
 src/settings.cpp 
 src/evolution.cpp
+src/coevolution.cpp
 src/evaluator.cpp 
-src/dataset.cpp
 src/runner.cpp
 src/boye.cpp 
 src/neatmpi.cpp

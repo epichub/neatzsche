@@ -23,7 +23,6 @@
 #define EVALUATOR_H_
 
 #include "evolution.h"
-#include "dataset.h"
 #include "neuralmath.h"
 #include <sys/types.h>
 #include <unistd.h>
@@ -51,23 +50,9 @@ public:
   virtual string show(Phenotype * p) = 0;
   virtual void setStatus(int ist){cerr<<"i status set ist:" << ist << endl;st=ist;}
   virtual int getStatus(){return st;}
-
 };
 
 
-class DatasetEvaluator : public FitnessEvaluator {
-private:
-  DataSet *ds;
-public:
-  DatasetEvaluator(DataSet * s){ds=s;};
-  virtual ~DatasetEvaluator(){};
-  virtual FitnessEvaluator *  makeFitnessEvaluator(vector<string> * sv){return NULL;};
-  virtual string help(){return "";}
-  virtual double f(Phenotype * f);
-  virtual void nextGen(){return;} // no need for this here..
-  void runTest(Phenotype * f);
-  bool xorDone(Phenotype * f);
-};
 
 class RandomEvaluator : public FitnessEvaluator {
 public:

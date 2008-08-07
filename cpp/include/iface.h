@@ -25,6 +25,8 @@
 #include "evolution.h"
 #include "evaluator.h"
 #include <vector>
+#include <iostream>
+#include <fstream>
 #include "neuralmath.h"
 #include "coevolution.h"
 //#include "neatmpi.h"
