@@ -48,7 +48,7 @@ else(GNUGO_FOUND)
     ERROR_VARIABLE GNUGOERR)
   if(GNUGORES)
     message("resvar: ${GNUGORES}")
-  endif(RESULT_VARIABLE)   
+  endif(GNUGORES)
   SET(GNUGO_INCL
     ${CMAKE_INSTALL_PREFIX}/include/gnugo)
   SET(GNUGO_LIB
