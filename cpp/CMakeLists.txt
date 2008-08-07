@@ -24,7 +24,6 @@ include/xmlconvert.h)
 
 SET(NEATZSCHE_CPP
 src/statechanges.cpp 
-src/coevolution.cpp
 src/neuralmath.cpp 
 src/ann.cpp
 src/gene.cpp
