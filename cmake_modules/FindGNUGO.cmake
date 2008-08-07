@@ -1,0 +1,32 @@
+FIND_PATH(GNUGO_INCLUDE_DIR gnugo.h 
+  /usr/include/gnugo /usr/local/include/gnugo
+  /opt/local/include/gnugo $ENV{HOME}/local/include/gnugo
+  $ENV{HOME}/include/gnugo ) 
+
+FIND_LIBRARY(GNUGO_LIBRARY engine PATH 
+  /usr/lib /usr/local/lib
+  /opt/local/lib $ENV{HOME}/local/lib
+  $ENV{HOME}/lib) 
+
+FIND_PROGRAM(GNUGO_PROGRAM gnugo PATH 
+  /usr/bin /usr/local/bin
+  /opt/local/bin $ENV{HOME}/local/bin
+  $ENV{HOME}/bin) 
+
+IF(GNUGO_INCLUDE_DIR AND GNUGO_LIBRARY AND GNUGO_PROGRAM)
+  SET(GNUGO_FOUND TRUE)
+ENDIF(GNUGO_INCLUDE_DIR AND GNUGO_LIBRARY AND GNUGO_PROGRAM)
+
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(GNUGO DEFAULT_MSG GNUGO_LIBRARY GNUGO_INCLUDE_DIR GNUGO_PROGRAM)
+
+IF (GNUGO_FOUND)
+   IF (NOT Gnugo_FIND_QUIETLY)
+      MESSAGE(STATUS "Found Gnugo: ${GNUGO_LIBRARY}")
+   ENDIF (NOT Gnugo_FIND_QUIETLY)
+   GET_FILENAME_COMPONENT (GNUGO_LIB_PATH ${GNUGO_LIBRARY} PATH)
+ELSE (GNUGO_FOUND)
+   IF (Gnugo_FIND_REQUIRED)
+      MESSAGE(FATAL_ERROR "Could not find Gnugo")
+   ENDIF (Gnugo_FIND_REQUIRED)
+ENDIF (GNUGO_FOUND)
