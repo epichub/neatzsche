@@ -56,7 +56,7 @@ else(GNUGO_FOUND)
     RESULT_VARIABLE GNUGORES)
   message("${GNUGORES}")
   EXECUTE_PROCESS( 
-    COMMAND "ranlib" "engine/libutils.a"
+    COMMAND "ranlib" "utils/libutils.a"
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gnugo-3.6
     RESULT_VARIABLE GNUGORES)
   message("${GNUGORES}")
@@ -121,7 +121,7 @@ else(GNUGO_FOUND)
   message("${GNUGORES}")
   SET(GNUGO_INCL
     ${CMAKE_INSTALL_PREFIX}/include/gnugo)
-  SET(GNUGO_LIB
+  SET(GNUGO_LIB_PATH
     ${CMAKE_INSTALL_PREFIX}/lib)
 #  TARGET_LINK_LIBRARIES(gofitness patterns engine board utils sgf ncurses ${NEATZSCHE_LIBRARY} )
 endif(GNUGO_FOUND)
