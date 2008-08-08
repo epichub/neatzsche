@@ -27,8 +27,26 @@ else(GNUGO_FOUND)
   message("gnugo not found.. making it for you..")
   EXECUTE_PROCESS( 
     COMMAND "./configure" "--prefix=${CMAKE_INSTALL_PREFIX}" 
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gnugo-3.6
+    RESULT_VARIABLE GNUGORES
+    OUTPUT_VARIABLE GNUGOOUT
+    ERROR_VARIABLE GNUGOERR)
+    message("resvar1: ${GNUGORES}")
+  EXECUTE_PROCESS( 
     COMMAND "make" 
-    COMMAND "make" "install" 
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gnugo-3.6
+    RESULT_VARIABLE GNUGORES
+    OUTPUT_VARIABLE GNUGOOUT
+    ERROR_VARIABLE GNUGOERR)
+    message("resvar2: ${GNUGORES}")
+  EXECUTE_PROCESS( 
+    COMMAND "make" "install"
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gnugo-3.6
+    RESULT_VARIABLE GNUGORES
+    OUTPUT_VARIABLE GNUGOOUT
+    ERROR_VARIABLE GNUGOERR) 
+    message("resvar3: ${GNUGORES}")
+  EXECUTE_PROCESS( 
     COMMAND "mkdir" "-p" "${CMAKE_INSTALL_PREFIX}/include/gnugo"
     COMMAND "cp" "engine/libboard.a" "${CMAKE_INSTALL_PREFIX}/lib/"
     COMMAND "cp" "engine/libengine.a" "${CMAKE_INSTALL_PREFIX}/lib/"
@@ -46,9 +64,7 @@ else(GNUGO_FOUND)
     RESULT_VARIABLE GNUGORES
     OUTPUT_VARIABLE GNUGOOUT
     ERROR_VARIABLE GNUGOERR)
-#   if(GNUGORES)
     message("resvar: ${GNUGORES}")
-#   endif(GNUGORES)
   SET(GNUGO_INCL
     ${CMAKE_INSTALL_PREFIX}/include/gnugo)
   SET(GNUGO_LIB
