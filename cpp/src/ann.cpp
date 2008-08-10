@@ -204,8 +204,8 @@ Network::~Network()
     //      cerr << "net->at(i) er NULL" << endl;
     //    cerr << "size av net->at(i):" << net->at(i)->size() << endl;
     for(unsigned int i2=0;i2<net->at(i)->size();i2++){
-      cerr<< "i net destr i2: " << i2 << endl;
-      cout << "deleing links from node("<<&net->at(i)->at(i2)<<"): " << net->at(i)->at(i2)->getID() << endl;
+//       cerr<< "i net destr i2: " << i2 << endl;
+//       cout << "deleing links from node("<<&net->at(i)->at(i2)<<"): " << net->at(i)->at(i2)->getID() << endl;
       net->at(i)->at(i2)->deletelinks();
     }
   }
@@ -339,14 +339,7 @@ void NeuralNode::update(){
 }
 void NeuralNode::deletelinks()
 {
-  if(id==4 || id == 1)
-    cout << "links("<<links<<") size: " << links->size() << endl;
   for(unsigned int i=0;i<links->size();i++){
-    if(id==4 || id == 1){
-      cout << "i: "<< i<< endl;
-      cout << "checking/deleting link from: " << links->at(i)->getFrom()->getID() 
-	   << " to " << links->at(i)->getTo()->getID() << endl;
-    }
     if( 
        (links->at(i)->isTo(this)&&(links->at(i)->getFrom()->getDepth()<depth))||
        samedepthcheck(links->at(i),this,true)||
