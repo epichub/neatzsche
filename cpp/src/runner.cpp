@@ -220,6 +220,7 @@ void NEATRunner::runLoop()
   finalgraphf.close();
   currentgraphf->close();
   delete currentgraphf;
+  delete bestspecid;
   writeRunfile(true,basefile,infoline,pid);  
   
 }
