@@ -1,9 +1,9 @@
 Current:
-* Rewrite to MPI and OpenMP
+DONE * Rewrite to MPI and OpenMP
 * Make crossover "packets" that contain two paired genomes for crossover, send out through MPI/OpenMP
-* Clean up build process
+DONE * Clean up build process
 Later:
-* Make NEATzsche a library to link against.
+DONE * Make NEATzsche a library to link against.
 * OY, darwinism is also forming a tree, sub-evolution(random search) striving against
 a optimum?
 * tree streatches branches towards light, as nerves stretches towards
