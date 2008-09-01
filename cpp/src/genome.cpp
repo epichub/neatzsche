@@ -36,6 +36,7 @@ Genome::Genome(TransferFunctions * itfs)
   innov = NULL;
   tfs = itfs;
   linksmade = false;
+  seed = -1;
 }
 Genome::Genome(TransferFunctions * itfs, Network * n)
 {
@@ -46,6 +47,7 @@ Genome::Genome(TransferFunctions * itfs, Network * n)
   innov = NULL;
   tfs = itfs;
   linksmade = false;
+  seed = -1;
   //  Gene(int markerin, NeuralNode *  fromin, NeuralNode * toin, double wi, Genome *go)
   vector< nodeVector * > * layers = n->getNet();
   linkVector * l = NULL; Link * current = NULL;
@@ -73,12 +75,14 @@ Genome::Genome(int iid)
   tfs = NULL;
   id = iid;
   linksmade = false;
+  seed = -1;
 }
 //copy genome from given genome...
 Genome::Genome(const Genome & genome)
 {
   tfs = NULL;
   linksmade = false;
+  seed = -1;
 }
 Genome::Genome(int genomeid, Genes * igenes, nodeVector * inodes, int inp, int out,
 	       NEATsettings * settings, Innovations * is, TransferFunctions * itfs)
@@ -93,6 +97,7 @@ Genome::Genome(int genomeid, Genes * igenes, nodeVector * inodes, int inp, int o
   set = settings;
   tfs = itfs;
   linksmade = false;
+  seed = -1;
 }
 Genome::Genome(int new_id,int i, int o, int n,int nmax, 
 	       double r, double linkprob, NEATsettings * settings,
@@ -109,6 +114,7 @@ Genome::Genome(int new_id,int i, int o, int n,int nmax,
   tfs=itfs;
   linksmade = false;
   randomize(i,o,n,nmax,r,linkprob);
+  seed = -1;
 }
 /*
   a simple method to create a running network from the genome, able to
@@ -834,7 +840,7 @@ void Genome::randomize(int inpn, int outn,
 		       double rec, double linkprob)
 {
   int totalnodes = inpn + outn + hid; // total number of nodes
-  //   int count = 0; // the "innovation" counter.
+
   TransferFunction * inpfunc = tfs->getTA();
   TransferFunction * func = NULL;
   int layn = 0;
@@ -847,18 +853,16 @@ void Genome::randomize(int inpn, int outn,
   for(int i=0;i<hid;i++){
     func = tfs->getRandom();
     nodes->push_back(new NeuralNode(func,(inpn+i+2),NeuralNode::HIDDEN,layn));
-    //old    nodes->push_back(new NeuralNode((func = tfs->getRandom()),(inpn+i+2),NeuralNode::HIDDEN,func->ftype,layn));
   }
 
   if(hid>0)
     layn++;
   bool cppn = (set->getValue("cppn_output") == 1);
-//   cerr << "set->getValue(cppn_output): " << set->getValue("cppn_output") << " cppn: " << cppn << endl;
   if(cppn)
     func = tfs->getSine();//TODO: check if output should always be sigmoid??
   else
     func = tfs->getSigmoid();//TODO: check if output should always be sigmoid??
-//   cerr << "func ftype: " << func->ftype << endl;
+
   for(int i=0;i<outn;i++)
     nodes->push_back(new NeuralNode(func,(inpn+hid+i+2),NeuralNode::OUTPUT,layn));
   innov->setNodeNum(nodes->size()+1);
@@ -871,8 +875,6 @@ void Genome::randomize(int inpn, int outn,
     for(int i2=0;i2<totalnodes+1;i2++){
       from = nodes->at(i);
       to = nodes->at(i2);
-      //       if(from->getType()==NeuralNode::INPUT
-      //       cerr << "from er inp to er ikek lvl 0" << endl;
       if(randdouble()<linkprob){//create link
 	if(!((from->getDepth()>=to->getDepth()&&randdouble()>=rec))  // if rec and rec is true, or if its not rec
 	   && !(from->getDepth()==0 && 
@@ -896,14 +898,11 @@ void Genome::randomize(int inpn, int outn,
 	      ++init;
 	    }
 	  }
-	  // 	  genes->push_back(new Gene(count,from,
-	  // 			      to,
-	  // 			      randsign()*randdouble(),this));
 	}
       }
     }
   }
-  //  innov->setInitNum(genes->size()+1);
+
 }
 istream& operator>> (istream& is, Genome *g)
 {
@@ -913,12 +912,9 @@ istream& operator>> (istream& is, Genome *g)
   if(s.find("seed")!=string::npos){
     is >> s;
     g->seed = atoi(s.c_str());
-//     cout << "fant seed i genome fil: " << g->seed << endl;
     srand(g->seed);
     is >> s;
   }
-//   else
-//     cout << "fant ingen seed!!" << endl;
   int c=-1;
   string ls;
 

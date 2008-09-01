@@ -111,6 +111,8 @@ public:
   int countHidden();
   int extrons();
   void setSeed(int iseed){seed = iseed;}
+  bool hasSeed(){return seed != -1;}
+  int getSeed(){return seed;}
   friend ostream& operator<< (ostream& os, const Genome *thegenome);
   friend istream& operator>> (istream& is, Genome *thegenome);
 };
