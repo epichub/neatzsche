@@ -35,6 +35,7 @@ class TransferFunction;
 
 inline unsigned int randint(unsigned int floor, unsigned int roof)
 {
+  floor--;
   if(floor==roof)
     return roof;
   int r = rand();
