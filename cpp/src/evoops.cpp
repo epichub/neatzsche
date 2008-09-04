@@ -24,7 +24,9 @@ int Selector::suswheel(int n, Species * s, int elitism, bool debug)
   if(elitism>0){
     dbg = true;
   }
+//   cout << "elitism: " << elitism << endl;
   for(int i=(elitism-1);i>=0;i--){
+//     cout << "giving elitism to id: " << members->at(i)->getID() << endl;
     members->at(i)->incClones();
   }
 
@@ -93,9 +95,9 @@ double SigmaScaling::eval(Phenotype * p, int i)
 }
 Population * SigmaScaling::select(Population * p,  int elitism)
 {
+  //  cout << "sigmaselect elitism: " <<  elitism << endl;
   Selector::select(p,elitism);
   speciesVector * s = p->getSpecies();
-  elitism = 0;
   for(unsigned int i = 0 ; i<s->size();i++){
     calcstddev(s->at(i));
     suswheel(s->at(i)->getExpected(),s->at(i),elitism+s->at(i)->getSpecialClones(),true);

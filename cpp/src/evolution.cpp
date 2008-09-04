@@ -70,7 +70,7 @@ void Population::preepoch()
     skim += tmp-tmp2;
     species->at(i)->setExpected((int)tmp);
   }
-  members->at(0)->getSpecies()->setSpecialClones(1);
+//   members->at(0)->getSpecies()->setSpecialClones(1);
   for(unsigned int i=0;i<species->size();i++)
     total_expected += species->at(i)->getExpected();
   if(total_expected<(unsigned int)size){
@@ -337,7 +337,9 @@ void Species::reproduce()
   Phenotypes * newgeneration = new Phenotypes();
   //do a straight clone of the specieschamp
   if(members->at(0)->getClones()==1){
+
     newgeneration->push_back(new Phenotype(members->at(0)->getGenome()->duplicate(p->getAndIncID())));
+//     cout << "member 0 ("<<members->at(0)->getID()<<")  has clones cloning new id:" << newgeneration->at(0)->getID() << endl;
     members->at(0)->decClones();
   }
 
@@ -361,6 +363,7 @@ void Species::reproduce()
 //       cerr << "af og if ikke lik i popchampclone\n";
 //     }
     newgeneration->push_back(new Phenotype(newgenome));
+//     cout << "cloning new id:" << newgeneration->at(newgeneration->size()-1)->getID() << endl;
     members->at(0)->decPopulationChampClones();
   }
 

@@ -26,6 +26,7 @@ public:
   virtual Population * select(Population * p,  int elitism){p->preepoch(); return NULL; }
   virtual double eval(Phenotype * p,int i){return 0.0;}
   virtual int suswheel(int n, Species * s, int elitism, bool debug);
+  unsigned int getySpeciesForElitism(){return speciesforelitism;};
 };
 
 class FitnessProp : public Selector

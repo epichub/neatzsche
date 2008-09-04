@@ -13,6 +13,8 @@ TransferFunctions::TransferFunctions(NEATsettings * s)
 
   if(s->getValue("enable_identity_tfunc")==1.0)
     f->push_back(ta);
+  if(s->getValue("enable_abs_tfunc")==1.0)
+    f->push_back(new AbsoluteValue());
   if(s->getValue("enable_sinus_tfunc")==1.0){
     sine = new SinusTransfer(unipolar,s->getValue("sinus_sharpness"),s->getValue("sinus_add"),s->getValue("sinus_div"));
     f->push_back(sine);

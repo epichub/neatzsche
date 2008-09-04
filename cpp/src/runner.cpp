@@ -163,7 +163,7 @@ void NEATRunner::runLoop()
     //run the code that adjusts fitness according to species age and size..
     //select the lucky ones for reprocicration..
 
-    sel->select(pop,0);
+    sel->select(pop,sel->getySpeciesForElitism());
     //do the mating    
     rep->reproduce(pop);
     if(generations>0&&(pop->getGeneration()+1)==generations&&runs==(countruns+1)){ // stopconditions

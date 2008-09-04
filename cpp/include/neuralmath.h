@@ -54,6 +54,15 @@ public:
   virtual void reset(){};
   string ftype;
 };
+class AbsoluteValue : public TransferFunction
+{
+public:
+  AbsoluteValue(){ftype="abs";};
+  virtual ~AbsoluteValue(){};
+  virtual double y(double x){return fabs(x);};
+  virtual void reset(){};
+  string ftype;
+};
 class SignumTransfer : public TransferFunction
 {
 public:
