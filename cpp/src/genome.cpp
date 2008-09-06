@@ -289,8 +289,11 @@ void Genome::addNode(int &cnodeid)
       while ((((it!=genes->end())
 	       &&(!((*it)->isEnabled())))||
 	      ((it!=genes->end())
-	       &&((*it)->getFrom()->getType()==NeuralNode::BIAS)))
-	     ||(it!=genes->end()&&randdouble()<0.3))
+	       &&((*it)->getFrom()->getType()==NeuralNode::BIAS))
+	      || ((it!=genes->end())
+		  &&((*it)->getFrom()->getDepth()==(*it)->getTo()->getDepth())
+		  &&((*it)->getFrom()->getDepth()==0) ) ||
+	      (it!=genes->end()&&randdouble()<0.3)))
 	++it;
 
       if(it!=genes->end())
@@ -462,6 +465,8 @@ void Genome::addLink(int tries)
 
     np1 = nodes->at(nn1);
     np2 = nodes->at(nn2);
+    if(np1->getDepth() == 0 && np1->getDepth() == np2->getDepth() )
+      continue;
 #ifdef NEATZSCHEDEBUG
     cerr << "firstnoninp: "<<firstnoninp<<" nn1: "<<nn1<<"  nn2: "<<nn2<<" np1id: "<<np1->getID()<<" np2id:" << np1->getID() << endl;
 #endif
