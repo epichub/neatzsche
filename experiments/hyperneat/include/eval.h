@@ -40,5 +40,7 @@ public:
   bool done(Phenotype *f);
   void runTest(Phenotype *f);
   virtual void nextGen(){return;} // no need for this here..
+  virtual bool stop(Phenotype * f){return done(f);}
+  virtual void setResultdir(string dir){}
 };
 #endif

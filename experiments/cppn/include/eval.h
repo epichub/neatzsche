@@ -18,5 +18,7 @@ public:
   double f2(Phenotype * f);
   void runTest(Phenotype * f);
   virtual void nextGen(){return;} // no need for this here..
+  virtual bool stop(Phenotype * f){return false;}
+  virtual void setResultdir(string dir){}
 };
 #endif

@@ -50,6 +50,8 @@ public:
   virtual string show(Phenotype * p) = 0;
   virtual void setStatus(int ist){cerr<<"i status set ist:" << ist << endl;st=ist;}
   virtual int getStatus(){return st;}
+  virtual bool stop(Phenotype * best) = 0;
+  virtual void setResultdir(string directory) = 0;
 };
 
 #ifndef NEATZSCHEOPENMP

@@ -17,6 +17,8 @@ public:
   virtual string show(Phenotype * p) {return "";}
   void runTest(Phenotype * f);
   bool xorDone(Phenotype * f);
+  virtual bool stop(Phenotype * f){return xorDone(f);}
+  virtual void setResultdir(string dir){}
 };
 
 #endif

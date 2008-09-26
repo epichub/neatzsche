@@ -68,6 +68,8 @@ public:
   virtual void interact(Phenotype * f);
   bool detrm;
   vector<double> netinp;
+  virtual bool stop(Phenotype * f){return false;}
+  virtual void setResultdir(string dir){}
 };
 class EasyGoEvaluator : public GoEvaluator {
 public:
@@ -75,6 +77,8 @@ public:
   //  virtual ~EasyGoEvaluator(){GoEvaluator::~GoEvaluator();};
   virtual double f(Phenotype * f);
   virtual string show(Phenotype * p);
+  virtual bool stop(Phenotype * f){return false;}
+  virtual void setResultdir(string dir){}
 };
 
 #endif

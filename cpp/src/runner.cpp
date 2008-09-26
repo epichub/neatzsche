@@ -80,12 +80,16 @@ void NEATRunner::runLoop()
   ofstream ofs2(sCurrentGenomeFilesuffixless.str().c_str());
   bool slaveStop = false;
   int * bestspecid = new int;
+  bool teststop = false;
+  int gc=0;
+  FitnessEvaluator * fe =  ev->getFitnessEvaluator();
   while(!stop){
     if(coevo != NULL && pop->getGeneration() == (coevo->getStartGeneration()+1)){
       cout << "doing coevo!?" << endl;
       bak = ev;
       ev = coevo;
     }
+    teststop = false;
     startt = time(0);
     if(localFE){
       ev->evaluate(pop->getMembers(),pop->getMembers()->size());
@@ -165,8 +169,13 @@ void NEATRunner::runLoop()
 
     sel->select(pop,sel->getySpeciesForElitism());
     //do the mating    
+    teststop = fe->stop(best);
     rep->reproduce(pop);
-    if(generations>0&&(pop->getGeneration()+1)==generations&&runs==(countruns+1)){ // stopconditions
+    if(((generations>0&&(pop->getGeneration()+1) ==generations) || teststop)
+       && runs==(countruns+1)){ // stopconditions
+      if(teststop && comm!=NULL)
+	comm->outputPopulation(pop,nodes,coevo,mc,true);
+      gc += pop->getGeneration();
       setChamp(sbest,best,bestspecid);
       stop = true;
       if(speciationGraph){
@@ -174,7 +183,8 @@ void NEATRunner::runLoop()
 	delete sg;
       }
     }else{
-      if(generations>0&&(pop->getGeneration()+1)==generations){
+      if(generations>0&& ((pop->getGeneration()+1)==generations || teststop )){
+	gc += pop->getGeneration();
 	//generation run is over lets go on to the next run..
 	countruns++;
 	//keep superchamp across runs..
@@ -190,8 +200,9 @@ void NEATRunner::runLoop()
 	  ev = bak;
 	  bak = NULL;
 	}
-	sg->writetofile();
+
 	if(speciationGraph){
+	  sg->writetofile();
 	  delete sg;
 	  sgfc.str(""); sgfc << sgf.str() << "-" << countruns << ".xml";
 	  sg = new SpecGraph((int)pop->getMembers()->size(),generations,sgfc.str());
@@ -208,6 +219,9 @@ void NEATRunner::runLoop()
   ofsuper << sbest->getGenome();
   ofsuper.close();
   cout << "final best fitness" << sbest->getFitness() << endl;
+  if(countruns>1){
+    cout << "avg gc: " << (double)gc/(double)countruns << endl;
+  }
   delete sbest;
   ofstream finalgraphf(finalgraphfile.c_str());
   for(int i=0;i<generations-1;i++)

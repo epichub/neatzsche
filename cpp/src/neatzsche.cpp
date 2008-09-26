@@ -93,7 +93,7 @@ int main(int argc,char *args[]){
 	rands = nmpi->receiveSeed();
     }
     srand(rands);
-    cerr << "ny seed: " << rands << endl;
+
   }
   //1. load the example file
   NEATsettings * set = new NEATsettings();
@@ -138,16 +138,28 @@ int main(int argc,char *args[]){
   }
 
   if(nmpi!=NULL){
-    if(nmpi->getRank()==0)
+
+    if(nmpi->getRank()==0){
+      cerr << "ny seed: " << rands << endl;
       master(args,argc,nmpi,set,tfs,coevo,fe,ev,generations,runs,(atoi(args[9]) == 1),rands);
-    else
+    }else
       slave(args,argc,nmpi,tfs,coevo,fe,ev,generations);
   }else
     master(args,argc,nmpi,set,tfs,coevo,fe,ev,generations,runs,(atoi(args[9]) == 1),rands);
   delete set; delete tfs; delete coevo; delete fe; delete stopv;
-  delete nmpi; delete ev;
+  delete ev;
   delete icb;
 
+  if(nmpi==NULL)
+    cerr << "seed used: " << rands << endl;
+  else{
+    if(nmpi->getRank()==0)
+      cerr << "seed used: " << rands << endl;
+  }
+
+  if(nmpi!=NULL)
+      MPI_Finalize ();
+  delete nmpi;
   exit(0);//exit with success
 
 }

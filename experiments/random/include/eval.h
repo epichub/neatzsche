@@ -12,5 +12,7 @@ public:
   virtual string show(Phenotype * f){return "";}
   virtual double f(Phenotype * f);
   virtual void nextGen(){return;}
+  virtual bool stop(Phenotype * f){return false;}
+  virtual void setResultdir(string dir){}
 };
 #endif
