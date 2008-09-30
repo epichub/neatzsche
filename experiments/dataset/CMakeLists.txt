@@ -25,6 +25,8 @@ $ENV{HOME}/local/lib
 
 
 ADD_LIBRARY(datasetfitness SHARED ${FITNESS_SOURCES})
+INSTALL(TARGETS datasetfitness
+  LIBRARY DESTINATION lib)
 SET_TARGET_PROPERTIES(datasetfitness PROPERTIES LINK_FLAGS "-shared -Wl -dylib")
 # ADD_EXECUTABLE(neatzsche src/neatzsche.cpp)
 

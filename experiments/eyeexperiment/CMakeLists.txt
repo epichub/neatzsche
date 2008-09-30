@@ -48,6 +48,8 @@ ${NEATZSCHE_INCLUDE_DIR}
 # )
 
 ADD_LIBRARY(eyefitness SHARED ${FITNESS_SOURCES})
+INSTALL(TARGETS eyefitness
+  LIBRARY DESTINATION lib)
 SET_TARGET_PROPERTIES(eyefitness PROPERTIES LINK_FLAGS "-shared -Wl -dylib")
 FIND_PACKAGE(Qt4)
 if(QT4_FOUND)
@@ -59,7 +61,8 @@ if(QT4_FOUND)
 #   ADD_EXECUTABLE(lightsim-test src/lightsim-test.cpp ${EYE_QT})
   
   TARGET_LINK_LIBRARIES(lightsim-viewer ${NEATZSCHE_LIBRARY} ${QT_LIBRARIES} eyefitness)
-
+  INSTALL(TARGETS lightsim-viewer
+    RUNTIME DESTINATION bin)
 elseif(QT4_FOUND)
   message("woot ikke noe Qt4 så blikke no printing pårei")
 endif(QT4_FOUND)
