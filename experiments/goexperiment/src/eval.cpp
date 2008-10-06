@@ -355,7 +355,7 @@ FitnessEvaluator *maker(char * str){
   vector<string> * sv = split(str," ");
   if(sv->at(0).find("go")!=string::npos){
     if(sv->size()!=9){
-      cerr << "wrong number of arguments to go evalator setup method, got " << sv->size() << " need 9 " << endl;
+      cerr << "wrong number of arguments to go evalator setup method; <puregenerations> <gnugo-coevo-ratio> <coevo games> <easygo 0/1> <caching 0/1> <cachesize> <cache queue size> <resignation allowed 0/1>" << endl;
       exit(1);
     }
     NEATsettings * set = new NEATsettings();
@@ -407,7 +407,7 @@ FitnessEvaluator *maker(char * str){
 //       ((Halloffame*)coevo)->addPermantent(NULL);//adding NULL as permanent member, defaults to gnugo in this fitness 
 //     }
   }else
-    cout << "wrong arguments: " << str << endl;
+      cerr << "wrong number of arguments to go evalator setup method; <puregenerations> <gnugo-coevo-ratio> <coevo games> <caching 0/1> <cachesize> <cache queue size> <resignation allowed 0/1>" << endl;
   return ret;
 }
 // class proxy { public:
