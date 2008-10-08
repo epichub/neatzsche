@@ -7,27 +7,72 @@ extern "C" {
     FitnessEvaluator * ret;
     vector<string> * sv = split(str," ");
     if(sv->at(0).find("cppnpicture")!=string::npos) {
-      if(sv->size()!=2){
-      cerr << "wrong arguments to eye eval should be: \"cppnpicture <picturefile>\"" << endl;
+      if(sv->size()!=3){
+	cerr << "wrong arguments to eye eval should be: \"cppnpicture <picturefile> <pic(0) or data(1)>\"" << endl;
 	exit(1);
       }
-      ret = new PictureEvaluator(sv->at(1));
+      bool img = atoi(sv->at(1).c_str()) == 1;
+
+      ret = new PictureEvaluator(sv->at(1),img);
+
       return ret;
     }else
-      cerr << "wrong arguments to eye eval should be: \"cppnpicture <picturefile>\"" << endl;
+      cerr << "wrong arguments to eye eval should be: \"cppnpicture <picturefile> <pic(0) or data(1)>\"" << endl;
   }
 }
 void PictureEvaluator::readdata(std::string filename)
 {
   double * img;
   sizes = new int [2];
-  cout << "readimg: " << read_image(img,filename.c_str(),sizes) <<endl;
-  cout<<"sizes[0]: " << sizes[0] << " sizes[1]:" << sizes[1] << endl;
-  picoffset = (sizes[0]*sizes[1]);
-  for(int i=0;i<picoffset;i++){
-    picdata.push_back(img[i]);
+  cout << "this: " << this << " in mf read" << endl;
+  char buf[4096];
+  int minlength;
+  ifstream ifs(filename.c_str());
+  ifs.getline(buf,sizeof buf);//ascii
+  ifs.getline(buf,sizeof buf);//uc
+  vector<string> * inpv = split(buf," ");
+  int uc,xs,ys,zs;
+  uc = atoi(inpv->at(0).c_str());
+  ifs.getline(buf,sizeof buf);//dims
+  delete inpv; inpv = split(buf," ");
+  xs = atoi(inpv->at(0).c_str());
+  ys = atoi(inpv->at(1).c_str());
+  zs = atoi(inpv->at(2).c_str());
+
+  ifs.getline(buf,sizeof buf);//resolution
+  delete inpv; inpv = split(buf," ");
+
+  minlength = (xs<ys) ? xs : ys;
+  minlength = (minlength<zs) ? minlength : zs;
+  cout << "xs: " << xs << " ys: " << ys << " zs: " << xs << endl;
+  delete inpv;
+  double * model;
+  model = (double*)calloc(xs*ys,sizeof(double));
+  sizes[0] = xs;
+  sizes[1] = ys;
+  int v = 0;
+  for(unsigned x=0;x<xs;x++){
+    ifs.getline(buf,sizeof buf);
+//     cout << "buf("<<x<<"): " << buf << endl;
+    inpv = split(buf," ");
+    for(unsigned y=0;y<ys;y++){
+      v = atoi(inpv->at(y).c_str());
+      
+      if(v == 3)
+	model[(x*xs)+y] = 1;
+      else
+	model[(x*xs)+y] = 0;
+      
+    }
   }
-  write_image_coords ( "data/test.tiff" , img , sizes[0] , sizes[1] );
+  cout << "done ! " << endl;
+  delete inpv;
+
+
+  picoffset = xs*ys;
+  for(int i=0;i<picoffset;i++){
+    picdata.push_back(model[i]);
+  }
 }
 void PictureEvaluator::readimg(std::string filename)
 {
