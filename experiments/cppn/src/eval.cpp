@@ -17,8 +17,7 @@ extern "C" {
       cerr << "wrong arguments to eye eval should be: \"cppnpicture <picturefile>\"" << endl;
   }
 }
-
-PictureEvaluator::PictureEvaluator(std::string filename)
+void PictureEvaluator::readdata(std::string filename)
 {
   double * img;
   sizes = new int [2];
@@ -29,7 +28,25 @@ PictureEvaluator::PictureEvaluator(std::string filename)
     picdata.push_back(img[i]);
   }
   write_image_coords ( "data/test.tiff" , img , sizes[0] , sizes[1] );
-
+}
+void PictureEvaluator::readimg(std::string filename)
+{
+  double * img;
+  sizes = new int [2];
+  cout << "readimg: " << read_image(img,filename.c_str(),sizes) <<endl;
+  cout<<"sizes[0]: " << sizes[0] << " sizes[1]:" << sizes[1] << endl;
+  picoffset = (sizes[0]*sizes[1]);
+  for(int i=0;i<picoffset;i++){
+    picdata.push_back(img[i]);
+  }
+  write_image_coords ( "data/test.tiff" , img , sizes[0] , sizes[1] );
+}
+PictureEvaluator::PictureEvaluator(std::string filename, bool img)
+{
+  if(img)
+    readimg(filename);
+  else
+    readdata(filename);
 }
 double PictureEvaluator::f(Phenotype *f)
 {
