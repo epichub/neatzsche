@@ -1,7 +1,7 @@
 #include <tiffio.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <iostream>
 #include "image.h"
 
 
@@ -79,7 +79,7 @@ int
 read_image ( double *& image , const char * name, int * sizes)
 {
   int result = 0;
-
+  std::cout << "opening: " << name << std::endl;
   TIFF* tif = TIFFOpen( name, "r");
   if ( tif )
     {
@@ -112,8 +112,10 @@ read_image ( double *& image , const char * name, int * sizes)
 	{
 	  for ( int x=0; x<rows; x++ ){
 	    for ( int y=0; y<cols; y++ ){
+	      std::cout << (double)raster[x][y] / (double)255;
 	      image[(x*cols)+y] = raster[x][y] / (double)255;
 	    }
+	    std::cout << std::endl;
 	  }
 	}
     }

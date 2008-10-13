@@ -204,7 +204,8 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
   unsigned int mc = (unsigned int)((double)nom*mr);
   if(comm!=NULL){
     cerr << "running for " << generations << " generations over " << runs << " runs " << endl;
-    cerr << "running " << mc << " evals on master and " <<  (pop->getMembers()->size()-mc)/nodes << " on the each of the slaves." << endl;
+    cerr << "running " << mc << " evals on master and " 
+	 <<  (pop->getMembers()->size()-mc)/nodes << " on the each of the slaves." << endl;
   }else
     cout << "running locally" << endl;
   //the running loop itself
@@ -235,7 +236,6 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
   iss << " seed: " << rands;
   run->infoline = iss.str();
   addToAllSignals(runfilesignalhandler);//spesific to cluterrunning
-
   //starting the loop
   run->runLoop();
   delete run;

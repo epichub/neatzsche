@@ -8,16 +8,16 @@ extern "C" {
     vector<string> * sv = split(str," ");
     if(sv->at(0).find("cppnpicture")!=string::npos) {
       if(sv->size()!=3){
-	cerr << "wrong arguments to eye eval should be: \"cppnpicture <picturefile> <pic(0) or data(1)>\"" << endl;
+	cerr << "wrong arguments to eye eval should be: \"cppnpicture <picturefile> <pic(1) or data(0)>\"" << endl;
 	exit(1);
       }
-      bool img = atoi(sv->at(1).c_str()) == 1;
+      bool img = atoi(sv->at(2).c_str()) == 1;
 
       ret = new PictureEvaluator(sv->at(1),img);
 
       return ret;
     }else
-      cerr << "wrong arguments to eye eval should be: \"cppnpicture <picturefile> <pic(0) or data(1)>\"" << endl;
+      cerr << "wrong arguments to eye eval should be: \"cppnpicture <picturefile> <pic(1) or data(0)>\"" << endl;
   }
 }
 void PictureEvaluator::readdata(std::string filename)
@@ -84,7 +84,7 @@ void PictureEvaluator::readimg(std::string filename)
   for(int i=0;i<picoffset;i++){
     picdata.push_back(img[i]);
   }
-  write_image_coords ( "data/test.tiff" , img , sizes[0] , sizes[1] );
+//   write_image_coords ( "data/test.tiff" , img , sizes[0] , sizes[1] );
 }
 PictureEvaluator::PictureEvaluator(std::string filename, bool img)
 {
@@ -103,13 +103,13 @@ double PictureEvaluator::f(Phenotype *f)
   int ymax = sizes[1];
   for(int x=0;x<xmax;x++){
     for(int y=0;y<ymax;y++){
-      inp.at(0) = (double)x/(double)xmax;
-      inp.at(1) = (double)y/(double)ymax;
-      inp.at(2) = sqrt(pow(((double)x)-((double)xmax),2));
+      inp.at(0) = ((double)x/(double)xmax)-0.5;
+      inp.at(1) = ((double)y/(double)ymax)-0.5;
+      inp.at(2) = (sqrt(pow(((double)x)-((double)xmax),2)))-0.5;
       reaction = f->react(inp);
-      if(reaction.at(0) > 1.0) reaction.at(0) = .9999;
+      if(reaction.at(0) > 0.0) reaction.at(0) = .9999;
       else if(reaction.at(0) < 0) reaction.at(0) = 0;
-      wrong += sqrt(pow(picdata.at((ymax*x)+y)-reaction.at(0),2));
+      wrong += sqrt(pow(picdata.at((ymax*x)+y)-(reaction.at(0)),2));
     }
   }
   double fi = (double)(picoffset-wrong+1)/((double)picoffset);
@@ -120,15 +120,20 @@ double PictureEvaluator::f(Phenotype *f)
 void PictureEvaluator::runTest(Phenotype * f)
 {
   double * oimg = (double*)calloc(sizes[0]*sizes[1],sizeof(double));
-  vector<double> inp;inp.push_back(0);inp.push_back(0);// inp.push_back(0);
+  vector<double> reaction;
+  vector<double> inp;inp.push_back(0);inp.push_back(0); inp.push_back(0);
   int xmax = sizes[0];
   int ymax = sizes[1];
   for(int x=0;x<sizes[0];x++){
     for(int y=0;y<sizes[1];y++){
-      inp.at(0) = (double)x/(double)xmax;
-      inp.at(1) = (double)y/(double)ymax;
+      inp.at(0) = ((double)x/(double)xmax)-0.5;
+      inp.at(1) = ((double)y/(double)ymax)-0.5;
+      inp.at(2) = (sqrt(pow(((double)x)-((double)xmax),2)))-0.5;
       //       inp.at(2) = sqrt((x-(xmax/2))^2 + (y-(ymax/2))^2);
-      oimg[(x*sizes[1])+y] = f->react(inp).at(0);
+      reaction = f->react(inp);
+      if(reaction.at(0) > 0.0) reaction.at(0) = 1;
+      else if(reaction.at(0) < 0) reaction.at(0) = 0;
+      oimg[(x*sizes[1])+y] = reaction[0];
     }
   }
   write_image_coords ( "out.tiff" , oimg , sizes[0] , sizes[1] );
