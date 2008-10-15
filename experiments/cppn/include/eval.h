@@ -12,7 +12,7 @@ private:
   int * sizes;
 public:
   PictureEvaluator(std::string filename, bool img);
-  virtual ~PictureEvaluator(){};
+  virtual ~PictureEvaluator(){delete[] sizes;};
   virtual double f(Phenotype * f);
   virtual string show(Phenotype *f){runTest(f); return "printing to tif..";}
   void readimg(std::string filename);

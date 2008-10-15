@@ -14,10 +14,13 @@ extern "C" {
       bool img = atoi(sv->at(2).c_str()) == 1;
 
       ret = new PictureEvaluator(sv->at(1),img);
-
+      delete sv;
       return ret;
-    }else
+    }else{
       cerr << "wrong arguments to eye eval should be: \"cppnpicture <picturefile> <pic(1) or data(0)>\"" << endl;
+      delete sv;
+      return NULL;
+    }
   }
 }
 void PictureEvaluator::readdata(std::string filename)
