@@ -110,11 +110,13 @@ double PictureEvaluator::f(Phenotype *f)
       inp.at(1) = ((double)y/(double)ymax)-0.5;
       inp.at(2) = (sqrt(pow(((double)x)-((double)xmax),2)))-0.5;
       reaction = f->react(inp);
+      wrong += sqrt(pow(picdata.at((ymax*x)+y)-(reaction.at(0)),2));
       if(reaction.at(0) > 0.0) reaction.at(0) = .9999;
       else if(reaction.at(0) < 0) reaction.at(0) = 0;
-      wrong += sqrt(pow(picdata.at((ymax*x)+y)-(reaction.at(0)),2));
+
     }
   }
+//   wrong *= 2;
   double fi = (double)(picoffset-wrong+1)/((double)picoffset);
   f->setFitness(fi);
 
@@ -127,6 +129,8 @@ void PictureEvaluator::runTest(Phenotype * f)
   vector<double> inp;inp.push_back(0);inp.push_back(0); inp.push_back(0);
   int xmax = sizes[0];
   int ymax = sizes[1];
+  double wrong=0;
+
   for(int x=0;x<sizes[0];x++){
     for(int y=0;y<sizes[1];y++){
       inp.at(0) = ((double)x/(double)xmax)-0.5;
@@ -134,12 +138,17 @@ void PictureEvaluator::runTest(Phenotype * f)
       inp.at(2) = (sqrt(pow(((double)x)-((double)xmax),2)))-0.5;
       //       inp.at(2) = sqrt((x-(xmax/2))^2 + (y-(ymax/2))^2);
       reaction = f->react(inp);
+      wrong += sqrt(pow(picdata.at((ymax*x)+y)-(reaction.at(0)),2));
       if(reaction.at(0) > 0.0) reaction.at(0) = 1;
       else if(reaction.at(0) < 0) reaction.at(0) = 0;
       oimg[(x*sizes[1])+y] = reaction[0];
+
     }
   }
+    cout << "printing to out.tiff .. xmax: "<<xmax << " ymax: "<<xmax
+	 << " wrong: " << wrong << endl;
   write_image_coords ( "out.tiff" , oimg , sizes[0] , sizes[1] );
+  delete[] oimg;
 }
 double PictureEvaluator::f2(Phenotype *f)
 {

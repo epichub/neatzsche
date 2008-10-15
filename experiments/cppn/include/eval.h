@@ -14,7 +14,7 @@ public:
   PictureEvaluator(std::string filename, bool img);
   virtual ~PictureEvaluator(){delete[] sizes;};
   virtual double f(Phenotype * f);
-  virtual string show(Phenotype *f){runTest(f); return "printing to tif..";}
+  virtual string show(Phenotype *f){runTest(f); return "";}
   void readimg(std::string filename);
   void readdata(std::string filename);
   double f2(Phenotype * f);
