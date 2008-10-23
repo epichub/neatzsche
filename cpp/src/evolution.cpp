@@ -43,10 +43,10 @@ void Population::preepoch()
   if(spectarget!=0&&curgen>1){
     //do stuff to adjust species towards the target..
     if(species->size()<spectarget)
-      comp -= (compmod*(spectarget-species->size()));
+      comp -= compmod;//*(spectarget-species->size()));
       //      set->setValue("compat_threshold",comp-compmod);
     else if(species->size()>spectarget)
-      comp += (compmod*(species->size()-spectarget));
+      comp += compmod;//*(species->size()-spectarget));
 //      set->setValue("compat_threshold",comp+compmod);
       
   }
