@@ -199,6 +199,7 @@ private:
 
   void setvars(){
     spectarget = (int)set->getValue("species_target_size");
+    cout << "setting species_target_size: " << spectarget << endl;
     dropoffage = (int)set->getValue("dropoff_age");
     steal = (int)set->getValue("steal");
     if(ocomp==-1)
@@ -224,7 +225,7 @@ public:
     tfs = itfs;
   }
   ~Population();
-
+  
   unsigned int spectarget;
 
   void resetVars(){

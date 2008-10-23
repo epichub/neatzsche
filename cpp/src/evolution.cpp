@@ -471,12 +471,17 @@ void Population::genesis(Genome * g, int isize, int initialelitism)
 {
   spawn = false;
   size = isize;
-  if(spectarget!=0)
+  if(spectarget!=0){
     spectarget = size/spectarget; //calc the number of species to aim
 				//for from a better metric, the target
 				//species size..
-  else
+    cout << "spectarget not null setting to size("<<size<<")/spectarget("
+	  <<spectarget<<"): " << spectarget << endl;
+  }  else{
+    cout << "spectarget null setting to spectarget " ;
     spectarget = (int)set->getValue("species_target");
+    cout << spectarget << endl;
+  }
   Genome * curg = NULL;
 //   g->setTfs(tfs);
   originalseed = g;
@@ -507,12 +512,17 @@ void Population::randomSpawn(int pops, int i, int o, int n,int nmax, double link
   inodes = i; onodes = o; hnodes = n; lprob = linkprob; rprob = r;
   originalseed = NULL;
   size = pops;
-  if(spectarget!=0)
+  if(spectarget!=0){
     spectarget = size/spectarget; //calc the number of species to aim
 				//for from a better metric, the target
 				//species size..
-  else
+    cout << "spectarget not null setting to size("<<size<<")/spectarget("
+	  <<spectarget<<"): " << spectarget << endl;
+  }  else{
+    cout << "spectarget null setting to spectarget " ;
     spectarget = (int)set->getValue("species_target");
+    cout << spectarget << endl;
+  }
 
   int cid = 1;
   for(int ic=0;ic<pops;ic++){
