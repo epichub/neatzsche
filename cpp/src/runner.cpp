@@ -159,7 +159,8 @@ void NEATRunner::runLoop()
 	 << " bestfitness: "<< best->getFitness()
 	 << " maxfitness: " << pop->getHighestFitness() 
 	 << " curmin: " << pop->getMembers()->at(pop->getMembers()->size()-1)->getFitness()
-	 << " species: " << pop->getSpecies()->size() 
+	 << " species: " << pop->getSpecies()->size()
+	 << " (" << pop->spectarget << ") " 
 	 << " size: " << pop->getMembers()->size() 
 	 << " time: " << tmpt 
 	 << " time/size: " << (double)tmpt/(double)pop->getMembers()->size() << endl;

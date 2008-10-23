@@ -40,9 +40,11 @@ double GoEvaluator::f(Phenotype * f)
   sense = g->getSensoryInput(first);
 //   cerr << "sense size:" << sense.size() << endl;
   //    int tmpputs=0;
+  int aicount=0;
   while(!g->done()){
     //     tmpputs = g->getPuts();
     if(c){
+      aicount++;
       while(!g->doThis(first,c->react(sense))){
 	// 	if(g->shoulda&&tmpputs==g->getPuts())//should have put but didnt
 	// 	  exit(0);
@@ -71,22 +73,24 @@ double GoEvaluator::f(Phenotype * f)
   ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
   stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
 
-  if(g->getPuts()==0)
-    ftmp -= 0.1;
-  else
-    ftmp += .15 * g->getPuts();
+//   if(g->getPuts()==0)
+//     ftmp -= 0.1;
+//   else
+//     ftmp += .15 * g->getPuts();
+  ftmp = fsum+g->score(true))/aicount;
+  stmp = ssum+g->score(false))/aicount;
 
   if(ftmp < fmin)
     fmin = ftmp;
   if(ftmp > fmax)
     fmax = ftmp;
   //   ftmp = 100-g->score();
-  ftmp = g->score(true);
+  //  ftmp = g->score(true);
 
-  if(g->getPuts()==0)
-    ftmp -= 0.1;
-  else
-    ftmp += .15 * g->getPuts();
+//   if(g->getPuts()==0)
+//     ftmp -= 0.1;
+//   else
+//     ftmp += .15 * g->getPuts();
 
   if(ftmp<=0)
     ftmp = 0.0001;
@@ -354,12 +358,12 @@ FitnessEvaluator *maker(char * str){
   FitnessEvaluator * ret;
   vector<string> * sv = split(str," ");
   if(sv->at(0).find("go")!=string::npos){
-    if(sv->size()!=9){
-      cerr << "wrong number of arguments to go evalator setup method; <puregenerations> <gnugo-coevo-ratio> <coevo games> <easygo 0/1> <caching 0/1> <cachesize> <cache queue size> <resignation allowed 0/1>" << endl;
+    if(sv->size()!=10){
+      cerr << "wrong number of arguments to go evalator setup method; \"go <puregenerations> <gnugo-coevo-ratio> <coevo games> <easygo 0/1> <caching 0/1> <cachesize> <cache queue size> <resignation allowed 0/1> <gnugo configfile>\"" << endl;
       exit(1);
     }
     NEATsettings * set = new NEATsettings();
-    ifstream ifs("settings/settings-gnugo",ios::in);
+    ifstream ifs(sv->at(9).c_str(),ios::in);
     ifs >> set;
     ifs.close();
     int size = (int)set->getValue("size");
@@ -406,8 +410,12 @@ FitnessEvaluator *maker(char * str){
 //     for(int i=0;i<gnugogames;i++){
 //       ((Halloffame*)coevo)->addPermantent(NULL);//adding NULL as permanent member, defaults to gnugo in this fitness 
 //     }
-  }else
-      cerr << "wrong number of arguments to go evalator setup method; <puregenerations> <gnugo-coevo-ratio> <coevo games> <caching 0/1> <cachesize> <cache queue size> <resignation allowed 0/1>" << endl;
+    delete sv;
+    return ret;
+  }else{
+      cerr << "wrong number of arguments to go evalator setup method; \"go <puregenerations> <gnugo-coevo-ratio> <coevo games> <easygo 0/1> <caching 0/1> <cachesize> <cache queue size> <resignation allowed 0/1> <gnugo configfile>\"" << endl;
+      delete sv;
+  }
   return ret;
 }
 // class proxy { public:
