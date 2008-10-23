@@ -11,7 +11,7 @@ void GoEvaluator::nextGen()
 }
 double GoEvaluator::f(Phenotype * f)
 {
-//   cout << "in evaluator.." << endl;
+//   cout << endl << "evaluating: " << f->getID() << endl << endl;
   bool secondnull = false;
   if(st==1&&last==NULL){
     last = f;
@@ -52,16 +52,17 @@ double GoEvaluator::f(Phenotype * f)
 
       }
       g->resetRound(c);
+      if(moves<g->getPuts()){
+	moves=g->getPuts();
+	fsum += g->score(true);
+	ssum += g->score(false);
+      }
     }else{
 //       cout << "kjører genmove.." << endl;
       g->gw_genmove(first);
     }
 
-    if(moves<g->getPuts()){
-      moves=g->getPuts();
-      fsum += g->score(true);
-      ssum += g->score(false);
-    }
+
     first = !first;
     c = players[++count%2];
   }
@@ -70,15 +71,15 @@ double GoEvaluator::f(Phenotype * f)
   updateStats();
 //   ftmp = g->score(true);
 //   stmp = g->score(false);
-  ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
-  stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
+//   ftmp = ((2.0*fsum)+g->score(true))/((2*moves)+1);
+//   stmp = ((2.0*ssum)+g->score(false))/((2*moves)+1);
 
 //   if(g->getPuts()==0)
 //     ftmp -= 0.1;
 //   else
 //     ftmp += .15 * g->getPuts();
-  ftmp = fsum+g->score(true))/aicount;
-  stmp = ssum+g->score(false))/aicount;
+  ftmp = (fsum+g->score(true))/(aicount+1);
+  stmp = (ssum+g->score(false))/(aicount+1);
 
   if(ftmp < fmin)
     fmin = ftmp;
@@ -303,11 +304,11 @@ string GoEvaluator::show(Phenotype * f)
   stringstream ss;
   bool secondnull = false;
   if(st==1&&last==NULL){
-    last = f;
+    last = f;cout << "setter last til f.. " << endl;
     return 0;
   }else if(st==1&&last!=NULL&&f==NULL){
-    secondnull = true;
-  }
+    secondnull = true; cout << "setter second null til true" << endl;
+  } else cout << "secondnull ikke false st: " << st << endl;
 
   g->reset();
 
@@ -323,23 +324,28 @@ string GoEvaluator::show(Phenotype * f)
   if(st==1&&!secondnull){ players[0] = f; players[1] = last;}
   if(secondnull) { players[0] = last; players[1] = NULL;}
   else { players[0] = f; players[1] = NULL;}
+  cout << "players[1] = " << players[1] << endl;
   c = players[0];
   count=0; first = true;
   sense = g->getSensoryInput(first);
-
+  int count = 0;
+  int movecounter = 0;
   while(!g->done()){
+    cout << "count%2:" << count%2 << " c: " << c << " count: " << count <<  endl;
     if(c){
+      cout << "doing ai" << endl;
       while(!g->doThis(first,c->react(sense))){
 	sense = g->getSensoryInput(first);
       }
       g->resetRound(c);
     }else{
+      cout << "doing gnugo" << endl;
       g->gw_genmove(first);
     }
-
+    movecounter++;
     if(moves<g->getMoves()){
       moves=g->getMoves();
-
+      ss << "move number: " << movecounter << endl;
       ss << g->getLocalBoardAscii();
     }
     first = !first;

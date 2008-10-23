@@ -51,7 +51,7 @@ namespace gw {
     //dothis tmpvars:
     bool forward,back,west,east;
     bool moving;
-    bool turned;
+    int turned;
     int* heading;
     int ind;
     double domax;

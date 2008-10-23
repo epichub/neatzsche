@@ -173,6 +173,8 @@ namespace gw{
       else if((*look)[2*i]==1&&(*look)[(2*i)+1]==0)
 	r[1]++;
     }
+    r[0] /= eyesize*eyesize;
+    r[1] /= eyesize*eyesize;
     return r;
   }
   void inputIt(bool first, vector<double> & ret, int * t){
@@ -236,16 +238,16 @@ namespace gw{
     sensoryret = vector<double>();
     if(first){
       for(unsigned int i=0;i<(*oslook).size();i++)
-	sensoryret.push_back((*oslook)[i]);
+	sensoryret.push_back((*oslook)[i]-0.5);
     }else{//we need to give the network the same kind of inputs when
       //doing coevo and playing white..that way it doesnt need to
       //learn the "concept" of having the pieces it used to play
       //itself, as enemy pieces, the concepts should be ['mine','other'] :)
       for(unsigned int i=0;i<(*oslook).size();i+=2){
 	if((*oslook)[i]==1&&(*oslook)[i+1]==1){//outside board, shouldnt change
-	  sensoryret.push_back((*oslook)[i]);sensoryret.push_back((*oslook)[i+1]);
+	  sensoryret.push_back((*oslook)[i]-0.5);sensoryret.push_back((*oslook)[i+1]-0.5);
 	}else{//a piece, just reverse
-	  sensoryret.push_back(!(*oslook)[i]);sensoryret.push_back(!(*oslook)[i+1]);
+	  sensoryret.push_back(-((*oslook)[i]-0.5));sensoryret.push_back(-((*oslook)[i+1]-0.5));
 	}
       }
     }
@@ -255,7 +257,7 @@ namespace gw{
     //am on a bus heading home for christmas! :D
     //...and also, dunno this syntax, need web :p
     for(unsigned int i=0;i<lrange.size();i++)
-      sensoryret.push_back(lrange.at(i));
+      sensoryret.push_back(lrange.at(i)-0.5);
     sensoryret.push_back((double)pos[0]/(double)(bsize-1));
     sensoryret.push_back((double)pos[1]/(double)(bsize-1));
     sensoryret.push_back(legalmove);
@@ -319,21 +321,19 @@ namespace gw{
     
 
     //recording highest fire of put node for default move.
-    if(inp.at(3)>pfire){
-      ppos[0] = getpos(first)[0];
-      ppos[1] = getpos(first)[1];
-      pfire = inp.at(3);
-    }
+//     if(inp.at(3)>pfire){
+//       ppos[0] = getpos(first)[0];
+//       ppos[1] = getpos(first)[1];
+//       pfire = inp.at(3);
+//     }
 
-    if(inp.at(1)>0.5){//turn left
-      turnleft(first);
-      turned = true;
-    }else if(inp.at(2)>0.5){//right..
-      turnright(first);
-      turned = true;
+    if(inp.at(1)>pfire){//turn left
+      turned = 1;
+    }else if(inp.at(2)>pfire){//right..
+      turned = 2;
     } 
     heading = getHeading(first);
-    if(inp.at(0)>0.5){//forward..
+    if(inp.at(0)>pfire){//forward..
       moving = true;
       if(*heading == 0)
 	forward = true;
@@ -394,6 +394,12 @@ namespace gw{
 	left(first);
       if(east)
 	right(first);
+      if(turned!=0){
+	if(turned==2)
+	  turnright(first);
+	else
+	  turnleft(first);
+      }
       return false;
     }
     return true;
@@ -421,15 +427,15 @@ namespace gw{
     forward=back=west=east=false;
     bool moving = false;
     bool turned = false;
-    if(inp.at(1)>0.5){//turn left
+    if(inp.at(1)>pfire){//turn left
       cerr << "turning left" << endl;
       turned = true;
-    }else if(inp.at(2)>0.5){//right..
+    }else if(inp.at(2)>pfire){//right..
       cerr << "turning right" << endl;
       turned = true;
     } 
     int *heading = getHeading(first);
-    if(inp.at(0)>0.5){//forward..
+    if(inp.at(0)>pfire){//forward..
       cerr << "relative forward" << endl;
       moving = true;
       if(*heading == 0)
@@ -446,7 +452,7 @@ namespace gw{
     if(!moving&&!turned){
       int ind = 5;
       int n = 5;
-      double max=0.5;
+      double max=0;
       for(int i=3;i<n;i++){
 	if(inp.at(i)>max){
 	  ind = i;
@@ -527,7 +533,10 @@ namespace gw{
 		       double ikomi, int ilvl, int ieyesize, int tsteps, int mem)
   {
 
-    resignallowed = true;
+    resignallowed = false;
+    gg::resign_allowed = 0;
+    //     if(re
+//   gg:
     dbg = false;
     fheading = new int; sheading = new int;
     *fheading = 0; *sheading=0;
@@ -545,7 +554,7 @@ namespace gw{
 
     eyesetsize = (int)pow(eyesize,2)*2;
     ind = 5;
-    domax = 0.5;
+    domax = 0;
     sqd = (int)floor(eyesize/2);
     pfire = 0; ppos[0] = 0; ppos[1] = 0;
     sp = isp;
@@ -580,6 +589,7 @@ namespace gw{
   {
     int to_move = first+1;
     int i,j;
+    cout << "gwgenmove!" << endl;
 #ifdef GGSTABLE
     int move = gg::genmove(&i, &j, to_move);
     int board_size = gg::board_size;
@@ -590,8 +600,8 @@ namespace gw{
 	     << " ONBOARD2: " << ON_BOARD2(i, j) << endl;
       return;
     }
-//     cerr << "genmove found moves..  move: " << move 
-// 	 << " ONBOARD2: " << ON_BOARD2(i, j) << endl;
+    cerr << "genmove found moves..  move: " << move 
+	 << " ONBOARD2: " << ON_BOARD2(i, j) << endl;
     gg::play_move(move, to_move);
 #endif
 
@@ -602,7 +612,7 @@ namespace gw{
     int board_size = gg::board_size;
     if(resignallowed && resign ){
       setPass(first);
-      if(dbg)
+//       if(dbg)
 	cerr << "genmove didnt find any moves..  move: " << move 
 	     << " ONBOARD2: " << ON_BOARD2(i, j) << endl;
       return;
@@ -785,6 +795,7 @@ namespace gw{
   }
   void CachingGoWrapper::gw_genmove(bool first)
   {
+//     cout << "i genmove" << endl;
     int to_move = first+1;
     StateChange * ss = scs->get(gwboard);//check for cached move
     state oldboard = gwboard;
@@ -792,18 +803,23 @@ namespace gw{
     if(ss==NULL){//nothing found in cache, generating move
 #ifdef GGSTABLE
       int i,j;
-      int move = gg::genmove(&i, &j, to_move);
+      int move = gg::gnugo_genmove(&i, &j, to_move);
       int board_size = gg::board_size;
       bool resign = resignallowed && ( move < 0.0 && ON_BOARD2(i,j) ); //check for resign..
-//       cerr << "move: " << move << " i: " << " j: " << j 
+//       cerr << "move: " << move << " i: " << i << " j: " << j 
 // 	   << " ON_BOARD2(i,j): " << ON_BOARD2(i,j)
-// 	   << " resign: " << resign << endl;
+// 	   << " resign: " << resign << " resign allowed: " << gg::resign_allowed ;
+
       if(resign || !ON_BOARD2(i,j)){ //and other illegal moves
 	setPass(first);
+// 	cout << " not legit" << endl;
+// 	cout << getLocalBoardAscii();
 	return;
       }else{//move is legit
 	gg::gnugo_play_move(i,j, to_move);//play the move
 	updateFromGnuGo();//get the board back from gnugo
+// 	cout << " legit! " << endl;
+// 	cout << getLocalBoardAscii();
 	if(gg::is_pass(move))
 	  setPass(first);
 	else{
@@ -846,6 +862,7 @@ namespace gw{
 //       cerr << "found cache move: " << move << " i: " << i << " j: " << j << endl;
       gg::play_move(move, to_move);//play move
       gwboard = ss->getTo();//set the local repr to the cached move
+//       cout << "cached move: " << getLocalBoardAscii();
     }
 //     cerr << "genmove cache moves++" << endl;
     moves++;
