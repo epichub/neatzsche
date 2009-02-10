@@ -56,11 +56,11 @@ if(QT4_FOUND)
   SET(QT_MOC_SRCS include/paintwindow.h include/lightsim-viewer.h)
   INCLUDE(${QT_USE_FILE})
   QT4_WRAP_CPP(QT_MOC_SRCS ${QT_MOC_SRCS})
-  ADD_EXECUTABLE(lightsim-viewer src/lightsim-viewer.cpp ${EYE_QT} ${QT_MOC_SRCS})
+  ADD_EXECUTABLE(lightsim-viewer src/lightsim-viewer.cpp ${EYE_QT} ${QT_MOC_SRCS} ${FITNESS_SOURCES})
 
 #   ADD_EXECUTABLE(lightsim-test src/lightsim-test.cpp ${EYE_QT})
   
-  TARGET_LINK_LIBRARIES(lightsim-viewer ${NEATZSCHE_LIBRARY} ${QT_LIBRARIES} eyefitness)
+  TARGET_LINK_LIBRARIES(lightsim-viewer ${NEATZSCHE_LIBRARY} ${QT_LIBRARIES})
   INSTALL(TARGETS lightsim-viewer
     RUNTIME DESTINATION bin)
 elseif(QT4_FOUND)

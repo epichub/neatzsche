@@ -198,10 +198,10 @@ public:
   void deleteArray(int x,int ** arr);
 };
 
-inline double randdouble()
-{
+inline double randdouble(){
   return (double)rand()/(double)RAND_MAX;
 }
+
 
 inline int randsign()
 {

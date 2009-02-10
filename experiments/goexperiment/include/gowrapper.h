@@ -251,7 +251,8 @@ namespace gw {
     int hit;
     int miss;
   public:
-    CachingGoWrapper(int bs, bool isp, double iovalue, double komi, int lvl, int ieyesize, int tsteps, int mem, int states, int queue) ;
+    CachingGoWrapper(int bs, bool isp, double iovalue, double komi, 
+		     int lvl, int ieyesize, int tsteps, int mem, int states, int queue) ;
     ~CachingGoWrapper(){delete scs;}
     virtual void gw_genmove(bool first);
     string printHitMiss(){stringstream ss; ss << "hit: " << hit << " miss: " << miss << " ratio: " << ((double)hit/(double)miss) << endl; return ss.str();}

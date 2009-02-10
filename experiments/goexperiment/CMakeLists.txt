@@ -146,8 +146,21 @@ ADD_DEFINITIONS(-DGGSTABLE)
 ADD_LIBRARY(gofitness SHARED ${FITNESS_SOURCES})
 INSTALL(TARGETS gofitness
   LIBRARY DESTINATION lib)
-TARGET_LINK_LIBRARIES(gofitness patterns engine board utils sgf ncurses ${NEATZSCHE_LIBRARY})
 SET_TARGET_PROPERTIES(gofitness PROPERTIES LINK_FLAGS "-dynamic -Wl -dylib -lm")
+
+ADD_EXECUTABLE(playgogame src/playgame.cpp ${FITNESS_SOURCES})
+TARGET_LINK_LIBRARIES(playgogame ${NEATZSCHE_LIBRARY} patterns engine board utils sgf ncurses ${NEATZSCHE_LIBRARY})
+INSTALL(TARGETS playgogame
+  RUNTIME DESTINATION bin)
+
+
+ADD_EXECUTABLE(playtwoplayergogame src/playtwoplayergame.cpp ${FITNESS_SOURCES})
+TARGET_LINK_LIBRARIES(playtwoplayergogame ${NEATZSCHE_LIBRARY} patterns engine board utils sgf ncurses ${NEATZSCHE_LIBRARY})
+INSTALL(TARGETS playtwoplayergogame
+  RUNTIME DESTINATION bin)
+
+TARGET_LINK_LIBRARIES(gofitness patterns engine board utils sgf ncurses ${NEATZSCHE_LIBRARY})
+
 
 
 

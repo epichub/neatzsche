@@ -26,15 +26,15 @@
 #include "settings.h"
 #include "evolution.h"
 #include "evoops.h"
-#include "dataset.h"
 #include <sstream>
 #include "iface.h"
 #include "gowrapper.h"
-
+#include "eval.h"
+using namespace gw;
 int main(int argc,char *args[]){
-  int n = 4;
+  int n = 6;
   if(argc!=n){
-    cerr << "wrong number for arguments("<<argc<<")" << endl;
+    cerr << "wrong number for arguments("<<argc<<"): seed settings gnugo-settings genome1 genome2 " << endl;
     playgameUsage(args[0]);
     exit(1);
   }
@@ -48,21 +48,30 @@ int main(int argc,char *args[]){
     srand(rands);
     cout << "ny seed: " << rands << endl;
   }
-  cerr << "reading from genome: " << args[2] << endl;
-  Genome * g = new Genome();
-  ifstream ifs(args[2],ios::in);
+  cerr << "reading from genome: " << args[5] << endl;
+
+  NEATsettings * nset = new NEATsettings();
+  ifstream nifs(args[2],ios::in);
+  nifs >> nset;
+  nifs.close();
+
+  TransferFunctions * tfs = new TransferFunctions(nset);
+
+  Genome * g = new Genome(tfs);
+  ifstream ifs(args[4],ios::in);
   ifs>>g;
   ifs.close(); 
 
-  Genome * g2 = new Genome();
-  ifstream ifs2(args[3],ios::in);
+  Genome * g2 = new Genome(tfs);
+  ifstream ifs2(args[5],ios::in);
   ifs2>>g2;
   ifs2.close();
 
   NEATsettings * set = new NEATsettings();
-  ifstream goifs("settings/settings-gnugo",ios::in);
+  ifstream goifs(args[3],ios::in);
   goifs >> set;
   goifs.close();
+
   int size = (int)set->getValue("size");
   double outsidev = set->getValue("outsidevalue");
   double komi = set->getValue("komi");
@@ -71,15 +80,17 @@ int main(int argc,char *args[]){
   int maxlooksteps = (int)set->getValue("maxlooksteps");
   int csize = 500;
   int cqsize = 500;
+  //(int&, bool, double&, double&, int&, int&, int&, int&, int&)
+  //(int,  bool, double,  double,  int,  int,  int,  int,  int, int)
   GoWrapper * gw = new CachingGoWrapper(size,true,outsidev,
-					komi,level,eyesize,maxlooksteps,
+					komi,level,eyesize,maxlooksteps,20,
 					csize,cqsize);
-  GoEvaluator * fe = new GoEvaluator(gw,1,1,1);
+  GoEvaluator * fe = new GoEvaluator(gw,1,1,1,set);
   Phenotype * p = new Phenotype(g);
   Phenotype * p2 = new Phenotype(g2);
   cerr << "game:" << endl;
-  fe->getGame(p);
-  cerr << fe->getGame(p2);
+  fe->show(p);
+  cerr << fe->show(p2);
   fe->f(p); fe->f(p2);
   cerr << "fitness 1:" << p->getFitness() << " fitness 2: " << p2->getFitness() << endl;
   delete fe;

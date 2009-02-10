@@ -7,16 +7,14 @@
 #include "settings.h"
 #include "evolution.h"
 #include "evoops.h"
-#include "dataset.h"
 #include <sstream>
 #include "iface.h"
 #include "gowrapper.h"
-
+#include "eval.h"
 int main(int argc,char *args[]){
-  int n = 4;
+  int n = 6;
   if(argc!=n){
-    cout << "wrong number for arguments("<<argc<<")" << endl;
-    playgameUsage(args[0]);
+    cout << "wrong number for arguments("<<argc<<"): seed neatsettings gnugosettings genome easymode" << endl;
     exit(1);
   }
 
@@ -29,22 +27,22 @@ int main(int argc,char *args[]){
     srand(rands);
     cout << "ny seed: " << rands << endl;
   }
-  cout << "reading from genome: " << args[2] << endl;
+  cout << "reading from genome: " << args[4] << endl;
   
   NEATsettings * goset = new NEATsettings();
-  ifstream goifs("settings/settings-gnugo",ios::in);
+  ifstream goifs(args[3],ios::in);
   goifs >> goset;
   goifs.close();
   NEATsettings * set = new NEATsettings();
-  ifstream sifs("settings/settings-go",ios::in);
+  ifstream sifs(args[2],ios::in);
   sifs >> set;
   sifs.close();
   TransferFunctions * tfs = new TransferFunctions(set);
   Genome * g = new Genome(tfs);
-  ifstream ifs(args[2],ios::in);
+  ifstream ifs(args[4],ios::in);
   ifs>>g;
   ifs.close();
-  bool easy = atoi(args[3]) == 1;
+  bool easy = atoi(args[5]) == 1;
   cout << "easy: " << easy << " args3: " << args[3] << endl;
   int size = (int)goset->getValue("size");
   double outsidev = goset->getValue("outsidevalue");
