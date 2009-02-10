@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ "`pwd`" != "$HOME/devel/prog/hf" ]; then
+    echo 'This script only works in $HOME/prog/hf.'
+    echo "Edit if copied to another directory or run from another directory."
+    echo "Note that this script is superfluous if autotools are used, as a tags rule will replace its functionality."
+else    
+    etags --c++ `find $HOME/devel/prog/hf \( -iname *.c -or -iname *.cpp -or -iname *.cxx -or -iname *.h -or -name Makefile \) -not -iname *togl* -not -iname *tk*.h`
+    if [ -z "`grep TAGS ./.cvsignore`" ]; then
+	echo "TAGS" >>./.cvsignore;
+    fi
+
+    for dir in `find . -type d -mindepth 1 -not -iname cvs -not -name .deps -not -name autom4te.cache`; do 
+	basetag=`pwd`/TAGS
+	ln -svf $basetag $dir
+	if [ -z "`grep TAGS $dir/.cvsignore`" ]; then
+	    echo "TAGS" >>$dir/.cvsignore;
+	fi
+    done
+fi

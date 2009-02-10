@@ -1,0 +1,395 @@
+kode:
+=====================================================
+vof=0;
+print id: .. vof foer update: ...
+for(..)
+  vof = links->at(0)->getOther()
+=====================================================
+
+updating from node 2  with func: ta  with inputLinks: 3
+link 2->31 = 1.5828 * 0 = 0 vfo: 0  i: 0
+updating from node 3  with func: ta  with inputLinks: 3
+link 3->31 = 3.25705 * 0 = 0 vfo: 0  i: 0
+updating from node 5  with func: ta  with inputLinks: 2
+link 5->31 = -1.66605 * 0 = -0 vfo: 0  i: 0
+updating from node 7  with func: ta  with inputLinks: 2
+link 7->31 = -7.03936 * 0 = -0 vfo: 0  i: 0
+updating from node 9  with func: ta  with inputLinks: 4
+link 9->31 = 9.11009 * 0 = 0 vfo: 0  i: 0
+updating from node 10  with func: ta  with inputLinks: 3
+link 10->31 = -1.75651 * 0 = -0 vfo: 0  i: 0
+updating from node 11  with func: ta  with inputLinks: 1
+link 11->31 = 8.73762 * 0 = 0 vfo: 0  i: 0
+updating from node 13  with func: ta  with inputLinks: 4
+link 13->31 = 7.03411 * 0 = 0 vfo: 0  i: 0
+updating from node 15  with func: ta  with inputLinks: 2
+link 15->31 = 2.65277 * 0 = 0 vfo: 0  i: 0
+updating from node 18  with func: ta  with inputLinks: 1
+link 18->31 = 8.16185 * 0 = 0 vfo: 0  i: 0
+updating from node 20  with func: ta  with inputLinks: 5
+link 20->31 = -2.22893 * 0 = -0 vfo: 0  i: 0
+updating from node 22  with func: ta  with inputLinks: 3
+link 22->31 = -9.97912 * 0 = -0 vfo: 0  i: 0
+updating from node 24  with func: ta  with inputLinks: 4
+link 24->31 = 4.84211 * 0 = 0 vfo: 0  i: 0
+updating from node 25  with func: ta  with inputLinks: 3
+link 25->31 = -7.87666 * 0 = -0 vfo: 0  i: 0
+updating from node 26  with func: ta  with inputLinks: 3
+link 26->31 = -7.19765 * 0 = -0 vfo: 0  i: 0
+updating from node 30  with func: ta  with inputLinks: 4
+link 30->31 = -9.56169 * 1 = -9.56169 vfo: 0  i: 0
+updating from node 35  with func: so  with inputLinks: 20
+link 35->31 = 6.28011 * 0.5 = 3.14006 vfo: 0  i: 0
+updating from node 1  with func: ta  with inputLinks: 3
+link 1->32 = -6.83368 * 0 = -0 vfo: 0  i: 0
+updating from node 8  with func: ta  with inputLinks: 4
+link 8->32 = 1.67833 * 0 = 0 vfo: 0  i: 0
+updating from node 10  with func: ta  with inputLinks: 3
+link 10->32 = -0.0950951 * 0 = -0 vfo: 0  i: 0
+updating from node 11  with func: ta  with inputLinks: 1
+link 11->32 = -0.572592 * 0 = -0 vfo: 0  i: 0
+updating from node 13  with func: ta  with inputLinks: 4
+link 13->32 = -4.83517 * 0 = -0 vfo: 0  i: 0
+updating from node 18  with func: ta  with inputLinks: 1
+link 18->32 = 3.10521 * 0 = 0 vfo: 0  i: 0
+updating from node 19  with func: ta  with inputLinks: 3
+link 19->32 = -2.90708 * 0 = -0 vfo: 0  i: 0
+updating from node 20  with func: ta  with inputLinks: 5
+link 20->32 = 3.89722 * 0 = 0 vfo: 0  i: 0
+updating from node 21  with func: ta  with inputLinks: 3
+link 21->32 = 6.06415 * 0 = 0 vfo: 0  i: 0
+updating from node 22  with func: ta  with inputLinks: 3
+link 22->32 = -8.1562 * 0 = -0 vfo: 0  i: 0
+updating from node 23  with func: ta  with inputLinks: 2
+link 23->32 = 9.37128 * 0 = 0 vfo: 0  i: 0
+updating from node 24  with func: ta  with inputLinks: 4
+link 24->32 = -0.225846 * 0 = -0 vfo: 0  i: 0
+updating from node 25  with func: ta  with inputLinks: 3
+link 25->32 = -3.43604 * 0 = -0 vfo: 0  i: 0
+updating from node 27  with func: ta  with inputLinks: 2
+link 27->32 = 6.29326 * 0.5 = 3.14663 vfo: 0  i: 0.5
+updating from node 29  with func: ta  with inputLinks: 1
+link 29->32 = -6.31585 * 0 = -0 vfo: 0  i: 1
+updating from node 3  with func: ta  with inputLinks: 3
+link 3->33 = -7.58687 * 0 = -0 vfo: 0  i: 0
+updating from node 5  with func: ta  with inputLinks: 2
+link 5->33 = 2.21224 * 0 = 0 vfo: 0  i: 0
+updating from node 8  with func: ta  with inputLinks: 4
+link 8->33 = -1.97186 * 0 = -0 vfo: 0  i: 0
+updating from node 9  with func: ta  with inputLinks: 4
+link 9->33 = 0.731144 * 0 = 0 vfo: 0  i: 0
+updating from node 10  with func: ta  with inputLinks: 3
+link 10->33 = 3.40442 * 0 = 0 vfo: 0  i: 0
+updating from node 11  with func: ta  with inputLinks: 1
+link 11->33 = -0.437386 * 0 = -0 vfo: 0  i: 0
+updating from node 13  with func: ta  with inputLinks: 4
+link 13->33 = 5.21641 * 0 = 0 vfo: 0  i: 0
+updating from node 14  with func: ta  with inputLinks: 2
+link 14->33 = -0.692374 * 0 = -0 vfo: 0  i: 0
+updating from node 16  with func: ta  with inputLinks: 4
+link 16->33 = 8.04772 * 0 = 0 vfo: 0  i: 0
+updating from node 17  with func: ta  with inputLinks: 2
+link 17->33 = -4.91194 * 0 = -0 vfo: 0  i: 0
+updating from node 18  with func: ta  with inputLinks: 1
+link 18->33 = -4.43422 * 0 = -0 vfo: 0  i: 0
+updating from node 21  with func: ta  with inputLinks: 3
+link 21->33 = -9.88329 * 0 = -0 vfo: 0  i: 0
+updating from node 22  with func: ta  with inputLinks: 3
+link 22->33 = -5.45947 * 0 = -0 vfo: 0  i: 0
+updating from node 23  with func: ta  with inputLinks: 2
+link 23->33 = 2.64133 * 0 = 0 vfo: 0  i: 0
+updating from node 24  with func: ta  with inputLinks: 4
+link 24->33 = 8.25091 * 0 = 0 vfo: 0  i: 0
+updating from node 26  with func: ta  with inputLinks: 3
+link 26->33 = -9.60469 * 0 = -0 vfo: 0  i: 0
+updating from node 28  with func: ta  with inputLinks: 4
+link 28->33 = -4.0418 * 0.5 = -2.0209 vfo: 0  i: 0.5
+updating from node 29  with func: ta  with inputLinks: 1
+link 29->33 = 3.08208 * 0 = 0 vfo: 0  i: 1
+updating from node 34  with func: so  with inputLinks: 23
+link 34->33 = 6.67341 * 0 = 0 vfo: 0  i: 0
+updating from node 35  with func: so  with inputLinks: 20
+link 35->33 = -8.83033 * 0.5 = -4.41517 vfo: 0  i: 0
+updating from node 1  with func: ta  with inputLinks: 3
+link 1->34 = -7.67123 * 0 = -0 vfo: 0  i: 0
+updating from node 3  with func: ta  with inputLinks: 3
+link 3->34 = 5.18355 * 0 = 0 vfo: 0  i: 0
+updating from node 4  with func: ta  with inputLinks: 2
+link 4->34 = 6.25359 * 0 = 0 vfo: 0  i: 0
+updating from node 6  with func: ta  with inputLinks: 3
+link 6->34 = 4.64839 * 0 = 0 vfo: 0  i: 0
+updating from node 7  with func: ta  with inputLinks: 2
+link 7->34 = 0.998507 * 0 = 0 vfo: 0  i: 0
+updating from node 9  with func: ta  with inputLinks: 4
+link 9->34 = -9.45504 * 0 = -0 vfo: 0  i: 0
+updating from node 11  with func: ta  with inputLinks: 1
+link 11->34 = 9.09672 * 0 = 0 vfo: 0  i: 0
+updating from node 12  with func: ta  with inputLinks: 3
+link 12->34 = 4.04967 * 0 = 0 vfo: 0  i: 0
+updating from node 13  with func: ta  with inputLinks: 4
+link 13->34 = 6.73634 * 0 = 0 vfo: 0  i: 0
+updating from node 16  with func: ta  with inputLinks: 4
+link 16->34 = -1.88738 * 0 = -0 vfo: 0  i: 0
+updating from node 17  with func: ta  with inputLinks: 2
+link 17->34 = 1.34918 * 0 = 0 vfo: 0  i: 0
+updating from node 20  with func: ta  with inputLinks: 5
+link 20->34 = 5.31861 * 0 = 0 vfo: 0  i: 0
+updating from node 22  with func: ta  with inputLinks: 3
+link 22->34 = -2.09089 * 0 = -0 vfo: 0  i: 0
+updating from node 23  with func: ta  with inputLinks: 2
+link 23->34 = -1.84701 * 0 = -0 vfo: 0  i: 0
+updating from node 24  with func: ta  with inputLinks: 4
+link 24->34 = 8.2655 * 0 = 0 vfo: 0  i: 0
+updating from node 25  with func: ta  with inputLinks: 3
+link 25->34 = -0.370426 * 0 = -0 vfo: 0  i: 0
+updating from node 27  with func: ta  with inputLinks: 2
+link 27->34 = -7.24801 * 0.5 = -3.624 vfo: 0  i: 0.5
+updating from node 28  with func: ta  with inputLinks: 4
+link 28->34 = 7.41161 * 0.5 = 3.70581 vfo: 0  i: 0.5
+updating from node 30  with func: ta  with inputLinks: 4
+link 30->34 = 0.0424518 * 1 = 0.0424518 vfo: 0  i: 0
+updating from node 31  with func: so  with inputLinks: 17
+link 31->34 = 2.31845 * 2.16019e-14 = 5.00828e-14 vfo: -6.42163  i: 0
+updating from node 33  with func: so  with inputLinks: 20
+link 33->34 = -6.08666 * 0 = -0 vfo: -6.43607  i: 0
+updating from node 34  with func: so  with inputLinks: 23
+link 34->34 = 8.51968 * 0 = 0 vfo: 0  i: 0
+updating from node 35  with func: so  with inputLinks: 20
+link 35->34 = -6.56152 * 0.5 = -3.28076 vfo: 0  i: 0
+updating from node 1  with func: ta  with inputLinks: 3
+link 1->35 = 4.84897 * 0 = 0 vfo: 0  i: 0
+updating from node 2  with func: ta  with inputLinks: 3
+link 2->35 = 9.46915 * 0 = 0 vfo: 0  i: 0
+updating from node 3  with func: ta  with inputLinks: 3
+link 3->35 = -9.59335 * 0 = -0 vfo: 0  i: 0
+updating from node 4  with func: ta  with inputLinks: 2
+link 4->35 = -6.57572 * 0 = -0 vfo: 0  i: 0
+updating from node 5  with func: ta  with inputLinks: 2
+link 5->35 = 8.27535 * 0 = 0 vfo: 0  i: 0
+updating from node 6  with func: ta  with inputLinks: 3
+link 6->35 = -5.13148 * 0 = -0 vfo: 0  i: 0
+updating from node 7  with func: ta  with inputLinks: 2
+link 7->35 = 1.41435 * 0 = 0 vfo: 0  i: 0
+updating from node 10  with func: ta  with inputLinks: 3
+link 10->35 = 9.55267 * 0 = 0 vfo: 0  i: 0
+updating from node 11  with func: ta  with inputLinks: 1
+link 11->35 = -8.57543 * 0 = -0 vfo: 0  i: 0
+updating from node 12  with func: ta  with inputLinks: 3
+link 12->35 = -3.36608 * 0 = -0 vfo: 0  i: 0
+updating from node 16  with func: ta  with inputLinks: 4
+link 16->35 = 7.01782 * 0 = 0 vfo: 0  i: 0
+updating from node 19  with func: ta  with inputLinks: 3
+link 19->35 = -4.70248 * 0 = -0 vfo: 0  i: 0
+updating from node 20  with func: ta  with inputLinks: 5
+link 20->35 = -0.564118 * 0 = -0 vfo: 0  i: 0
+updating from node 21  with func: ta  with inputLinks: 3
+link 21->35 = 4.49094 * 0 = 0 vfo: 0  i: 0
+updating from node 22  with func: ta  with inputLinks: 3
+link 22->35 = -4.45264 * 0 = -0 vfo: 0  i: 0
+updating from node 27  with func: ta  with inputLinks: 2
+link 27->35 = -8.9158 * 0.5 = -4.4579 vfo: 0  i: 0.5
+updating from node 31  with func: so  with inputLinks: 17
+link 31->35 = -5.54475 * 2.16019e-14 = -1.19777e-13 vfo: -6.42163  i: 0
+updating from node 32  with func: so  with inputLinks: 15
+link 32->35 = 8.65314 * 0 = 0 vfo: 3.14663  i: 0
+updating from node 33  with func: so  with inputLinks: 20
+link 33->35 = -9.45978 * 0 = -0 vfo: -6.43607  i: 0
+updating from node 34  with func: so  with inputLinks: 23
+link 34->35 = 1.28669 * 0 = 0 vfo: -3.15651  i: 0
+
+
+react original: < 2.16019e-14, 0, 0, 0, 3.26133e-10 >
+
+updating from node 2  with func: ta  with inputLinks: 3
+link 2->31 = 1.5828 * 0 = 0 vfo: 0  i: 0
+updating from node 3  with func: ta  with inputLinks: 3
+link 3->31 = 3.25705 * 0 = 0 vfo: 0  i: 0
+updating from node 5  with func: ta  with inputLinks: 2
+link 5->31 = -1.66605 * 0 = -0 vfo: 0  i: 0
+updating from node 7  with func: ta  with inputLinks: 2
+link 7->31 = -7.03936 * 0 = -0 vfo: 0  i: 0
+updating from node 9  with func: ta  with inputLinks: 4
+link 9->31 = 9.11009 * 0 = 0 vfo: 0  i: 0
+updating from node 10  with func: ta  with inputLinks: 3
+link 10->31 = -1.75651 * 0 = -0 vfo: 0  i: 0
+updating from node 11  with func: ta  with inputLinks: 1
+link 11->31 = 8.73762 * 0 = 0 vfo: 0  i: 0
+updating from node 13  with func: ta  with inputLinks: 4
+link 13->31 = 7.03411 * 0 = 0 vfo: 0  i: 0
+updating from node 15  with func: ta  with inputLinks: 2
+link 15->31 = 2.65277 * 0 = 0 vfo: 0  i: 0
+updating from node 18  with func: ta  with inputLinks: 1
+link 18->31 = 8.16185 * 0 = 0 vfo: 0  i: 0
+updating from node 20  with func: ta  with inputLinks: 5
+link 20->31 = -2.22893 * 0 = -0 vfo: 0  i: 0
+updating from node 22  with func: ta  with inputLinks: 3
+link 22->31 = -9.97912 * 0 = -0 vfo: 0  i: 0
+updating from node 24  with func: ta  with inputLinks: 4
+link 24->31 = 4.84211 * 0 = 0 vfo: 0  i: 0
+updating from node 25  with func: ta  with inputLinks: 3
+link 25->31 = -7.87666 * 0 = -0 vfo: 0  i: 0
+updating from node 26  with func: ta  with inputLinks: 3
+link 26->31 = -7.19765 * 0 = -0 vfo: 0  i: 0
+updating from node 30  with func: ta  with inputLinks: 4
+link 30->31 = -9.56169 * 1 = -9.56169 vfo: 0  i: 0
+updating from node 35  with func: so  with inputLinks: 20
+link 35->31 = 6.28011 * 0 = 0 vfo: 0  i: 0
+updating from node 1  with func: ta  with inputLinks: 3
+link 1->32 = -6.83368 * 0 = -0 vfo: 0  i: 0
+updating from node 8  with func: ta  with inputLinks: 4
+link 8->32 = 1.67833 * 0 = 0 vfo: 0  i: 0
+updating from node 10  with func: ta  with inputLinks: 3
+link 10->32 = -0.0950951 * 0 = -0 vfo: 0  i: 0
+updating from node 11  with func: ta  with inputLinks: 1
+link 11->32 = -0.572592 * 0 = -0 vfo: 0  i: 0
+updating from node 13  with func: ta  with inputLinks: 4
+link 13->32 = -4.83517 * 0 = -0 vfo: 0  i: 0
+updating from node 18  with func: ta  with inputLinks: 1
+link 18->32 = 3.10521 * 0 = 0 vfo: 0  i: 0
+updating from node 19  with func: ta  with inputLinks: 3
+link 19->32 = -2.90708 * 0 = -0 vfo: 0  i: 0
+updating from node 20  with func: ta  with inputLinks: 5
+link 20->32 = 3.89722 * 0 = 0 vfo: 0  i: 0
+updating from node 21  with func: ta  with inputLinks: 3
+link 21->32 = 6.06415 * 0 = 0 vfo: 0  i: 0
+updating from node 22  with func: ta  with inputLinks: 3
+link 22->32 = -8.1562 * 0 = -0 vfo: 0  i: 0
+updating from node 23  with func: ta  with inputLinks: 2
+link 23->32 = 9.37128 * 0 = 0 vfo: 0  i: 0
+updating from node 24  with func: ta  with inputLinks: 4
+link 24->32 = -0.225846 * 0 = -0 vfo: 0  i: 0
+updating from node 25  with func: ta  with inputLinks: 3
+link 25->32 = -3.43604 * 0 = -0 vfo: 0  i: 0
+updating from node 27  with func: ta  with inputLinks: 2
+link 27->32 = 6.29326 * 0.5 = 3.14663 vfo: 0  i: 0.5
+updating from node 29  with func: ta  with inputLinks: 1
+link 29->32 = -6.31585 * 1 = -6.31585 vfo: 0  i: 1
+updating from node 3  with func: ta  with inputLinks: 3
+link 3->33 = -7.58687 * 0 = -0 vfo: 0  i: 0
+updating from node 5  with func: ta  with inputLinks: 2
+link 5->33 = 2.21224 * 0 = 0 vfo: 0  i: 0
+updating from node 8  with func: ta  with inputLinks: 4
+link 8->33 = -1.97186 * 0 = -0 vfo: 0  i: 0
+updating from node 9  with func: ta  with inputLinks: 4
+link 9->33 = 0.731144 * 0 = 0 vfo: 0  i: 0
+updating from node 10  with func: ta  with inputLinks: 3
+link 10->33 = 3.40442 * 0 = 0 vfo: 0  i: 0
+updating from node 11  with func: ta  with inputLinks: 1
+link 11->33 = -0.437386 * 0 = -0 vfo: 0  i: 0
+updating from node 13  with func: ta  with inputLinks: 4
+link 13->33 = 5.21641 * 0 = 0 vfo: 0  i: 0
+updating from node 14  with func: ta  with inputLinks: 2
+link 14->33 = -0.692374 * 0 = -0 vfo: 0  i: 0
+updating from node 16  with func: ta  with inputLinks: 4
+link 16->33 = 8.04772 * 0 = 0 vfo: 0  i: 0
+updating from node 17  with func: ta  with inputLinks: 2
+link 17->33 = -4.91194 * 0 = -0 vfo: 0  i: 0
+updating from node 18  with func: ta  with inputLinks: 1
+link 18->33 = -4.43422 * 0 = -0 vfo: 0  i: 0
+updating from node 21  with func: ta  with inputLinks: 3
+link 21->33 = -9.88329 * 0 = -0 vfo: 0  i: 0
+updating from node 22  with func: ta  with inputLinks: 3
+link 22->33 = -5.45947 * 0 = -0 vfo: 0  i: 0
+updating from node 23  with func: ta  with inputLinks: 2
+link 23->33 = 2.64133 * 0 = 0 vfo: 0  i: 0
+updating from node 24  with func: ta  with inputLinks: 4
+link 24->33 = 8.25091 * 0 = 0 vfo: 0  i: 0
+updating from node 26  with func: ta  with inputLinks: 3
+link 26->33 = -9.60469 * 0 = -0 vfo: 0  i: 0
+updating from node 28  with func: ta  with inputLinks: 4
+link 28->33 = -4.0418 * 0.5 = -2.0209 vfo: 0  i: 0.5
+updating from node 29  with func: ta  with inputLinks: 1
+link 29->33 = 3.08208 * 1 = 3.08208 vfo: 0  i: 1
+updating from node 34  with func: so  with inputLinks: 23
+link 34->33 = 6.67341 * 0 = 0 vfo: 0  i: 0
+updating from node 35  with func: so  with inputLinks: 20
+link 35->33 = -8.83033 * 0 = -0 vfo: 0  i: 0
+updating from node 1  with func: ta  with inputLinks: 3
+link 1->34 = -7.67123 * 0 = -0 vfo: 0  i: 0
+updating from node 3  with func: ta  with inputLinks: 3
+link 3->34 = 5.18355 * 0 = 0 vfo: 0  i: 0
+updating from node 4  with func: ta  with inputLinks: 2
+link 4->34 = 6.25359 * 0 = 0 vfo: 0  i: 0
+updating from node 6  with func: ta  with inputLinks: 3
+link 6->34 = 4.64839 * 0 = 0 vfo: 0  i: 0
+updating from node 7  with func: ta  with inputLinks: 2
+link 7->34 = 0.998507 * 0 = 0 vfo: 0  i: 0
+updating from node 9  with func: ta  with inputLinks: 4
+link 9->34 = -9.45504 * 0 = -0 vfo: 0  i: 0
+updating from node 11  with func: ta  with inputLinks: 1
+link 11->34 = 9.09672 * 0 = 0 vfo: 0  i: 0
+updating from node 12  with func: ta  with inputLinks: 3
+link 12->34 = 4.04967 * 0 = 0 vfo: 0  i: 0
+updating from node 13  with func: ta  with inputLinks: 4
+link 13->34 = 6.73634 * 0 = 0 vfo: 0  i: 0
+updating from node 16  with func: ta  with inputLinks: 4
+link 16->34 = -1.88738 * 0 = -0 vfo: 0  i: 0
+updating from node 17  with func: ta  with inputLinks: 2
+link 17->34 = 1.34918 * 0 = 0 vfo: 0  i: 0
+updating from node 20  with func: ta  with inputLinks: 5
+link 20->34 = 5.31861 * 0 = 0 vfo: 0  i: 0
+updating from node 22  with func: ta  with inputLinks: 3
+link 22->34 = -2.09089 * 0 = -0 vfo: 0  i: 0
+updating from node 23  with func: ta  with inputLinks: 2
+link 23->34 = -1.84701 * 0 = -0 vfo: 0  i: 0
+updating from node 24  with func: ta  with inputLinks: 4
+link 24->34 = 8.2655 * 0 = 0 vfo: 0  i: 0
+updating from node 25  with func: ta  with inputLinks: 3
+link 25->34 = -0.370426 * 0 = -0 vfo: 0  i: 0
+updating from node 27  with func: ta  with inputLinks: 2
+link 27->34 = -7.24801 * 0.5 = -3.624 vfo: 0  i: 0.5
+updating from node 28  with func: ta  with inputLinks: 4
+link 28->34 = 7.41161 * 0.5 = 3.70581 vfo: 0  i: 0.5
+updating from node 30  with func: ta  with inputLinks: 4
+link 30->34 = 0.0424518 * 1 = 0.0424518 vfo: 0  i: 0
+updating from node 31  with func: so  with inputLinks: 17
+link 31->34 = 2.31845 * 4.49073e-21 = 1.04115e-20 vfo: -9.56169  i: 0
+updating from node 33  with func: so  with inputLinks: 20
+link 33->34 = -6.08666 * 0.994513 = -6.05326 vfo: 1.06119  i: 0
+updating from node 34  with func: so  with inputLinks: 23
+link 34->34 = 8.51968 * 0 = 0 vfo: 0  i: 0
+updating from node 35  with func: so  with inputLinks: 20
+link 35->34 = -6.56152 * 0 = -0 vfo: 0  i: 0
+updating from node 1  with func: ta  with inputLinks: 3
+link 1->35 = 4.84897 * 0 = 0 vfo: 0  i: 0
+updating from node 2  with func: ta  with inputLinks: 3
+link 2->35 = 9.46915 * 0 = 0 vfo: 0  i: 0
+updating from node 3  with func: ta  with inputLinks: 3
+link 3->35 = -9.59335 * 0 = -0 vfo: 0  i: 0
+updating from node 4  with func: ta  with inputLinks: 2
+link 4->35 = -6.57572 * 0 = -0 vfo: 0  i: 0
+updating from node 5  with func: ta  with inputLinks: 2
+link 5->35 = 8.27535 * 0 = 0 vfo: 0  i: 0
+updating from node 6  with func: ta  with inputLinks: 3
+link 6->35 = -5.13148 * 0 = -0 vfo: 0  i: 0
+updating from node 7  with func: ta  with inputLinks: 2
+link 7->35 = 1.41435 * 0 = 0 vfo: 0  i: 0
+updating from node 10  with func: ta  with inputLinks: 3
+link 10->35 = 9.55267 * 0 = 0 vfo: 0  i: 0
+updating from node 11  with func: ta  with inputLinks: 1
+link 11->35 = -8.57543 * 0 = -0 vfo: 0  i: 0
+updating from node 12  with func: ta  with inputLinks: 3
+link 12->35 = -3.36608 * 0 = -0 vfo: 0  i: 0
+updating from node 16  with func: ta  with inputLinks: 4
+link 16->35 = 7.01782 * 0 = 0 vfo: 0  i: 0
+updating from node 19  with func: ta  with inputLinks: 3
+link 19->35 = -4.70248 * 0 = -0 vfo: 0  i: 0
+updating from node 20  with func: ta  with inputLinks: 5
+link 20->35 = -0.564118 * 0 = -0 vfo: 0  i: 0
+updating from node 21  with func: ta  with inputLinks: 3
+link 21->35 = 4.49094 * 0 = 0 vfo: 0  i: 0
+updating from node 22  with func: ta  with inputLinks: 3
+link 22->35 = -4.45264 * 0 = -0 vfo: 0  i: 0
+updating from node 27  with func: ta  with inputLinks: 2
+link 27->35 = -8.9158 * 0.5 = -4.4579 vfo: 0  i: 0.5
+updating from node 31  with func: so  with inputLinks: 17
+link 31->35 = -5.54475 * 4.49073e-21 = -2.49e-20 vfo: -9.56169  i: 0
+updating from node 32  with func: so  with inputLinks: 15
+link 32->35 = 8.65314 * 1.80204e-07 = 1.55933e-06 vfo: -3.16922  i: 0
+updating from node 33  with func: so  with inputLinks: 20
+link 33->35 = -9.45978 * 0.994513 = -9.40787 vfo: 1.06119  i: 0
+updating from node 34  with func: so  with inputLinks: 23
+link 34->35 = 1.28669 * 0 = 0 vfo: -5.92901  i: 0
+
+
+react read: < 4.49073e-21, 1.80204e-07, 0.994513, 0, 0 >

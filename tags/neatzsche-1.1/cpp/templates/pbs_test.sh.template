@@ -1,0 +1,5 @@
+#PBS -q optimist -l nodes=2
+cd /home/bjornmm/svn/ntnu/master/code/main/cpp
+export PATH=$HOME/boye/bin:$PATH
+
+mpiexec distributor distconfig-test.txt

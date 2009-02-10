@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ "$1" = "w" ]; then
+    echo 1
+fi
+
+while read l; do
+    let l=$l+1
+#    echo $l >&2
+    echo $l
+    sleep 1
+done
