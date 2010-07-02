@@ -87,12 +87,10 @@ int main(int argc,char *args[]){
   else{
     rands = time(0);
     if(nmpi!=NULL){//just in case cluster time skew..
-      cout << "myrank: " << nmpi->getRank() << endl;
-      if(nmpi->getRank()==0){
+      if(nmpi->getRank()==0)
 	nmpi->sendSeed(rands);
-      }else{
+      else
 	rands = nmpi->receiveSeed();
-      }
     }
     srand(rands);
 
@@ -253,7 +251,6 @@ void slave(char ** argv, int argc, Neatzsche_MPI * comm,
   bool cont = true,coevo = false;
   int gen=0;
   Phenotypes * p = new Phenotypes();
-  cout << "i slave.." << endl;
   if(c == NULL){
     cout << "wtf c er null" << endl;
     exit(1);
@@ -262,7 +259,6 @@ void slave(char ** argv, int argc, Neatzsche_MPI * comm,
   while(cont){ // the drive loop of the slaves, read 
                // in cmd(coevo/std), where coevo expects two genomes
     gen++;
-    cout << "i slave.. running readpop" << endl;
     cont = comm->readPopulation(p,c,tfs);
 //     if(!cont){
 //       break;

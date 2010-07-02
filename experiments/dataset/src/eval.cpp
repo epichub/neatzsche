@@ -10,7 +10,6 @@ extern "C" {
       cerr << "wrong arguments to eye eval should be: \"dataset <datasetfile> [classification at start[0/1]] [testration]\"" << endl;
 	exit(1);
       }
-      cout << "in dataset fitness eval maker" << endl;
       bool classAtStart = (atoi(sv->at(2).c_str()) == 1) ? true : false;
       double testratio = atof(sv->at(3).c_str());
       DataSet * ds = new DataSet(classAtStart,sv->at(1),testratio);
