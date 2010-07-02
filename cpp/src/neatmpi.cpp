@@ -28,7 +28,7 @@ MPI::Datatype Build_neuralnode_type(NeuralNodeSmall * ns)//int* id, char* type, 
   displacements[1] = MPI::Get_address(&(ns->type));
   displacements[2] = MPI::Get_address(&(ns->depth));
   displacements[3] = MPI::Get_address(ns+1);
-  int base = displacements[0];
+  long base = displacements[0];
   for(int i=0;i<4;i++) displacements[i] -= base;
 
   MPI::Datatype mpi_t_ptr =  MPI::Datatype::Create_struct(4,block_lengths,displacements,typelist);
