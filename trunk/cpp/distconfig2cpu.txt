@@ -1,8 +1,0 @@
-verbosity:              0
-slave-verbosity:        0
-batch-mode:             EOF
-master-output-mode:     EOF
-master-program:         ./neatmaster
-master-arguments:    	0 settings/settings-go "genesis seeds/morestonesseed.genome 400 0" "sigma 1" 1 "go 500 0.2 10 0 1 500 500 0" "count 500 1" 0
-slave-program:          ./neatslave
-slave-arguments:	0 settings/settings-go "go 500 0.2 10 0 1 500 500 0" 500

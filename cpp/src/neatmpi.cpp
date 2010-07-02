@@ -11,7 +11,7 @@ MPI::Datatype Build_gene_type(GeneSmall * gs)
   displacements[3] = MPI::Get_address(&(gs->w));
   displacements[4] = MPI::Get_address(&(gs->enabled));
   displacements[5] = MPI::Get_address(gs+1);
-  int base = displacements[0];
+  long base = displacements[0];
   for(int i=0;i<6;i++) displacements[i] -= base;
 
   MPI::Datatype mpi_t_ptr = MPI::Datatype::Create_struct(6,block_lengths,displacements,typelist);

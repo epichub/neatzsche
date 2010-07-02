@@ -1,7 +1,0 @@
-verbosity:              0
-slave-verbosity:        0
-batch-mode:             EOF
-master-output-mode:     EOF
-master-program:         /home/bjornmm/svn/ntnu/master/code/main/cpp/neatmaster
-master-arguments:       0 settings/settings-xor-struct "spawn 2 1 0 1.0 10 so" "sigma 1" 1 "count 4 1"
-slave-program:          /home/bjornmm/svn/ntnu/master/code/main/cpp/dummyslave2

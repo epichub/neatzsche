@@ -1,1 +1,0 @@
-java org.apache.xalan.xslt.Process -in %1.xml -xsl graphFitness.xsl -out fitness.svg

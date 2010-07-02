@@ -1,8 +1,0 @@
-verbosity:              0
-slave-verbosity:        0
-batch-mode:             EOF
-master-output-mode:     EOF
-master-program:         ./neatmaster
-master-arguments:    	0 SETTINGFILE "genesis seeds/goseed GENOMES 0" "sigma 1" NODENUM "go PENS 0.2 10 0 1 500 500 0" "count GENS RUNS" 0
-slave-program:          ./neatslave
-slave-arguments:	0 SETTINGFILE "go GENS 0.2 10 0 1 500 500 0"
