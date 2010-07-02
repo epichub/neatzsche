@@ -1,6 +1,7 @@
 PROJECT(eyefitness)
 cmake_minimum_required(VERSION 2.6)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../cmake_modules/")
+SET(CMAKE_INSTALL_PREFIX "$ENV{HOME}/local/")
 INCLUDE(FindNEATZSCHE)
 INCLUDE(FindBoost)
 INCLUDE(FindQt4)
