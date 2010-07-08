@@ -109,33 +109,18 @@ void Network::addNodes(nodeVector * nodes, bool debug)
   int den=0;
   for(unsigned int i=0;i<nodes->size();i++){
     if(nodes->at(i)->getDepth()>c){
-      //      den++;
       c = nodes->at(i)->getDepth();
     }
   }
-  //  cerr << "c: " << c << endl;
+
   den = c;
   net = new vector< nodeVector * >();
-  //bool fuckup = false;
+
   for(int i=0;i<=den;i++)//for each level
     net->push_back(new nodeVector());
-  //  for(int i=0;i<=den;i++){//for each level
+
   for(unsigned int i2=0;i2<nodes->size();i2++){
-    //      if(nodes->at(i2)->getDepth()==i){
-    //       if(nodes->at(i2)->getType()==NeuralNode::OUTPUT&&nodes->at(i2)->getDepth()!=c){
-    //     cerr << "adding node("<< nodes->at(i2)->getID()
-    // 	 <<" type: "<<nodes->at(i2)->getType()
-    // 	 <<") to layer i:" << nodes->at(i2)->getDepth()
-    // 	 <<" links: " << nodes->at(i2)->getLinks()->size() <<endl;
-    // 	fuckup = true;
-    //       }
-    //       if(fuckup&nodes->at(i2)->getDepth()==c)
-    // 	cerr << "node that did have the highest lvl: " << nodes->at(i2);
-    //       if(nodes->at(i2)->getDepth()<0 || nodes->at(i2)->getDepth() >= net->size())
-    // 	cerr << "depth er utenfor net size scope; netsize: " << net->size() << " node depth: " << nodes->at(i2)->getDepth() << endl;
-//     cout << "adding node at depth: " << nodes->at(i2)->getDepth() << endl;
     net->at(nodes->at(i2)->getDepth())->push_back(nodes->at(i2));
-    //      }
   }
 
   output = new nodeVector();
@@ -145,10 +130,6 @@ void Network::addNodes(nodeVector * nodes, bool debug)
       output->push_back(lastlayer->at(i));
 
   ret.insert(ret.begin(),output->size(),0);
-
-  //   cerr << "input layer: " << net->at(0)->size() << endl;
-  //   cerr << "middle layer: " << net->at(1)->size() << endl;
-  //   cerr << "output layer: " << net->at(2)->size() << endl;
 }
 bool anncheckforoutput(vector< nodeVector * >  * net)
 {
@@ -169,13 +150,6 @@ void printnodes(nodeVector * nodes)
 //TODO: change this to be a sorted update with respects to the ID
 vector<double> Network::runnet(vector<double> inp)
 {
-//   if(inp.size()!=net->at(0)->size()-1)
-//     {
-//       cerr << "inp("<<inp.size()<<") wasnt aligned with net("<<net->at(0)->size()-1<<").." << endl;
-//       printnodes(net->at(0));
-//       return vector<double>();
-//     }
-
   for(unsigned int i=0;i<inp.size();i++){
     if(net->at(0)->at(i)->getType()==NeuralNode::BIAS)
       cerr << "input node was bias.." << endl;
@@ -194,18 +168,8 @@ vector<double> Network::runnet(vector<double> inp)
 //genome!)
 Network::~Network()
 {
-  //  cerr << "netsize: " << net->size() << endl;
-  //  cerr << "deleting net " << this << endl;
-  //  if((&this)==0x696620)
-  //    cerr << "deleting " << 0x696620 << endl;
   for(unsigned int i=0;i<net->size();i++){
-    //    cerr << "i net destr i:" << i << endl;
-    //    if(net->at(i)==NULL)
-    //      cerr << "net->at(i) er NULL" << endl;
-    //    cerr << "size av net->at(i):" << net->at(i)->size() << endl;
     for(unsigned int i2=0;i2<net->at(i)->size();i2++){
-//       cerr<< "i net destr i2: " << i2 << endl;
-//       cout << "deleing links from node("<<&net->at(i)->at(i2)<<"): " << net->at(i)->at(i2)->getID() << endl;
       net->at(i)->at(i2)->deletelinks();
     }
   }

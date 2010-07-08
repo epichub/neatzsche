@@ -158,6 +158,7 @@ void NEATRunner::runLoop()
       	 << "(" << *bestspecid << ")"
 	 << " bestfitness: "<< best->getFitness()
 	 << " maxfitness: " << pop->getHighestFitness() 
+	 << " avgfitness: " << pop->calcAvgFitness()
 	 << " curmin: " << pop->getMembers()->at(pop->getMembers()->size()-1)->getFitness()
 	 << " species: " << pop->getSpecies()->size()
 	 << " (" << pop->spectarget << ") " 
@@ -221,7 +222,7 @@ void NEATRunner::runLoop()
   ofsuper.close();
   cout << "final best fitness" << sbest->getFitness() << endl;
   if(countruns>1){
-    cout << "avg gc: " << (double)gc/(double)countruns << endl;
+    cout << "avg gc: " << (double)gc/(double)(countruns+1) << endl;
   }
   delete sbest;
   ofstream finalgraphf(finalgraphfile.c_str());
