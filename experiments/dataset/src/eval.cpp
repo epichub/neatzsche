@@ -54,8 +54,8 @@ bool DatasetEvaluator::xorDone(Phenotype * f)
     v = f->react(*ds->getTrain(i));
     if(fabs(ds->getClass(true,i) - v.at(0))<0.4) c++; 
   }
-  cout << "testing: " << c << endl;
+  //cout << "testing: " << c << endl;
   //  if(c!=4)
-    runTest(f);
+  //    runTest(f);
   return c==4;
 }

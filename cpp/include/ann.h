@@ -55,6 +55,8 @@ public:
   NeuralNode * getOutput(){return net->at(net->size()-1)->at(0);}
   vector< double > getWeights(); 
   vector< double > getStates(); 
+  // friend ostream& operator<< (ostream& os, const NeuralNetwork *n);
+  // friend istream& operator>> (istream& is, NeuralNetwork *n);
 };
 
 class NeuralNode
@@ -68,23 +70,18 @@ private:
   char type;
   int depth;
   TransferFunctions * tfs;
-//   double tmpV;
-  //bool localrecur=false;
 public:
   NeuralNode(NeuralNode * n){id = n->id;links=n->links;
     tFunc=n->tFunc;valueFromOther=n->valueFromOther;
-//     tmpV=n->tmpV;
     input=n->input;
     cache=n->cache;bias=n->bias;type=n->type;depth=n->depth;outputset=false;}
   NeuralNode(TransferFunctions * itfs){links = new linkVector();input = 0;cache=0; valueFromOther = 0;
-//     tmpV= 0;
     tfs=itfs;outputset=false;};
   NeuralNode(TransferFunction * func, int iid, char t, int d);
   virtual ~NeuralNode();
   NeuralNodeSmall * getSmall()
   {NeuralNodeSmall * nns = new NeuralNodeSmall(); 
     nns->id = id; nns->type=type; nns->depth = depth; 
-    //nns->ftype=tFunc->ftype; 
     return nns;}
   void fromSmall(NeuralNodeSmall * ns, string inftype);
   NeuralNode * duplicate(){NeuralNode * ret = new NeuralNode(this); ret->links= new linkVector();if(outputset) ret->setOutput(cache); return ret;}
@@ -108,11 +105,8 @@ public:
   void reset(){input=0;valueFromOther=0;}
   inline double getValue(){
     if(outputset){
-//       cerr << "outputting cache: " << cache << endl;
       return cache;}
     else{ 
-//       if(type==NeuralNode::INPUT&&tFunc->y(valueFromOther+input)!=input)
-// 	cerr << "wtf? neuralnode input and getvalue != input.." << endl;
       return tFunc->y(valueFromOther+input);
     }
   }

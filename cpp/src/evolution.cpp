@@ -590,8 +590,15 @@ void Species::updateavgf()
   unsigned int s = members->size();
   for(unsigned int i=0;i<s;i++){
     sumf += members->at(i)->getOrigFitness();
-  }
+  } 
+
   avgf = sumf/(double)s;
+  // if(isnan(avgf)){
+  //   cout << "help my avgf is nan.. sumf: " << sumf << " s: " << s << endl;
+  //   for(unsigned int i=0;i<s;i++)
+  //     cout << "fitness " << i+1 << " : " << members->at(i)->getOrigFitness() << endl;
+
+  // }
 }
 void Species::updatesumf(bool dead)
 {
@@ -664,6 +671,7 @@ double Population::calcAvgFitness()
   double sum=0;
   for(unsigned int i=0;i<species->size();i++)
     sum += species->at(i)->getAvgFitness();
+  //  cout << "avg sum: " << sum << endl;
   return sum/(double)species->size();
 }
 double Population::calcAvgComplexity()

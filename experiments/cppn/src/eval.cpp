@@ -101,6 +101,7 @@ double PictureEvaluator::f(Phenotype *f)
   double wrong=0;
   vector<double> reaction;
   vector<double> inp;inp.push_back(0);inp.push_back(0);inp.push_back(0);
+  f->cleanNet();
   //   cout<<"inp size: " << inp.size() << endl;
   int xmax = sizes[0];
   int ymax = sizes[1];
@@ -109,7 +110,19 @@ double PictureEvaluator::f(Phenotype *f)
       inp.at(0) = ((double)x/(double)xmax)-0.5;
       inp.at(1) = ((double)y/(double)ymax)-0.5;
       inp.at(2) = (sqrt(pow(((double)x)-((double)xmax),2)))-0.5;
+      if(isnan(inp.at(0)) || isnan(inp.at(1)) || isnan(inp.at(2))){
+	cout << "inputs are nan: " << inp.at(0) << " "<< inp.at(1) << " " << inp.at(2)  << endl;
+      }
       reaction = f->react(inp);
+      if(isnan(sqrt(pow(picdata.at((ymax*x)+y)-(reaction.at(0)),2))))
+	{
+	  cout << "sqrt(pow(picdata.at((ymax*x)+y)-(reaction.at(0)),2)) is NAN, reaction:  "  << reaction.at(0) << " picdata: " << picdata.at((ymax*x)+y) << endl;
+	  cout << "inputs are nan: " << inp.at(0) << " "<< inp.at(1) << " " << inp.at(2)  << endl;
+	  inp.at(0) = 0; inp.at(1) = 0;inp.at(2) = 0;
+	  cout << "testing with 0 0 0 : " << f->react(inp).at(0) << endl;
+	  
+	  exit(0);
+	}
       wrong += sqrt(pow(picdata.at((ymax*x)+y)-(reaction.at(0)),2));
       if(reaction.at(0) > 0.0) reaction.at(0) = .9999;
       else if(reaction.at(0) < 0) reaction.at(0) = 0;
@@ -118,8 +131,9 @@ double PictureEvaluator::f(Phenotype *f)
   }
 //   wrong *= 2;
   double fi = (double)(picoffset-wrong+1)/((double)picoffset);
-  f->setFitness(fi);
-
+  f->setFitness(fi+1);
+  if(isnan(fi+1))
+    cout << "setting fitness to NAN" << endl;
   return fi;
 }
 void PictureEvaluator::runTest(Phenotype * f)

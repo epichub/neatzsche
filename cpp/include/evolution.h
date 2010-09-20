@@ -66,7 +66,7 @@ public:
   void cleanNet(){net->cleanup();}
   Genome * getGenome(){return g;}
   void setGenome(Genome * ig){g=ig;}
-  vector< double > react(vector<double> inp){return net->runnet(inp);}
+  vector< double > react(vector<double> inp){vector<double> ret = net->runnet(inp); if(isnan(ret.at(0))) cout << "ret 0 er nan!!!" << endl; return ret;}
   double getFitness(){return f;}
   void setFitness(double fi){f = fi;}
   void augmentFitness(double c){f *= c;}

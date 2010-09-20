@@ -160,8 +160,15 @@ vector<double> Network::runnet(vector<double> inp)
     for(unsigned int i2=0;i2<net->at(i)->size();i2++)
       net->at(i)->at(i2)->update();
 
-  for(unsigned int i=0;i<output->size();i++)
+  for(unsigned int i=0;i<output->size();i++){
     ret[i] = output->at(i)->getValue();
+    if(isnan(ret[i])){
+      cout << "ret " << i+1 << " is nan printing network info:" << endl;
+      for(unsigned int i2=0;i2<net->size();i2++)
+	for(unsigned int i3=0;i3<net->at(i)->size();i3++)
+	  net->at(i2)->at(i3)->printInfo();
+    }
+  }
   return ret;
 }
 //should go through and delete the links(only thing not connected to the
@@ -205,34 +212,18 @@ ostream& operator<< (ostream& os, const NeuralNode *n)
 }
 istream& operator>> (istream& is, NeuralNode *n)
 {
-  //  cerr << "in nnode >> operator " << endl;
-  //int id = 0; char type; int d; string ftype = "";
   NeuralNodeSmall * ns = new NeuralNodeSmall();
   string s;
   is >> s;
-  // cerr << "id: " << s << endl;
   ns->id = atoi(s.c_str());
   is >> s;
-  //  cerr << "type: " << s << endl;
   ns->type = s[0];
   is >> s;
-  //  cerr << "d: " << s << endl;
   ns->depth = atoi(s.c_str());
   is >> s;
-  //  cerr << "ftype: " << s << endl;
-//   ns->ftype = s;
-
-  //is >> s;cerr << " id: " << s;  is >> type; is >> d; is >> ftype;
-  //cerr << "id: " << id << " type: " << type << " d: " << d << " ftype : " << ftype << endl;
-  //n->id = id; n->type = type; n->depth=d;
-  //   cerr << "i >> operator for node id: " << id << endl;
-
   n->fromSmall(ns,s);
   delete ns;
 
-//   if(n->type==NeuralNode::BIAS){
-//     n->setOutput(1);
-//   }
   return is;
 }
 void NeuralNode::fromSmall(NeuralNodeSmall * ns, string inftype)
@@ -245,61 +236,20 @@ void NeuralNode::fromSmall(NeuralNodeSmall * ns, string inftype)
 }
 void NeuralNode::initTFunc(string ftype)//helper function for >> operator
 {
-  //  cerr << "in initFunc()" << endl;
   tFunc = tfs->getFunction(ftype);//easier :)
-  //   cerr << id << " : "<< "ftype:" << ftype 
-  //        << "  tfuncsftype: " << tFunc->ftype 
-  //        << " tfunc(0): " << tFunc->y(0) << endl;
-  //   if(ftype.find("so")!=string::npos){
-  //     tFunc = new SigmoidTransfer(4.9);//4.9 is NEAT standard
-  //   }else if(ftype.find("si")!=string::npos){
-  //     tFunc = new SignumTransfer();
-  //   }else if(ftype.find("ta")!=string::npos){
-  //     tFunc = new TransferFunction();
-  //   }else if(ftype.find("sin")!=string::npos){
-  //     tFunc = new SinusTransfer();
-  //   }else if(ftype.find("gauss")!=string::npos){
-  //     tFunc = new GaussTransfer(0.5,0.15);//TODO: make this some setting or something
-  //   }
+
 }
 NeuralNode::~NeuralNode()
 {
-  // delete tFunc;
   delete links;
 }
 
 void NeuralNode::update(){
   valueFromOther = 0;
-  //   cerr << "id: " << id << " vof foer update: " << valueFromOther << endl;
-  double tmpf=0;
   for(unsigned int i=0;i<links->size();i++){
-//         if(links->at(i)->getOtherNode(this)!=NULL)
-//           cerr << "updating from node "<<links->at(i)->getOtherNode(this)->getID()
-// 	       <<"  with func: " << links->at(i)->getOtherNode(this)->tFunc->ftype 
-// 	       <<"  with value: " << links->at(i)->getOtherNode(this)->getValue()
-// 	       <<"  with func(0): " << links->at(i)->getOtherNode(this)->tFunc->y(0) 
-// 	       <<"  with inputLinks: " << links->at(i)->getOtherNode(this)->getInputLinks()->size() << endl;
-    //     else
-    //       cerr << "getother ga 0..." << endl;
-    tmpf += links->at(i)->getOther(this);
+
+    valueFromOther += links->at(i)->getOther(this);
   }
-  //valueFromOther = tmpV;
-  valueFromOther=tmpf;
-//     cerr << " id: " << id  <<" valueFromOther: " << valueFromOther << endl;
-  //   if(type==OUTPUT&&valueFromOther!=0)
-  //     cerr << " id: " << id  << " ikke lik nul...: " << valueFromOther << endl;
-  //   if(valueFromOther!=0)
-  //     cerr << " id: " << id  
-  // 	 << " ikke lik nul...: " << valueFromOther 
-  // 	 << " output: " << getValue() 
-  // 	 << " type: " << type
-  // 	 << " ftype: " << ftype
-  // 	 << " tfuncs ftype: " << tFunc->ftype
-  // 	 << endl;
-  //   if(cache!=0)
-  //     cerr << "id: " << id  << " cache er ikke null: " << cache << endl;
-  //   else if(type==OUTPUT&&valueFromOther==0)
-  //     cerr << "fikk null inputs er: " << links->size() << endl;
 }
 void NeuralNode::deletelinks()
 {
@@ -314,18 +264,9 @@ void NeuralNode::deletelinks()
     else if(samedepthcheck(links->at(i),this,false))
       links->at(i)->setDeletable();
   }
-//   for(unsigned int i=0;i<links->size();i++){
-//     if(links->at(i)->isTo(this)&&links->at(i)->isFrom(this))//self recurrence
-//       delete links->at(i);
-//     else if(links->at(i)->isTo(this)){
-//       links->at(i)->getOtherNode(this)->removeLink(links->at(i));//remove other references to this link
-//       delete links->at(i);
-//     }
-      
-//   }
+
 }
 void NeuralNode::addLink(Link * link){
-  // cerr << "this:" << this << " links:" << links << 
   links->push_back(link);
 }
 linkVector * NeuralNode::getInputLinks()
@@ -367,11 +308,6 @@ Link::~Link()
 
 double Link::getOther(NeuralNode * calling){
   if(&*calling==&*to){
-    //     cerr << "link " <<from->getID() << "->" 
-    // 	 << to->getID() << " = "<<weight<<" * "
-    // 	 <<from->getValue()<<" = " << weight*from->getValue() 
-    // 	 << " from->tfunc(0)-> "<< from->getTFunc()->y(0)
-    // 	 <<" vfo: "<<from->valueFromOther << "  i: " << from->input << endl;
     return weight*from->getValue();
   }else if(uniDir){
     return weight*to->getValue();
