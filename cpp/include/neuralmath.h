@@ -140,7 +140,7 @@ private:
   double d;
   double *t;
   int rc;
-  int ts;
+  unsigned int ts;
 public:
   StochasticTransfer(bool unipolar, double id, int ts);
   virtual ~StochasticTransfer(){delete[] t;};

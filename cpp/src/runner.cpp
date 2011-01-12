@@ -96,7 +96,7 @@ void NEATRunner::runLoop()
     }else{
       if(generations>0&&(pop->getGeneration()+2)==generations&&runs==(countruns+1))
 	slaveStop = true;
-
+        
       comm->outputPopulation(pop,nodes,coevo,mc,slaveStop); //stream the population out to nodes for evaluation	
       ev->evaluate(pop->getMembers(),mc);//sweet..
       comm->readFitness(pop,mc); //read the corresponding returned fitness values

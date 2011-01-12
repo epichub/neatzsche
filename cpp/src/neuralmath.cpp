@@ -76,7 +76,7 @@ inline double SigmoidTransfer::sgm(double inp)
 }
 StochasticTransfer::StochasticTransfer(bool unipolar, double id, int its)
 {
-  d = id; ts = its;
+  d = id; ts = (unsigned int)its;
   
   rc = 0; ftype = "sto";
   t = new double [ts];
