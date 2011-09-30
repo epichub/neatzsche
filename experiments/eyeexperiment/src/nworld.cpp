@@ -37,7 +37,7 @@ double nVector::scalarValue(nVector & linevector)
 
 nVector * nVector::orthogonal(nPoint & p, nVector & l)
 {
-  orthogonal(p.at(0),p.at(1),l);
+  return orthogonal(p.at(0),p.at(1),l);
 }
 
 nVector * nVector::orthogonal(int x3, int y3, nVector &l) {
