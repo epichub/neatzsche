@@ -128,9 +128,9 @@ void NEATRunner::runLoop()
     ofstream ofs3(sCurrentGenGenomeFilec.str().c_str());
     ofs3 << best->getGenome();
     ofs3.close();
-    if(pop->getGeneration()%2==0){
-      cerr << icb->fe->show(best);
-    }
+//    if(pop->getGeneration()%2==0){
+//      cerr << icb->fe->show(best);
+//    }
 
 
     icb->best = best;
