@@ -15,7 +15,7 @@ class ReadTimer : public QObject {
 Q_OBJECT
 
 private:
-  Lightsim2D ls2d;
+  Lightsim2D * ls2d;
   NEATsettings *set;
   LightsimEvaluator *ls2de;
   string filename2;

@@ -165,7 +165,7 @@ vector<double> Network::runnet(vector<double> inp)
     if(isnan(ret[i])){
       cout << "ret " << i+1 << " is nan printing network info:" << endl;
       for(unsigned int i2=0;i2<net->size();i2++)
-	for(unsigned int i3=0;i3<net->at(i)->size();i3++)
+	for(unsigned int i3=0;i3<net->at(i2)->size();i3++)
 	  net->at(i2)->at(i3)->printInfo();
     }
   }

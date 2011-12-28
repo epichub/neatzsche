@@ -101,6 +101,8 @@ public:
   void printInfo(){
     cerr << "input: " << input
 	 <<" valuefromother: " << valueFromOther
+      << " type: " << type
+      << " tfunc: " << tFunc->ftype
 	 <<" links: "<<links->size()<<" cache: "<<cache<<" value: "<<tFunc->y(valueFromOther+input)<<endl;}
   void reset(){input=0;valueFromOther=0;}
   inline double getValue(){
