@@ -127,7 +127,7 @@ private:
   double d;
 public:
   GaussTransfer(bool unipolar, double im, double id)
-  {m=im; d=id;ftype="gau";}
+    {m=im; d=id;ftype="gau"; cout << "in gaus.. d: " << d << endl;}
   virtual ~GaussTransfer(){};
   virtual double y(double x)
   {return (1/(d*sqrt(2*PI)))*exp(-((pow(x-m,2))/(2*pow(d,2))));}

@@ -4,11 +4,12 @@
 #include "evaluator.h"
 #include <stdio.h>
 #include <stdlib.h>
-string goal = "Hello World!";
+
 double numberofAscii=115;
 class HelloWorldEvaluator : public FitnessEvaluator {
 private:
   string goaldec;
+  string goal = "Hello World!";
 public:
   HelloWorldEvaluator(){
 

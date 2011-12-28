@@ -8,7 +8,7 @@ public:
   Neatzsche_Comm(){};
   virtual ~Neatzsche_Comm(){};
   virtual void outputPopulation(Population * p, unsigned int nodes,  Coevolution * c, 
-				unsigned int i, bool stop){};
+                                unsigned int i, bool stop) {};
   virtual bool readPopulation(Phenotypes * p, Coevolution * c, TransferFunctions * tfs, int & gencount){return true;};
   virtual void outputFitness(Phenotypes * p){};
   virtual void readFitness(Population * p, unsigned int i){};
