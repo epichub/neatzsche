@@ -243,7 +243,19 @@ NeuralNode::~NeuralNode()
 {
   delete links;
 }
-
+void NeuralNode::printInfo(){
+    
+    cerr << "input: " << input
+    <<" valuefromother: " << valueFromOther
+    << " type: " << type
+    << " depth: " << depth
+    << " tfunc: " << tFunc->ftype
+    <<" links: "<<links->size()
+    <<" cache: "<<cache<<" value: "<<tFunc->y(valueFromOther+input)<<endl;
+    for (int i =0; i<links->size(); i++) {
+        cerr << "\t link weight: "<< links->at(i)->getWeight()<< " other:" << links->at(i)->getOtherNode(this)->getValue() << endl;
+    }
+}
 void NeuralNode::update(){
   valueFromOther = 0;
   for(unsigned int i=0;i<links->size();i++){

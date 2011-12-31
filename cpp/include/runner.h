@@ -79,6 +79,7 @@ public:
   int rands;
   string basefile;
   string infoline;
+    string newestgenome;
   NEATsettings * set;
   TransferFunctions * tfs;
   Evaluator * ev;

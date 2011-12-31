@@ -18,6 +18,7 @@ extern "C" {
             unsigned int xmax=set->getValue("xmax");
             unsigned int ls_dist=set->getValue("ls_distance");
             double cellsize=set->getValue("cellsize");
+            cout << "created new eye simulator with lsnum: " << lsnum << endl;
             ret = new LightsimEvaluator(set,xmax,ymax,lsnum,cellsize,ls_dist);
             return ret;
         }else

@@ -17,6 +17,7 @@ extern "C" {
       return ret;
     }else
       cerr << "wrong arguments to eye eval should be: \"dataset <datasetfile> [classification at start[0/1]] [testration]\"" << endl;
+      return NULL;
   }
 }
 
