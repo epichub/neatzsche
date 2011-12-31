@@ -95,7 +95,7 @@ int main(int argc,char *args[]){
     srand(rands);
 
   }
-  //1. load the example file
+  //1. load the settings file
   NEATsettings * set = new NEATsettings();
   ifstream ifs(args[2],ios::in);
   ifs>>set;
@@ -178,6 +178,7 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
   int pid = getpid();
   //files  
   stringstream ssCurrentFile; ssCurrentFile << "results/" << getPureTimeString() << "-" << pid << "/" ;
+    string newestgenome = "results/curgenome"; string newestsettings = "results/settings" ; 
   mkdir(ssCurrentFile.str().c_str(),0777);
   stringstream sCurrentGraphFile; sCurrentGraphFile << ssCurrentFile.str() << "graph";
   stringstream sCurrentGenomeFile; sCurrentGenomeFile << ssCurrentFile.str() << "curgenome";
@@ -189,9 +190,12 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
 
   //making a copy of settings
   ofstream sfile(sSettingsFile.c_str());
+    
   sfile << set;
   sfile.close();
-
+    sfile.open(newestsettings.c_str());
+    sfile << set;
+    sfile.close();
   icb->fe = fe;
 
   //calculate how many genomes to eval at the master while slaves are
@@ -219,6 +223,7 @@ void master(char ** args, int argc, Neatzsche_MPI * comm,
   run->ev = ev;
   run->signalhandler = runfilesignalhandler;
   run->mc = mc;
+    run->newestgenome = newestgenome;
   //run->pipeio = !pipeio;
   run->basefile = ssCurrentFile.str();
   run->pid = pid;

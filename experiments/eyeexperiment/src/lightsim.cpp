@@ -46,71 +46,72 @@ Lightsim2D::Lightsim2D(double cellsize, Phenotype *f, unsigned int xmax, unsigne
 }
 
 void Lightsim2D::init(double cellsize, Phenotype *f, unsigned int xmax, unsigned int ymax, unsigned lsnum, unsigned int ls_dist) {
-
-  init(cellsize,xmax,ymax);
-
-  ls_distance=ls_dist;
-  vector<double> tmpin;
-  vector<double> tmpout;
-  double tmpdist;
-  int tmpwinner;
-  int centerX=xmax/2;
-  int centerY=ymax/2;
-
-  for(unsigned int i=ls_distance;i<(xmax+ls_distance);i++) {
-    for(unsigned int j=0;j<ymax;j++) {
-      /*
-      if(i == 0 &&((j % (unsigned int)(floor((ymax/(double)lsnum)+0.5))) == skewNum)) {
-	lightsources->push_back(new Lightsource(i,j));
-      }
-      
-      else {
-      */
-      //TODO: Add more inputs, like xmax and ymax
-	tmpin.push_back(i-ls_distance);
-	tmpin.push_back(j);
-	tmpin.push_back(xmax);
-	tmpin.push_back(ymax);
-	tmpin.push_back(sqrt(pow((i-ls_distance)-(double)centerX,2)+pow(j-(double)centerY,2)));
-	tmpout=f->react(tmpin);
-	tmpdist=-1;
-	tmpwinner=0;
-
-	//cerr << "output is: ";
-	for(unsigned int k=0;k<tmpout.size();k++){
-	  //cerr <<tmpout.at(k)<<" ";
-	  if(fabs(tmpout.at(k))<0.35 &&
-	     (fabs(tmpout.at(k))<tmpdist||tmpdist==-1)) {
-	    tmpwinner=k+1;
-	    tmpdist=fabs(tmpout.at(k));
-	  }
-	}
-	//cout<<endl;
-	tmpin.clear();
-	
-	if(tmpwinner == ((unsigned int)0)) {
-	  // Do nothing, empty
-	}
-	else if(tmpwinner == ((unsigned int)1)) {
-	  //	  cout << "found OC at "<<i<<","<<j<<"\n";
-	  opaquecells->push_back(new Opaquecell(i,j));
-	}
-	else if(tmpwinner == ((unsigned int)2)) {
-	  //cout << "found LSC at "<<i<<","<<j<<"\n";
-	  LSCs->push_back(new LSC(i,j));
-	}
-	else {
-	  cerr << "Error: Got output: "<<tmpwinner<<"\n";
-	}
-	//     }
+    
+    init(cellsize,xmax,ymax);
+    
+    ls_distance=ls_dist;
+    vector<double> tmpin;
+    vector<double> tmpout;
+    double tmpdist;
+    int tmpwinner;
+    int centerX=xmax/2;
+    int centerY=ymax/2;
+    
+    for(unsigned int i=ls_distance;i<(xmax+ls_distance);i++) {
+        for(unsigned int j=0;j<ymax;j++) {
+            /*
+             if(i == 0 &&((j % (unsigned int)(floor((ymax/(double)lsnum)+0.5))) == skewNum)) {
+             lightsources->push_back(new Lightsource(i,j));
+             }
+             
+             else {
+             */
+            //TODO: Add more inputs, like xmax and ymax
+            tmpin.push_back((double)(i-ls_distance)/(double)ls_distance);
+            tmpin.push_back((double)j/(double)ymax);
+            tmpin.push_back(xmax);
+            tmpin.push_back(ymax);
+            tmpin.push_back(sqrt(pow((i-ls_distance)-(double)centerX,2)+pow(j-(double)centerY,2)));
+            tmpout=f->react(tmpin);
+            tmpdist=-1;
+            tmpwinner=0;
+            
+            //cerr << "output is: ";
+            for(unsigned int k=0;k<tmpout.size();k++){
+                //cerr <<tmpout.at(k)<<" ";
+                if(fabs(tmpout.at(k))<0.35 &&
+                   (fabs(tmpout.at(k))<tmpdist||tmpdist==-1)) {
+                    tmpwinner=k+1;
+                    tmpdist=fabs(tmpout.at(k));
+                }
+            }
+            //cout<<endl;
+            tmpin.clear();
+            
+            if(tmpwinner == ((unsigned int)0)) {
+                // Do nothing, empty
+            }
+            else if(tmpwinner == ((unsigned int)1)) {
+                //	  cout << "found OC at "<<i<<","<<j<<"\n";
+                opaquecells->push_back(new Opaquecell(i,j));
+            }
+            else if(tmpwinner == ((unsigned int)2)) {
+                //cout << "found LSC at "<<i<<","<<j<<"\n";
+                LSCs->push_back(new LSC(i,j));
+            }
+            else {
+                cerr << "Error: Got output: "<<tmpwinner<<"\n";
+            }
+            //     }
+        }
     }
-  }
-  double lsSpacing=ymax/(double)lsnum;
-  unsigned int skewNum=(ymax-(lsSpacing*(lsnum-1)))/2;
-
-  for(unsigned int i=0;i<lsnum;i++) {
-    lightsources->push_back(new Lightsource(0,skewNum+floor(i*lsSpacing)));
-  }
+    double lsSpacing=ymax/(double)lsnum;
+    unsigned int skewNum=(ymax-(lsSpacing*(lsnum-1)))/2;
+//    cout << "drawing eye.. lsnum: " << lsnum << 
+//    " skewnum: " << skewNum << " lsSpacing: " << lsSpacing << endl ;
+    for(unsigned int i=0;i<lsnum;i++) {
+        lightsources->push_back(new Lightsource(0,skewNum+floor(i*lsSpacing)));
+    }
 }
 
 Lightsim2D::~Lightsim2D() {
