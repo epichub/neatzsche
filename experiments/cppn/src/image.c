@@ -112,6 +112,12 @@ read_image ( double *& image , const char * name, int * sizes)
 	{
 	  for ( int x=0; x<rows; x++ ){
 	    for ( int y=0; y<cols; y++ ){
+	      std::cout << " " << (int)raster[x][y];
+            }
+            std::cout << std::endl;
+          }
+	  for ( int x=0; x<rows; x++ ){
+	    for ( int y=0; y<cols; y++ ){
 	      std::cout << " " << (double)raster[x][y] / (double)255;
 	      image[(x*cols)+y] = raster[x][y] / (double)255;
 	    }

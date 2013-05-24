@@ -271,7 +271,7 @@ void Population::postepoch()
 void Population::deletespecies()
 { 
   if(!species){
-    cout << "ingen species å slette!?!?!" << endl;
+    cout << "no species to delete" << endl;
     return;
   }
   for(unsigned int i=0;i<species->size();i++)

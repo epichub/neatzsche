@@ -65,11 +65,13 @@ private:
     int id;
     linkVector * links;
     TransferFunction * tFunc;
-    double cache;
+    double cache = 0;
     bool bias;
     char type;
     int depth;
     TransferFunctions * tfs;
+    double valueFromOther = 0;
+    double input = 0;
 public:
     NeuralNode(NeuralNode * n){id = n->id;links=n->links;
         tFunc=n->tFunc;valueFromOther=n->valueFromOther;
@@ -96,14 +98,14 @@ public:
     void setDepth(int d){depth=d;}
     void incDepth(){depth++;}
     int getDepth(){return depth;}
-    double valueFromOther;
-    double input;
+    void setValueFromOther(double v){this->valueFromOther = v;}
+    double getValueFromOther(){return this->valueFromOther;}
     void printInfo();
     void reset(){input=0;valueFromOther=0;}
     inline double getValue(){
         if(outputset){
             return cache;}
-        else{ 
+        else{
             return tFunc->y(valueFromOther+input);
         }
     }

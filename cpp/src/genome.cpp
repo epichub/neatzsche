@@ -467,9 +467,12 @@ void Genome::addLink(int tries)
     np2 = nodes->at(nn2);
     if(np1->getDepth() == 0 && np1->getDepth() == np2->getDepth() )
       continue;
+    
 #ifdef NEATZSCHEDEBUG
-    cerr << "firstnoninp: "<<firstnoninp<<" nn1: "<<nn1<<"  nn2: "<<nn2<<" np1id: "<<np1->getID()<<" np2id:" << np1->getID() << endl;
+    cerr << "firstnoninp: "<<firstnoninp<<" nn1: "<<nn1<<"  nn2: "
+         << nn2<<" np1id: "<<np1->getID()<<" np2id:" << np1->getID() << endl;
 #endif
+    
     p = randdouble();
     if(np1->getDepth()>=np2->getDepth())
       if(p<=r)
@@ -479,25 +482,31 @@ void Genome::addLink(int tries)
 	cerr << "doing checks.." << endl;
       it = genes->begin();
       //search for already existing link.
+      
 #ifdef NEATZSCHEDEBUG
       cerr << "checking link .. "<<(*it);
 #endif
+      
       while((it!=genes->end())&&
 	    (!(((*it)->getFrom()==np1)&&
 	       ((*it)->getTo()==np2)))){
 	++it;
+        
 #ifdef NEATZSCHEDEBUG
  	if(it!=genes->end())
  	  cerr << "checking link .. "<<(*it);
 #endif
+        
       }
 
-#ifdef NEATZSCHEDEBUG
+#ifdef NEATZSCHEDEBUG      
       cerr << "id: "<<id<<" p:"<<p<<" node1id:"<<np1->getID()<<" node2id:"<<np2->getID()
 	   <<" np1->getDepth():"<<np1->getDepth()<<"np2->getDepth()"
 	   <<np2->getDepth()<<endl;
 #endif
+      
       if(it!=genes->end()){//found a existing link
+        
 #ifdef NEATZSCHEDEBUG
 	cerr << "link already there.." << " genes size: " << genes->size() <<endl;
 	cerr << this;

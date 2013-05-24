@@ -164,9 +164,12 @@ vector<double> Network::runnet(vector<double> inp)
     ret[i] = output->at(i)->getValue();
     if(isnan(ret[i])){
       cout << "ret " << i+1 << " is nan printing network info:" << endl;
+      cout << "====================START======================" << endl;
       for(unsigned int i2=0;i2<net->size();i2++)
 	for(unsigned int i3=0;i3<net->at(i2)->size();i3++)
-	  net->at(i2)->at(i3)->printInfo();
+          if(net->at(i2)!=NULL && net->at(i2)->at(i3)!=NULL)
+            net->at(i2)->at(i3)->printInfo();
+      cout << "====================END========================" << endl;
     }
   }
   return ret;
@@ -191,7 +194,7 @@ NeuralNode::NeuralNode(TransferFunction * func, int iid, char t, int d)
   links = new linkVector();
   tFunc = func;
   id = iid;
-  valueFromOther = 0;
+  this->setValueFromOther(0);
   input = 0;
   cache = 0;
   bias = false;
@@ -243,25 +246,37 @@ NeuralNode::~NeuralNode()
 {
   delete links;
 }
+void printtabs(int depth){
+  for(int i=0;i<depth;i++)
+    cout << "  " ;
+}
+
 void NeuralNode::printInfo(){
-    
-    cerr << "input: " << input
+  printtabs(this->depth);
+    cerr << id << " : input: " << input
     <<" valuefromother: " << valueFromOther
     << " type: " << type
     << " depth: " << depth
     << " tfunc: " << tFunc->ftype
     <<" links: "<<links->size()
-    <<" cache: "<<cache<<" value: "<<tFunc->y(valueFromOther+input)<<endl;
+    <<" cache: "<<cache<<" value: "<<tFunc->y(valueFromOther+input)<<" link# : " << links->size()<<endl;
     for (int i =0; i<links->size(); i++) {
-        cerr << "\t link weight: "<< links->at(i)->getWeight()<< " other:" << links->at(i)->getOtherNode(this)->getValue() << endl;
+      if(links->at(i)->getOtherNode(this)!=NULL){
+        printtabs(this->depth);
+            cerr << "\t link (" << links->at(i)->getFrom()->getID() << " -> " << links->at(i)->getTo()->getID() << ") weight: "<< links->at(i)->getWeight()
+                 << " other (id: "<<links->at(i)->getOtherNode(this)->getID()<<"):" << links->at(i)->getOtherNode(this)->getValue() << endl;
+      }
     }
 }
 void NeuralNode::update(){
-  valueFromOther = 0;
+    this->setValueFromOther(0);
   for(unsigned int i=0;i<links->size();i++){
 
     valueFromOther += links->at(i)->getOther(this);
   }
+    if(isnan(valueFromOther) || isinf(valueFromOther)){
+        cout << "foundyah" << endl;
+    }
 }
 void NeuralNode::deletelinks()
 {
