@@ -24,28 +24,43 @@ extern "C" {
 double DatasetEvaluator::f(Phenotype * f)
 {
   double esum = 0;
+    double fitness = 0;
   vector<double> v;
   for(int i=0;i<ds->getTrainings();i++){
     f->cleanNet();
     v = f->react(*ds->getTrain(i));
     esum += fabs(ds->getClass(true,i)-(v.at(0)));
   }
-  f->setFitness(ds->getTrainings()-esum);
-  return ds->getTrainings()-esum;
+    fitness=(1.0/(esum*esum));
+  f->setFitness(fitness);
+    //  f->setFitness(1.0-esum/(double)ds->getTrainings());
+  //f->setFitness(fabs(ds->getTrainings()-esum));
+   if(f->getFitness()>0.68)
+   {
+       int iii  = 0;
+   }
+   // if(esum < 0.8 ){
+   //     exit(0);
+   // }
+  return fitness;
 }
 void DatasetEvaluator::runTest(Phenotype * f)
 {
   vector<double> v;
   for(int i=0;i<ds->getTrainings();i++){
-    v = f->react(*ds->getTrain(i));
     f->cleanNet();
+      v = f->react(*ds->getTrain(i));
+    //f->cleanNet();
     cerr << "input: " << printvector(*ds->getTrain(i))
 	 << " output: " << v.at(0) 
 	 << " should have been: " << ds->getClass(true,i) 
 	 << " diff: " << fabs(ds->getClass(true,i) - v.at(0)) << endl;
+      
   }
+    cerr << (f->getGenome());
 //   cout << "f->getGenome(): " << f->getGenome() << endl;
 }
+double limit = 0.1;
 bool DatasetEvaluator::xorDone(Phenotype * f)
 {
   vector<double> v;
@@ -53,10 +68,12 @@ bool DatasetEvaluator::xorDone(Phenotype * f)
   for(int i=0;i<ds->getTrainings();i++){
     f->cleanNet();
     v = f->react(*ds->getTrain(i));
-    if(fabs(ds->getClass(true,i) - v.at(0))<0.4) c++; 
+    if(fabs(ds->getClass(true,i) - v.at(0))<limit) c++;
   }
-  //cout << "testing: " << c << endl;
-  //  if(c!=4)
-  //    runTest(f);
+  cout << "testing: " << c << endl;
+    if(c==4)
+      runTest(f);
+    else if(randdouble()>0.9)
+        runTest(f);
   return c==4;
 }
