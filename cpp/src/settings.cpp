@@ -32,7 +32,7 @@ double NEATsettings::getValue(string key)
 
 ostream& operator<< (ostream& os, NEATsettings *g)
 {
-  settingsMap::iterator pos = (g->values).begin();
+  //settingsMap::iterator pos = (g->values).begin();
   for(unsigned int i=0;i<g->file.size();i++){
     if(g->file.at(i).find("#")!=string::npos)
       os << g->file.at(i) << endl;

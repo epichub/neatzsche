@@ -1,6 +1,7 @@
 PROJECT(NEATZSCHE)
 cmake_minimum_required(VERSION 2.8)
-SET(MPI_COMPILER openmpicxx)
+#SET(MPI_COMPILER openmpicxx)
+
 INCLUDE(FindMPI)
 INCLUDE(FindBoost)
 
@@ -59,7 +60,7 @@ endif(Boost_FOUND)
 INCLUDE_DIRECTORIES(
 include
 ${Boost_INCLUDE_DIRS}
-${MPI_INCLUDE_PATH}
+${MPI_CXX_INCLUDE_PATH}
 )
 
 ADD_LIBRARY(libneatzsche STATIC ${NEATZSCHE_SOURCES})
@@ -72,12 +73,12 @@ SET_TARGET_PROPERTIES(libneatzsche PROPERTIES COMPILE_FLAGS "-fPIC")
 
 #SET_TARGET_PROPERTIES(libneatzsche PROPERTIES LINK_FLAGS "-rdynamic")
 SET_TARGET_PROPERTIES(libneatzsche PROPERTIES OUTPUT_NAME "neatzsche")
-TARGET_LINK_LIBRARIES(libneatzsche ${MPI_LIBRARIES} dl)
+TARGET_LINK_LIBRARIES(libneatzsche ${MPI_CXX_LIBRARIES} dl)
 ADD_EXECUTABLE(neatzsche src/neatzsche.cpp)
 INSTALL(TARGETS libneatzsche neatzsche
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin)
-TARGET_LINK_LIBRARIES(neatzsche libneatzsche ${MPI_LIBRARIES} dl)
+TARGET_LINK_LIBRARIES(neatzsche libneatzsche ${MPI_CXX_LIBRARIES} dl)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   message("in apple system, setting makefile accordingly")

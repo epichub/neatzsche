@@ -53,7 +53,8 @@ public:
 class RankSelection : public Selector
 {
 private:
-  double s,ssize,n;
+    //double ssize;
+  double s,n;
 public:
   RankSelection(double is, int ispeciesforelitism) : Selector(ispeciesforelitism){s=is;};
   ~RankSelection(){}

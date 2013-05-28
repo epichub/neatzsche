@@ -69,7 +69,6 @@ private:
   Phenotypes * halloffame;
   Phenotypes * perm;
   int n;
-  int permm;
   int sg;
   bool first;
   virtual void print(std::ostream& o) const ;

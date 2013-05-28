@@ -23,8 +23,8 @@ TransferFunctions::TransferFunctions(NEATsettings * s)
     f->push_back(new CosineTransfer(unipolar,s->getValue("cosine_sharpness"),s->getValue("consine_add"),s->getValue("cosine_div")));
   if(s->getValue("enable_gauss_tfunc")==1.0)
     f->push_back(new GaussTransfer(unipolar,s->getValue("gauss_median"),s->getValue("gauss_std_deviation")));
-  if(s->getValue("enable_stochastic_tfunc")==1.0)
-    f->push_back(new StochasticTransfer(unipolar,s->getValue("stoch_std_deviation"),(int)s->getValue("stoch_table_size")));
+/*  if(s->getValue("enable_stochastic_tfunc")==1.0)
+    f->push_back(new StochasticTransfer(unipolar,s->getValue("stoch_std_deviation"),(int)s->getValue("stoch_table_size")));*/ //commented out, see comment below about the rc variable overflowing..
   if(s->getValue("enable_parabel_tfunc")==1.0)
     f->push_back(new ParabelTransfer(unipolar,s->getValue("parabel_sharpness"),s->getValue("parabel_add")));
 
@@ -86,7 +86,7 @@ StochasticTransfer::StochasticTransfer(bool unipolar, double id, int its)
 }
 double StochasticTransfer::y(double x)
 {
-  return x+t[(++rc)%ts];
+  return x+t[(++rc)%ts]; //this is not safe.. rc can overflow afaik
 }
 bool Dummy::isIn(int ** arr,int length, int x, int y){
   for(int i=0;i<length;i++)

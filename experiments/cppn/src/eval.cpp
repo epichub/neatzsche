@@ -136,6 +136,7 @@ double PictureEvaluator::f(Phenotype *f)
     cout << "setting fitness to NAN" << endl;
   return fi;
 }
+
 void PictureEvaluator::runTest(Phenotype * f)
 {
   double * oimg = (double*)calloc(sizes[0]*sizes[1],sizeof(double));
