@@ -303,12 +303,13 @@ void Genome::addNode(int &cnodeid)
             else
                 g = genes->at(genes->size()-1);
             
-            
+            if(g!=NULL && !g->isEnabled())
+                g->enable(); //TODO: check if this really is how it should be done
             if(g!=NULL&&g->isEnabled())
                 test = true;
             else
                 tryc++;
-            
+
         }
     }else{
         tryc = 0;
