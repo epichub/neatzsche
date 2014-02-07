@@ -121,6 +121,16 @@ void NEATRunner::runLoop()
             cout << "old genome:\n " << best->getGenome();
             cout << "new genome:\n " << pop->getMembers()->at(0)->getGenome();
             cout << "fitness went DOWN ftest: " << ftest << " pop->getMembers()->at(0)->getFitness(): " << pop->getMembers()->at(0)->getFitness() << endl;
+            Phenotype * p = pop->getMembers()->at(0);
+            vector<double> input = p->getNet()->getInput();
+            Phenotypes * testp = new Phenotypes();
+            testp->push_back(p);
+            testp->push_back(gbest);
+
+            for(unsigned int i=0;i<10;i++){
+                ev->evaluate(testp
+                             , 1);
+            }
         }
         best->getGenome()->setSeed(rands);
         sCurrentGenGenomeFilec.str("");
@@ -223,6 +233,7 @@ void NEATRunner::runLoop()
                 sCurrentGenomeFilec.str(""); sCurrentGenomeFilec << sCurrentGenomeFile.str() << "-" << countruns;
                 sCurrentXMLGenomeFilec.str(""); sCurrentXMLGenomeFilec << sCurrentXMLGenomeFile.str() << "-" << countruns << ".xml";
                 sCurrentGraphFilec.str(""); sCurrentGraphFilec << sCurrentGraphFile.str() << "-" << countruns;
+                ftest = 0;
                 delete currentgraphf; currentgraphf = new ofstream(sCurrentGraphFilec.str().c_str());
                 
             }

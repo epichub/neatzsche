@@ -31,6 +31,8 @@ double DatasetEvaluator::f(Phenotype * f)
     v = f->react(*ds->getTrain(i));
     esum += fabs(ds->getClass(true,i)-(v.at(0)));
   }
+    if(esum == 0)
+        esum = 0.000001;
     fitness=(1.0/(esum*esum));
   f->setFitness(fitness);
     //  f->setFitness(1.0-esum/(double)ds->getTrainings());
@@ -51,13 +53,13 @@ void DatasetEvaluator::runTest(Phenotype * f)
     f->cleanNet();
       v = f->react(*ds->getTrain(i));
     //f->cleanNet();
-    cerr << "input: " << printvector(*ds->getTrain(i))
+   /* cerr << "input: " << printvector(*ds->getTrain(i))
 	 << " output: " << v.at(0) 
 	 << " should have been: " << ds->getClass(true,i) 
-	 << " diff: " << fabs(ds->getClass(true,i) - v.at(0)) << endl;
+	 << " diff: " << fabs(ds->getClass(true,i) - v.at(0)) << endl;*/
       
   }
-    cerr << (f->getGenome());
+    //cerr << (f->getGenome());
 //   cout << "f->getGenome(): " << f->getGenome() << endl;
 }
 double limit = 0.1;

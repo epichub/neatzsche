@@ -3,10 +3,18 @@ FIND_PATH(NEATZSCHE_INCLUDE_DIR evaluator.h
   /opt/local/include/neatzsche $ENV{HOME}/local/include/neatzsche
   $ENV{HOME}/include/neatzsche) 
 
-FIND_LIBRARY(NEATZSCHE_LIBRARY neatzsche PATH 
-  /usr/lib /usr/local/lib
-  /opt/local/lib $ENV{HOME}/local/lib
-  $ENV{HOME}/lib) 
+IF (CMAKE_GENERATOR STREQUAL Xcode)
+   FIND_LIBRARY(NEATZSCHE_LIBRARY neatzsche PATH    
+  $ENV{HOME}/Documents/build/neatzsche-xcode/Debug) 
+ELSE (CMAKE_GENERATOR STREQUAL Xcode)
+     FIND_LIBRARY(NEATZSCHE_LIBRARY neatzsche PATH 
+     /usr/lib /usr/local/lib
+     /opt/local/lib $ENV{HOME}/local/lib
+     $ENV{HOME}/lib) 
+ENDIF (CMAKE_GENERATOR STREQUAL Xcode)
+
+  
+
 
 IF (NEATZSCHE_INCLUDE_DIR AND NEATZSCHE_LIBRARY)
    SET(NEATZSCHE_FOUND TRUE)
