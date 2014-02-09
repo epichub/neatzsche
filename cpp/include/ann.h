@@ -41,7 +41,6 @@ class Network
 private:
     vector< nodeVector * > * net;
     nodeVector * output;
-    vector<double> ret;
     int inp;
     int out;
 public:
@@ -54,7 +53,8 @@ public:
     void cleanup();
     NeuralNode * getOutput(){return net->at(net->size()-1)->at(0);}
     vector< double > getWeights(); 
-    vector< double > getStates(); 
+    vector< double > getStates();
+    vector< double > getInput();
     // friend ostream& operator<< (ostream& os, const NeuralNetwork *n);
     // friend istream& operator>> (istream& is, NeuralNetwork *n);
 };

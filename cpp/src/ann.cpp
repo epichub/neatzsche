@@ -129,7 +129,7 @@ void Network::addNodes(nodeVector * nodes, bool debug)
     if(lastlayer->at(i)->getType()==NeuralNode::OUTPUT)
       output->push_back(lastlayer->at(i));
 
-  ret.insert(ret.begin(),output->size(),0);
+  //ret.insert(ret.begin(),output->size(),0);
 }
 bool anncheckforoutput(vector< nodeVector * >  * net)
 {
@@ -150,6 +150,10 @@ void printnodes(nodeVector * nodes)
 //TODO: change this to be a sorted update with respects to the ID
 vector<double> Network::runnet(vector<double> inp)
 {
+    vector<double> ret;
+    for(unsigned int i=0;i<(unsigned int)output->size();i++)
+        ret.push_back(0);
+//    ret.insert(ret.begin(),output->size(),0);
   for(unsigned int i=0;i<inp.size();i++){
     if(net->at(0)->at(i)->getType()==NeuralNode::BIAS)
       cerr << "input node was bias.." << endl;
@@ -173,6 +177,14 @@ vector<double> Network::runnet(vector<double> inp)
     }
   }
   return ret;
+}
+vector<double> Network::getInput()
+{
+    vector<double> ret;
+    for(unsigned int i=0;i<net->at(0)->size();i++)
+        ret.push_back(net->at(0)->at(i)->getState());
+    return ret;
+
 }
 //should go through and delete the links(only thing not connected to the
 //genome!)
