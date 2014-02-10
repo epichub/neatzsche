@@ -49,7 +49,7 @@ implement a given "api" so that the NEAT algorithm can call you
 fitness evalutation.
 
 This plugin structure will follow a pattern:
-```
+```c++
 #include "eval.h"
 #include "iface.h"
 extern "C" {
