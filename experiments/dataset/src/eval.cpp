@@ -7,7 +7,7 @@ extern "C" {
     vector<string> * sv = split(str," ");
     if(sv->at(0).find("dataset")!=string::npos) {
       if(sv->size()!=4){
-      cerr << "wrong arguments to eye eval should be: \"dataset <datasetfile> [classification at start[0/1]] [testration]\"" << endl;
+      cerr << "wrong arguments to dataset eval should be: \"dataset <datasetfile> [classification at start[0/1]] [testration]\"" << endl;
 	exit(1);
       }
       bool classAtStart = (atoi(sv->at(2).c_str()) == 1) ? true : false;
@@ -16,7 +16,7 @@ extern "C" {
       ret = new DatasetEvaluator(ds);
       return ret;
     }else
-      cerr << "wrong arguments to eye eval should be: \"dataset <datasetfile> [classification at start[0/1]] [testration]\"" << endl;
+      cerr << "wrong arguments to dataset eval should be: \"dataset <datasetfile> [classification at start[0/1]] [testration]\"" << endl;
       return NULL;
   }
 }
