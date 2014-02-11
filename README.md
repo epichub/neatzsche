@@ -28,9 +28,9 @@ documentet when running the binary.
 
 The thesis describing the first implementation and experiments using
 it to play go can be found
-[here](https://raw2.github.com/epichub/neatzsche/doc/roving-eye-master.pdf). Anders
-Storsveens master thesis describing the usage of this software as a
-CPPN to create eye can be found [here](https://raw2.github.com/epichub/neatzsche/doc/cppn-master.pdf)
+[here](https://github.com/epichub/neatzsche/blob/master/doc/roving-eye-master.pdf?raw=true). Anders
+Storsveen's master thesis describing the usage of this software as a
+CPPN to create eye can be found [here](https://github.com/epichub/neatzsche/blob/master/doc/cppn-master.pdf?raw=true)
 
 # Arguments
 
